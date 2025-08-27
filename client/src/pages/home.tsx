@@ -250,15 +250,15 @@ export default function Home() {
   return (
     <div className="bg-background text-foreground">
       {/* Header */}
-      <header className="sticky top-0 bg-background bg-opacity-80 backdrop-blur-md border-b border-border z-30" data-testid="header-navigation">
+      <header className="sticky top-0 backdrop-blur-md border-b border-border z-30" style={{background: 'rgba(15, 10, 35, 0.8)'}} data-testid="header-navigation">
         <nav className="container py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <div className="flex items-center space-x-2" data-testid="logo-brand">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-lg">🍌</span>
+              <div className="w-8 h-8 bg-gradient-to-br from-primary to-purple-600 rounded-lg flex items-center justify-center shadow-lg">
+                <span className="text-primary-foreground font-bold text-lg">₿</span>
               </div>
-              <span className="text-xl font-bold text-foreground">MemeStake</span>
+              <span className="text-xl font-bold text-white">MemeStake</span>
             </div>
 
             {/* Desktop Navigation */}
@@ -330,7 +330,7 @@ export default function Home() {
       )}
 
       {/* Hero Section */}
-      <section id="home" className="section-padding bg-gradient-to-br from-background to-muted" data-testid="section-hero">
+      <section id="home" className="section-padding hero-section" data-testid="section-hero">
         <div className="container">
           <div className="cols-2 items-center gap-12">
             <div className="text-center lg:text-left">
@@ -352,23 +352,24 @@ export default function Home() {
             
             {/* Hero Preview Card */}
             <div className="relative" data-testid="card-hero-preview">
-              <Card className="p-6 max-w-md mx-auto">
-                <CardContent className="p-0">
+              <Card className="p-6 max-w-md mx-auto relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent"></div>
+                <CardContent className="p-0 relative z-10">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-semibold">Stake Dashboard</h3>
-                    <div className="chip">Live</div>
+                    <h3 className="font-semibold text-white">Stake Dashboard</h3>
+                    <div className="chip">🟢 Live</div>
                   </div>
                   <div className="space-y-4">
                     <div className="flex justify-between">
                       <span className="muted">Total Staked</span>
-                      <span className="font-medium">1,250 MEME</span>
+                      <span className="font-medium text-white">1,250 MEME</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="muted">Daily Rewards</span>
-                      <span className="font-medium text-green-600">+12.5 MEME</span>
+                      <span className="font-medium" style={{color: 'hsl(142, 76%, 70%)'}}>+12.5 MEME</span>
                     </div>
-                    <div className="w-full bg-secondary rounded-full h-2">
-                      <div className="bg-primary h-2 rounded-full" style={{width: '65%'}}></div>
+                    <div className="w-full bg-secondary rounded-full h-2 overflow-hidden">
+                      <div className="h-2 rounded-full bg-gradient-to-r from-primary to-purple-400" style={{width: '65%'}}></div>
                     </div>
                     <Button className="w-full" data-testid="button-claim-rewards">Claim Rewards</Button>
                   </div>
@@ -380,7 +381,7 @@ export default function Home() {
       </section>
 
       {/* KPI Section */}
-      <section id="kpi-section" className="section-padding bg-muted bg-opacity-30" data-testid="section-kpi">
+      <section id="kpi-section" className="section-padding crypto-bg" data-testid="section-kpi">
         <div className="container">
           <div className="cols-4">
             <div className="kpi" data-testid="kpi-raised">
@@ -512,7 +513,7 @@ export default function Home() {
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className="section-padding bg-muted bg-opacity-30" data-testid="section-faq">
+      <section id="faq" className="section-padding crypto-bg" data-testid="section-faq">
         <div className="container">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
@@ -587,7 +588,7 @@ export default function Home() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="section-padding bg-muted bg-opacity-30" data-testid="section-about">
+      <section id="about" className="section-padding parallax-bg" data-testid="section-about">
         <div className="container">
           <div className="cols-2 items-center gap-12">
             <div>
@@ -687,7 +688,7 @@ export default function Home() {
       </section>
 
       {/* Newsletter Subscribe */}
-      <section className="section-padding bg-primary bg-opacity-10" data-testid="section-newsletter">
+      <section className="section-padding crypto-bg" data-testid="section-newsletter">
         <div className="container">
           <div className="text-center max-w-2xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Subscribe to our newsletter</h2>
@@ -721,10 +722,10 @@ export default function Home() {
         <div className="container">
           <div className="text-center">
             <div className="flex items-center justify-center space-x-2 mb-4">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-lg">🍌</span>
+              <div className="w-8 h-8 bg-gradient-to-br from-primary to-purple-600 rounded-lg flex items-center justify-center shadow-lg">
+                <span className="text-primary-foreground font-bold text-lg">₿</span>
               </div>
-              <span className="text-xl font-bold text-foreground">MemeStake</span>
+              <span className="text-xl font-bold text-white">MemeStake</span>
             </div>
             <p className="text-muted-foreground">
               © {new Date().getFullYear()} MemeStake. All rights reserved.
