@@ -267,8 +267,8 @@ export default function Home() {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8" data-testid="desktop-nav">
-              <a href="#tokenomics" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-tokenomics">Tokenomics</a>
               <a href="#about" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-about">{t.about}</a>
+              <a href="#tokenomics" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-tokenomics">Tokenomics</a>
             </div>
 
             {/* Header Controls */}
@@ -321,8 +321,8 @@ export default function Home() {
         <div className="mobile-menu active" data-testid="mobile-menu">
           <div className="p-6">
             <div className="flex flex-col space-y-4 mt-16">
-              <a href="#tokenomics" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-tokenomics">Tokenomics</a>
               <a href="#about" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-about">{t.about}</a>
+              <a href="#tokenomics" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-tokenomics">Tokenomics</a>
               <Button asChild className="mt-4" data-testid="mobile-button-get-started">
                 <a href="#tokenomics">{t.getStarted}</a>
               </Button>
