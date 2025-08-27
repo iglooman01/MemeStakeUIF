@@ -360,7 +360,6 @@ export default function Home() {
               <a href="#about" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-about">{t.about}</a>
               <a href="#meme-aggregator" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-staking">Staking</a>
               <a href="#whitepaper" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-whitepaper">{t.whitepaper}</a>
-              <a href="#tokenomics" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-tokenomics">Tokenomics</a>
             </div>
 
             {/* Header Controls */}
@@ -390,7 +389,7 @@ export default function Home() {
 
               {/* Primary CTA */}
               <Button asChild className="hidden sm:inline-flex" data-testid="button-get-started">
-                <a href="#tokenomics">{t.getStarted}</a>
+                <a href="#section-airdrop">{t.getStarted}</a>
               </Button>
 
               {/* Mobile Menu Toggle */}
@@ -416,9 +415,8 @@ export default function Home() {
               <a href="#about" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-about">{t.about}</a>
               <a href="#meme-aggregator" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-staking">Staking</a>
               <a href="#whitepaper" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-whitepaper">{t.whitepaper}</a>
-              <a href="#tokenomics" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-tokenomics">Tokenomics</a>
               <Button asChild className="mt-4" data-testid="mobile-button-get-started">
-                <a href="#tokenomics">{t.getStarted}</a>
+                <a href="#section-airdrop">{t.getStarted}</a>
               </Button>
             </div>
           </div>
