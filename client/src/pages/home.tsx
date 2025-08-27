@@ -269,7 +269,6 @@ export default function Home() {
             <div className="hidden md:flex items-center space-x-8" data-testid="desktop-nav">
               <a href="#tokenomics" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-tokenomics">Tokenomics</a>
               <a href="#about" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-about">{t.about}</a>
-              <a href="#contact" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-contact">{t.contact}</a>
             </div>
 
             {/* Header Controls */}
@@ -299,7 +298,7 @@ export default function Home() {
 
               {/* Primary CTA */}
               <Button asChild className="hidden sm:inline-flex" data-testid="button-get-started">
-                <a href="#contact">{t.getStarted}</a>
+                <a href="#tokenomics">{t.getStarted}</a>
               </Button>
 
               {/* Mobile Menu Toggle */}
@@ -324,9 +323,8 @@ export default function Home() {
             <div className="flex flex-col space-y-4 mt-16">
               <a href="#tokenomics" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-tokenomics">Tokenomics</a>
               <a href="#about" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-about">{t.about}</a>
-              <a href="#contact" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-contact">{t.contact}</a>
               <Button asChild className="mt-4" data-testid="mobile-button-get-started">
-                <a href="#contact">{t.getStarted}</a>
+                <a href="#tokenomics">{t.getStarted}</a>
               </Button>
             </div>
           </div>
@@ -576,8 +574,8 @@ export default function Home() {
                 Founded by experienced DeFi developers and meme enthusiasts, MemeStake represents a new generation 
                 of projects that prioritize transparency, community rewards, and long-term sustainability.
               </p>
-              <Button asChild data-testid="button-get-in-touch">
-                <a href="#contact">Get in Touch</a>
+              <Button asChild data-testid="button-learn-about">
+                <a href="#about">Learn About Us</a>
               </Button>
             </div>
             
@@ -600,67 +598,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="section-padding" data-testid="section-contact">
-        <div className="container">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Get in Touch</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
-            </p>
-          </div>
-          
-          <div className="max-w-2xl mx-auto">
-            <form onSubmit={handleContactSubmit} className="space-y-6" data-testid="form-contact">
-              <div>
-                <Label htmlFor="name">Name</Label>
-                <Input
-                  id="name"
-                  type="text"
-                  value={contactForm.name}
-                  onChange={(e) => setContactForm(prev => ({...prev, name: e.target.value}))}
-                  data-testid="input-contact-name"
-                />
-                {formErrors.name && (
-                  <div className="text-destructive text-sm mt-1" data-testid="error-contact-name">{formErrors.name}</div>
-                )}
-              </div>
-              
-              <div>
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={contactForm.email}
-                  onChange={(e) => setContactForm(prev => ({...prev, email: e.target.value}))}
-                  data-testid="input-contact-email"
-                />
-                {formErrors.email && (
-                  <div className="text-destructive text-sm mt-1" data-testid="error-contact-email">{formErrors.email}</div>
-                )}
-              </div>
-              
-              <div>
-                <Label htmlFor="message">Message</Label>
-                <Textarea
-                  id="message"
-                  rows={5}
-                  value={contactForm.message}
-                  onChange={(e) => setContactForm(prev => ({...prev, message: e.target.value}))}
-                  data-testid="input-contact-message"
-                />
-                {formErrors.message && (
-                  <div className="text-destructive text-sm mt-1" data-testid="error-contact-message">{formErrors.message}</div>
-                )}
-              </div>
-              
-              <Button type="submit" className="w-full" data-testid="button-send-message">
-                Send Message
-              </Button>
-            </form>
-          </div>
-        </div>
-      </section>
 
       {/* Newsletter Subscribe */}
       <section className="section-padding crypto-bg" data-testid="section-newsletter">
