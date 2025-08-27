@@ -281,12 +281,23 @@ export default function Home() {
       setLiveStats(prev => {
         const shouldIncrease = Math.random() > 0.3; // 70% chance to increase
         if (shouldIncrease) {
-          playSound();
-          return {
-            tokenHolders: prev.tokenHolders + Math.floor(Math.random() * 3) + 1,
-            totalStaked: prev.totalStaked + Math.floor(Math.random() * 1000) + 100,
-            dailyVolume: prev.dailyVolume + Math.floor(Math.random() * 500) + 50
-          };
+          const newUserJoined = Math.random() > 0.5; // 50% chance for new user vs other stats
+          
+          if (newUserJoined) {
+            playSound(); // Only play sound when new user joins
+            return {
+              tokenHolders: prev.tokenHolders + Math.floor(Math.random() * 3) + 1,
+              totalStaked: prev.totalStaked + Math.floor(Math.random() * 1000) + 100,
+              dailyVolume: prev.dailyVolume + Math.floor(Math.random() * 500) + 50
+            };
+          } else {
+            // Update other stats without sound
+            return {
+              tokenHolders: prev.tokenHolders,
+              totalStaked: prev.totalStaked + Math.floor(Math.random() * 1000) + 100,
+              dailyVolume: prev.dailyVolume + Math.floor(Math.random() * 500) + 50
+            };
+          }
         }
         return prev;
       });
