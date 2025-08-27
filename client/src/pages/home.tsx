@@ -334,51 +334,22 @@ export default function Home() {
       )}
 
       {/* Hero Section */}
-      <section id="home" className="section-padding hero-section" data-testid="section-hero">
+      <section id="home" className="min-h-screen hero-section flex items-center justify-center" data-testid="section-hero">
         <div className="container">
-          <div className="cols-2 items-center gap-12">
-            <div className="text-center lg:text-left">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight" data-testid="text-hero-headline">
-                Stake Memes. <span className="text-primary">Earn Big.</span>
-              </h1>
-              <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed" data-testid="text-hero-subtitle">
-                Turn your favorite meme tokens into daily passive income.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <Button asChild size="lg" data-testid="button-join-ico">
-                  <a href="#pricing">Join the ICO</a>
-                </Button>
-                <Button asChild variant="outline" size="lg" data-testid="button-read-whitepaper">
-                  <a href="#about">Read Whitepaper</a>
-                </Button>
-              </div>
-            </div>
-            
-            {/* Hero Preview Card */}
-            <div className="relative" data-testid="card-hero-preview">
-              <Card className="p-6 max-w-md mx-auto relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent"></div>
-                <CardContent className="p-0 relative z-10">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-semibold text-white">Stake Dashboard</h3>
-                    <div className="chip">🟢 Live</div>
-                  </div>
-                  <div className="space-y-4">
-                    <div className="flex justify-between">
-                      <span className="muted">Total Staked</span>
-                      <span className="font-medium text-white">1,250 MEME</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="muted">Daily Rewards</span>
-                      <span className="font-medium" style={{color: 'hsl(142, 76%, 70%)'}}>+12.5 MEME</span>
-                    </div>
-                    <div className="w-full bg-secondary rounded-full h-2 overflow-hidden">
-                      <div className="h-2 rounded-full bg-gradient-to-r from-primary to-purple-400" style={{width: '65%'}}></div>
-                    </div>
-                    <Button className="w-full" data-testid="button-claim-rewards">Claim Rewards</Button>
-                  </div>
-                </CardContent>
-              </Card>
+          <div className="text-center max-w-4xl mx-auto">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-8 leading-tight" data-testid="text-hero-headline">
+              Stake Memes. <span className="text-primary">Earn Big.</span>
+            </h1>
+            <p className="text-xl md:text-2xl lg:text-3xl text-muted-foreground mb-12 leading-relaxed max-w-3xl mx-auto" data-testid="text-hero-subtitle">
+              Turn your favorite meme tokens into daily passive income.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <Button asChild size="lg" className="text-lg px-8 py-4" data-testid="button-start-staking">
+                <a href="#tokenomics">Start Staking</a>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="text-lg px-8 py-4" data-testid="button-learn-more">
+                <a href="#about">Learn More</a>
+              </Button>
             </div>
           </div>
         </div>
