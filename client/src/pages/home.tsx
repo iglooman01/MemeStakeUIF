@@ -51,6 +51,11 @@ export default function Home() {
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [airdropTime, setAirdropTime] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [liveStats, setLiveStats] = useState({
+    tokenHolders: 47832,
+    totalStaked: 2847293,
+    dailyVolume: 1847523
+  });
   const { toast } = useToast();
   
   const testimonials = [
@@ -244,6 +249,33 @@ export default function Home() {
       description: "Redirecting to purchase...",
     });
   };
+
+  // Play sound function
+  const playSound = () => {
+    const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmMeAhw4jtTz');
+    audio.volume = 0.3;
+    audio.play().catch(() => {});
+  };
+
+  // Live stats updater
+  useEffect(() => {
+    const statsTimer = setInterval(() => {
+      setLiveStats(prev => {
+        const shouldIncrease = Math.random() > 0.3; // 70% chance to increase
+        if (shouldIncrease) {
+          playSound();
+          return {
+            tokenHolders: prev.tokenHolders + Math.floor(Math.random() * 3) + 1,
+            totalStaked: prev.totalStaked + Math.floor(Math.random() * 1000) + 100,
+            dailyVolume: prev.dailyVolume + Math.floor(Math.random() * 500) + 50
+          };
+        }
+        return prev;
+      });
+    }, 2000); // Update every 2 seconds
+    
+    return () => clearInterval(statsTimer);
+  }, []);
 
   // Airdrop countdown timer
   useEffect(() => {
@@ -482,6 +514,38 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Live Stats Banner */}
+      <section className="py-4" style={{background: 'linear-gradient(90deg, rgba(255, 215, 0, 0.15) 0%, rgba(0, 191, 255, 0.15) 50%, rgba(255, 215, 0, 0.15) 100%)'}} data-testid="section-live-stats">
+        <div className="container">
+          <div className="flex items-center justify-center mb-2">
+            <div className="w-3 h-3 rounded-full mr-2" style={{background: '#00ff88', animation: 'pulse 1s infinite'}}></div>
+            <span className="text-sm font-medium" style={{color: '#00ff88'}}>🔴 LIVE DATA</span>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6 text-center">
+            <div className="flex flex-col items-center">
+              <div className="text-2xl md:text-3xl font-bold" style={{color: '#ffd700'}}>
+                {liveStats.tokenHolders.toLocaleString()}
+              </div>
+              <div className="text-sm text-muted-foreground">🏆 Total Token Holders</div>
+              <div className="text-xs" style={{color: '#00ff88'}}>↗ Growing</div>
+            </div>
+            <div className="flex flex-col items-center">
+              <div className="text-2xl md:text-3xl font-bold" style={{color: '#00bfff'}}>
+                ${(liveStats.totalStaked / 1000000).toFixed(1)}M
+              </div>
+              <div className="text-sm text-muted-foreground">💰 Total Value Locked</div>
+              <div className="text-xs" style={{color: '#00ff88'}}>↗ Increasing</div>
+            </div>
+            <div className="flex flex-col items-center">
+              <div className="text-2xl md:text-3xl font-bold" style={{color: '#ffd700'}}>
+                ${(liveStats.dailyVolume / 1000000).toFixed(1)}M
+              </div>
+              <div className="text-sm text-muted-foreground">📊 24h Volume</div>
+              <div className="text-xs" style={{color: '#00ff88'}}>↗ Active</div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Staking Dashboard */}
       <section id="staking-dashboard" className="section-padding" data-testid="section-staking-dashboard">
