@@ -602,19 +602,6 @@ export default function Home() {
                 </div>
               </Card>
               
-              <Card className="p-6 mt-6" data-testid="card-meme-of-day">
-                <h3 className="text-lg font-semibold mb-4 text-white">🎯 Meme of the Day</h3>
-                <div className="text-center">
-                  <div className="w-16 h-16 rounded-full bg-purple-500 flex items-center justify-center mx-auto mb-3">
-                    <span className="text-2xl">🚀</span>
-                  </div>
-                  <div className="font-medium text-white mb-1">FLOKI</div>
-                  <div className="text-sm text-muted-foreground mb-3">+67.8% APY</div>
-                  <Button size="sm" className="w-full" data-testid="button-stake-meme-day">
-                    Stake Now
-                  </Button>
-                </div>
-              </Card>
             </div>
           </div>
         </div>
