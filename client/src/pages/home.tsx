@@ -1018,22 +1018,103 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-secondary py-12" data-testid="footer">
+      <footer className="py-16" style={{background: 'linear-gradient(135deg, #0a0e1a 0%, #1a1f2e 100%)'}} data-testid="footer">
         <div className="container">
-          <div className="text-center">
-            <div className="flex items-center justify-center space-x-2 mb-4">
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center shadow-lg" style={{
-                background: 'linear-gradient(135deg, #ffd700 0%, #00bfff 100%)',
-                border: '2px solid rgba(255, 215, 0, 0.3)',
-                boxShadow: '0 4px 15px rgba(255, 215, 0, 0.2)'
-              }}>
-                <span className="text-primary-foreground font-bold text-lg">₿</span>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+            {/* Brand Section */}
+            <div className="lg:col-span-1">
+              <div className="flex items-center space-x-2 mb-6">
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center shadow-lg" style={{
+                  background: 'linear-gradient(135deg, #ffd700 0%, #00bfff 100%)',
+                  border: '2px solid rgba(255, 215, 0, 0.3)',
+                  boxShadow: '0 4px 15px rgba(255, 215, 0, 0.2)'
+                }}>
+                  <span className="text-primary-foreground font-bold text-xl">₿</span>
+                </div>
+                <span className="text-2xl font-bold text-white">MemeStake</span>
               </div>
-              <span className="text-xl font-bold text-white">MemeStake</span>
+              <p className="text-muted-foreground mb-6 text-sm leading-relaxed">
+                The ultimate meme token staking platform. Earn passive income from your favorite meme coins with our secure, audited smart contracts.
+              </p>
+              <div className="flex space-x-4">
+                <a href="#" className="w-8 h-8 rounded-full flex items-center justify-center transition-colors hover:opacity-80" 
+                   style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}
+                   data-testid="social-twitter">
+                  <span className="text-sm">𝕏</span>
+                </a>
+                <a href="#" className="w-8 h-8 rounded-full flex items-center justify-center transition-colors hover:opacity-80"
+                   style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}
+                   data-testid="social-discord">
+                  <span className="text-sm">💬</span>
+                </a>
+                <a href="#" className="w-8 h-8 rounded-full flex items-center justify-center transition-colors hover:opacity-80"
+                   style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}
+                   data-testid="social-telegram">
+                  <span className="text-sm">📱</span>
+                </a>
+              </div>
             </div>
-            <p className="text-muted-foreground">
-              © {new Date().getFullYear()} MemeStake. All rights reserved.
-            </p>
+            
+            {/* Platform Links */}
+            <div>
+              <h4 className="text-white font-semibold mb-4 flex items-center">
+                <span className="mr-2">🚀</span>Platform
+              </h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#meme-aggregator" className="text-muted-foreground hover:text-primary transition-colors" data-testid="footer-link-staking">Staking Pools</a></li>
+                <li><a href="#staking-dashboard" className="text-muted-foreground hover:text-primary transition-colors" data-testid="footer-link-dashboard">Dashboard</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors" data-testid="footer-link-calculator">ROI Calculator</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors" data-testid="footer-link-rewards">Claim Rewards</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors" data-testid="footer-link-portfolio">Portfolio</a></li>
+              </ul>
+            </div>
+            
+            {/* Resources */}
+            <div>
+              <h4 className="text-white font-semibold mb-4 flex items-center">
+                <span className="mr-2">📚</span>Resources
+              </h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#whitepaper" className="text-muted-foreground hover:text-primary transition-colors" data-testid="footer-link-whitepaper">Whitepaper</a></li>
+                <li><a href="#tokenomics" className="text-muted-foreground hover:text-primary transition-colors" data-testid="footer-link-tokenomics">Tokenomics</a></li>
+                <li><a href="#faq" className="text-muted-foreground hover:text-primary transition-colors" data-testid="footer-link-faq">FAQ</a></li>
+                <li><a href="#about" className="text-muted-foreground hover:text-primary transition-colors" data-testid="footer-link-about">About Us</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors" data-testid="footer-link-support">Support</a></li>
+              </ul>
+            </div>
+            
+            {/* Legal & Community */}
+            <div>
+              <h4 className="text-white font-semibold mb-4 flex items-center">
+                <span className="mr-2">⚖️</span>Legal
+              </h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors" data-testid="footer-link-privacy">Privacy Policy</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors" data-testid="footer-link-terms">Terms of Service</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors" data-testid="footer-link-disclaimer">Risk Disclaimer</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors" data-testid="footer-link-audit">Security Audit</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors" data-testid="footer-link-bug">Bug Bounty</a></li>
+              </ul>
+            </div>
+          </div>
+          
+          {/* Bottom Section */}
+          <div className="border-t border-border pt-8">
+            <div className="flex flex-col md:flex-row justify-between items-center">
+              <div className="text-sm text-muted-foreground mb-4 md:mb-0">
+                © {new Date().getFullYear()} MemeStake. All rights reserved. | Built with 💎 for the meme community
+              </div>
+              <div className="flex items-center space-x-4 text-sm">
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 rounded-full" style={{background: '#00ff88'}}></div>
+                  <span className="text-muted-foreground">System Status: Online</span>
+                </div>
+                <div className="text-muted-foreground">|</div>
+                <div className="text-muted-foreground">
+                  <span className="font-medium" style={{color: '#ffd700'}}>TVL:</span> $47.2M
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </footer>
