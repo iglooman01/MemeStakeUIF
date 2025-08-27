@@ -649,7 +649,7 @@ export default function Home() {
                     <div className="text-sm text-muted-foreground">MEME Tokens</div>
                   </div>
                   <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.03)'}}>
-                    <div className="text-xl font-bold" style={{color: '#00bfff'}}>25,000+</div>
+                    <div className="text-xl font-bold" style={{color: '#ffd700'}}>25,000+</div>
                     <div className="text-sm text-muted-foreground">Participants</div>
                   </div>
                   <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.03)'}}>
