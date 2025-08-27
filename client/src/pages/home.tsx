@@ -50,6 +50,7 @@ export default function Home() {
   const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+  const [airdropTime, setAirdropTime] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const { toast } = useToast();
   
   const testimonials = [
@@ -244,6 +245,31 @@ export default function Home() {
     });
   };
 
+  // Airdrop countdown timer
+  useEffect(() => {
+    const targetDate = new Date();
+    targetDate.setDate(targetDate.getDate() + 7); // 7 days from now
+    targetDate.setHours(15, 0, 0, 0); // 3 PM
+    
+    const timer = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = targetDate.getTime() - now;
+      
+      if (distance > 0) {
+        setAirdropTime({
+          days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+          seconds: Math.floor((distance % (1000 * 60)) / 1000)
+        });
+      } else {
+        setAirdropTime({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+      }
+    }, 1000);
+    
+    return () => clearInterval(timer);
+  }, []);
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -360,6 +386,79 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Airdrop Timer */}
+      <section className="py-8" style={{background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(0, 191, 255, 0.1) 100%)'}} data-testid="section-airdrop">
+        <div className="container">
+          <div className="text-center">
+            <Card className="p-8 max-w-4xl mx-auto relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10"></div>
+              <div className="relative z-10">
+                <div className="flex items-center justify-center mb-4">
+                  <div className="chip gold mr-4">🎁 AIRDROP</div>
+                  <div className="chip">🔥 EXCLUSIVE</div>
+                </div>
+                <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{color: '#ffd700'}}>
+                  🚀 MemeStake Token Airdrop
+                </h2>
+                <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+                  Get ready for the biggest meme token airdrop of 2025! Early stakers get exclusive bonuses.
+                </p>
+                
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                  <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
+                    <div className="text-3xl md:text-4xl font-bold" style={{color: '#ffd700'}}>
+                      {String(airdropTime.days).padStart(2, '0')}
+                    </div>
+                    <div className="text-sm text-muted-foreground">Days</div>
+                  </div>
+                  <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
+                    <div className="text-3xl md:text-4xl font-bold" style={{color: '#00bfff'}}>
+                      {String(airdropTime.hours).padStart(2, '0')}
+                    </div>
+                    <div className="text-sm text-muted-foreground">Hours</div>
+                  </div>
+                  <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
+                    <div className="text-3xl md:text-4xl font-bold" style={{color: '#ffd700'}}>
+                      {String(airdropTime.minutes).padStart(2, '0')}
+                    </div>
+                    <div className="text-sm text-muted-foreground">Minutes</div>
+                  </div>
+                  <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
+                    <div className="text-3xl md:text-4xl font-bold" style={{color: '#00bfff'}}>
+                      {String(airdropTime.seconds).padStart(2, '0')}
+                    </div>
+                    <div className="text-sm text-muted-foreground">Seconds</div>
+                  </div>
+                </div>
+                
+                <div className="grid md:grid-cols-3 gap-4 mb-8">
+                  <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.03)'}}>
+                    <div className="text-xl font-bold" style={{color: '#ffd700'}}>10,000,000</div>
+                    <div className="text-sm text-muted-foreground">MEME Tokens</div>
+                  </div>
+                  <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.03)'}}>
+                    <div className="text-xl font-bold" style={{color: '#00bfff'}}>25,000+</div>
+                    <div className="text-sm text-muted-foreground">Participants</div>
+                  </div>
+                  <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.03)'}}>
+                    <div className="text-xl font-bold" style={{color: '#ffd700'}}>$250,000</div>
+                    <div className="text-sm text-muted-foreground">Total Value</div>
+                  </div>
+                </div>
+                
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Button asChild size="lg" className="text-lg px-8 py-4" data-testid="button-claim-airdrop">
+                    <a href="#meme-aggregator">🎁 Claim Airdrop</a>
+                  </Button>
+                  <Button asChild variant="outline" size="lg" className="text-lg px-8 py-4" data-testid="button-airdrop-rules">
+                    <a href="#faq">📄 Eligibility Rules</a>
+                  </Button>
+                </div>
+              </div>
+            </Card>
+          </div>
+        </div>
+      </section>
 
       {/* Meme Token Aggregator */}
       <section id="meme-aggregator" className="section-padding crypto-bg" data-testid="section-meme-aggregator">
