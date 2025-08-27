@@ -255,7 +255,11 @@ export default function Home() {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <div className="flex items-center space-x-2" data-testid="logo-brand">
-              <div className="w-8 h-8 bg-gradient-to-br from-primary to-purple-600 rounded-lg flex items-center justify-center shadow-lg">
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center shadow-lg" style={{
+                background: 'linear-gradient(135deg, #ffd700 0%, #00bfff 100%)',
+                border: '2px solid rgba(255, 215, 0, 0.3)',
+                boxShadow: '0 4px 15px rgba(255, 215, 0, 0.2)'
+              }}>
                 <span className="text-primary-foreground font-bold text-lg">₿</span>
               </div>
               <span className="text-xl font-bold text-white">MemeStake</span>
@@ -722,7 +726,11 @@ export default function Home() {
         <div className="container">
           <div className="text-center">
             <div className="flex items-center justify-center space-x-2 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-br from-primary to-purple-600 rounded-lg flex items-center justify-center shadow-lg">
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center shadow-lg" style={{
+                background: 'linear-gradient(135deg, #ffd700 0%, #00bfff 100%)',
+                border: '2px solid rgba(255, 215, 0, 0.3)',
+                boxShadow: '0 4px 15px rgba(255, 215, 0, 0.2)'
+              }}>
                 <span className="text-primary-foreground font-bold text-lg">₿</span>
               </div>
               <span className="text-xl font-bold text-white">MemeStake</span>
