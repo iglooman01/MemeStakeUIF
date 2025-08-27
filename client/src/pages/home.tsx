@@ -248,7 +248,7 @@ export default function Home() {
   // Airdrop countdown timer
   useEffect(() => {
     const targetDate = new Date();
-    targetDate.setDate(targetDate.getDate() + 7); // 7 days from now
+    targetDate.setDate(targetDate.getDate() + 30); // 30 days from now
     targetDate.setHours(15, 0, 0, 0); // 3 PM
     
     const timer = setInterval(() => {
@@ -398,11 +398,27 @@ export default function Home() {
                   <div className="chip">🔥 EXCLUSIVE</div>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{color: '#ffd700'}}>
-                  🚀 MemeStake Token Airdrop
+                  🚀 Decentralized MemeStake Token Airdrop
                 </h2>
-                <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-                  Get ready for the biggest meme token airdrop of 2025! Early stakers get exclusive bonuses.
+                <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto">
+                  Get ready for the biggest meme token airdrop of 2025! Early participants get exclusive bonuses.
                 </p>
+                <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg p-4 mb-8 max-w-3xl mx-auto border border-primary/20">
+                  <div className="flex items-center justify-center mb-2">
+                    <span className="text-2xl mr-2">⏰</span>
+                    <span className="text-lg font-semibold" style={{color: '#00bfff'}}>LAUNCH TIMELINE</span>
+                  </div>
+                  <div className="grid md:grid-cols-2 gap-4 text-sm">
+                    <div className="text-center p-3 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)'}}>
+                      <div className="font-semibold" style={{color: '#ffd700'}}>Phase 1: Airdrop Launch</div>
+                      <div className="text-muted-foreground">Distribution of 10M MEME tokens</div>
+                    </div>
+                    <div className="text-center p-3 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
+                      <div className="font-semibold" style={{color: '#00bfff'}}>Phase 2: Staking Program</div>
+                      <div className="text-muted-foreground">Starts immediately after airdrop</div>
+                    </div>
+                  </div>
+                </div>
                 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                   <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
@@ -446,13 +462,19 @@ export default function Home() {
                   </div>
                 </div>
                 
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
                   <Button asChild size="lg" className="text-lg px-8 py-4" data-testid="button-claim-airdrop">
-                    <a href="#meme-aggregator">🎁 Claim Airdrop</a>
+                    <a href="#meme-aggregator">🎁 Join Airdrop</a>
                   </Button>
                   <Button asChild variant="outline" size="lg" className="text-lg px-8 py-4" data-testid="button-airdrop-rules">
                     <a href="#faq">📄 Eligibility Rules</a>
                   </Button>
+                </div>
+                <div className="text-center">
+                  <div className="inline-flex items-center space-x-2 px-6 py-3 rounded-full" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
+                    <span className="text-lg">💎</span>
+                    <span className="text-sm font-medium" style={{color: '#00bfff'}}>Staking rewards up to 250% APY start after airdrop completion</span>
+                  </div>
                 </div>
               </div>
             </Card>
