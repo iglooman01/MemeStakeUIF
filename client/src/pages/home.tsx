@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import memeStakeLogo from "@assets/generated_images/MemeStake_crypto_logo_design_674b3f17.png";
 
 const i18n = {
   en: { 
@@ -458,13 +459,14 @@ export default function Home() {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <div className="flex items-center space-x-2" data-testid="logo-brand">
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center shadow-lg" style={{
-                background: 'linear-gradient(135deg, #ffd700 0%, #00bfff 100%)',
-                border: '2px solid rgba(255, 215, 0, 0.3)',
-                boxShadow: '0 4px 15px rgba(255, 215, 0, 0.2)'
-              }}>
-                <span className="text-primary-foreground font-bold text-lg">₿</span>
-              </div>
+              <img 
+                src={memeStakeLogo} 
+                alt="MemeStake Logo" 
+                className="w-8 h-8 rounded-lg shadow-lg"
+                style={{
+                  filter: 'drop-shadow(0 4px 15px rgba(255, 215, 0, 0.2))'
+                }}
+              />
               <span className="text-xl font-bold text-white">MemeStake</span>
             </div>
 
@@ -1210,12 +1212,14 @@ export default function Home() {
             {/* Header */}
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{
-                  background: 'linear-gradient(135deg, #ffd700 0%, #00bfff 100%)',
-                  border: '1px solid rgba(255, 215, 0, 0.3)'
-                }}>
-                  <span className="text-primary-foreground font-bold text-sm">₿</span>
-                </div>
+                <img 
+                  src={memeStakeLogo} 
+                  alt="MemeStake Logo" 
+                  className="w-8 h-8 rounded-lg"
+                  style={{
+                    filter: 'drop-shadow(0 2px 8px rgba(255, 215, 0, 0.1))'
+                  }}
+                />
                 <h2 className="text-xl font-semibold text-white">Connect Wallet</h2>
               </div>
               <button 
