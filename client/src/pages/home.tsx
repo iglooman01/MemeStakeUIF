@@ -37,6 +37,96 @@ const i18n = {
     whitepaper: 'Libro Blanco',
     getStarted: 'Conectar Billetera',
     why: 'Por qué'
+  },
+  fr: {
+    features: 'Fonctionnalités',
+    pricing: 'Tarifs',
+    blog: 'Blog',
+    about: 'À propos',
+    contact: 'Contact',
+    whitepaper: 'Livre Blanc',
+    getStarted: 'Connecter Portefeuille',
+    why: 'Pourquoi'
+  },
+  de: {
+    features: 'Funktionen',
+    pricing: 'Preise',
+    blog: 'Blog',
+    about: 'Über uns',
+    contact: 'Kontakt',
+    whitepaper: 'Whitepaper',
+    getStarted: 'Wallet Verbinden',
+    why: 'Warum'
+  },
+  ja: {
+    features: '機能',
+    pricing: '価格',
+    blog: 'ブログ',
+    about: '概要',
+    contact: 'お問い合わせ',
+    whitepaper: 'ホワイトペーパー',
+    getStarted: 'ウォレット接続',
+    why: 'なぜ'
+  },
+  ko: {
+    features: '기능',
+    pricing: '가격',
+    blog: '블로그',
+    about: '소개',
+    contact: '문의',
+    whitepaper: '백서',
+    getStarted: '지갑 연결',
+    why: '왜'
+  },
+  zh: {
+    features: '功能',
+    pricing: '价格',
+    blog: '博客',
+    about: '关于',
+    contact: '联系',
+    whitepaper: '白皮书',
+    getStarted: '连接钱包',
+    why: '为什么'
+  },
+  pt: {
+    features: 'Recursos',
+    pricing: 'Preços',
+    blog: 'Blog',
+    about: 'Sobre',
+    contact: 'Contato',
+    whitepaper: 'Whitepaper',
+    getStarted: 'Conectar Carteira',
+    why: 'Por que'
+  },
+  ru: {
+    features: 'Функции',
+    pricing: 'Цены',
+    blog: 'Блог',
+    about: 'О нас',
+    contact: 'Контакты',
+    whitepaper: 'Белая книга',
+    getStarted: 'Подключить Кошелек',
+    why: 'Почему'
+  },
+  ar: {
+    features: 'الميزات',
+    pricing: 'التسعير',
+    blog: 'المدونة',
+    about: 'حولنا',
+    contact: 'اتصل بنا',
+    whitepaper: 'الورقة البيضاء',
+    getStarted: 'ربط المحفظة',
+    why: 'لماذا'
+  },
+  it: {
+    features: 'Caratteristiche',
+    pricing: 'Prezzi',
+    blog: 'Blog',
+    about: 'Chi siamo',
+    contact: 'Contatti',
+    whitepaper: 'Whitepaper',
+    getStarted: 'Connetti Wallet',
+    why: 'Perché'
   }
 };
 
@@ -393,9 +483,18 @@ export default function Home() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="en">EN</SelectItem>
-                  <SelectItem value="hi">हिं</SelectItem>
-                  <SelectItem value="es">ES</SelectItem>
+                  <SelectItem value="en">🇺🇸 EN</SelectItem>
+                  <SelectItem value="hi">🇮🇳 हिं</SelectItem>
+                  <SelectItem value="es">🇪🇸 ES</SelectItem>
+                  <SelectItem value="fr">🇫🇷 FR</SelectItem>
+                  <SelectItem value="de">🇩🇪 DE</SelectItem>
+                  <SelectItem value="ja">🇯🇵 JP</SelectItem>
+                  <SelectItem value="ko">🇰🇷 KO</SelectItem>
+                  <SelectItem value="zh">🇨🇳 中文</SelectItem>
+                  <SelectItem value="pt">🇵🇹 PT</SelectItem>
+                  <SelectItem value="ru">🇷🇺 RU</SelectItem>
+                  <SelectItem value="ar">🇸🇦 عرب</SelectItem>
+                  <SelectItem value="it">🇮🇹 IT</SelectItem>
                 </SelectContent>
               </Select>
 
