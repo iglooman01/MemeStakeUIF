@@ -263,11 +263,7 @@ export default function Home() {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8" data-testid="desktop-nav">
-              <a href="#features" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-features">{t.features}</a>
-              <a href="#why" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-why">{t.why}</a>
               <a href="#tokenomics" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-tokenomics">Tokenomics</a>
-              <a href="#pricing" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-pricing">{t.pricing}</a>
-              <a href="#blog" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-blog">{t.blog}</a>
               <a href="#about" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-about">{t.about}</a>
               <a href="#contact" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-contact">{t.contact}</a>
             </div>
@@ -299,7 +295,7 @@ export default function Home() {
 
               {/* Primary CTA */}
               <Button asChild className="hidden sm:inline-flex" data-testid="button-get-started">
-                <a href="#pricing">{t.getStarted}</a>
+                <a href="#contact">{t.getStarted}</a>
               </Button>
 
               {/* Mobile Menu Toggle */}
@@ -322,15 +318,11 @@ export default function Home() {
         <div className="mobile-menu active" data-testid="mobile-menu">
           <div className="p-6">
             <div className="flex flex-col space-y-4 mt-16">
-              <a href="#features" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-features">{t.features}</a>
-              <a href="#why" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-why">{t.why}</a>
               <a href="#tokenomics" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-tokenomics">Tokenomics</a>
-              <a href="#pricing" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-pricing">{t.pricing}</a>
-              <a href="#blog" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-blog">{t.blog}</a>
               <a href="#about" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-about">{t.about}</a>
               <a href="#contact" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-contact">{t.contact}</a>
               <Button asChild className="mt-4" data-testid="mobile-button-get-started">
-                <a href="#pricing">{t.getStarted}</a>
+                <a href="#contact">{t.getStarted}</a>
               </Button>
             </div>
           </div>
@@ -411,116 +403,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section id="features" className="section-padding" data-testid="section-features">
-        <div className="container">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Built for the Community</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              MemeStake combines the fun of meme culture with serious DeFi technology
-            </p>
-          </div>
-          
-          <div className="cols-4">
-            <Card className="p-6 text-center" data-testid="card-feature-audited">
-              <div className="w-12 h-12 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">🔒</span>
-              </div>
-              <h3 className="font-semibold mb-2">Audited & Transparent</h3>
-              <p className="text-sm text-muted-foreground">Smart contracts audited by top security firms with public reports</p>
-            </Card>
-            
-            <Card className="p-6 text-center" data-testid="card-feature-stake">
-              <div className="w-12 h-12 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">💰</span>
-              </div>
-              <h3 className="font-semibold mb-2">Stake-to-Earn</h3>
-              <p className="text-sm text-muted-foreground">Lock your tokens and earn daily rewards with competitive APY</p>
-            </Card>
-            
-            <Card className="p-6 text-center" data-testid="card-feature-rewards">
-              <div className="w-12 h-12 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">🎁</span>
-              </div>
-              <h3 className="font-semibold mb-2">Community Rewards</h3>
-              <p className="text-sm text-muted-foreground">Bonus rewards for community participation and referrals</p>
-            </Card>
-            
-            <Card className="p-6 text-center" data-testid="card-feature-optimized">
-              <div className="w-12 h-12 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">⚡</span>
-              </div>
-              <h3 className="font-semibold mb-2">Gas-Optimized</h3>
-              <p className="text-sm text-muted-foreground">Low-cost transactions on optimized blockchain networks</p>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Why Choose MemeStake */}
-      <section id="why" className="section-padding bg-muted bg-opacity-30" data-testid="section-why">
-        <div className="container">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Why Choose MemeStake?</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              We solve the biggest problems in the meme token space
-            </p>
-          </div>
-          
-          <div className="problem-solution-grid">
-            {/* Problems Column */}
-            <div className="space-y-6">
-              <h3 className="text-2xl font-semibold text-destructive mb-6">❌ Problems</h3>
-              
-              <div className="panel border-destructive border-opacity-20" data-testid="problem-tokenomics">
-                <h4 className="font-medium mb-2 text-destructive">Opaque tokenomics</h4>
-                <p className="text-sm text-muted-foreground">Hidden allocations and unclear token distribution create uncertainty</p>
-              </div>
-              
-              <div className="panel border-destructive/20" data-testid="problem-dumps">
-                <h4 className="font-medium mb-2 text-destructive">Pump-and-dump risk</h4>
-                <p className="text-sm text-muted-foreground">Early investors dumping tokens crashes the price for everyone</p>
-              </div>
-              
-              <div className="panel border-destructive/20" data-testid="problem-utility">
-                <h4 className="font-medium mb-2 text-destructive">No real utility</h4>
-                <p className="text-sm text-muted-foreground">Tokens with no use case beyond speculation have no staying power</p>
-              </div>
-              
-              <div className="panel border-destructive/20" data-testid="problem-incentives">
-                <h4 className="font-medium mb-2 text-destructive">Weak community incentives</h4>
-                <p className="text-sm text-muted-foreground">No rewards for community participation leads to inactive holders</p>
-              </div>
-            </div>
-            
-            {/* Solutions Column */}
-            <div className="space-y-6">
-              <h3 className="text-2xl font-semibold text-green-600 mb-6">✅ Solutions</h3>
-              
-              <div className="panel border-green-500 border-opacity-20" data-testid="solution-transparency">
-                <h4 className="font-medium mb-2 text-green-600">Public, audited contracts & clear vesting</h4>
-                <p className="text-sm text-muted-foreground">Complete transparency with public audit reports and clear vesting schedules</p>
-              </div>
-              
-              <div className="panel border-green-500/20" data-testid="solution-staking">
-                <h4 className="font-medium mb-2 text-green-600">Stake-to-earn mechanics discourage dumping</h4>
-                <p className="text-sm text-muted-foreground">Staking rewards incentivize holding and reduce selling pressure</p>
-              </div>
-              
-              <div className="panel border-green-500/20" data-testid="solution-utility">
-                <h4 className="font-medium mb-2 text-green-600">Utility pools, governance, XP tiers</h4>
-                <p className="text-sm text-muted-foreground">Real utility through DeFi pools, voting rights, and gamified rewards</p>
-              </div>
-              
-              <div className="panel border-green-500/20" data-testid="solution-rewards">
-                <h4 className="font-medium mb-2 text-green-600">On-chain rewards & streak bonuses</h4>
-                <p className="text-sm text-muted-foreground">Transparent rewards system with bonuses for consistent participation</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Tokenomics Section */}
       <section id="tokenomics" className="section-padding" data-testid="section-tokenomics">
         <div className="container">
@@ -582,73 +464,6 @@ export default function Home() {
                 </ul>
               </Card>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Pricing Section */}
-      <section id="pricing" className="section-padding bg-muted bg-opacity-30" data-testid="section-pricing">
-        <div className="container">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">ICO Pricing Tiers</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Early supporters get the best prices. Join now before the next tier.
-            </p>
-          </div>
-          
-          <div className="cols-3 max-w-4xl mx-auto">
-            {/* Starter Tier */}
-            <Card className="p-6 text-center" data-testid="card-pricing-starter">
-              <h3 className="text-xl font-bold mb-2">Starter</h3>
-              <div className="text-3xl font-bold text-primary mb-4">$0.001</div>
-              <div className="text-sm text-muted-foreground mb-6">per MEME token</div>
-              <ul className="space-y-3 text-sm mb-6">
-                <li>✓ Basic staking rewards</li>
-                <li>✓ Community access</li>
-                <li>✓ 15% APY</li>
-                <li>✓ Min: 1,000 tokens</li>
-              </ul>
-              <Button className="w-full" onClick={() => selectPlan('Starter')} data-testid="button-select-starter">
-                Select Starter
-              </Button>
-            </Card>
-            
-            {/* Pro Tier (Popular) */}
-            <Card className="p-6 text-center relative border-primary" data-testid="card-pricing-pro">
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                <div className="chip">Popular</div>
-              </div>
-              <h3 className="text-xl font-bold mb-2">Pro</h3>
-              <div className="text-3xl font-bold text-primary mb-4">$0.0015</div>
-              <div className="text-sm text-muted-foreground mb-6">per MEME token</div>
-              <ul className="space-y-3 text-sm mb-6">
-                <li>✓ Enhanced staking rewards</li>
-                <li>✓ VIP community access</li>
-                <li>✓ 25% APY</li>
-                <li>✓ Governance voting</li>
-                <li>✓ Min: 5,000 tokens</li>
-              </ul>
-              <Button className="w-full" onClick={() => selectPlan('Pro')} data-testid="button-select-pro">
-                Select Pro
-              </Button>
-            </Card>
-            
-            {/* Enterprise Tier */}
-            <Card className="p-6 text-center" data-testid="card-pricing-enterprise">
-              <h3 className="text-xl font-bold mb-2">Enterprise</h3>
-              <div className="text-3xl font-bold text-primary mb-4">$0.002</div>
-              <div className="text-sm text-muted-foreground mb-6">per MEME token</div>
-              <ul className="space-y-3 text-sm mb-6">
-                <li>✓ Maximum staking rewards</li>
-                <li>✓ Exclusive partnerships</li>
-                <li>✓ 35% APY</li>
-                <li>✓ Priority governance</li>
-                <li>✓ Min: 25,000 tokens</li>
-              </ul>
-              <Button className="w-full" onClick={() => selectPlan('Enterprise')} data-testid="button-select-enterprise">
-                Select Enterprise
-              </Button>
-            </Card>
           </div>
         </div>
       </section>
@@ -767,59 +582,6 @@ export default function Home() {
                 </p>
               </details>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Blog Section */}
-      <section id="blog" className="section-padding" data-testid="section-blog">
-        <div className="container">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Latest Updates</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Stay updated with the latest news and insights from the MemeStake team
-            </p>
-          </div>
-          
-          <div className="cols-3">
-            <Card className="overflow-hidden" data-testid="card-blog-phase2">
-              <div className="h-48 bg-gradient-to-br from-primary/20 to-accent/20 p-6 flex items-center justify-center">
-                <span className="text-4xl">📈</span>
-              </div>
-              <CardContent className="p-6">
-                <div className="text-sm text-muted-foreground mb-2">March 15, 2024</div>
-                <h3 className="font-semibold mb-2">ICO Phase 2 Launch</h3>
-                <p className="text-sm text-muted-foreground">
-                  We're excited to announce the launch of ICO Phase 2 with enhanced rewards and new tier benefits.
-                </p>
-              </CardContent>
-            </Card>
-            
-            <Card className="overflow-hidden" data-testid="card-blog-audit">
-              <div className="h-48 bg-gradient-to-br from-accent/20 to-secondary/20 p-6 flex items-center justify-center">
-                <span className="text-4xl">🔒</span>
-              </div>
-              <CardContent className="p-6">
-                <div className="text-sm text-muted-foreground mb-2">March 10, 2024</div>
-                <h3 className="font-semibold mb-2">Smart Contract Audit Complete</h3>
-                <p className="text-sm text-muted-foreground">
-                  Our smart contracts have successfully passed security audits from leading blockchain security firms.
-                </p>
-              </CardContent>
-            </Card>
-            
-            <Card className="overflow-hidden" data-testid="card-blog-partnerships">
-              <div className="h-48 bg-gradient-to-br from-secondary/20 to-primary/20 p-6 flex items-center justify-center">
-                <span className="text-4xl">🚀</span>
-              </div>
-              <CardContent className="p-6">
-                <div className="text-sm text-muted-foreground mb-2">March 5, 2024</div>
-                <h3 className="font-semibold mb-2">Partnership Announcements</h3>
-                <p className="text-sm text-muted-foreground">
-                  Exciting new partnerships with major DeFi protocols to expand MemeStake's utility and reach.
-                </p>
-              </CardContent>
-            </Card>
           </div>
         </div>
       </section>
