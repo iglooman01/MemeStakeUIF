@@ -5,20 +5,20 @@
 @tailwind utilities;
 
 :root {
-  --background: hsl(230, 35%, 7%);
-  --foreground: hsl(210, 40%, 98%);
-  --card: hsl(230, 25%, 9%);
-  --card-foreground: hsl(210, 40%, 98%);
-  --popover: hsl(230, 25%, 9%);
-  --popover-foreground: hsl(210, 40%, 98%);
-  --primary: hsl(50, 100%, 50%);
-  --primary-foreground: hsl(230, 35%, 7%);
-  --secondary: hsl(195, 100%, 50%);
-  --secondary-foreground: hsl(230, 35%, 7%);
-  --muted: hsl(230, 20%, 12%);
-  --muted-foreground: hsl(220, 15%, 60%);
-  --accent: hsl(195, 100%, 50%);
-  --accent-foreground: hsl(230, 35%, 7%);
+  --background: 15 10 35;
+  --foreground: 255 255 255;
+  --card: 20 15 40;
+  --card-foreground: 255 255 255;
+  --popover: 20 15 40;
+  --popover-foreground: 255 255 255;
+  --primary: 255 215 0;
+  --primary-foreground: 15 10 35;
+  --secondary: 0 191 255;
+  --secondary-foreground: 15 10 35;
+  --muted: 30 25 50;
+  --muted-foreground: 160 160 160;
+  --accent: 0 191 255;
+  --accent-foreground: 15 10 35;
   --destructive: hsl(0, 84%, 60%);
   --destructive-foreground: hsl(210, 40%, 98%);
   --border: hsl(230, 20%, 15%);
@@ -54,20 +54,20 @@
 }
 
 .dark {
-  --background: hsl(230, 35%, 7%);
-  --foreground: hsl(210, 40%, 98%);
-  --card: hsl(230, 25%, 9%);
-  --card-foreground: hsl(210, 40%, 98%);
-  --popover: hsl(230, 25%, 9%);
-  --popover-foreground: hsl(210, 40%, 98%);
-  --primary: hsl(50, 100%, 50%);
-  --primary-foreground: hsl(230, 35%, 7%);
-  --secondary: hsl(195, 100%, 50%);
-  --secondary-foreground: hsl(230, 35%, 7%);
-  --muted: hsl(230, 20%, 12%);
-  --muted-foreground: hsl(220, 15%, 60%);
-  --accent: hsl(195, 100%, 50%);
-  --accent-foreground: hsl(230, 35%, 7%);
+  --background: 15 10 35;
+  --foreground: 255 255 255;
+  --card: 20 15 40;
+  --card-foreground: 255 255 255;
+  --popover: 20 15 40;
+  --popover-foreground: 255 255 255;
+  --primary: 255 215 0;
+  --primary-foreground: 15 10 35;
+  --secondary: 0 191 255;
+  --secondary-foreground: 15 10 35;
+  --muted: 30 25 50;
+  --muted-foreground: 160 160 160;
+  --accent: 0 191 255;
+  --accent-foreground: 15 10 35;
   --destructive: hsl(0, 84%, 60%);
   --destructive-foreground: hsl(210, 40%, 98%);
   --border: hsl(230, 20%, 15%);
