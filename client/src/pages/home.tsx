@@ -14,7 +14,7 @@ const i18n = {
     blog: 'Blog', 
     about: 'About', 
     contact: 'Contact', 
-    getStarted: 'Get Started',
+    getStarted: 'Connect Wallet',
     why: 'Why'
   },
   hi: { 
@@ -23,7 +23,7 @@ const i18n = {
     blog: 'ब्लॉग', 
     about: 'परिचय', 
     contact: 'संपर्क', 
-    getStarted: 'शुरू करें',
+    getStarted: 'वॉलेट कनेक्ट करें',
     why: 'क्यों'
   },
   es: { 
@@ -32,7 +32,7 @@ const i18n = {
     blog: 'Blog', 
     about: 'Acerca de', 
     contact: 'Contacto', 
-    getStarted: 'Comenzar',
+    getStarted: 'Conectar Billetera',
     why: 'Por qué'
   }
 };
