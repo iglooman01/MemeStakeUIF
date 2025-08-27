@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import memeStakeLogo from "@assets/generated_images/MemeStake_crypto_logo_design_674b3f17.png";
+import memeStakeLogo from "@assets/18359c79-1d65-4370-b46c-082afef29641_1756319064629.png";
 
 const i18n = {
   en: { 
