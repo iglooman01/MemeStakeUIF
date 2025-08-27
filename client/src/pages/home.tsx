@@ -14,6 +14,7 @@ const i18n = {
     blog: 'Blog', 
     about: 'About', 
     contact: 'Contact', 
+    whitepaper: 'Whitepaper',
     getStarted: 'Connect Wallet',
     why: 'Why'
   },
@@ -23,6 +24,7 @@ const i18n = {
     blog: 'ब्लॉग', 
     about: 'परिचय', 
     contact: 'संपर्क', 
+    whitepaper: 'व्हाइटपेपर',
     getStarted: 'वॉलेट कनेक्ट करें',
     why: 'क्यों'
   },
@@ -32,6 +34,7 @@ const i18n = {
     blog: 'Blog', 
     about: 'Acerca de', 
     contact: 'Contacto', 
+    whitepaper: 'Libro Blanco',
     getStarted: 'Conectar Billetera',
     why: 'Por qué'
   }
@@ -268,6 +271,7 @@ export default function Home() {
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8" data-testid="desktop-nav">
               <a href="#about" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-about">{t.about}</a>
+              <a href="#whitepaper" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-whitepaper">{t.whitepaper}</a>
               <a href="#tokenomics" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-tokenomics">Tokenomics</a>
             </div>
 
@@ -322,6 +326,7 @@ export default function Home() {
           <div className="p-6">
             <div className="flex flex-col space-y-4 mt-16">
               <a href="#about" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-about">{t.about}</a>
+              <a href="#whitepaper" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-whitepaper">{t.whitepaper}</a>
               <a href="#tokenomics" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-tokenomics">Tokenomics</a>
               <Button asChild className="mt-4" data-testid="mobile-button-get-started">
                 <a href="#tokenomics">{t.getStarted}</a>
