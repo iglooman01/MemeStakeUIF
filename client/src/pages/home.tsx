@@ -538,6 +538,109 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Whitepaper Section */}
+      <section id="whitepaper" className="section-padding" data-testid="section-whitepaper">
+        <div className="container">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Whitepaper</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Comprehensive documentation covering MemeStake's technology, tokenomics, and roadmap
+            </p>
+          </div>
+          
+          <div className="max-w-4xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-8 mb-12">
+              <Card className="p-6" data-testid="card-technical-overview">
+                <div className="w-12 h-12 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center mb-4">
+                  <span className="text-2xl">⚙️</span>
+                </div>
+                <h3 className="font-semibold mb-3">Technical Overview</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Deep dive into our smart contract architecture, staking mechanisms, and security protocols.
+                </p>
+                <ul className="text-sm text-muted-foreground space-y-1">
+                  <li>• Smart contract specifications</li>
+                  <li>• Staking algorithm details</li>
+                  <li>• Security audit results</li>
+                  <li>• Multi-sig wallet implementation</li>
+                </ul>
+              </Card>
+              
+              <Card className="p-6" data-testid="card-tokenomics-details">
+                <div className="w-12 h-12 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center mb-4">
+                  <span className="text-2xl">📊</span>
+                </div>
+                <h3 className="font-semibold mb-3">Tokenomics Model</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Complete breakdown of token distribution, vesting schedules, and reward mechanisms.
+                </p>
+                <ul className="text-sm text-muted-foreground space-y-1">
+                  <li>• Token supply & distribution</li>
+                  <li>• Staking rewards calculation</li>
+                  <li>• Vesting schedules</li>
+                  <li>• Liquidity provisions</li>
+                </ul>
+              </Card>
+              
+              <Card className="p-6" data-testid="card-roadmap">
+                <div className="w-12 h-12 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center mb-4">
+                  <span className="text-2xl">🗺️</span>
+                </div>
+                <h3 className="font-semibold mb-3">Development Roadmap</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Our strategic plan for platform development, partnerships, and ecosystem growth.
+                </p>
+                <ul className="text-sm text-muted-foreground space-y-1">
+                  <li>• Phase 1: Platform launch</li>
+                  <li>• Phase 2: Advanced features</li>
+                  <li>• Phase 3: Ecosystem expansion</li>
+                  <li>• Phase 4: Cross-chain integration</li>
+                </ul>
+              </Card>
+              
+              <Card className="p-6" data-testid="card-governance">
+                <div className="w-12 h-12 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center mb-4">
+                  <span className="text-2xl">🏛️</span>
+                </div>
+                <h3 className="font-semibold mb-3">Governance Model</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Community-driven decision making process and proposal management system.
+                </p>
+                <ul className="text-sm text-muted-foreground space-y-1">
+                  <li>• Voting mechanisms</li>
+                  <li>• Proposal requirements</li>
+                  <li>• Implementation process</li>
+                  <li>• Community treasury</li>
+                </ul>
+              </Card>
+            </div>
+            
+            <div className="text-center">
+              <Card className="p-8 max-w-2xl mx-auto" data-testid="card-download-whitepaper">
+                <div className="w-16 h-16 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-3xl">📄</span>
+                </div>
+                <h3 className="text-xl font-semibold mb-4">Download Full Whitepaper</h3>
+                <p className="text-muted-foreground mb-6">
+                  Get the complete 32-page whitepaper with detailed technical specifications, economic models, and strategic vision.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Button asChild size="lg" data-testid="button-download-whitepaper">
+                    <a href="#" className="inline-flex items-center">
+                      📄 Download PDF
+                    </a>
+                  </Button>
+                  <Button asChild variant="outline" size="lg" data-testid="button-view-online">
+                    <a href="#" className="inline-flex items-center">
+                      🌐 View Online
+                    </a>
+                  </Button>
+                </div>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Newsletter Subscribe */}
       <section className="section-padding crypto-bg" data-testid="section-newsletter">
