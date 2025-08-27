@@ -271,6 +271,7 @@ export default function Home() {
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8" data-testid="desktop-nav">
               <a href="#about" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-about">{t.about}</a>
+              <a href="#meme-aggregator" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-staking">Staking</a>
               <a href="#whitepaper" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-whitepaper">{t.whitepaper}</a>
               <a href="#tokenomics" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-tokenomics">Tokenomics</a>
             </div>
@@ -326,6 +327,7 @@ export default function Home() {
           <div className="p-6">
             <div className="flex flex-col space-y-4 mt-16">
               <a href="#about" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-about">{t.about}</a>
+              <a href="#meme-aggregator" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-staking">Staking</a>
               <a href="#whitepaper" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-whitepaper">{t.whitepaper}</a>
               <a href="#tokenomics" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-tokenomics">Tokenomics</a>
               <Button asChild className="mt-4" data-testid="mobile-button-get-started">
@@ -348,16 +350,359 @@ export default function Home() {
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Button asChild size="lg" className="text-lg px-8 py-4" data-testid="button-start-staking">
-                <a href="#tokenomics">Start Staking</a>
+                <a href="#meme-aggregator">🚀 Start Staking</a>
               </Button>
               <Button asChild variant="outline" size="lg" className="text-lg px-8 py-4" data-testid="button-learn-more">
-                <a href="#about">Learn More</a>
+                <a href="#about">📄 Learn More</a>
               </Button>
             </div>
           </div>
         </div>
       </section>
 
+
+      {/* Meme Token Aggregator */}
+      <section id="meme-aggregator" className="section-padding crypto-bg" data-testid="section-meme-aggregator">
+        <div className="container">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Popular Meme Tokens</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Stake your favorite meme tokens and earn passive income with our high-yield pools
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            <Card className="p-6 relative overflow-hidden" data-testid="card-doge-staking">
+              <div className="absolute top-4 right-4">
+                <div className="chip gold">🔥 Hot</div>
+              </div>
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 rounded-full bg-yellow-500 flex items-center justify-center mr-3">
+                  <span className="text-xl">🐕</span>
+                </div>
+                <div>
+                  <div className="font-semibold text-white">Dogecoin (DOGE)</div>
+                  <div className="text-sm text-muted-foreground">$0.0847 (+12.5%)</div>
+                </div>
+              </div>
+              <div className="space-y-3">
+                <div className="flex justify-between">
+                  <span className="text-sm text-muted-foreground">APY</span>
+                  <span className="font-medium" style={{color: '#00bfff'}}>89.5%</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-sm text-muted-foreground">Total Staked</span>
+                  <span className="font-medium text-white">2.5M DOGE</span>
+                </div>
+                <div className="w-full rounded-full h-2" style={{background: 'rgba(255, 255, 255, 0.1)'}}>
+                  <div className="h-2 rounded-full" style={{
+                    width: '78%',
+                    background: 'linear-gradient(to right, #ffd700, #00bfff)'
+                  }}></div>
+                </div>
+                <Button className="w-full" data-testid="button-stake-doge">Stake DOGE</Button>
+              </div>
+            </Card>
+
+            <Card className="p-6 relative overflow-hidden" data-testid="card-shib-staking">
+              <div className="absolute top-4 right-4">
+                <div className="chip">🚀 Rising</div>
+              </div>
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 rounded-full bg-orange-500 flex items-center justify-center mr-3">
+                  <span className="text-xl">🐕‍🦺</span>
+                </div>
+                <div>
+                  <div className="font-semibold text-white">Shiba Inu (SHIB)</div>
+                  <div className="text-sm text-muted-foreground">$0.000023 (+8.2%)</div>
+                </div>
+              </div>
+              <div className="space-y-3">
+                <div className="flex justify-between">
+                  <span className="text-sm text-muted-foreground">APY</span>
+                  <span className="font-medium" style={{color: '#00bfff'}}>124.7%</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-sm text-muted-foreground">Total Staked</span>
+                  <span className="font-medium text-white">850B SHIB</span>
+                </div>
+                <div className="w-full rounded-full h-2" style={{background: 'rgba(255, 255, 255, 0.1)'}}>
+                  <div className="h-2 rounded-full" style={{
+                    width: '65%',
+                    background: 'linear-gradient(to right, #ffd700, #00bfff)'
+                  }}></div>
+                </div>
+                <Button className="w-full" data-testid="button-stake-shib">Stake SHIB</Button>
+              </div>
+            </Card>
+
+            <Card className="p-6 relative overflow-hidden" data-testid="card-pepe-staking">
+              <div className="absolute top-4 right-4">
+                <div className="chip gold">💎 Premium</div>
+              </div>
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center mr-3">
+                  <span className="text-xl">🐸</span>
+                </div>
+                <div>
+                  <div className="font-semibold text-white">Pepe (PEPE)</div>
+                  <div className="text-sm text-muted-foreground">$0.0000087 (+15.3%)</div>
+                </div>
+              </div>
+              <div className="space-y-3">
+                <div className="flex justify-between">
+                  <span className="text-sm text-muted-foreground">APY</span>
+                  <span className="font-medium" style={{color: '#00bfff'}}>156.2%</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-sm text-muted-foreground">Total Staked</span>
+                  <span className="font-medium text-white">1.2T PEPE</span>
+                </div>
+                <div className="w-full rounded-full h-2" style={{background: 'rgba(255, 255, 255, 0.1)'}}>
+                  <div className="h-2 rounded-full" style={{
+                    width: '92%',
+                    background: 'linear-gradient(to right, #ffd700, #00bfff)'
+                  }}></div>
+                </div>
+                <Button className="w-full" data-testid="button-stake-pepe">Stake PEPE</Button>
+              </div>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Staking Dashboard */}
+      <section id="staking-dashboard" className="section-padding" data-testid="section-staking-dashboard">
+        <div className="container">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Your Staking Dashboard</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Track your meme token portfolio and maximize your passive income
+            </p>
+          </div>
+          
+          <div className="grid lg:grid-cols-3 gap-8">
+            {/* Portfolio Overview */}
+            <div className="lg:col-span-2">
+              <Card className="p-6 mb-6" data-testid="card-portfolio-overview">
+                <h3 className="text-xl font-semibold mb-6 text-white">Portfolio Overview</h3>
+                <div className="grid md:grid-cols-3 gap-6 mb-6">
+                  <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)'}}>
+                    <div className="text-2xl font-bold" style={{color: '#ffd700'}}>$12,450</div>
+                    <div className="text-sm text-muted-foreground">Total Staked</div>
+                  </div>
+                  <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
+                    <div className="text-2xl font-bold" style={{color: '#00bfff'}}>$1,847</div>
+                    <div className="text-sm text-muted-foreground">Total Earned</div>
+                  </div>
+                  <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)'}}>
+                    <div className="text-2xl font-bold" style={{color: '#ffd700'}}>+14.8%</div>
+                    <div className="text-sm text-muted-foreground">24h Change</div>
+                  </div>
+                </div>
+                
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.03)'}}>
+                    <div className="flex items-center">
+                      <span className="text-2xl mr-3">🐕</span>
+                      <div>
+                        <div className="font-medium text-white">1,250,000 DOGE</div>
+                        <div className="text-sm text-muted-foreground">Staked for 45 days</div>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="font-medium" style={{color: '#00bfff'}}>+$847.50</div>
+                      <div className="text-sm text-muted-foreground">Daily: +$18.83</div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center justify-between p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.03)'}}>
+                    <div className="flex items-center">
+                      <span className="text-2xl mr-3">🐸</span>
+                      <div>
+                        <div className="font-medium text-white">500B PEPE</div>
+                        <div className="text-sm text-muted-foreground">Staked for 23 days</div>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="font-medium" style={{color: '#00bfff'}}>+$445.20</div>
+                      <div className="text-sm text-muted-foreground">Daily: +$19.36</div>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </div>
+            
+            {/* ROI Calculator */}
+            <div>
+              <Card className="p-6" data-testid="card-roi-calculator">
+                <h3 className="text-lg font-semibold mb-6 text-white">ROI Calculator</h3>
+                <div className="space-y-4">
+                  <div>
+                    <Label className="text-sm text-muted-foreground">Token Amount</Label>
+                    <Input 
+                      type="number" 
+                      placeholder="Enter amount"
+                      className="mt-1"
+                      data-testid="input-token-amount"
+                    />
+                  </div>
+                  
+                  <div>
+                    <Label className="text-sm text-muted-foreground">Staking Period</Label>
+                    <Select>
+                      <SelectTrigger className="mt-1" data-testid="select-staking-period">
+                        <SelectValue placeholder="Select period" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="30">30 Days</SelectItem>
+                        <SelectItem value="90">90 Days</SelectItem>
+                        <SelectItem value="180">180 Days</SelectItem>
+                        <SelectItem value="365">1 Year</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  
+                  <div className="p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
+                    <div className="text-center">
+                      <div className="text-xl font-bold" style={{color: '#00bfff'}}>$2,847.50</div>
+                      <div className="text-sm text-muted-foreground">Estimated Returns</div>
+                    </div>
+                  </div>
+                  
+                  <Button className="w-full" data-testid="button-start-staking">
+                    Start Staking
+                  </Button>
+                </div>
+              </Card>
+              
+              <Card className="p-6 mt-6" data-testid="card-meme-of-day">
+                <h3 className="text-lg font-semibold mb-4 text-white">🎯 Meme of the Day</h3>
+                <div className="text-center">
+                  <div className="w-16 h-16 rounded-full bg-purple-500 flex items-center justify-center mx-auto mb-3">
+                    <span className="text-2xl">🚀</span>
+                  </div>
+                  <div className="font-medium text-white mb-1">FLOKI</div>
+                  <div className="text-sm text-muted-foreground mb-3">+67.8% APY</div>
+                  <Button size="sm" className="w-full" data-testid="button-stake-meme-day">
+                    Stake Now
+                  </Button>
+                </div>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Trending & Activity */}
+      <section className="section-padding crypto-bg" data-testid="section-trending">
+        <div className="container">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">🔥 Trending Now</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Live meme token trends and community activity
+            </p>
+          </div>
+          
+          <div className="grid lg:grid-cols-2 gap-8">
+            {/* Trending Tokens */}
+            <Card className="p-6" data-testid="card-trending-tokens">
+              <h3 className="text-xl font-semibold mb-6 text-white flex items-center">
+                📈 Top Performers (24h)
+              </h3>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between p-3 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.05)'}}>
+                  <div className="flex items-center">
+                    <span className="text-xl mr-3">🐸</span>
+                    <div>
+                      <div className="font-medium text-white">PEPE</div>
+                      <div className="text-sm text-muted-foreground">Pepe Coin</div>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="font-medium" style={{color: '#00ff88'}}>+24.7%</div>
+                    <div className="text-sm text-muted-foreground">$0.0000094</div>
+                  </div>
+                </div>
+                
+                <div className="flex items-center justify-between p-3 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.05)'}}>
+                  <div className="flex items-center">
+                    <span className="text-xl mr-3">🐕</span>
+                    <div>
+                      <div className="font-medium text-white">DOGE</div>
+                      <div className="text-sm text-muted-foreground">Dogecoin</div>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="font-medium" style={{color: '#00ff88'}}>+18.3%</div>
+                    <div className="text-sm text-muted-foreground">$0.0891</div>
+                  </div>
+                </div>
+                
+                <div className="flex items-center justify-between p-3 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.05)'}}>
+                  <div className="flex items-center">
+                    <span className="text-xl mr-3">🚀</span>
+                    <div>
+                      <div className="font-medium text-white">FLOKI</div>
+                      <div className="text-sm text-muted-foreground">Floki Inu</div>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="font-medium" style={{color: '#00ff88'}}>+15.2%</div>
+                    <div className="text-sm text-muted-foreground">$0.000147</div>
+                  </div>
+                </div>
+              </div>
+            </Card>
+            
+            {/* Recent Activity */}
+            <Card className="p-6" data-testid="card-recent-activity">
+              <h3 className="text-xl font-semibold mb-6 text-white flex items-center">
+                ⚡ Recent Activity
+              </h3>
+              <div className="space-y-4">
+                <div className="flex items-start space-x-3 p-3 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.05)'}}>
+                  <div className="w-2 h-2 rounded-full mt-2" style={{background: '#00bfff'}}></div>
+                  <div className="flex-1">
+                    <div className="text-sm text-white">Large stake of 2.5M DOGE</div>
+                    <div className="text-xs text-muted-foreground">2 minutes ago</div>
+                  </div>
+                </div>
+                
+                <div className="flex items-start space-x-3 p-3 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.05)'}}>
+                  <div className="w-2 h-2 rounded-full mt-2" style={{background: '#ffd700'}}></div>
+                  <div className="flex-1">
+                    <div className="text-sm text-white">New PEPE staking pool launched</div>
+                    <div className="text-xs text-muted-foreground">8 minutes ago</div>
+                  </div>
+                </div>
+                
+                <div className="flex items-start space-x-3 p-3 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.05)'}}>
+                  <div className="w-2 h-2 rounded-full mt-2" style={{background: '#00bfff'}}></div>
+                  <div className="flex-1">
+                    <div className="text-sm text-white">Community milestone: 25K stakers!</div>
+                    <div className="text-xs text-muted-foreground">15 minutes ago</div>
+                  </div>
+                </div>
+                
+                <div className="flex items-start space-x-3 p-3 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.05)'}}>
+                  <div className="w-2 h-2 rounded-full mt-2" style={{background: '#ffd700'}}></div>
+                  <div className="flex-1">
+                    <div className="text-sm text-white">Rewards distributed: $12,847</div>
+                    <div className="text-xs text-muted-foreground">23 minutes ago</div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="mt-6 p-4 rounded-lg text-center" style={{background: 'rgba(255, 215, 0, 0.1)'}}>
+                <div className="text-sm font-medium" style={{color: '#ffd700'}}>🎉 Daily Rewards Pool</div>
+                <div className="text-2xl font-bold text-white mt-1">$47,293.50</div>
+                <div className="text-xs text-muted-foreground mt-1">Ready for distribution</div>
+              </div>
+            </Card>
+          </div>
+        </div>
+      </section>
 
       {/* Tokenomics Section */}
       <section id="tokenomics" className="section-padding" data-testid="section-tokenomics">
