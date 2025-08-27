@@ -353,29 +353,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* KPI Section */}
-      <section id="kpi-section" className="section-padding crypto-bg" data-testid="section-kpi">
-        <div className="container">
-          <div className="cols-4">
-            <div className="kpi" data-testid="kpi-raised">
-              <div className="text-3xl md:text-4xl font-bold text-primary mb-2">${counters.raised.toLocaleString()}</div>
-              <div className="text-sm text-muted-foreground">Raised</div>
-            </div>
-            <div className="kpi" data-testid="kpi-members">
-              <div className="text-3xl md:text-4xl font-bold text-primary mb-2">{counters.members.toLocaleString()}</div>
-              <div className="text-sm text-muted-foreground">Community Members</div>
-            </div>
-            <div className="kpi" data-testid="kpi-audited">
-              <div className="text-3xl md:text-4xl font-bold text-primary mb-2">{counters.audited}</div>
-              <div className="text-sm text-muted-foreground">Contracts Audited</div>
-            </div>
-            <div className="kpi" data-testid="kpi-stakers">
-              <div className="text-3xl md:text-4xl font-bold text-primary mb-2">{counters.stakers.toLocaleString()}</div>
-              <div className="text-sm text-muted-foreground">Active Stakers</div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Tokenomics Section */}
       <section id="tokenomics" className="section-padding" data-testid="section-tokenomics">
