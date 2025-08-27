@@ -1,0 +1,240 @@
+awesome — here’s your **single, consolidated copy-paste prompt** with **everything** rolled in: MemeStake sections, Problem → Solution, multilingual menu, end-of-page newsletter, PLUS the full detailed **FAQ Q\&A** content. Drop this into your AI code/design tool to generate the complete frontend.
+
+---
+
+# ✅ FULL FRONTEND WEBSITE PROMPT (ALL-IN-ONE)
+
+**Goal:** Generate a production-ready, responsive, accessible, single-file **HTML + inline CSS + vanilla JS** website for **MemeStake**. Include: dark mode, **multilingual navigation** (EN/HI/ES), a **“Why Choose MemeStake?” Problem→Solution** comparison, **detailed FAQ section**, testimonials, pricing, tokenomics, contact, and a **newsletter subscribe at the very end**. No external dependencies or build step.
+
+## Brand
+
+* Name: **MemeStake**
+* Vibe: playful-pro, clean, modern, minimal
+* Primary color: Banana Yellow `#F6C833`
+* Light theme: text `#101010`, background `#FFFDF3`
+* Dark theme: background `#0B0C0F`, text `#E9ECEF`
+* Font: system UI stack (no external fonts)
+
+## Page Structure (single long page)
+
+1. **Header / Sticky Nav**
+
+   * Brand (text or tiny banana/meme SVG)
+   * Nav links (IDs must exist): `#features`, `#why`, `#tokenomics`, `#pricing`, `#blog`, `#about`, `#contact`
+   * Buttons: Theme toggle (🌙/☀️ with `aria-pressed`), **Language selector** (EN/HI/ES), primary CTA → `#pricing` (text localized)
+   * Mobile hamburger; **mobile menu mirrors desktop links** exactly; closes on link click; `aria-expanded` updates
+
+2. **Hero (`#home`)**
+
+   * H1: **“Stake the fun. Earn the rewards.”**
+   * Sub: **“MemeStake turns meme culture into real yield with audited contracts and fair tokenomics.”**
+   * CTAs: Primary “Join the ICO”, Secondary “Read Whitepaper”
+   * Inline SVG preview card
+
+3. **KPIs (animated on view)**
+
+   * Examples: `$ Raised`, `Community Members`, `Contracts Audited`, `Active Stakers`
+   * Count up from 0 on intersection (\~1.2s)
+
+4. **Features (`#features`)** — card grid
+
+   * Titles: “Audited & Transparent”, “Stake-to-Earn”, “Community Rewards”, “Gas-Optimized”
+
+5. **Why Choose MemeStake (`#why`)** — **Problem vs Solution** (side-by-side on desktop, stacked on mobile)
+
+   * Problems → Solutions (point-to-point, exact pairs):
+
+     * **Opaque tokenomics** → **Public, audited contracts & clear vesting**
+     * **Pump-and-dump risk** → **Stake-to-earn mechanics discourage dumping**
+     * **No real utility** → **Utility pools, governance, XP tiers**
+     * **Weak community incentives** → **On-chain rewards & streak bonuses**
+   * Use styled panels/cards for each column; concise bullets
+
+6. **Tokenomics (`#tokenomics`)**
+
+   * Inline SVG pie or bars (no external charts)
+   * Bullets: total supply, public sale %, team vesting (cliff + linear), liquidity lock, staking allocation
+
+7. **Pricing (`#pricing`)**
+
+   * Starter / Pro / Enterprise cards; “Popular” badge on Pro
+   * Plan CTAs trigger a simple `alert('Selected plan: PRO')`
+
+8. **Testimonials**
+
+   * Horizontal auto-scroll carousel (\~3.2s interval), pauses on hover
+   * Simple translate/transform animation
+
+9. **FAQ (`#faq`)** — **use `<details>`/`<summary>` accordions**
+
+   * Left column: questions/answers (use ALL below content exactly)
+   * Right column: support card with “Still need help?” + button to `#contact`
+
+10. **Blog (`#blog`)** — three teaser cards
+
+11. **About (`#about`)** — short story + tiny code snippet
+
+12. **Contact (`#contact`)**
+
+* Name, Email, Message
+* Client-side validation with inline error messages; success panel (no backend calls)
+
+13. **Subscribe (END)**
+
+* Section just above footer: **“Subscribe to our newsletter”** + email field + **toast confirmation on success**; clears input
+
+14. **Footer**
+
+* Logo/brand; `© {currentYear} MemeStake. All rights reserved.` (inject current year via JS)
+
+---
+
+## Functional Requirements
+
+* **Single HTML file** containing `<style>` and `<script>` blocks; **no external libraries** or network calls.
+* **Dark mode:** toggle button updates `.dark` on `<html>`, stores preference in `localStorage`, respects system preference on first load.
+* **Mobile menu:** mirrors desktop nav markup, closes on click, `aria-expanded` reflects state.
+* **Smooth scroll** to anchors + **scroll-spy** (active nav link highlights based on intersection).
+* **Counters**: animate on intersection.
+* **Carousel**: simple `setInterval` + CSS transform.
+* **Forms:** validate email via regex; show inline errors; show success messages without page reload.
+* **Back-to-top button** shows after \~600px scroll.
+* **Performance:** use inline SVG; minimal JS; small CSS; no images from the web.
+* **Accessibility:** semantic HTML, labels, roles/ARIA, visible focus rings, sufficient contrast.
+
+---
+
+## Multilingual Menu (EN/HI/ES)
+
+* Add `<select id="langSelect">` in header (EN / HI / ES).
+* Translate **only these labels** (for now):
+
+  * Nav: Features, Pricing, Blog, About, Contact
+  * Header primary CTA text (e.g., “Get Started” if present in header; otherwise the pricing CTA)
+* Persist language to `localStorage`; default to `navigator.language` (first two letters) on first load; if unknown, fallback to EN.
+* After change, also update **mirrored mobile menu** labels.
+* **Hardcode dictionary** in JS like:
+
+  ```js
+  const i18n = {
+    en: { features: 'Features', pricing: 'Pricing', blog: 'Blog', about: 'About', contact: 'Contact', getStarted: 'Get Started' },
+    hi: { features: 'विशेषताएँ', pricing: 'मूल्य', blog: 'ब्लॉग', about: 'परिचय', contact: 'संपर्क', getStarted: 'शुरू करें' },
+    es: { features: 'Funciones', pricing: 'Precios', blog: 'Blog', about: 'Acerca de', contact: 'Contacto', getStarted: 'Comenzar' }
+  };
+  ```
+* Programmatically replace nav link text based on `href` mapping and update the header CTA.
+
+---
+
+## Copy (exact strings)
+
+* **Hero H1:** “Stake the fun. Earn the rewards.”
+* **Hero Sub:** “MemeStake turns meme culture into real yield with audited contracts and fair tokenomics.”
+* **Hero CTAs:** “Join the ICO”, “Read Whitepaper”
+* **Subscribe title:** “Subscribe to our newsletter”
+* **Subscribe subtext:** “Get product news, tips, and the occasional meme. Unsubscribe anytime.”
+
+---
+
+## FAQ Content (use all of these in `<details>` items)
+
+1. **What is MemeStake?**
+   MemeStake is a stake-to-earn meme token project with audited contracts, transparent tokenomics, and community rewards.
+2. **How does the ICO work?**
+   The ICO runs in phases with fixed pricing. Tokens are claimable after the sale ends; any unsold tokens are allocated per the tokenomics (e.g., staking & liquidity).
+3. **Why choose MemeStake over other meme coins?**
+   Audited & public contracts, stake-to-earn mechanics (discourages dumping), real utility pools, and on-chain community rewards.
+4. **Is the smart contract audited?**
+   Yes. The contracts are audited and the reports will be linked from our whitepaper and website once the final review is complete.
+5. **What chain is MemeStake on?**
+   MemeStake launches on EVM-compatible chain(s) for low fees and broad wallet support. Network details are announced before TGE.
+6. **How do staking rewards work?**
+   Stake tokens into pools to earn rewards over time. Yields depend on pool allocation, duration, and program parameters announced at launch.
+7. **What are the tokenomics?**
+   Total supply, public sale %, team vesting (cliff + linear), liquidity lock, and staking allocation are published in the whitepaper and on the Tokenomics section.
+8. **Is there a vesting schedule?**
+   Yes. Team & advisor tokens are subject to a cliff followed by linear vesting; sale allocations follow the schedule disclosed pre-ICO.
+9. **How do I participate in the ICO?**
+   Use the “Join the ICO” button on the site, connect a supported wallet, select the amount, confirm, and wait for the claim window.
+10. **Which wallets are supported?**
+    Any popular EVM wallet (e.g., MetaMask, Coinbase Wallet, WalletConnect-compatible). Make sure you’re on the correct network.
+11. **What are the risks?**
+    Crypto involves market and smart-contract risks. Only commit what you can afford to lose and review the docs & audit before participating.
+12. **Where can I get updates?**
+    Subscribe to our newsletter at the end of this page, and follow our official social channels for announcements and timelines.
+
+---
+
+## Design System
+
+* Container max-width: 1200px; side padding: 24px
+* Border radius base: 16px; soft shadows
+* Utilities/classes to implement: `.btn`, `.btn.primary`, `.btn.ghost`, `.chip`, `.muted`, `.panel`, `.card`, `.grid.cols-2`, `.grid.cols-3`, `.kpi`, `.center`
+* Use CSS custom properties for tokens; add `.dark` scope for dark theme
+* Borders with `color-mix()` or rgba for subtle depth
+
+---
+
+## Interactions (JS to include)
+
+* Helper `$`/`$$` functions
+* Theme toggle with emoji swap and `aria-pressed`
+* Mobile menu open/close + mirror desktop nav
+* IntersectionObserver for KPI counters
+* Auto-advancing testimonials (`setInterval`)
+* Form validation (email regex), inline errors, success toast/panels
+* Back-to-top visibility toggle
+* Footer year injection
+* **Language selector logic** (as specified above)
+
+---
+
+## IDs (must exist and match nav)
+
+`#home`, `#features`, `#why`, `#tokenomics`, `#pricing`, `#blog`, `#about`, `#contact`, plus `#faq` for the FAQ section.
+
+---
+
+## Section Comments (readability)
+
+Include banners like:
+
+```
+<!-- ================== SECTION NAME ================== -->
+```
+
+---
+
+## Acceptance Criteria
+
+* No console errors
+* Fully responsive (mobile-first)
+* Accessible (labels, roles/ARIA, focus styles, color contrast)
+* Dark mode persists on reload
+* **Multilingual menu + header CTA** update instantly and persist
+* **Problem vs Solution** is side-by-side on desktop, stacked on mobile
+* **FAQ** uses `<details>`/`<summary>` and includes **all** items above
+* **Subscribe (end)** works with toast + input clear
+
+---
+
+## Deliverable
+
+* **One** valid `.html` file containing everything (inline CSS + JS), no external assets, no build step.
+
+**Do NOT**
+
+* Use external libraries, fonts, icon packs, analytics
+* Load images from the web
+* Require any build tools
+
+**Optional Extras**
+
+* Native `<dialog>` modal demo (open/close)
+* Reusable toast component for forms
+
+**Now generate the complete single-file HTML.**
+
+---
+
+want me to **run this and paste the generated site into your canvas**, or keep it as a prompt only?
