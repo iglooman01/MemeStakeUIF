@@ -56,6 +56,8 @@ export default function Home() {
     totalStaked: 2847293,
     dailyVolume: 1847523
   });
+  const [walletModalOpen, setWalletModalOpen] = useState(false);
+  const [selectedWallet, setSelectedWallet] = useState<string>('');
   const { toast } = useToast();
   
   const testimonials = [
@@ -275,6 +277,27 @@ export default function Home() {
     }
   };
 
+  // Wallet connection functions
+  const handleWalletSelect = (walletName: string) => {
+    setSelectedWallet(walletName);
+    // Simulate wallet connection
+    setTimeout(() => {
+      setWalletModalOpen(false);
+      toast({
+        title: "Wallet Connected!",
+        description: `Successfully connected to ${walletName}`,
+      });
+    }, 1000);
+  };
+
+  const walletOptions = [
+    { name: 'MetaMask', icon: '🦊' },
+    { name: 'Trust Wallet', icon: '🛡️' },
+    { name: 'Binance Web3 Wallet', icon: '⬡' },
+    { name: 'SafePal', icon: '🔒' },
+    { name: 'TokenPocket', icon: '🪙' }
+  ];
+
   // Live stats updater
   useEffect(() => {
     const statsTimer = setInterval(() => {
@@ -388,8 +411,12 @@ export default function Home() {
               </Button>
 
               {/* Primary CTA */}
-              <Button asChild className="hidden sm:inline-flex" data-testid="button-get-started">
-                <a href="#section-airdrop">{t.getStarted}</a>
+              <Button 
+                className="hidden sm:inline-flex" 
+                onClick={() => setWalletModalOpen(true)}
+                data-testid="button-get-started"
+              >
+                {t.getStarted}
               </Button>
 
               {/* Mobile Menu Toggle */}
@@ -415,8 +442,12 @@ export default function Home() {
               <a href="#about" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-about">{t.about}</a>
               <a href="#meme-aggregator" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-staking">Staking</a>
               <a href="#whitepaper" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-whitepaper">{t.whitepaper}</a>
-              <Button asChild className="mt-4" data-testid="mobile-button-get-started">
-                <a href="#section-airdrop">{t.getStarted}</a>
+              <Button 
+                className="mt-4" 
+                onClick={() => setWalletModalOpen(true)}
+                data-testid="mobile-button-get-started"
+              >
+                {t.getStarted}
               </Button>
             </div>
           </div>
@@ -434,8 +465,13 @@ export default function Home() {
               Turn your favorite meme tokens into daily passive income.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <Button asChild size="lg" className="text-lg px-8 py-4" data-testid="button-start-staking">
-                <a href="#meme-aggregator">🚀 Start Staking</a>
+              <Button 
+                size="lg" 
+                className="text-lg px-8 py-4" 
+                onClick={() => setWalletModalOpen(true)}
+                data-testid="button-start-staking"
+              >
+                🚀 Start Staking
               </Button>
               <Button asChild variant="outline" size="lg" className="text-lg px-8 py-4" data-testid="button-learn-more">
                 <a href="#about">📄 Learn More</a>
@@ -522,8 +558,13 @@ export default function Home() {
                 </div>
                 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
-                  <Button asChild size="lg" className="text-lg px-8 py-4" data-testid="button-claim-airdrop">
-                    <a href="#meme-aggregator">🎁 Join Airdrop</a>
+                  <Button 
+                    size="lg" 
+                    className="text-lg px-8 py-4" 
+                    onClick={() => setWalletModalOpen(true)}
+                    data-testid="button-claim-airdrop"
+                  >
+                    🎁 Join Airdrop
                   </Button>
                   <Button asChild variant="outline" size="lg" className="text-lg px-8 py-4" data-testid="button-airdrop-rules">
                     <a href="#faq">📄 Eligibility Rules</a>
@@ -1049,6 +1090,111 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* Wallet Connection Modal */}
+      {walletModalOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+          onClick={() => setWalletModalOpen(false)}
+          data-testid="modal-wallet-overlay"
+        >
+          <div 
+            className="bg-gradient-to-br from-slate-900/95 to-indigo-900/95 rounded-2xl p-8 max-w-md w-full mx-auto backdrop-blur-xl border"
+            style={{
+              background: 'linear-gradient(135deg, rgba(15, 10, 35, 0.95) 0%, rgba(30, 15, 60, 0.95) 100%)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.4)'
+            }}
+            onClick={(e) => e.stopPropagation()}
+            data-testid="modal-wallet-content"
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{
+                  background: 'linear-gradient(135deg, #ffd700 0%, #00bfff 100%)',
+                  border: '1px solid rgba(255, 215, 0, 0.3)'
+                }}>
+                  <span className="text-primary-foreground font-bold text-sm">₿</span>
+                </div>
+                <h2 className="text-xl font-semibold text-white">Connect Wallet</h2>
+              </div>
+              <button 
+                onClick={() => setWalletModalOpen(false)}
+                className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors"
+                data-testid="button-close-modal"
+              >
+                <span className="text-white text-lg">×</span>
+              </button>
+            </div>
+
+            {/* BNB Chain Badge */}
+            <div className="flex items-center justify-center mb-6">
+              <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full text-sm font-medium"
+                   style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)', color: '#ffd700'}}>
+                <span className="text-xs">⬡</span>
+                <span>BNB Smart Chain (BEP20)</span>
+              </div>
+            </div>
+
+            {/* Subtitle */}
+            <p className="text-center text-gray-300 mb-8 text-sm">
+              Select a BNB Smart Chain compatible wallet
+            </p>
+
+            {/* Wallet Options */}
+            <div className="grid gap-3 mb-6">
+              {walletOptions.map((wallet) => (
+                <button
+                  key={wallet.name}
+                  onClick={() => handleWalletSelect(wallet.name)}
+                  className="flex items-center justify-between p-4 rounded-xl border transition-all duration-200 group hover:scale-[1.02]"
+                  style={{
+                    background: selectedWallet === wallet.name 
+                      ? 'rgba(255, 255, 255, 0.05)' 
+                      : 'rgba(255, 255, 255, 0.02)',
+                    border: selectedWallet === wallet.name 
+                      ? '1px solid #00bfff' 
+                      : '1px solid rgba(255, 255, 255, 0.1)',
+                    boxShadow: selectedWallet === wallet.name 
+                      ? '0 0 20px rgba(0, 191, 255, 0.2)' 
+                      : 'none'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'linear-gradient(135deg, #00bfff 0%, #10b981 100%)';
+                    e.currentTarget.style.color = '#000';
+                  }}
+                  onMouseLeave={(e) => {
+                    if (selectedWallet !== wallet.name) {
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.02)';
+                      e.currentTarget.style.color = '#fff';
+                    }
+                  }}
+                  data-testid={`wallet-option-${wallet.name.toLowerCase().replace(/\s+/g, '-')}`}
+                >
+                  <div className="flex items-center space-x-3">
+                    <span className="text-2xl">{wallet.icon}</span>
+                    <span className="font-medium text-white group-hover:text-black transition-colors">
+                      {wallet.name}
+                    </span>
+                  </div>
+                  {selectedWallet === wallet.name && (
+                    <span className="text-cyan-400">✓</span>
+                  )}
+                </button>
+              ))}
+            </div>
+
+            {/* Footer */}
+            <div className="flex items-center justify-between text-xs text-gray-400 pt-4 border-t border-white/10">
+              <a href="#" className="hover:text-cyan-400 transition-colors" data-testid="link-help">
+                Having trouble?
+              </a>
+              <span>More wallets via WalletConnect</span>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Back to Top Button */}
       {showBackToTop && (
