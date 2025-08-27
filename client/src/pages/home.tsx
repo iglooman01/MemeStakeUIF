@@ -442,48 +442,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="section-padding" data-testid="section-testimonials">
-        <div className="container">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">What Our Community Says</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Join thousands of satisfied stakers earning daily rewards
-            </p>
-          </div>
-          
-          <div className="carousel-container">
-            <div 
-              className="carousel-track"
-              style={{
-                transform: `translateX(-${currentSlide * 100}%)`
-              }}
-              data-testid="carousel-testimonials"
-            >
-              {testimonials.map((testimonial, index) => (
-                <div key={index} className="carousel-slide px-3" data-testid={`slide-testimonial-${index}`}>
-                  <Card className="p-6">
-                    <div className="flex items-center mb-4">
-                      <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mr-3">
-                        <span className="text-primary-foreground font-bold">
-                          {testimonial.name.charAt(0)}
-                        </span>
-                      </div>
-                      <div>
-                        <div className="font-medium">{testimonial.name}</div>
-                        <div className="text-sm text-muted-foreground">{testimonial.role}</div>
-                      </div>
-                    </div>
-                    <p className="text-sm text-muted-foreground">
-                      "{testimonial.content}"
-                    </p>
-                  </Card>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* FAQ Section */}
       <section id="faq" className="section-padding crypto-bg" data-testid="section-faq">
