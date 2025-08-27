@@ -464,7 +464,7 @@ export default function Home() {
                 alt="MemeStake Logo" 
                 className="w-8 h-8 rounded-lg shadow-lg"
                 style={{
-                  filter: 'drop-shadow(0 4px 15px rgba(255, 215, 0, 0.2))'
+                  filter: 'drop-shadow(0 4px 15px rgba(0, 191, 255, 0.2))'
                 }}
               />
               <span className="text-xl font-bold text-white">MemeStake</span>
@@ -583,7 +583,7 @@ export default function Home() {
       </section>
 
       {/* Airdrop Timer */}
-      <section className="py-8" style={{background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(0, 191, 255, 0.1) 100%)'}} data-testid="section-airdrop">
+      <section className="py-8" style={{background: 'linear-gradient(135deg, rgba(0, 191, 255, 0.1) 0%, rgba(0, 191, 255, 0.1) 100%)'}} data-testid="section-airdrop">
         <div className="container">
           <div className="text-center">
             <Card className="p-8 max-w-4xl mx-auto relative overflow-hidden">
@@ -593,7 +593,7 @@ export default function Home() {
                   <div className="chip gold mr-4">🎁 AIRDROP</div>
                   <div className="chip">🔥 EXCLUSIVE</div>
                 </div>
-                <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{color: '#ffd700'}}>
+                <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{color: '#00bfff'}}>
                   🚀 Decentralized MemeStake Token Airdrop
                 </h2>
                 <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto">
@@ -605,8 +605,8 @@ export default function Home() {
                     <span className="text-lg font-semibold" style={{color: '#00bfff'}}>LAUNCH TIMELINE</span>
                   </div>
                   <div className="grid md:grid-cols-2 gap-4 text-sm">
-                    <div className="text-center p-3 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)'}}>
-                      <div className="font-semibold" style={{color: '#ffd700'}}>Phase 1: Airdrop Launch</div>
+                    <div className="text-center p-3 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
+                      <div className="font-semibold" style={{color: '#00bfff'}}>Phase 1: Airdrop Launch</div>
                       <div className="text-muted-foreground">Distribution of 10M MEME tokens</div>
                     </div>
                     <div className="text-center p-3 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
@@ -617,8 +617,8 @@ export default function Home() {
                 </div>
                 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                  <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
-                    <div className="text-3xl md:text-4xl font-bold" style={{color: '#ffd700'}}>
+                  <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
+                    <div className="text-3xl md:text-4xl font-bold" style={{color: '#00bfff'}}>
                       {String(airdropTime.days).padStart(2, '0')}
                     </div>
                     <div className="text-sm text-muted-foreground">Days</div>
@@ -629,8 +629,8 @@ export default function Home() {
                     </div>
                     <div className="text-sm text-muted-foreground">Hours</div>
                   </div>
-                  <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
-                    <div className="text-3xl md:text-4xl font-bold" style={{color: '#ffd700'}}>
+                  <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
+                    <div className="text-3xl md:text-4xl font-bold" style={{color: '#00bfff'}}>
                       {String(airdropTime.minutes).padStart(2, '0')}
                     </div>
                     <div className="text-sm text-muted-foreground">Minutes</div>
@@ -645,15 +645,15 @@ export default function Home() {
                 
                 <div className="grid md:grid-cols-3 gap-4 mb-8">
                   <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.03)'}}>
-                    <div className="text-xl font-bold" style={{color: '#ffd700'}}>10,000,000</div>
+                    <div className="text-xl font-bold" style={{color: '#00bfff'}}>10,000,000</div>
                     <div className="text-sm text-muted-foreground">MEME Tokens</div>
                   </div>
                   <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.03)'}}>
-                    <div className="text-xl font-bold" style={{color: '#ffd700'}}>25,000+</div>
+                    <div className="text-xl font-bold" style={{color: '#00bfff'}}>25,000+</div>
                     <div className="text-sm text-muted-foreground">Participants</div>
                   </div>
                   <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.03)'}}>
-                    <div className="text-xl font-bold" style={{color: '#ffd700'}}>$250,000</div>
+                    <div className="text-xl font-bold" style={{color: '#00bfff'}}>$250,000</div>
                     <div className="text-sm text-muted-foreground">Total Value</div>
                   </div>
                 </div>
@@ -684,7 +684,7 @@ export default function Home() {
       </section>
 
       {/* Live Stats Banner */}
-      <section className="py-4" style={{background: 'linear-gradient(90deg, rgba(255, 215, 0, 0.15) 0%, rgba(0, 191, 255, 0.15) 50%, rgba(255, 215, 0, 0.15) 100%)'}} data-testid="section-live-stats">
+      <section className="py-4" style={{background: 'linear-gradient(90deg, rgba(0, 191, 255, 0.15) 0%, rgba(0, 191, 255, 0.15) 50%, rgba(0, 191, 255, 0.15) 100%)'}} data-testid="section-live-stats">
         <div className="container">
           <div className="flex items-center justify-center mb-2">
             <div className="w-3 h-3 rounded-full mr-2" style={{background: '#00ff88', animation: 'pulse 1s infinite'}}></div>
@@ -692,7 +692,7 @@ export default function Home() {
           </div>
           <div className="grid md:grid-cols-3 gap-6 text-center">
             <div className="flex flex-col items-center">
-              <div className="text-2xl md:text-3xl font-bold" style={{color: '#ffd700'}}>
+              <div className="text-2xl md:text-3xl font-bold" style={{color: '#00bfff'}}>
                 {liveStats.tokenHolders.toLocaleString()}
               </div>
               <div className="text-sm text-muted-foreground">🏆 Total Token Holders</div>
@@ -706,7 +706,7 @@ export default function Home() {
               <div className="text-xs" style={{color: '#00ff88'}}>↗ Increasing</div>
             </div>
             <div className="flex flex-col items-center">
-              <div className="text-2xl md:text-3xl font-bold" style={{color: '#ffd700'}}>
+              <div className="text-2xl md:text-3xl font-bold" style={{color: '#00bfff'}}>
                 ${(liveStats.dailyVolume / 1000000).toFixed(1)}M
               </div>
               <div className="text-sm text-muted-foreground">📊 24h Volume</div>
@@ -1098,9 +1098,9 @@ export default function Home() {
             <div className="lg:col-span-1">
               <div className="flex items-center space-x-2 mb-6">
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center shadow-lg" style={{
-                  background: 'linear-gradient(135deg, #ffd700 0%, #00bfff 100%)',
-                  border: '2px solid rgba(255, 215, 0, 0.3)',
-                  boxShadow: '0 4px 15px rgba(255, 215, 0, 0.2)'
+                  background: 'linear-gradient(135deg, #00bfff 0%, #00bfff 100%)',
+                  border: '2px solid rgba(0, 191, 255, 0.3)',
+                  boxShadow: '0 4px 15px rgba(0, 191, 255, 0.2)'
                 }}>
                   <span className="text-primary-foreground font-bold text-xl">₿</span>
                 </div>
@@ -1111,7 +1111,7 @@ export default function Home() {
               </p>
               <div className="flex space-x-4">
                 <a href="#" className="w-8 h-8 rounded-full flex items-center justify-center transition-colors hover:opacity-80" 
-                   style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}
+                   style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}
                    data-testid="social-twitter">
                   <span className="text-sm">𝕏</span>
                 </a>
@@ -1121,7 +1121,7 @@ export default function Home() {
                   <span className="text-sm">💬</span>
                 </a>
                 <a href="#" className="w-8 h-8 rounded-full flex items-center justify-center transition-colors hover:opacity-80"
-                   style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}
+                   style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}
                    data-testid="social-telegram">
                   <span className="text-sm">📱</span>
                 </a>
@@ -1184,7 +1184,7 @@ export default function Home() {
                 </div>
                 <div className="text-muted-foreground">|</div>
                 <div className="text-muted-foreground">
-                  <span className="font-medium" style={{color: '#ffd700'}}>TVL:</span> $47.2M
+                  <span className="font-medium" style={{color: '#00bfff'}}>TVL:</span> $47.2M
                 </div>
               </div>
             </div>
@@ -1217,7 +1217,7 @@ export default function Home() {
                   alt="MemeStake Logo" 
                   className="w-8 h-8 rounded-lg"
                   style={{
-                    filter: 'drop-shadow(0 2px 8px rgba(255, 215, 0, 0.1))'
+                    filter: 'drop-shadow(0 2px 8px rgba(0, 191, 255, 0.1))'
                   }}
                 />
                 <h2 className="text-xl font-semibold text-white">Connect Wallet</h2>
@@ -1234,7 +1234,7 @@ export default function Home() {
             {/* BNB Chain Badge */}
             <div className="flex items-center justify-center mb-6">
               <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full text-sm font-medium"
-                   style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)', color: '#ffd700'}}>
+                   style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)', color: '#00bfff'}}>
                 <span className="text-xs">⬡</span>
                 <span>BNB Smart Chain (BEP20)</span>
               </div>
