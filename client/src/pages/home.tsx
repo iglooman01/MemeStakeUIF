@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import memeStakeLogo from "@assets/ChatGPT Image Aug 27, 2025, 09_37_00 PM_1756364241474.png";
+import memeStakeLogo from "@assets/generated_images/MemeStake_circular_logo_only_2aab8aa5.png";
 
 const i18n = {
   en: { 
@@ -462,16 +462,19 @@ export default function Home() {
               <img 
                 src={memeStakeLogo} 
                 alt="MemeStake Logo" 
-                className="w-48 h-48 rounded-lg shadow-lg"
+                className="w-8 h-8 rounded-lg shadow-lg"
                 style={{
                   filter: 'drop-shadow(0 4px 15px rgba(255, 215, 0, 0.2))'
                 }}
               />
+              <span className="text-xl font-bold text-white">MemeStake</span>
             </div>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8" data-testid="desktop-nav">
               <a href="#about" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-about">{t.about}</a>
+              <a href="#meme-aggregator" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-staking">Staking</a>
+              <a href="#whitepaper" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-whitepaper">{t.whitepaper}</a>
             </div>
 
             {/* Header Controls */}
@@ -538,6 +541,8 @@ export default function Home() {
           <div className="p-6">
             <div className="flex flex-col space-y-4 mt-16">
               <a href="#about" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-about">{t.about}</a>
+              <a href="#meme-aggregator" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-staking">Staking</a>
+              <a href="#whitepaper" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-whitepaper">{t.whitepaper}</a>
               <Button 
                 className="mt-4" 
                 onClick={() => setWalletModalOpen(true)}
@@ -578,7 +583,7 @@ export default function Home() {
       </section>
 
       {/* Airdrop Timer */}
-      <section className="py-8" style={{background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 215, 0, 0.1) 100%)'}} data-testid="section-airdrop">
+      <section className="py-8" style={{background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(0, 191, 255, 0.1) 100%)'}} data-testid="section-airdrop">
         <div className="container">
           <div className="text-center">
             <Card className="p-8 max-w-4xl mx-auto relative overflow-hidden">
@@ -597,15 +602,15 @@ export default function Home() {
                 <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg p-4 mb-8 max-w-3xl mx-auto border border-primary/20">
                   <div className="flex items-center justify-center mb-2">
                     <span className="text-2xl mr-2">⏰</span>
-                    <span className="text-lg font-semibold" style={{color: '#ffd700'}}>LAUNCH TIMELINE</span>
+                    <span className="text-lg font-semibold" style={{color: '#00bfff'}}>LAUNCH TIMELINE</span>
                   </div>
                   <div className="grid md:grid-cols-2 gap-4 text-sm">
                     <div className="text-center p-3 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)'}}>
                       <div className="font-semibold" style={{color: '#ffd700'}}>Phase 1: Airdrop Launch</div>
                       <div className="text-muted-foreground">Distribution of 10M MEME tokens</div>
                     </div>
-                    <div className="text-center p-3 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)'}}>
-                      <div className="font-semibold" style={{color: '#ffd700'}}>Phase 2: Staking Program</div>
+                    <div className="text-center p-3 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
+                      <div className="font-semibold" style={{color: '#00bfff'}}>Phase 2: Staking Program</div>
                       <div className="text-muted-foreground">Starts immediately after airdrop</div>
                     </div>
                   </div>
@@ -618,8 +623,8 @@ export default function Home() {
                     </div>
                     <div className="text-sm text-muted-foreground">Days</div>
                   </div>
-                  <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
-                    <div className="text-3xl md:text-4xl font-bold" style={{color: '#ffd700'}}>
+                  <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
+                    <div className="text-3xl md:text-4xl font-bold" style={{color: '#00bfff'}}>
                       {String(airdropTime.hours).padStart(2, '0')}
                     </div>
                     <div className="text-sm text-muted-foreground">Hours</div>
@@ -630,8 +635,8 @@ export default function Home() {
                     </div>
                     <div className="text-sm text-muted-foreground">Minutes</div>
                   </div>
-                  <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
-                    <div className="text-3xl md:text-4xl font-bold" style={{color: '#ffd700'}}>
+                  <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
+                    <div className="text-3xl md:text-4xl font-bold" style={{color: '#00bfff'}}>
                       {String(airdropTime.seconds).padStart(2, '0')}
                     </div>
                     <div className="text-sm text-muted-foreground">Seconds</div>
@@ -644,7 +649,7 @@ export default function Home() {
                     <div className="text-sm text-muted-foreground">MEME Tokens</div>
                   </div>
                   <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.03)'}}>
-                    <div className="text-xl font-bold" style={{color: '#ffd700'}}>25,000+</div>
+                    <div className="text-xl font-bold" style={{color: '#00bfff'}}>25,000+</div>
                     <div className="text-sm text-muted-foreground">Participants</div>
                   </div>
                   <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.03)'}}>
@@ -667,9 +672,9 @@ export default function Home() {
                   </Button>
                 </div>
                 <div className="text-center">
-                  <div className="inline-flex items-center space-x-2 px-6 py-3 rounded-full" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
+                  <div className="inline-flex items-center space-x-2 px-6 py-3 rounded-full" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
                     <span className="text-lg">💎</span>
-                    <span className="text-sm font-medium" style={{color: '#ffd700'}}>Staking rewards up to 250% APY start after airdrop completion</span>
+                    <span className="text-sm font-medium" style={{color: '#00bfff'}}>Staking rewards up to 250% APY start after airdrop completion</span>
                   </div>
                 </div>
               </div>
@@ -679,7 +684,7 @@ export default function Home() {
       </section>
 
       {/* Live Stats Banner */}
-      <section className="py-4" style={{background: 'linear-gradient(90deg, rgba(255, 215, 0, 0.15) 0%, rgba(255, 215, 0, 0.15) 50%, rgba(255, 215, 0, 0.15) 100%)'}} data-testid="section-live-stats">
+      <section className="py-4" style={{background: 'linear-gradient(90deg, rgba(255, 215, 0, 0.15) 0%, rgba(0, 191, 255, 0.15) 50%, rgba(255, 215, 0, 0.15) 100%)'}} data-testid="section-live-stats">
         <div className="container">
           <div className="flex items-center justify-center mb-2">
             <div className="w-3 h-3 rounded-full mr-2" style={{background: '#00ff88', animation: 'pulse 1s infinite'}}></div>
@@ -694,7 +699,7 @@ export default function Home() {
               <div className="text-xs" style={{color: '#00ff88'}}>↗ Growing</div>
             </div>
             <div className="flex flex-col items-center">
-              <div className="text-2xl md:text-3xl font-bold" style={{color: '#ffd700'}}>
+              <div className="text-2xl md:text-3xl font-bold" style={{color: '#00bfff'}}>
                 ${(liveStats.totalStaked / 1000000).toFixed(1)}M
               </div>
               <div className="text-sm text-muted-foreground">💰 Total Value Locked</div>
@@ -753,9 +758,9 @@ export default function Home() {
                     </Select>
                   </div>
                   
-                  <div className="p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)'}}>
+                  <div className="p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
                     <div className="text-center">
-                      <div className="text-xl font-bold" style={{color: '#ffd700'}}>$2,847.50</div>
+                      <div className="text-xl font-bold" style={{color: '#00bfff'}}>$2,847.50</div>
                       <div className="text-sm text-muted-foreground">Estimated Returns</div>
                     </div>
                   </div>
@@ -934,17 +939,17 @@ export default function Home() {
             
             <Card className="p-6" data-testid="card-smart-contract">
               <h3 className="font-semibold mb-4">Smart Contract Preview</h3>
-              <div className="bg-white rounded p-4 font-mono text-sm overflow-x-auto text-black">
+              <div className="bg-secondary rounded p-4 font-mono text-sm overflow-x-auto">
                 <div className="text-green-600">// MemeStake Contract</div>
-                <div className="text-black">contract MemeStake {'{'}</div>
-                <div className="text-black">&nbsp;&nbsp;uint256 public totalSupply = 1e9;</div>
-                <div className="text-black">&nbsp;&nbsp;uint256 public stakingRewards;</div>
-                <div className="text-black">&nbsp;&nbsp;mapping(address =&gt; uint256) stakes;</div>
-                <div className="text-black">&nbsp;&nbsp;</div>
-                <div className="text-black">&nbsp;&nbsp;function stake(uint256 amount) {'{'}</div>
-                <div className="text-black">&nbsp;&nbsp;&nbsp;&nbsp;// Audited staking logic</div>
-                <div className="text-black">&nbsp;&nbsp;{'}'}</div>
-                <div className="text-black">{'}'}</div>
+                <div>contract MemeStake {'{'}</div>
+                <div>&nbsp;&nbsp;uint256 public totalSupply = 1e9;</div>
+                <div>&nbsp;&nbsp;uint256 public stakingRewards;</div>
+                <div>&nbsp;&nbsp;mapping(address =&gt; uint256) stakes;</div>
+                <div>&nbsp;&nbsp;</div>
+                <div>&nbsp;&nbsp;function stake(uint256 amount) {'{'}</div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;// Audited staking logic</div>
+                <div>&nbsp;&nbsp;{'}'}</div>
+                <div>{'}'}</div>
               </div>
             </Card>
           </div>
@@ -1093,7 +1098,7 @@ export default function Home() {
             <div className="lg:col-span-1">
               <div className="flex items-center space-x-2 mb-6">
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center shadow-lg" style={{
-                  background: 'linear-gradient(135deg, #ffd700 0%, #ffd700 100%)',
+                  background: 'linear-gradient(135deg, #ffd700 0%, #00bfff 100%)',
                   border: '2px solid rgba(255, 215, 0, 0.3)',
                   boxShadow: '0 4px 15px rgba(255, 215, 0, 0.2)'
                 }}>
@@ -1111,7 +1116,7 @@ export default function Home() {
                   <span className="text-sm">𝕏</span>
                 </a>
                 <a href="#" className="w-8 h-8 rounded-full flex items-center justify-center transition-colors hover:opacity-80"
-                   style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}
+                   style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}
                    data-testid="social-discord">
                   <span className="text-sm">💬</span>
                 </a>
@@ -1210,7 +1215,7 @@ export default function Home() {
                 <img 
                   src={memeStakeLogo} 
                   alt="MemeStake Logo" 
-                  className="w-48 h-48 rounded-lg"
+                  className="w-8 h-8 rounded-lg"
                   style={{
                     filter: 'drop-shadow(0 2px 8px rgba(255, 215, 0, 0.1))'
                   }}
@@ -1252,14 +1257,14 @@ export default function Home() {
                       ? 'rgba(255, 255, 255, 0.05)' 
                       : 'rgba(255, 255, 255, 0.02)',
                     border: selectedWallet === wallet.name 
-                      ? '1px solid #ffd700' 
+                      ? '1px solid #00bfff' 
                       : '1px solid rgba(255, 255, 255, 0.1)',
                     boxShadow: selectedWallet === wallet.name 
-                      ? '0 0 20px rgba(255, 215, 0, 0.2)' 
+                      ? '0 0 20px rgba(0, 191, 255, 0.2)' 
                       : 'none'
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'linear-gradient(135deg, #ffd700 0%, #10b981 100%)';
+                    e.currentTarget.style.background = 'linear-gradient(135deg, #00bfff 0%, #10b981 100%)';
                     e.currentTarget.style.color = '#000';
                   }}
                   onMouseLeave={(e) => {

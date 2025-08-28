@@ -1,6 +1,6 @@
 # Overview
 
-This is a full-stack web application built with React and Express.js for "MemeStake Frontend" - a cryptocurrency staking platform focused on meme culture. The project implements a modern web application with a React frontend using shadcn/ui components and a Node.js backend with Express. The application includes features like multilingual support, dark/light theme switching, and various interactive components for a crypto staking platform.
+This is a full-stack web application built with React and Express.js for "MemeStake" - a cryptocurrency staking platform focused on meme culture. The project implements a modern web application with a React frontend using shadcn/ui components and a Node.js backend with Express. The application includes features like multilingual support, dark/light theme switching, and various interactive components for a crypto staking platform.
 
 # User Preferences
 
@@ -28,7 +28,7 @@ Preferred communication style: Simple, everyday language.
 ## Design System
 - **Component Library**: Custom implementation using Radix UI primitives
 - **Theme System**: CSS variables-based theming supporting light/dark modes
-- **Color Palette**: Yellow/Gold (#FFD700) as primary color with neutral base
+- **Color Palette**: Banana yellow (#F6C833) as primary color with neutral base
 - **Typography**: System font stack for optimal performance
 - **Layout**: Responsive design with mobile-first approach
 
