@@ -1125,19 +1125,6 @@ export default function Home() {
               </ul>
             </div>
             
-            {/* Legal & Community */}
-            <div>
-              <h4 className="text-white font-semibold mb-4 flex items-center">
-                <span className="mr-2">⚖️</span>Legal
-              </h4>
-              <ul className="space-y-2 text-sm">
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors" data-testid="footer-link-privacy">Privacy Policy</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors" data-testid="footer-link-terms">Terms of Service</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors" data-testid="footer-link-disclaimer">Risk Disclaimer</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors" data-testid="footer-link-audit">Security Audit</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors" data-testid="footer-link-bug">Bug Bounty</a></li>
-              </ul>
-            </div>
           </div>
           
           {/* Bottom Section */}
