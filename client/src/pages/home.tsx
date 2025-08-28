@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import memeStakeLogo from "@assets/generated_images/MemeStake_cyan_logo_d21e8227.png";
+import memeStakeLogo from "@assets/ChatGPT Image Aug 27, 2025, 09_37_00 PM_1756364241474.png";
 
 const i18n = {
   en: { 
@@ -462,7 +462,7 @@ export default function Home() {
               <img 
                 src={memeStakeLogo} 
                 alt="MemeStake Logo" 
-                className="w-8 h-8 rounded-lg shadow-lg"
+                className="w-16 h-16 rounded-lg shadow-lg"
                 style={{
                   filter: 'drop-shadow(0 4px 15px rgba(0, 191, 255, 0.2))'
                 }}
@@ -1215,7 +1215,7 @@ export default function Home() {
                 <img 
                   src={memeStakeLogo} 
                   alt="MemeStake Logo" 
-                  className="w-8 h-8 rounded-lg"
+                  className="w-16 h-16 rounded-lg"
                   style={{
                     filter: 'drop-shadow(0 2px 8px rgba(0, 191, 255, 0.1))'
                   }}
