@@ -749,65 +749,39 @@ export default function Home() {
 
 
       {/* Tokenomics Section */}
-      <section id="tokenomics" className="section-padding" data-testid="section-tokenomics">
+      <section id="tokenomics" className="py-12" data-testid="section-tokenomics">
         <div className="container">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Tokenomics</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Fair and transparent token distribution designed for long-term success
-            </p>
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold mb-2">Tokenomics</h2>
+            <p className="text-muted-foreground">Fair and transparent token distribution</p>
           </div>
           
-          <div className="cols-2 items-center gap-12">
-            {/* Tokenomics Chart */}
-            <div className="tokenomics-chart" data-testid="chart-tokenomics">
-              <svg viewBox="0 0 300 300" className="w-full h-auto">
-                <circle cx="150" cy="150" r="100" fill="none" stroke="hsl(var(--primary))" strokeWidth="20" 
-                        strokeDasharray="157 314" strokeDashoffset="0" transform="rotate(-90 150 150)"/>
-                <circle cx="150" cy="150" r="100" fill="none" stroke="hsl(var(--accent))" strokeWidth="20" 
-                        strokeDasharray="94 314" strokeDashoffset="-157" transform="rotate(-90 150 150)"/>
-                <circle cx="150" cy="150" r="100" fill="none" stroke="hsl(var(--secondary))" strokeWidth="20" 
-                        strokeDasharray="63 314" strokeDashoffset="-251" transform="rotate(-90 150 150)"/>
-                <text x="150" y="145" textAnchor="middle" className="text-sm font-bold fill-foreground">1B</text>
-                <text x="150" y="160" textAnchor="middle" className="text-xs fill-muted-foreground">Total Supply</text>
-              </svg>
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-6">
+              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full" style={{background: 'linear-gradient(135deg, #ffd700, #00bfff)'}}>
+                <span className="text-3xl font-bold text-black">1B</span>
+              </div>
+              <div className="text-lg font-semibold mt-2">Total Supply</div>
             </div>
             
-            {/* Tokenomics Breakdown */}
-            <div className="space-y-6">
-              <div className="flex items-center space-x-3" data-testid="item-public-sale">
-                <div className="w-4 h-4 bg-primary rounded"></div>
-                <div>
-                  <div className="font-medium">Public Sale - 50%</div>
-                  <div className="text-sm text-muted-foreground">500M tokens available for ICO</div>
-                </div>
+            <div className="grid md:grid-cols-3 gap-4">
+              <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)'}}>
+                <div className="text-2xl mb-2">🚀</div>
+                <div className="font-semibold" style={{color: '#ffd700'}}>Public Sale - 50%</div>
+                <div className="text-sm text-muted-foreground">500M tokens available</div>
               </div>
               
-              <div className="flex items-center space-x-3" data-testid="item-staking-rewards">
-                <div className="w-4 h-4 bg-accent rounded"></div>
-                <div>
-                  <div className="font-medium">Staking Rewards - 30%</div>
-                  <div className="text-sm text-muted-foreground">300M tokens for staking incentives</div>
-                </div>
+              <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
+                <div className="text-2xl mb-2">💎</div>
+                <div className="font-semibold" style={{color: '#00bfff'}}>Staking Rewards - 30%</div>
+                <div className="text-sm text-muted-foreground">300M for incentives</div>
               </div>
               
-              <div className="flex items-center space-x-3" data-testid="item-team-dev">
-                <div className="w-4 h-4 bg-secondary rounded"></div>
-                <div>
-                  <div className="font-medium">Team & Development - 20%</div>
-                  <div className="text-sm text-muted-foreground">200M tokens with 2-year vesting</div>
-                </div>
+              <div className="text-center p-4 rounded-lg" style={{background: 'rgba(128, 128, 128, 0.1)'}}>
+                <div className="text-2xl mb-2">👥</div>
+                <div className="font-semibold text-gray-300">Team & Development - 20%</div>
+                <div className="text-sm text-muted-foreground">200M with 2-year vesting</div>
               </div>
-              
-              <Card className="p-6" data-testid="card-key-details">
-                <h4 className="font-semibold mb-3">Key Details</h4>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li>• 2-year team token lock with linear vesting</li>
-                  <li>• Liquidity locked for 5 years</li>
-                  <li>• No hidden allocations or backdoors</li>
-                  <li>• Smart contract ownership renounced</li>
-                </ul>
-              </Card>
             </div>
           </div>
         </div>
