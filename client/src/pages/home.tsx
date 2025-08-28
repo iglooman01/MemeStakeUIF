@@ -511,7 +511,7 @@ export default function Home() {
 
               {/* Connect Wallet - Top Right Corner */}
               <Button 
-                className="hidden sm:inline-flex gradient-button" 
+                className="gradient-button" 
                 onClick={() => setWalletModalOpen(true)}
                 data-testid="button-get-started"
               >
