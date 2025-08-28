@@ -1109,39 +1109,6 @@ export default function Home() {
       <footer className="py-16" style={{background: 'linear-gradient(135deg, #0a0e1a 0%, #1a1f2e 100%)'}} data-testid="footer">
         <div className="container">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-            {/* Brand Section */}
-            <div className="lg:col-span-1">
-              <div className="flex items-center space-x-2 mb-6">
-                <div className="w-10 h-10 rounded-lg flex items-center justify-center shadow-lg" style={{
-                  background: 'linear-gradient(135deg, #ffd700 0%, #00bfff 100%)',
-                  border: '2px solid rgba(255, 215, 0, 0.3)',
-                  boxShadow: '0 4px 15px rgba(255, 215, 0, 0.2)'
-                }}>
-                  <span className="text-primary-foreground font-bold text-xl">₿</span>
-                </div>
-                <span className="text-2xl font-bold text-white">MemeStake</span>
-              </div>
-              <p className="text-muted-foreground mb-6 text-sm leading-relaxed">
-                The ultimate meme token staking platform. Earn passive income from your favorite meme coins with our secure, audited smart contracts.
-              </p>
-              <div className="flex space-x-4">
-                <a href="#" className="w-8 h-8 rounded-full flex items-center justify-center transition-colors hover:opacity-80" 
-                   style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}
-                   data-testid="social-twitter">
-                  <span className="text-sm">𝕏</span>
-                </a>
-                <a href="#" className="w-8 h-8 rounded-full flex items-center justify-center transition-colors hover:opacity-80"
-                   style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}
-                   data-testid="social-discord">
-                  <span className="text-sm">💬</span>
-                </a>
-                <a href="#" className="w-8 h-8 rounded-full flex items-center justify-center transition-colors hover:opacity-80"
-                   style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}
-                   data-testid="social-telegram">
-                  <span className="text-sm">📱</span>
-                </a>
-              </div>
-            </div>
             
             {/* Platform Links */}
             <div>
