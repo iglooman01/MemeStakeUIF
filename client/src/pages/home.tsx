@@ -370,7 +370,7 @@ export default function Home() {
     try {
       const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
       
-      // Create a very gentle, low-volume peaceful chime
+      // Create an extremely gentle, whisper-soft meditative chime
       const createChimeNote = (frequency: number, startTime: number, duration: number) => {
         const oscillator = audioContext.createOscillator();
         const gainNode = audioContext.createGain();
@@ -379,22 +379,22 @@ export default function Home() {
         gainNode.connect(audioContext.destination);
         
         oscillator.frequency.value = frequency;
-        oscillator.type = 'sine'; // Soft sine wave for peaceful sound
+        oscillator.type = 'sine'; // Softest possible wave
         
-        // Much lower volume for peaceful experience
+        // Whisper-quiet volume for ultimate peace
         gainNode.gain.setValueAtTime(0, startTime);
-        gainNode.gain.linearRampToValueAtTime(0.005, startTime + 0.02); // Very low volume
-        gainNode.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+        gainNode.gain.linearRampToValueAtTime(0.002, startTime + 0.05); // Even lower, slower fade-in
+        gainNode.gain.exponentialRampToValueAtTime(0.00005, startTime + duration);
         
         oscillator.start(startTime);
         oscillator.stop(startTime + duration);
       };
       
-      // Create gentle, lower-pitched bells for maximum peace
+      // Create very slow, meditative sequence with deeper tones
       const now = audioContext.currentTime;
-      createChimeNote(392.00, now, 1.2); // G4 (lower, more soothing)
-      createChimeNote(523.25, now + 0.15, 1.0); // C5 (gentle)
-      createChimeNote(659.25, now + 0.3, 0.8); // E5 (soft finish)
+      createChimeNote(329.63, now, 2.0); // E4 (deep, calming base)
+      createChimeNote(392.00, now + 0.6, 1.8); // G4 (gentle rise)
+      createChimeNote(523.25, now + 1.2, 1.5); // C5 (soft peak)
       
     } catch (e) {
       console.log('Audio not supported');
