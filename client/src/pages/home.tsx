@@ -561,76 +561,15 @@ export default function Home() {
             <p className="text-xl md:text-2xl lg:text-3xl text-muted-foreground mb-12 leading-relaxed max-w-3xl mx-auto" data-testid="text-hero-subtitle">
               Turn your favorite meme tokens into daily passive income.
             </p>
-            {/* Direct Wallet Connection */}
-            <div className="max-w-lg mx-auto mb-8">
-              <div className="glass-card p-6 rounded-2xl">
-                {/* BNB Chain Badge */}
-                <div className="flex items-center justify-center mb-6">
-                  <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full text-sm font-medium"
-                       style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)', color: '#ffd700'}}>
-                    <span className="text-xs">⬡</span>
-                    <span>BNB Smart Chain (BEP20)</span>
-                  </div>
-                </div>
-
-                <h3 className="text-xl font-semibold text-center mb-4 text-white">Connect Your Wallet</h3>
-                <p className="text-center text-gray-300 mb-6 text-sm">
-                  Select a BNB Smart Chain compatible wallet to start staking
-                </p>
-
-                {/* Wallet Options Grid */}
-                <div className="grid gap-3 mb-4">
-                  {walletOptions.map((wallet) => (
-                    <button
-                      key={wallet.name}
-                      onClick={() => handleWalletSelect(wallet.name)}
-                      className="flex items-center justify-between p-4 rounded-xl border transition-all duration-200 group hover:scale-[1.02]"
-                      style={{
-                        background: selectedWallet === wallet.name 
-                          ? 'rgba(255, 255, 255, 0.05)' 
-                          : 'rgba(255, 255, 255, 0.02)',
-                        border: selectedWallet === wallet.name 
-                          ? '1px solid #00bfff' 
-                          : '1px solid rgba(255, 255, 255, 0.1)',
-                        boxShadow: selectedWallet === wallet.name 
-                          ? '0 0 20px rgba(0, 191, 255, 0.2)' 
-                          : 'none'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background = 'linear-gradient(135deg, #00bfff 0%, #10b981 100%)';
-                        e.currentTarget.style.color = '#000';
-                      }}
-                      onMouseLeave={(e) => {
-                        if (selectedWallet !== wallet.name) {
-                          e.currentTarget.style.background = 'rgba(255, 255, 255, 0.02)';
-                          e.currentTarget.style.color = '#fff';
-                        }
-                      }}
-                      data-testid={`wallet-option-${wallet.name.toLowerCase().replace(/\s+/g, '-')}`}
-                    >
-                      <div className="flex items-center space-x-3">
-                        <span className="text-2xl">{wallet.icon}</span>
-                        <span className="font-medium text-white group-hover:text-black transition-colors">
-                          {wallet.name}
-                        </span>
-                      </div>
-                      {selectedWallet === wallet.name && (
-                        <span className="text-cyan-400">✓</span>
-                      )}
-                    </button>
-                  ))}
-                </div>
-
-                {/* Help Link */}
-                <div className="text-center text-xs text-gray-400 pt-4 border-t border-white/10">
-                  <a href="#" className="hover:text-cyan-400 transition-colors" data-testid="link-help">
-                    Having trouble? Get help here
-                  </a>
-                </div>
-              </div>
-            </div>
-
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <Button 
+                size="lg" 
+                className="text-lg px-8 py-4" 
+                onClick={() => setWalletModalOpen(true)}
+                data-testid="button-start-staking"
+              >
+                🚀 Start Staking
+              </Button>
               <Button asChild variant="outline" size="lg" className="text-lg px-8 py-4" data-testid="button-learn-more">
                 <a href="#about">📄 Learn More</a>
               </Button>
