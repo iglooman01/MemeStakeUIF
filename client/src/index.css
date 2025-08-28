@@ -11,19 +11,19 @@
   --card-foreground: hsl(0, 0%, 98%);
   --popover: hsl(230, 35%, 7%);
   --popover-foreground: hsl(0, 0%, 98%);
-  --primary: hsl(195, 100%, 50%);
+  --primary: hsl(51, 100%, 50%);
   --primary-foreground: hsl(230, 35%, 7%);
-  --secondary: hsl(195, 100%, 50%);
+  --secondary: hsl(51, 100%, 50%);
   --secondary-foreground: hsl(230, 35%, 7%);
   --muted: hsl(230, 20%, 12%);
   --muted-foreground: hsl(0, 0%, 65%);
-  --accent: hsl(195, 100%, 50%);
+  --accent: hsl(51, 100%, 50%);
   --accent-foreground: hsl(230, 35%, 7%);
   --destructive: hsl(0, 84%, 60%);
   --destructive-foreground: hsl(0, 0%, 98%);
   --border: hsl(230, 20%, 15%);
   --input: hsl(230, 25%, 9%);
-  --ring: hsl(195, 100%, 50%);
+  --ring: hsl(51, 100%, 50%);
   --chart-1: hsl(46, 95%, 58%);
   --chart-2: hsl(159.7826, 100%, 36.0784%);
   --chart-3: hsl(42.0290, 92.8251%, 56.2745%);
@@ -60,19 +60,19 @@
   --card-foreground: hsl(0, 0%, 98%);
   --popover: hsl(230, 35%, 5%);
   --popover-foreground: hsl(0, 0%, 98%);
-  --primary: hsl(195, 100%, 55%);
+  --primary: hsl(51, 100%, 55%);
   --primary-foreground: hsl(230, 35%, 7%);
-  --secondary: hsl(195, 100%, 55%);
+  --secondary: hsl(51, 100%, 55%);
   --secondary-foreground: hsl(230, 35%, 7%);
   --muted: hsl(230, 20%, 10%);
   --muted-foreground: hsl(0, 0%, 70%);
-  --accent: hsl(195, 100%, 55%);
+  --accent: hsl(51, 100%, 55%);
   --accent-foreground: hsl(230, 35%, 7%);
   --destructive: hsl(0, 63%, 31%);
   --destructive-foreground: hsl(0, 0%, 98%);
   --border: hsl(230, 20%, 12%);
   --input: hsl(230, 25%, 7%);
-  --ring: hsl(195, 100%, 55%);
+  --ring: hsl(51, 100%, 55%);
   --chart-1: hsl(46, 95%, 58%);
   --chart-2: hsl(159.7826, 100%, 36.0784%);
   --chart-3: hsl(42.0290, 92.8251%, 56.2745%);
@@ -112,9 +112,9 @@
     width: 100%;
     height: 100%;
     background: 
-      radial-gradient(circle at 20% 80%, rgba(0, 191, 255, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(0, 191, 255, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 40% 40%, rgba(0, 191, 255, 0.05) 0%, transparent 50%);
+      radial-gradient(circle at 20% 80%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, rgba(255, 215, 0, 0.05) 0%, transparent 50%);
     pointer-events: none;
     z-index: -1;
   }

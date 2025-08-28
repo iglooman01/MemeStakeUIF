@@ -28,7 +28,7 @@ Preferred communication style: Simple, everyday language.
 ## Design System
 - **Component Library**: Custom implementation using Radix UI primitives
 - **Theme System**: CSS variables-based theming supporting light/dark modes
-- **Color Palette**: Cyan (#00BFFF) as primary color with neutral base
+- **Color Palette**: Yellow/Gold (#FFD700) as primary color with neutral base
 - **Typography**: System font stack for optimal performance
 - **Layout**: Responsive design with mobile-first approach
 
