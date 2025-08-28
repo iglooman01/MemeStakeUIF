@@ -370,7 +370,7 @@ export default function Home() {
     try {
       const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
       
-      // Create a peaceful bell-like chime with multiple harmonics
+      // Create a very gentle, low-volume peaceful chime
       const createChimeNote = (frequency: number, startTime: number, duration: number) => {
         const oscillator = audioContext.createOscillator();
         const gainNode = audioContext.createGain();
@@ -381,19 +381,20 @@ export default function Home() {
         oscillator.frequency.value = frequency;
         oscillator.type = 'sine'; // Soft sine wave for peaceful sound
         
+        // Much lower volume for peaceful experience
         gainNode.gain.setValueAtTime(0, startTime);
-        gainNode.gain.linearRampToValueAtTime(0.02, startTime + 0.01);
-        gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+        gainNode.gain.linearRampToValueAtTime(0.005, startTime + 0.02); // Very low volume
+        gainNode.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
         
         oscillator.start(startTime);
         oscillator.stop(startTime + duration);
       };
       
-      // Create a beautiful chord progression (C major pentatonic)
+      // Create gentle, lower-pitched bells for maximum peace
       const now = audioContext.currentTime;
-      createChimeNote(523.25, now, 0.8); // C5
-      createChimeNote(659.25, now + 0.1, 0.7); // E5
-      createChimeNote(783.99, now + 0.2, 0.6); // G5
+      createChimeNote(392.00, now, 1.2); // G4 (lower, more soothing)
+      createChimeNote(523.25, now + 0.15, 1.0); // C5 (gentle)
+      createChimeNote(659.25, now + 0.3, 0.8); // E5 (soft finish)
       
     } catch (e) {
       console.log('Audio not supported');
