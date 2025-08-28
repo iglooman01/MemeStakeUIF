@@ -398,6 +398,14 @@ export default function Home() {
         title: "Wallet Connected!",
         description: `Successfully connected to ${walletName}`,
       });
+      
+      // Navigate to dashboard after successful connection
+      setTimeout(() => {
+        const dashboardSection = document.getElementById('staking-dashboard');
+        if (dashboardSection) {
+          dashboardSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 500);
     }, 1000);
   };
 
