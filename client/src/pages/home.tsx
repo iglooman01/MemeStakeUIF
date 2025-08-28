@@ -366,26 +366,36 @@ export default function Home() {
     }
   };
 
-  const playTikSound = () => {
+  const playPeacefulChime = () => {
     try {
       const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-      const oscillator = audioContext.createOscillator();
-      const gainNode = audioContext.createGain();
       
-      oscillator.connect(gainNode);
-      gainNode.connect(audioContext.destination);
+      // Create a peaceful bell-like chime with multiple harmonics
+      const createChimeNote = (frequency: number, startTime: number, duration: number) => {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.frequency.value = frequency;
+        oscillator.type = 'sine'; // Soft sine wave for peaceful sound
+        
+        gainNode.gain.setValueAtTime(0, startTime);
+        gainNode.gain.linearRampToValueAtTime(0.02, startTime + 0.01);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+        
+        oscillator.start(startTime);
+        oscillator.stop(startTime + duration);
+      };
       
-      oscillator.frequency.value = 1200; // Higher pitch for "tik" sound
-      oscillator.type = 'square';
+      // Create a beautiful chord progression (C major pentatonic)
+      const now = audioContext.currentTime;
+      createChimeNote(523.25, now, 0.8); // C5
+      createChimeNote(659.25, now + 0.1, 0.7); // E5
+      createChimeNote(783.99, now + 0.2, 0.6); // G5
       
-      gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-      gainNode.gain.linearRampToValueAtTime(0.03, audioContext.currentTime + 0.005);
-      gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.05);
-      
-      oscillator.start(audioContext.currentTime);
-      oscillator.stop(audioContext.currentTime + 0.05);
     } catch (e) {
-      // Fallback for browsers that don't support Web Audio API
       console.log('Audio not supported');
     }
   };
@@ -416,14 +426,29 @@ export default function Home() {
     { name: 'TokenPocket', icon: '🪙' }
   ];
 
-  // Token holders updater - every 5 seconds with tik sound
+  // Flying animation state
+  const [flyingAnimation, setFlyingAnimation] = useState(false);
+  const [newHoldersCount, setNewHoldersCount] = useState(0);
+
+  // Token holders updater - every 5 seconds with peaceful chime
   useEffect(() => {
     const tokenTimer = setInterval(() => {
       setTokenHolders(prev => {
         const shouldIncrease = Math.random() > 0.2; // 80% chance to increase
         if (shouldIncrease) {
-          playTikSound(); // Play tik sound when number updates
-          return prev + Math.floor(Math.random() * 5) + 1; // Increase by 1-5 holders
+          const increase = Math.floor(Math.random() * 5) + 1; // Increase by 1-5 holders
+          
+          // Play peaceful chime and trigger flying animation
+          playPeacefulChime();
+          setNewHoldersCount(increase);
+          setFlyingAnimation(true);
+          
+          // Reset animation after 2 seconds
+          setTimeout(() => {
+            setFlyingAnimation(false);
+          }, 2000);
+          
+          return prev + increase;
         }
         return prev;
       });
@@ -711,15 +736,15 @@ export default function Home() {
       </section>
 
       {/* Live Stats Banner */}
-      <section className="py-4" style={{background: 'linear-gradient(90deg, rgba(255, 215, 0, 0.15) 0%, rgba(0, 191, 255, 0.15) 50%, rgba(255, 215, 0, 0.15) 100%)'}} data-testid="section-live-stats">
+      <section className="py-4 relative overflow-hidden" style={{background: 'linear-gradient(90deg, rgba(255, 215, 0, 0.15) 0%, rgba(0, 191, 255, 0.15) 50%, rgba(255, 215, 0, 0.15) 100%)'}} data-testid="section-live-stats">
         <div className="container">
           <div className="flex items-center justify-center mb-2">
             <div className="w-3 h-3 rounded-full mr-2" style={{background: '#00ff88', animation: 'pulse 1s infinite'}}></div>
             <span className="text-sm font-medium" style={{color: '#00ff88'}}>🔴 LIVE DATA</span>
           </div>
           {/* Live Token Holders Counter */}
-          <div className="flex justify-center">
-            <div className="glass-card p-6 rounded-2xl border-2" 
+          <div className="flex justify-center relative">
+            <div className="glass-card p-6 rounded-2xl border-2 relative overflow-hidden" 
                  style={{
                    background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(0, 191, 255, 0.1) 100%)',
                    border: '2px solid rgba(255, 215, 0, 0.3)',
@@ -733,6 +758,21 @@ export default function Home() {
                 <div className="text-lg font-semibold text-white mb-1">🏆 Total Token Holders</div>
                 <div className="text-sm" style={{color: '#00ff88'}}>↗ Live Updates Every 5s</div>
               </div>
+              
+              {/* Flying Animation */}
+              {flyingAnimation && (
+                <div className="absolute inset-0 pointer-events-none">
+                  <div className="flying-number">
+                    +{newHoldersCount} 🚀
+                  </div>
+                  <div className="flying-sparkles">
+                    <span className="sparkle sparkle-1">✨</span>
+                    <span className="sparkle sparkle-2">💎</span>
+                    <span className="sparkle sparkle-3">⭐</span>
+                    <span className="sparkle sparkle-4">🎉</span>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
