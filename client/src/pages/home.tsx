@@ -462,12 +462,11 @@ export default function Home() {
               <img 
                 src={memeStakeLogo} 
                 alt="MemeStake Logo" 
-                className="w-16 h-16 rounded-lg shadow-lg"
+                className="w-24 h-24 rounded-lg shadow-lg"
                 style={{
                   filter: 'drop-shadow(0 4px 15px rgba(0, 191, 255, 0.2))'
                 }}
               />
-              <span className="text-xl font-bold text-white">MemeStake</span>
             </div>
 
             {/* Desktop Navigation */}
@@ -1215,7 +1214,7 @@ export default function Home() {
                 <img 
                   src={memeStakeLogo} 
                   alt="MemeStake Logo" 
-                  className="w-16 h-16 rounded-lg"
+                  className="w-24 h-24 rounded-lg"
                   style={{
                     filter: 'drop-shadow(0 2px 8px rgba(0, 191, 255, 0.1))'
                   }}
