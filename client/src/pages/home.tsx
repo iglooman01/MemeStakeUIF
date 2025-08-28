@@ -612,30 +612,53 @@ export default function Home() {
                   </div>
                 </div>
                 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                  <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
-                    <div className="text-3xl md:text-4xl font-bold" style={{color: '#ffd700'}}>
-                      {String(airdropTime.days).padStart(2, '0')}
+                {/* Attractive One-Line Countdown */}
+                <div className="flex items-center justify-center mb-8">
+                  <div className="glass-card px-8 py-4 rounded-2xl border-2 glow-effect" 
+                       style={{
+                         background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(0, 191, 255, 0.1) 100%)',
+                         border: '2px solid rgba(255, 215, 0, 0.3)',
+                         boxShadow: '0 0 30px rgba(255, 215, 0, 0.2), 0 0 60px rgba(0, 191, 255, 0.1)'
+                       }}>
+                    <div className="flex items-center space-x-6 text-center">
+                      <div className="flex items-center space-x-2">
+                        <span className="text-4xl md:text-5xl font-bold animated-gradient" 
+                              style={{background: 'linear-gradient(-45deg, #ffd700, #00bfff, #ffd700, #00bfff)', backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent'}}>
+                          {String(airdropTime.days).padStart(2, '0')}
+                        </span>
+                        <span className="text-sm md:text-base text-white/80 font-medium">DAYS</span>
+                      </div>
+                      
+                      <div className="text-3xl md:text-4xl text-cyan-400 animate-pulse">:</div>
+                      
+                      <div className="flex items-center space-x-2">
+                        <span className="text-4xl md:text-5xl font-bold animated-gradient"
+                              style={{background: 'linear-gradient(-45deg, #00bfff, #ffd700, #00bfff, #ffd700)', backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent'}}>
+                          {String(airdropTime.hours).padStart(2, '0')}
+                        </span>
+                        <span className="text-sm md:text-base text-white/80 font-medium">HRS</span>
+                      </div>
+                      
+                      <div className="text-3xl md:text-4xl text-cyan-400 animate-pulse">:</div>
+                      
+                      <div className="flex items-center space-x-2">
+                        <span className="text-4xl md:text-5xl font-bold animated-gradient"
+                              style={{background: 'linear-gradient(-45deg, #ffd700, #00bfff, #ffd700, #00bfff)', backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent'}}>
+                          {String(airdropTime.minutes).padStart(2, '0')}
+                        </span>
+                        <span className="text-sm md:text-base text-white/80 font-medium">MIN</span>
+                      </div>
+                      
+                      <div className="text-3xl md:text-4xl text-cyan-400 animate-pulse">:</div>
+                      
+                      <div className="flex items-center space-x-2">
+                        <span className="text-4xl md:text-5xl font-bold animated-gradient"
+                              style={{background: 'linear-gradient(-45deg, #00bfff, #ffd700, #00bfff, #ffd700)', backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent'}}>
+                          {String(airdropTime.seconds).padStart(2, '0')}
+                        </span>
+                        <span className="text-sm md:text-base text-white/80 font-medium">SEC</span>
+                      </div>
                     </div>
-                    <div className="text-sm text-muted-foreground">Days</div>
-                  </div>
-                  <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
-                    <div className="text-3xl md:text-4xl font-bold" style={{color: '#00bfff'}}>
-                      {String(airdropTime.hours).padStart(2, '0')}
-                    </div>
-                    <div className="text-sm text-muted-foreground">Hours</div>
-                  </div>
-                  <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
-                    <div className="text-3xl md:text-4xl font-bold" style={{color: '#ffd700'}}>
-                      {String(airdropTime.minutes).padStart(2, '0')}
-                    </div>
-                    <div className="text-sm text-muted-foreground">Minutes</div>
-                  </div>
-                  <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
-                    <div className="text-3xl md:text-4xl font-bold" style={{color: '#00bfff'}}>
-                      {String(airdropTime.seconds).padStart(2, '0')}
-                    </div>
-                    <div className="text-sm text-muted-foreground">Seconds</div>
                   </div>
                 </div>
                 
