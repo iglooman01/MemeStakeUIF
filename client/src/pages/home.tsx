@@ -667,18 +667,14 @@ export default function Home() {
                   </div>
                 </div>
                 
-                <div className="grid md:grid-cols-3 gap-4 mb-8">
+                <div className="grid md:grid-cols-2 gap-4 mb-8">
                   <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.03)'}}>
                     <div className="text-xl font-bold" style={{color: '#ffd700'}}>10,000,000</div>
-                    <div className="text-sm text-muted-foreground">target users</div>
+                    <div className="text-sm text-muted-foreground">Target Users</div>
                   </div>
                   <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.03)'}}>
                     <div className="text-xl font-bold" style={{color: '#00bfff'}}>25,000+</div>
                     <div className="text-sm text-muted-foreground">Participants</div>
-                  </div>
-                  <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.03)'}}>
-                    <div className="text-xl font-bold" style={{color: '#ffd700'}}>$250,000</div>
-                    <div className="text-sm text-muted-foreground">Total Value</div>
                   </div>
                 </div>
                 
