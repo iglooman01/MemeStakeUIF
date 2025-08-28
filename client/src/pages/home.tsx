@@ -1118,16 +1118,12 @@ export default function Home() {
           <div className="border-t border-border pt-8">
             <div className="flex flex-col md:flex-row justify-between items-center">
               <div className="text-sm text-muted-foreground mb-4 md:mb-0">
-                © {new Date().getFullYear()} MemeStake. All rights reserved. | Built with 💎 for the meme community
+                © {new Date().getFullYear()} MemeStake. All rights reserved.
               </div>
               <div className="flex items-center space-x-4 text-sm">
                 <div className="flex items-center space-x-2">
                   <div className="w-2 h-2 rounded-full" style={{background: '#00ff88'}}></div>
                   <span className="text-muted-foreground">System Status: Online</span>
-                </div>
-                <div className="text-muted-foreground">|</div>
-                <div className="text-muted-foreground">
-                  <span className="font-medium" style={{color: '#ffd700'}}>TVL:</span> $47.2M
                 </div>
               </div>
             </div>
