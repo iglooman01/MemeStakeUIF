@@ -743,50 +743,6 @@ export default function Home() {
           
           <div className="grid lg:grid-cols-3 gap-8">
             
-            {/* ROI Calculator */}
-            <div>
-              <Card className="p-6" data-testid="card-roi-calculator">
-                <h3 className="text-lg font-semibold mb-6 text-white">ROI Calculator</h3>
-                <div className="space-y-4">
-                  <div>
-                    <Label className="text-sm text-muted-foreground">Token Amount</Label>
-                    <Input 
-                      type="number" 
-                      placeholder="Enter amount"
-                      className="mt-1"
-                      data-testid="input-token-amount"
-                    />
-                  </div>
-                  
-                  <div>
-                    <Label className="text-sm text-muted-foreground">Staking Period</Label>
-                    <Select>
-                      <SelectTrigger className="mt-1" data-testid="select-staking-period">
-                        <SelectValue placeholder="Select period" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="30">30 Days</SelectItem>
-                        <SelectItem value="90">90 Days</SelectItem>
-                        <SelectItem value="180">180 Days</SelectItem>
-                        <SelectItem value="365">1 Year</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  
-                  <div className="p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
-                    <div className="text-center">
-                      <div className="text-xl font-bold" style={{color: '#00bfff'}}>$2,847.50</div>
-                      <div className="text-sm text-muted-foreground">Estimated Returns</div>
-                    </div>
-                  </div>
-                  
-                  <Button className="w-full" data-testid="button-start-staking">
-                    Start Staking
-                  </Button>
-                </div>
-              </Card>
-              
-            </div>
           </div>
         </div>
       </section>
@@ -1101,6 +1057,60 @@ export default function Home() {
             {formErrors.newsletter && (
               <div className="text-destructive text-sm mt-2" data-testid="error-newsletter">{formErrors.newsletter}</div>
             )}
+          </div>
+        </div>
+      </section>
+
+      {/* ROI Calculator */}
+      <section className="section-padding" data-testid="section-roi-calculator">
+        <div className="container">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">ROI Calculator</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Calculate your potential returns with MemeStake
+            </p>
+          </div>
+          
+          <div className="max-w-md mx-auto">
+            <Card className="p-6" data-testid="card-roi-calculator">
+              <div className="space-y-4">
+                <div>
+                  <Label className="text-sm text-muted-foreground">Token Amount</Label>
+                  <Input 
+                    type="number" 
+                    placeholder="Enter amount"
+                    className="mt-1"
+                    data-testid="input-token-amount"
+                  />
+                </div>
+                
+                <div>
+                  <Label className="text-sm text-muted-foreground">Staking Period</Label>
+                  <Select>
+                    <SelectTrigger className="mt-1" data-testid="select-staking-period">
+                      <SelectValue placeholder="Select period" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="30">30 Days</SelectItem>
+                      <SelectItem value="90">90 Days</SelectItem>
+                      <SelectItem value="180">180 Days</SelectItem>
+                      <SelectItem value="365">1 Year</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div className="p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
+                  <div className="text-center">
+                    <div className="text-xl font-bold" style={{color: '#00bfff'}}>$2,847.50</div>
+                    <div className="text-sm text-muted-foreground">Estimated Returns</div>
+                  </div>
+                </div>
+                
+                <Button className="w-full" data-testid="button-start-staking">
+                  Start Staking
+                </Button>
+              </div>
+            </Card>
           </div>
         </div>
       </section>
