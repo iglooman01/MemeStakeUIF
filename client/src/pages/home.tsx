@@ -670,7 +670,7 @@ export default function Home() {
                 <div className="grid md:grid-cols-3 gap-4 mb-8">
                   <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.03)'}}>
                     <div className="text-xl font-bold" style={{color: '#ffd700'}}>10,000,000</div>
-                    <div className="text-sm text-muted-foreground">MEME Tokens</div>
+                    <div className="text-sm text-muted-foreground">target users</div>
                   </div>
                   <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.03)'}}>
                     <div className="text-xl font-bold" style={{color: '#00bfff'}}>25,000+</div>
