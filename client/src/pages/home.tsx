@@ -1111,19 +1111,6 @@ export default function Home() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
             
             
-            {/* Resources */}
-            <div>
-              <h4 className="text-white font-semibold mb-4 flex items-center">
-                <span className="mr-2">📚</span>Resources
-              </h4>
-              <ul className="space-y-2 text-sm">
-                <li><a href="#whitepaper" className="text-muted-foreground hover:text-primary transition-colors" data-testid="footer-link-whitepaper">Whitepaper</a></li>
-                <li><a href="#tokenomics" className="text-muted-foreground hover:text-primary transition-colors" data-testid="footer-link-tokenomics">Tokenomics</a></li>
-                <li><a href="#faq" className="text-muted-foreground hover:text-primary transition-colors" data-testid="footer-link-faq">FAQ</a></li>
-                <li><a href="#about" className="text-muted-foreground hover:text-primary transition-colors" data-testid="footer-link-about">About Us</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors" data-testid="footer-link-support">Support</a></li>
-              </ul>
-            </div>
             
           </div>
           
