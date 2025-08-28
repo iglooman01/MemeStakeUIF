@@ -956,19 +956,19 @@ export default function Home() {
               </Button>
             </div>
             
-            <Card className="p-6" data-testid="card-smart-contract">
-              <h3 className="font-semibold mb-4">Smart Contract Preview</h3>
-              <div className="bg-secondary rounded p-4 font-mono text-sm overflow-x-auto">
+            <Card className="p-6" style={{background: 'white'}} data-testid="card-smart-contract">
+              <h3 className="font-semibold mb-4 text-black">Smart Contract Preview</h3>
+              <div className="rounded p-4 font-mono text-sm overflow-x-auto" style={{background: 'white', border: '1px solid #e5e7eb'}}>
                 <div className="text-green-600">// MemeStake Contract</div>
-                <div>contract MemeStake {'{'}</div>
-                <div>&nbsp;&nbsp;uint256 public totalSupply = 1e9;</div>
-                <div>&nbsp;&nbsp;uint256 public stakingRewards;</div>
-                <div>&nbsp;&nbsp;mapping(address =&gt; uint256) stakes;</div>
-                <div>&nbsp;&nbsp;</div>
-                <div>&nbsp;&nbsp;function stake(uint256 amount) {'{'}</div>
-                <div>&nbsp;&nbsp;&nbsp;&nbsp;// Audited staking logic</div>
-                <div>&nbsp;&nbsp;{'}'}</div>
-                <div>{'}'}</div>
+                <div className="text-black">contract MemeStake {'{'}</div>
+                <div className="text-black">&nbsp;&nbsp;uint256 public totalSupply = 1e9;</div>
+                <div className="text-black">&nbsp;&nbsp;uint256 public stakingRewards;</div>
+                <div className="text-black">&nbsp;&nbsp;mapping(address =&gt; uint256) stakes;</div>
+                <div className="text-black">&nbsp;&nbsp;</div>
+                <div className="text-black">&nbsp;&nbsp;function stake(uint256 amount) {'{'}</div>
+                <div className="text-green-600">&nbsp;&nbsp;&nbsp;&nbsp;// Audited staking logic</div>
+                <div className="text-black">&nbsp;&nbsp;{'}'}</div>
+                <div className="text-black">{'}'}</div>
               </div>
             </Card>
           </div>
