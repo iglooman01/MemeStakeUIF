@@ -508,9 +508,12 @@ export default function Home() {
               <span className="text-xl font-bold text-white">MemeStake</span>
             </div>
 
-            {/* Desktop Navigation - Centered About */}
-            <div className="hidden md:flex items-center justify-center flex-1" data-testid="desktop-nav">
+            {/* Desktop Navigation - Multiple Links */}
+            <div className="hidden md:flex items-center justify-center flex-1 space-x-8" data-testid="desktop-nav">
               <a href="#about" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-about">{t.about}</a>
+              <a href="#whitepaper" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-whitepaper">{t.whitepaper}</a>
+              <a href="#roadmap" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-roadmap">Roadmap</a>
+              <a href="#community" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-community">Community</a>
             </div>
 
             {/* Right Side Controls */}
