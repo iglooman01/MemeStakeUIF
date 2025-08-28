@@ -142,11 +142,7 @@ export default function Home() {
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [airdropTime, setAirdropTime] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-  const [liveStats, setLiveStats] = useState({
-    tokenHolders: 47832,
-    totalStaked: 2847293,
-    dailyVolume: 1847523
-  });
+  const [tokenHolders, setTokenHolders] = useState(47832);
   const [walletModalOpen, setWalletModalOpen] = useState(false);
   const [selectedWallet, setSelectedWallet] = useState<string>('');
   const { toast } = useToast();
@@ -368,6 +364,30 @@ export default function Home() {
     }
   };
 
+  const playTikSound = () => {
+    try {
+      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.value = 1200; // Higher pitch for "tik" sound
+      oscillator.type = 'square';
+      
+      gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+      gainNode.gain.linearRampToValueAtTime(0.03, audioContext.currentTime + 0.005);
+      gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.05);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.05);
+    } catch (e) {
+      // Fallback for browsers that don't support Web Audio API
+      console.log('Audio not supported');
+    }
+  };
+
   // Wallet connection functions
   const handleWalletSelect = (walletName: string) => {
     setSelectedWallet(walletName);
@@ -389,35 +409,20 @@ export default function Home() {
     { name: 'TokenPocket', icon: '🪙' }
   ];
 
-  // Live stats updater
+  // Token holders updater - every 5 seconds with tik sound
   useEffect(() => {
-    const statsTimer = setInterval(() => {
-      setLiveStats(prev => {
-        const shouldIncrease = Math.random() > 0.3; // 70% chance to increase
+    const tokenTimer = setInterval(() => {
+      setTokenHolders(prev => {
+        const shouldIncrease = Math.random() > 0.2; // 80% chance to increase
         if (shouldIncrease) {
-          const newUserJoined = Math.random() > 0.5; // 50% chance for new user vs other stats
-          
-          if (newUserJoined) {
-            playSound(); // Only play sound when new user joins
-            return {
-              tokenHolders: prev.tokenHolders + Math.floor(Math.random() * 3) + 1,
-              totalStaked: prev.totalStaked + Math.floor(Math.random() * 1000) + 100,
-              dailyVolume: prev.dailyVolume + Math.floor(Math.random() * 500) + 50
-            };
-          } else {
-            // Update other stats without sound
-            return {
-              tokenHolders: prev.tokenHolders,
-              totalStaked: prev.totalStaked + Math.floor(Math.random() * 1000) + 100,
-              dailyVolume: prev.dailyVolume + Math.floor(Math.random() * 500) + 50
-            };
-          }
+          playTikSound(); // Play tik sound when number updates
+          return prev + Math.floor(Math.random() * 5) + 1; // Increase by 1-5 holders
         }
         return prev;
       });
-    }, 2000); // Update every 2 seconds
+    }, 5000); // Update every 5 seconds
     
-    return () => clearInterval(statsTimer);
+    return () => clearInterval(tokenTimer);
   }, []);
 
   // Airdrop countdown timer
@@ -709,27 +714,22 @@ export default function Home() {
             <div className="w-3 h-3 rounded-full mr-2" style={{background: '#00ff88', animation: 'pulse 1s infinite'}}></div>
             <span className="text-sm font-medium" style={{color: '#00ff88'}}>🔴 LIVE DATA</span>
           </div>
-          <div className="grid md:grid-cols-3 gap-6 text-center">
-            <div className="flex flex-col items-center">
-              <div className="text-2xl md:text-3xl font-bold" style={{color: '#ffd700'}}>
-                {liveStats.tokenHolders.toLocaleString()}
+          {/* Live Token Holders Counter */}
+          <div className="flex justify-center">
+            <div className="glass-card p-6 rounded-2xl border-2" 
+                 style={{
+                   background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(0, 191, 255, 0.1) 100%)',
+                   border: '2px solid rgba(255, 215, 0, 0.3)',
+                   boxShadow: '0 0 20px rgba(255, 215, 0, 0.2)'
+                 }}>
+              <div className="text-center">
+                <div className="text-4xl md:text-5xl font-bold mb-2 animated-gradient" 
+                     style={{background: 'linear-gradient(-45deg, #ffd700, #00bfff, #ffd700, #00bfff)', backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent'}}>
+                  {tokenHolders.toLocaleString()}
+                </div>
+                <div className="text-lg font-semibold text-white mb-1">🏆 Total Token Holders</div>
+                <div className="text-sm" style={{color: '#00ff88'}}>↗ Live Updates Every 5s</div>
               </div>
-              <div className="text-sm text-muted-foreground">🏆 Total Token Holders</div>
-              <div className="text-xs" style={{color: '#00ff88'}}>↗ Growing</div>
-            </div>
-            <div className="flex flex-col items-center">
-              <div className="text-2xl md:text-3xl font-bold" style={{color: '#00bfff'}}>
-                ${(liveStats.totalStaked / 1000000).toFixed(1)}M
-              </div>
-              <div className="text-sm text-muted-foreground">💰 Total Value Locked</div>
-              <div className="text-xs" style={{color: '#00ff88'}}>↗ Increasing</div>
-            </div>
-            <div className="flex flex-col items-center">
-              <div className="text-2xl md:text-3xl font-bold" style={{color: '#ffd700'}}>
-                ${(liveStats.dailyVolume / 1000000).toFixed(1)}M
-              </div>
-              <div className="text-sm text-muted-foreground">📊 24h Volume</div>
-              <div className="text-xs" style={{color: '#00ff88'}}>↗ Active</div>
             </div>
           </div>
         </div>
