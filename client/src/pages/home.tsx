@@ -472,8 +472,6 @@ export default function Home() {
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8" data-testid="desktop-nav">
               <a href="#about" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-about">{t.about}</a>
-              <a href="#meme-aggregator" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-staking">Staking</a>
-              <a href="#whitepaper" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-whitepaper">{t.whitepaper}</a>
             </div>
 
             {/* Header Controls */}
@@ -540,8 +538,6 @@ export default function Home() {
           <div className="p-6">
             <div className="flex flex-col space-y-4 mt-16">
               <a href="#about" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-about">{t.about}</a>
-              <a href="#meme-aggregator" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-staking">Staking</a>
-              <a href="#whitepaper" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-whitepaper">{t.whitepaper}</a>
               <Button 
                 className="mt-4" 
                 onClick={() => setWalletModalOpen(true)}
