@@ -475,7 +475,7 @@ export default function Home() {
               <a href="#about" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-about">{t.about}</a>
             </div>
 
-            {/* Header Controls - Top Right */}
+            {/* Right Side Controls */}
             <div className="flex items-center space-x-4">
               {/* Language Selector */}
               <Select value={language} onValueChange={handleLanguageChange}>
@@ -509,9 +509,9 @@ export default function Home() {
                 {theme === 'dark' ? '☀️' : '🌙'}
               </Button>
 
-              {/* Primary CTA */}
+              {/* Connect Wallet - Top Right Corner */}
               <Button 
-                className="hidden sm:inline-flex" 
+                className="hidden sm:inline-flex gradient-button" 
                 onClick={() => setWalletModalOpen(true)}
                 data-testid="button-get-started"
               >
