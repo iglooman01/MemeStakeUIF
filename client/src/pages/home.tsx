@@ -1110,19 +1110,6 @@ export default function Home() {
         <div className="container">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
             
-            {/* Platform Links */}
-            <div>
-              <h4 className="text-white font-semibold mb-4 flex items-center">
-                <span className="mr-2">🚀</span>Platform
-              </h4>
-              <ul className="space-y-2 text-sm">
-                <li><a href="#meme-aggregator" className="text-muted-foreground hover:text-primary transition-colors" data-testid="footer-link-staking">Staking Pools</a></li>
-                <li><a href="#staking-dashboard" className="text-muted-foreground hover:text-primary transition-colors" data-testid="footer-link-dashboard">Dashboard</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors" data-testid="footer-link-calculator">ROI Calculator</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors" data-testid="footer-link-rewards">Claim Rewards</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors" data-testid="footer-link-portfolio">Portfolio</a></li>
-              </ul>
-            </div>
             
             {/* Resources */}
             <div>
