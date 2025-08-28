@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -132,6 +133,7 @@ const i18n = {
 };
 
 export default function Home() {
+  const [location, setLocation] = useLocation();
   const [theme, setTheme] = useState('light');
   const [language, setLanguage] = useState('en');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -399,13 +401,10 @@ export default function Home() {
         description: `Successfully connected to ${walletName}`,
       });
       
-      // Navigate to dashboard after successful connection
+      // Navigate to dashboard page after successful connection
       setTimeout(() => {
-        const dashboardSection = document.getElementById('staking-dashboard');
-        if (dashboardSection) {
-          dashboardSection.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 500);
+        setLocation('/dashboard');
+      }, 1000);
     }, 1000);
   };
 
