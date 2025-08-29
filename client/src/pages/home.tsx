@@ -419,6 +419,14 @@ export default function Home() {
     }, 1000);
   };
 
+  // Staking launch notification
+  const handleStakingClick = () => {
+    toast({
+      title: "🚀 Staking Program Coming Soon!",
+      description: "Staking will launch immediately after the airdrop ends. Up to 250% APY rewards await!",
+    });
+  };
+
   const walletOptions = [
     { name: 'MetaMask', icon: '🦊' },
     { name: 'Trust Wallet', icon: '🛡️' },
@@ -612,7 +620,7 @@ export default function Home() {
               <Button 
                 size="lg" 
                 className="text-lg px-8 py-4" 
-                onClick={() => setWalletModalOpen(true)}
+                onClick={handleStakingClick}
                 data-testid="button-start-staking"
               >
                 🚀 Start Staking
@@ -1137,7 +1145,11 @@ export default function Home() {
                   </div>
                 </div>
                 
-                <Button className="w-full" data-testid="button-start-staking">
+                <Button 
+                  className="w-full" 
+                  onClick={handleStakingClick}
+                  data-testid="button-start-staking"
+                >
                   Start Staking
                 </Button>
               </div>
