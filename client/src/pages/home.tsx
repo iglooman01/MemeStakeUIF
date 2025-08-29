@@ -768,7 +768,7 @@ export default function Home() {
         <div className="container">
           <div className="flex items-center justify-center mb-2">
             <div className="w-3 h-3 rounded-full mr-2" style={{background: '#00ff88', animation: 'pulse 1s infinite'}}></div>
-            <span className="text-sm font-medium" style={{color: '#00ff88'}}>🔴 LIVE DATA</span>
+            <span className="text-sm font-medium" style={{color: '#ffd700'}}>🔴 LIVE DATA</span>
           </div>
           {/* Live Token Holders Counter */}
           <div className="flex justify-center relative">
