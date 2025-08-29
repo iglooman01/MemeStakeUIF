@@ -513,7 +513,6 @@ export default function Home() {
               <a href="#about" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-about">{t.about}</a>
               <a href="#whitepaper" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-whitepaper">{t.whitepaper}</a>
               <a href="#roadmap" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-roadmap">Roadmap</a>
-              <a href="#community" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-community">Community</a>
             </div>
 
             {/* Right Side Controls */}
