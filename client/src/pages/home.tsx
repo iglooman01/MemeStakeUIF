@@ -626,7 +626,7 @@ export default function Home() {
                 🚀 Start Staking
               </Button>
               <Button asChild variant="outline" size="lg" className="text-lg px-8 py-4" data-testid="button-learn-more">
-                <a href="#about">📄 Learn More</a>
+                <a href="#faq">📄 Learn More</a>
               </Button>
             </div>
           </div>
