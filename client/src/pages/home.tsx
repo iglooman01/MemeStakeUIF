@@ -662,7 +662,7 @@ export default function Home() {
                   <div className="chip gold mr-4">🎁 AIRDROP</div>
                   <div className="chip">🔥 EXCLUSIVE</div>
                 </div>
-                <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{color: '#ffd700', fontFamily: 'Space Grotesk, Inter, sans-serif'}}>
+                <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{color: '#FFD700', fontFamily: 'Space Grotesk, Inter, sans-serif'}}>
                   🚀 Phase 2: Staking Program
                 </h2>
                 <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto">
