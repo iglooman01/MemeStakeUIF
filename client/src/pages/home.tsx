@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { FaTwitter, FaTelegram, FaDiscord, FaInstagram, FaGithub, FaLinkedin } from "react-icons/fa";
+import { FaTwitter, FaTelegram, FaMedium, FaYoutube } from "react-icons/fa";
 import memeStakeLogo from "@assets/ChatGPT Image Aug 27, 2025, 09_52_01 PM_1756366058294.png";
 
 const i18n = {
@@ -1138,44 +1138,24 @@ export default function Home() {
                   <FaTelegram className="text-lg" style={{color: '#00bfff'}} />
                 </a>
                 <a 
-                  href="https://discord.gg/memestake" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
-                  style={{background: 'rgba(114, 137, 218, 0.1)', border: '1px solid rgba(114, 137, 218, 0.3)'}}
-                  data-testid="link-discord"
-                >
-                  <FaDiscord className="text-lg" style={{color: '#7289da'}} />
-                </a>
-                <a 
-                  href="https://instagram.com/memestake" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
-                  style={{background: 'rgba(225, 48, 108, 0.1)', border: '1px solid rgba(225, 48, 108, 0.3)'}}
-                  data-testid="link-instagram"
-                >
-                  <FaInstagram className="text-lg" style={{color: '#e1306c'}} />
-                </a>
-                <a 
-                  href="https://github.com/memestake" 
+                  href="https://medium.com/@memestake" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
                   style={{background: 'rgba(255, 255, 255, 0.1)', border: '1px solid rgba(255, 255, 255, 0.3)'}}
-                  data-testid="link-github"
+                  data-testid="link-medium"
                 >
-                  <FaGithub className="text-lg text-white" />
+                  <FaMedium className="text-lg text-white" />
                 </a>
                 <a 
-                  href="https://linkedin.com/company/memestake" 
+                  href="https://youtube.com/@memestake" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
-                  style={{background: 'rgba(0, 119, 181, 0.1)', border: '1px solid rgba(0, 119, 181, 0.3)'}}
-                  data-testid="link-linkedin"
+                  style={{background: 'rgba(255, 0, 0, 0.1)', border: '1px solid rgba(255, 0, 0, 0.3)'}}
+                  data-testid="link-youtube"
                 >
-                  <FaLinkedin className="text-lg" style={{color: '#0077b5'}} />
+                  <FaYoutube className="text-lg" style={{color: '#ff0000'}} />
                 </a>
               </div>
               
