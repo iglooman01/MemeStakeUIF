@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { FaTwitter, FaTelegram, FaDiscord, FaInstagram, FaGithub, FaLinkedin } from "react-icons/fa";
 import memeStakeLogo from "@assets/ChatGPT Image Aug 27, 2025, 09_52_01 PM_1756366058294.png";
 
 const i18n = {
@@ -1111,16 +1112,83 @@ export default function Home() {
             
           </div>
           
-          {/* Bottom Section */}
+          {/* Social Media & Copyright */}
           <div className="border-t border-border pt-8">
-            <div className="flex flex-col md:flex-row justify-between items-center">
-              <div className="text-sm text-muted-foreground mb-4 md:mb-0">
-                © {new Date().getFullYear()} MemeStake. All rights reserved.
+            <div className="flex flex-col items-center space-y-6">
+              {/* Social Media Icons */}
+              <div className="flex items-center space-x-6">
+                <a 
+                  href="https://twitter.com/memestake" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+                  style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}
+                  data-testid="link-twitter"
+                >
+                  <FaTwitter className="text-lg" style={{color: '#ffd700'}} />
+                </a>
+                <a 
+                  href="https://t.me/memestake_official" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+                  style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}
+                  data-testid="link-telegram"
+                >
+                  <FaTelegram className="text-lg" style={{color: '#00bfff'}} />
+                </a>
+                <a 
+                  href="https://discord.gg/memestake" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+                  style={{background: 'rgba(114, 137, 218, 0.1)', border: '1px solid rgba(114, 137, 218, 0.3)'}}
+                  data-testid="link-discord"
+                >
+                  <FaDiscord className="text-lg" style={{color: '#7289da'}} />
+                </a>
+                <a 
+                  href="https://instagram.com/memestake" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+                  style={{background: 'rgba(225, 48, 108, 0.1)', border: '1px solid rgba(225, 48, 108, 0.3)'}}
+                  data-testid="link-instagram"
+                >
+                  <FaInstagram className="text-lg" style={{color: '#e1306c'}} />
+                </a>
+                <a 
+                  href="https://github.com/memestake" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+                  style={{background: 'rgba(255, 255, 255, 0.1)', border: '1px solid rgba(255, 255, 255, 0.3)'}}
+                  data-testid="link-github"
+                >
+                  <FaGithub className="text-lg text-white" />
+                </a>
+                <a 
+                  href="https://linkedin.com/company/memestake" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+                  style={{background: 'rgba(0, 119, 181, 0.1)', border: '1px solid rgba(0, 119, 181, 0.3)'}}
+                  data-testid="link-linkedin"
+                >
+                  <FaLinkedin className="text-lg" style={{color: '#0077b5'}} />
+                </a>
               </div>
-              <div className="flex items-center space-x-4 text-sm">
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 rounded-full" style={{background: '#00ff88'}}></div>
-                  <span className="text-muted-foreground">System Status: Online</span>
+              
+              {/* Copyright and Status */}
+              <div className="flex flex-col md:flex-row justify-between items-center w-full text-center md:text-left">
+                <div className="text-sm text-muted-foreground mb-4 md:mb-0">
+                  © 2025 MemeStake. All rights reserved.
+                </div>
+                <div className="flex items-center space-x-4 text-sm">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-2 h-2 rounded-full" style={{background: '#00ff88'}}></div>
+                    <span className="text-muted-foreground">System Status: Online</span>
+                  </div>
                 </div>
               </div>
             </div>
