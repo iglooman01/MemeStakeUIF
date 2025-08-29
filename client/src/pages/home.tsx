@@ -663,7 +663,7 @@ export default function Home() {
                 <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg p-4 mb-8 max-w-3xl mx-auto border border-primary/20">
                   <div className="flex items-center justify-center mb-2">
                     <span className="text-2xl mr-2">⏰</span>
-                    <span className="text-lg font-semibold" style={{color: '#00bfff'}}>LAUNCH TIMELINE</span>
+                    <span className="text-lg font-semibold" style={{color: '#ffd700'}}>LAUNCH TIMELINE</span>
                   </div>
                   <div className="grid md:grid-cols-2 gap-4 text-sm">
                     <div className="text-center p-3 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)'}}>
