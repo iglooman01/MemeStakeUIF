@@ -144,7 +144,7 @@ export default function Home() {
   const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
-  const [airdropTime, setAirdropTime] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [airdropTime, setAirdropTime] = useState({ days: 30, hours: 12, minutes: 0, seconds: 4 });
   const [tokenHolders, setTokenHolders] = useState(47832);
   const [walletModalOpen, setWalletModalOpen] = useState(false);
   const [selectedWallet, setSelectedWallet] = useState<string>('');
@@ -467,26 +467,20 @@ export default function Home() {
     return () => clearInterval(tokenTimer);
   }, []);
 
-  // Airdrop countdown timer
+  // Static countdown for Phase 2: Staking Program
   useEffect(() => {
-    const targetDate = new Date();
-    targetDate.setDate(targetDate.getDate() + 30); // 30 days from now
-    targetDate.setHours(15, 0, 0, 0); // 3 PM
+    // Set fixed countdown values for Phase 2 Staking Program
+    setAirdropTime({ days: 30, hours: 12, minutes: 0, seconds: 4 });
     
+    // Optional: Create a subtle seconds animation for the last number
     const timer = setInterval(() => {
-      const now = new Date().getTime();
-      const distance = targetDate.getTime() - now;
-      
-      if (distance > 0) {
-        setAirdropTime({
-          days: Math.floor(distance / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-          minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
-          seconds: Math.floor((distance % (1000 * 60)) / 1000)
-        });
-      } else {
-        setAirdropTime({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-      }
+      setAirdropTime(prev => ({
+        ...prev,
+        seconds: prev.seconds > 0 ? prev.seconds - 1 : 59,
+        minutes: prev.seconds === 0 && prev.minutes > 0 ? prev.minutes - 1 : prev.minutes,
+        hours: prev.seconds === 0 && prev.minutes === 0 && prev.hours > 0 ? prev.hours - 1 : prev.hours,
+        days: prev.seconds === 0 && prev.minutes === 0 && prev.hours === 0 && prev.days > 0 ? prev.days - 1 : prev.days
+      }));
     }, 1000);
     
     return () => clearInterval(timer);
@@ -654,8 +648,8 @@ export default function Home() {
                   <div className="chip gold mr-4">🎁 AIRDROP</div>
                   <div className="chip">🔥 EXCLUSIVE</div>
                 </div>
-                <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{color: '#ffd700'}}>
-                  🚀 Decentralized MemeStake Token Airdrop
+                <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{color: '#ffd700', fontFamily: 'Space Grotesk, Inter, sans-serif'}}>
+                  🚀 Phase 2: Staking Program
                 </h2>
                 <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto">
                   Get ready for the biggest meme token airdrop of 2025! Early participants get exclusive bonuses.
