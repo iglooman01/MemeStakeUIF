@@ -1070,35 +1070,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Newsletter Subscribe */}
-      <section className="section-padding crypto-bg" data-testid="section-newsletter">
-        <div className="container">
-          <div className="text-center max-w-2xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Subscribe to our newsletter</h2>
-            <p className="text-lg text-muted-foreground mb-8">
-              Get product news, tips, and the occasional meme. Unsubscribe anytime.
-            </p>
-            
-            <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto" data-testid="form-newsletter">
-              <Input
-                type="email"
-                placeholder="Enter your email"
-                value={newsletterEmail}
-                onChange={(e) => setNewsletterEmail(e.target.value)}
-                className="flex-1"
-                data-testid="input-newsletter-email"
-              />
-              <Button type="submit" className="whitespace-nowrap" data-testid="button-subscribe">
-                Subscribe
-              </Button>
-            </form>
-            
-            {formErrors.newsletter && (
-              <div className="text-destructive text-sm mt-2" data-testid="error-newsletter">{formErrors.newsletter}</div>
-            )}
-          </div>
-        </div>
-      </section>
 
       {/* ROI Calculator */}
       <section className="section-padding" data-testid="section-roi-calculator">
@@ -1154,6 +1125,36 @@ export default function Home() {
                 </Button>
               </div>
             </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Newsletter Subscribe - Moved to end */}
+      <section className="section-padding crypto-bg" data-testid="section-newsletter">
+        <div className="container">
+          <div className="text-center max-w-2xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Subscribe to our newsletter</h2>
+            <p className="text-lg text-muted-foreground mb-8">
+              Get product news, tips, and the occasional meme. Unsubscribe anytime.
+            </p>
+            
+            <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto" data-testid="form-newsletter">
+              <Input
+                type="email"
+                placeholder="Enter your email"
+                value={newsletterEmail}
+                onChange={(e) => setNewsletterEmail(e.target.value)}
+                className="flex-1"
+                data-testid="input-newsletter-email"
+              />
+              <Button type="submit" className="whitespace-nowrap" data-testid="button-subscribe">
+                Subscribe
+              </Button>
+            </form>
+            
+            {formErrors.newsletter && (
+              <div className="text-destructive text-sm mt-2" data-testid="error-newsletter">{formErrors.newsletter}</div>
+            )}
           </div>
         </div>
       </section>
