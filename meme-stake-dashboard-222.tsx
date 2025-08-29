@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { FaTwitter, FaTelegram, FaMedium, FaYoutube } from "react-icons/fa";
-import memeStakeLogo from "@assets/14dd2956-ffa1-47c4-9501-ccb6b8df777d_1756486537307.jpg";
+import memeStakeLogo from "@assets/photo_6165874261982561339_y_1756486927703.jpg";
 
 const i18n = {
   en: { 
