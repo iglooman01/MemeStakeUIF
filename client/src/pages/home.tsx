@@ -842,7 +842,7 @@ export default function Home() {
               
               <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
                 <div className="text-2xl mb-2">💎</div>
-                <div className="font-semibold" style={{color: '#00bfff'}}>Staking Rewards - 30%</div>
+                <div className="font-semibold" style={{color: '#ffd700'}}>Staking Rewards - 30%</div>
                 <div className="text-sm text-muted-foreground">300M for incentives</div>
               </div>
               
