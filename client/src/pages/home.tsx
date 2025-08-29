@@ -588,7 +588,7 @@ export default function Home() {
       {/* Airdrop Notification Banner */}
       <div className="w-full py-2 px-4 text-center" style={{background: 'linear-gradient(90deg, rgba(255, 215, 0, 0.1) 0%, rgba(0, 191, 255, 0.1) 100%)', borderBottom: '1px solid rgba(255, 215, 0, 0.2)'}} data-testid="airdrop-notification">
         <p className="text-xs text-white/80">
-          🎁 <span style={{color: '#ffd700'}}>Limited Airdrop:</span> Connect your wallet now to claim free MEME tokens • <span style={{color: '#00bfff'}}>Join 47K+ holders</span> • Staking rewards up to 250% APY
+          🎁 <span style={{color: '#ffd700'}}>Limited Airdrop:</span> Connect your wallet now to claim free MEME tokens • <span style={{color: '#ffd700'}}>Join 47K+ holders</span> • Staking rewards up to 250% APY
         </p>
       </div>
 
@@ -821,7 +821,7 @@ export default function Home() {
       <section id="tokenomics" className="py-12" data-testid="section-tokenomics">
         <div className="container">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold mb-2">Tokenomics</h2>
+            <h2 className="text-3xl font-bold mb-2" style={{color: '#ffd700', fontFamily: 'Space Grotesk, Inter, sans-serif'}}>Tokenomics</h2>
             <p className="text-muted-foreground">Fair and transparent token distribution</p>
           </div>
           
@@ -848,7 +848,7 @@ export default function Home() {
               
               <div className="text-center p-4 rounded-lg" style={{background: 'rgba(128, 128, 128, 0.1)'}}>
                 <div className="text-2xl mb-2">👥</div>
-                <div className="font-semibold text-gray-300">Team & Development - 20%</div>
+                <div className="font-semibold" style={{color: '#ffd700'}}>Team & Development - 20%</div>
                 <div className="text-sm text-muted-foreground">200M with 2-year vesting</div>
               </div>
             </div>
@@ -861,7 +861,7 @@ export default function Home() {
       <section id="faq" className="section-padding crypto-bg" data-testid="section-faq">
         <div className="container">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{color: '#ffd700', fontFamily: 'Space Grotesk, Inter, sans-serif'}}>Frequently Asked Questions</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Everything you need to know about MemeStake
             </p>
