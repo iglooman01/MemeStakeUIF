@@ -135,7 +135,7 @@ const i18n = {
 
 export default function Home() {
   const [location, setLocation] = useLocation();
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState('dark');
   const [language, setLanguage] = useState('en');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -195,15 +195,15 @@ export default function Home() {
     }
   ];
 
-  // Initialize theme from localStorage or system preference
+  // Initialize theme from localStorage or default to dark
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    const initialTheme = savedTheme || systemTheme;
-    setTheme(initialTheme);
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    setTheme(savedTheme);
     
-    if (initialTheme === 'dark') {
+    if (savedTheme === 'dark') {
       document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
     }
   }, []);
 
@@ -501,7 +501,7 @@ export default function Home() {
   return (
     <div className="bg-background text-foreground">
       {/* Header */}
-      <header className="sticky top-0 backdrop-blur-md border-b border-border z-30" style={{background: 'rgba(15, 10, 35, 0.8)'}} data-testid="header-navigation">
+      <header className="sticky top-0 backdrop-blur-md border-b z-30" style={{background: 'rgba(15, 20, 35, 0.95)', borderColor: 'rgba(255, 215, 0, 0.15)', backdropFilter: 'blur(20px)'}} data-testid="header-navigation">
         <nav className="container py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
@@ -514,36 +514,36 @@ export default function Home() {
                   filter: 'drop-shadow(0 4px 15px rgba(255, 215, 0, 0.2))'
                 }}
               />
-              <span className="text-xl font-bold text-white">MemeStake</span>
+              <span className="text-xl font-bold text-white" style={{fontFamily: 'Space Grotesk, Inter, sans-serif', fontWeight: '700'}}>MemeStake</span>
             </div>
 
             {/* Desktop Navigation - Multiple Links */}
             <div className="hidden md:flex items-center justify-center flex-1 space-x-8" data-testid="desktop-nav">
-              <a href="#about" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-about">{t.about}</a>
-              <a href="#whitepaper" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-whitepaper">{t.whitepaper}</a>
-              <a href="#roadmap" className="nav-link text-foreground hover:text-primary transition-colors" data-testid="link-roadmap">Roadmap</a>
+              <a href="#about" className="nav-link text-gray-300 hover:text-white transition-all duration-200" style={{fontFamily: 'Inter, sans-serif', fontWeight: '500'}} data-testid="link-about">{t.about}</a>
+              <a href="#whitepaper" className="nav-link text-gray-300 hover:text-white transition-all duration-200" style={{fontFamily: 'Inter, sans-serif', fontWeight: '500'}} data-testid="link-whitepaper">{t.whitepaper}</a>
+              <a href="#roadmap" className="nav-link text-gray-300 hover:text-white transition-all duration-200" style={{fontFamily: 'Inter, sans-serif', fontWeight: '500'}} data-testid="link-roadmap">Roadmap</a>
             </div>
 
             {/* Right Side Controls */}
             <div className="flex items-center space-x-4">
               {/* Language Selector */}
               <Select value={language} onValueChange={handleLanguageChange}>
-                <SelectTrigger className="w-16 h-8 text-sm" data-testid="select-language">
+                <SelectTrigger className="w-16 h-8 text-sm border" style={{background: 'rgba(255, 255, 255, 0.05)', borderColor: 'rgba(255, 215, 0, 0.2)', color: 'white', fontFamily: 'Inter, sans-serif'}} data-testid="select-language">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="en">🇺🇸 EN</SelectItem>
-                  <SelectItem value="hi">🇮🇳 हिं</SelectItem>
-                  <SelectItem value="es">🇪🇸 ES</SelectItem>
-                  <SelectItem value="fr">🇫🇷 FR</SelectItem>
-                  <SelectItem value="de">🇩🇪 DE</SelectItem>
-                  <SelectItem value="ja">🇯🇵 JP</SelectItem>
-                  <SelectItem value="ko">🇰🇷 KO</SelectItem>
-                  <SelectItem value="zh">🇨🇳 中文</SelectItem>
-                  <SelectItem value="pt">🇵🇹 PT</SelectItem>
-                  <SelectItem value="ru">🇷🇺 RU</SelectItem>
-                  <SelectItem value="ar">🇸🇦 عرب</SelectItem>
-                  <SelectItem value="it">🇮🇹 IT</SelectItem>
+                <SelectContent style={{background: 'rgba(15, 20, 35, 0.98)', borderColor: 'rgba(255, 215, 0, 0.2)', backdropFilter: 'blur(20px)'}}>
+                  <SelectItem value="en" style={{color: 'white', fontFamily: 'Inter, sans-serif'}}>🇺🇸 EN</SelectItem>
+                  <SelectItem value="hi" style={{color: 'white', fontFamily: 'Inter, sans-serif'}}>🇮🇳 हिं</SelectItem>
+                  <SelectItem value="es" style={{color: 'white', fontFamily: 'Inter, sans-serif'}}>🇪🇸 ES</SelectItem>
+                  <SelectItem value="fr" style={{color: 'white', fontFamily: 'Inter, sans-serif'}}>🇫🇷 FR</SelectItem>
+                  <SelectItem value="de" style={{color: 'white', fontFamily: 'Inter, sans-serif'}}>🇩🇪 DE</SelectItem>
+                  <SelectItem value="ja" style={{color: 'white', fontFamily: 'Inter, sans-serif'}}>🇯🇵 JP</SelectItem>
+                  <SelectItem value="ko" style={{color: 'white', fontFamily: 'Inter, sans-serif'}}>🇰🇷 KO</SelectItem>
+                  <SelectItem value="zh" style={{color: 'white', fontFamily: 'Inter, sans-serif'}}>🇨🇳 中文</SelectItem>
+                  <SelectItem value="pt" style={{color: 'white', fontFamily: 'Inter, sans-serif'}}>🇵🇹 PT</SelectItem>
+                  <SelectItem value="ru" style={{color: 'white', fontFamily: 'Inter, sans-serif'}}>🇷🇺 RU</SelectItem>
+                  <SelectItem value="ar" style={{color: 'white', fontFamily: 'Inter, sans-serif'}}>🇸🇦 عرب</SelectItem>
+                  <SelectItem value="it" style={{color: 'white', fontFamily: 'Inter, sans-serif'}}>🇮🇹 IT</SelectItem>
                 </SelectContent>
               </Select>
 
@@ -552,7 +552,8 @@ export default function Home() {
                 variant="outline"
                 size="sm"
                 onClick={toggleTheme}
-                className="p-2 h-8 w-8"
+                className="p-2 h-8 w-8 border"
+                style={{background: 'rgba(255, 255, 255, 0.05)', borderColor: 'rgba(255, 215, 0, 0.2)', color: 'white'}}
                 data-testid="button-theme-toggle"
               >
                 {theme === 'dark' ? '☀️' : '🌙'}
@@ -560,8 +561,16 @@ export default function Home() {
 
               {/* Connect Wallet - Top Right Corner */}
               <Button 
-                className="gradient-button" 
                 onClick={() => setWalletModalOpen(true)}
+                className="px-6 py-2 rounded-lg text-sm font-semibold transition-all duration-300 hover:scale-105"
+                style={{
+                  background: 'linear-gradient(135deg, #ffd700 0%, #00bfff 100%)',
+                  color: '#0a0e1a',
+                  fontWeight: '600',
+                  fontFamily: 'Space Grotesk, sans-serif',
+                  border: '1px solid rgba(255, 215, 0, 0.3)',
+                  boxShadow: '0 4px 15px rgba(255, 215, 0, 0.2)'
+                }}
                 data-testid="button-get-started"
               >
                 {t.getStarted}
@@ -611,10 +620,10 @@ export default function Home() {
       <section id="home" className="min-h-screen hero-section flex items-center justify-center" data-testid="section-hero">
         <div className="container">
           <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-8 leading-tight" data-testid="text-hero-headline">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-8 leading-tight" style={{fontFamily: 'Space Grotesk, Inter, sans-serif', fontWeight: '800'}} data-testid="text-hero-headline">
               Stake Memes. <span className="text-primary">Earn Big.</span>
             </h1>
-            <p className="text-xl md:text-2xl lg:text-3xl text-muted-foreground mb-12 leading-relaxed max-w-3xl mx-auto" data-testid="text-hero-subtitle">
+            <p className="text-xl md:text-2xl lg:text-3xl text-gray-300 mb-12 leading-relaxed max-w-3xl mx-auto" style={{fontFamily: 'Inter, sans-serif', fontWeight: '400'}} data-testid="text-hero-subtitle">
               Turn your favorite meme tokens into daily passive income.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
