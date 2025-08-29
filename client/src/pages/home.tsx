@@ -412,9 +412,9 @@ export default function Home() {
         description: `Successfully connected to ${walletName}`,
       });
       
-      // Navigate to dashboard page after successful connection
+      // Navigate to external dashboard after successful connection
       setTimeout(() => {
-        setLocation('/dashboard');
+        window.location.href = 'https://mems-ui-server-dashbaord.replit.app/';
       }, 1000);
     }, 1000);
   };
