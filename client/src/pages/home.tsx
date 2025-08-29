@@ -748,7 +748,7 @@ export default function Home() {
                 <div className="text-center">
                   <div className="inline-flex items-center space-x-2 px-6 py-3 rounded-full" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
                     <span className="text-lg">💎</span>
-                    <span className="text-sm font-medium" style={{color: '#00bfff'}}>Staking rewards up to 250% APY start after airdrop completion</span>
+                    <span className="text-sm font-medium" style={{color: '#ffd700'}}>Staking rewards up to 250% APY start after airdrop completion</span>
                   </div>
                 </div>
               </div>
