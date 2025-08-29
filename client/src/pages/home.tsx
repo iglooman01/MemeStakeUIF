@@ -558,7 +558,7 @@ export default function Home() {
                 onClick={() => setWalletModalOpen(true)}
                 className="px-6 py-2 rounded-lg text-sm font-semibold transition-all duration-300 hover:scale-105"
                 style={{
-                  background: 'linear-gradient(135deg, #ffd700 0%, #00bfff 100%)',
+                  background: '#ffd700',
                   color: '#0a0e1a',
                   fontWeight: '600',
                   fontFamily: 'Space Grotesk, sans-serif',
@@ -601,6 +601,13 @@ export default function Home() {
               <Button 
                 className="mt-4" 
                 onClick={() => setWalletModalOpen(true)}
+                style={{
+                  background: '#ffd700',
+                  color: '#0a0e1a',
+                  fontWeight: '600',
+                  fontFamily: 'Space Grotesk, sans-serif',
+                  border: '1px solid rgba(255, 215, 0, 0.3)'
+                }}
                 data-testid="mobile-button-get-started"
               >
                 {t.getStarted}
@@ -625,6 +632,13 @@ export default function Home() {
                 size="lg" 
                 className="text-lg px-8 py-4" 
                 onClick={handleStakingClick}
+                style={{
+                  background: '#ffd700',
+                  color: '#0a0e1a',
+                  fontWeight: '600',
+                  fontFamily: 'Space Grotesk, sans-serif',
+                  border: '1px solid rgba(255, 215, 0, 0.3)'
+                }}
                 data-testid="button-start-staking"
               >
                 🚀 Start Staking
@@ -737,6 +751,13 @@ export default function Home() {
                     size="lg" 
                     className="text-lg px-8 py-4" 
                     onClick={() => setWalletModalOpen(true)}
+                    style={{
+                      background: '#ffd700',
+                      color: '#0a0e1a',
+                      fontWeight: '600',
+                      fontFamily: 'Space Grotesk, sans-serif',
+                      border: '1px solid rgba(255, 215, 0, 0.3)'
+                    }}
                     data-testid="button-claim-airdrop"
                   >
                     🎁 Join Airdrop
