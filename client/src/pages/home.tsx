@@ -513,9 +513,9 @@ export default function Home() {
 
             {/* Desktop Navigation - Multiple Links */}
             <div className="hidden md:flex items-center justify-center flex-1 space-x-8" data-testid="desktop-nav">
-              <a href="#about" className="nav-link" style={{color: '#ffd700', fontFamily: 'Inter, sans-serif', fontWeight: '500'}} data-testid="link-about">{t.about}</a>
-              <a href="#whitepaper" className="nav-link" style={{color: '#ffd700', fontFamily: 'Inter, sans-serif', fontWeight: '500'}} data-testid="link-whitepaper">{t.whitepaper}</a>
-              <a href="#roadmap" className="nav-link" style={{color: '#ffd700', fontFamily: 'Inter, sans-serif', fontWeight: '500'}} data-testid="link-roadmap">Roadmap</a>
+              <a href="#about" className="nav-link text-gray-300 hover:text-white transition-all duration-200" style={{fontFamily: 'Inter, sans-serif', fontWeight: '500'}} data-testid="link-about">{t.about}</a>
+              <a href="#whitepaper" className="nav-link text-gray-300 hover:text-white transition-all duration-200" style={{fontFamily: 'Inter, sans-serif', fontWeight: '500'}} data-testid="link-whitepaper">{t.whitepaper}</a>
+              <a href="#roadmap" className="nav-link text-gray-300 hover:text-white transition-all duration-200" style={{fontFamily: 'Inter, sans-serif', fontWeight: '500'}} data-testid="link-roadmap">Roadmap</a>
             </div>
 
             {/* Right Side Controls */}
@@ -587,7 +587,7 @@ export default function Home() {
 
       {/* Airdrop Notification Banner */}
       <div className="w-full py-2 px-4 text-center" style={{background: 'linear-gradient(90deg, rgba(255, 215, 0, 0.1) 0%, rgba(0, 191, 255, 0.1) 100%)', borderBottom: '1px solid rgba(255, 215, 0, 0.2)'}} data-testid="airdrop-notification">
-        <p className="text-xs" style={{color: '#ffd700'}}>
+        <p className="text-xs text-white/80">
           🎁 <span style={{color: '#ffd700'}}>Limited Airdrop:</span> Connect your wallet now to claim free MEME tokens • <span style={{color: '#ffd700'}}>Join 47K+ holders</span> • Staking rewards up to 250% APY
         </p>
       </div>
@@ -624,7 +624,7 @@ export default function Home() {
             <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-8 leading-tight" style={{fontFamily: 'Space Grotesk, Inter, sans-serif', fontWeight: '800'}} data-testid="text-hero-headline">
               Stake Memes. <span className="text-primary">Earn Big.</span>
             </h1>
-            <p className="text-xl md:text-2xl lg:text-3xl mb-12 leading-relaxed max-w-3xl mx-auto" style={{color: '#ffd700', fontFamily: 'Inter, sans-serif', fontWeight: '400'}} data-testid="text-hero-subtitle">
+            <p className="text-xl md:text-2xl lg:text-3xl text-gray-300 mb-12 leading-relaxed max-w-3xl mx-auto" style={{fontFamily: 'Inter, sans-serif', fontWeight: '400'}} data-testid="text-hero-subtitle">
               Turn your favorite meme tokens into daily passive income.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
@@ -665,7 +665,7 @@ export default function Home() {
                 <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{color: '#ffd700', fontFamily: 'Space Grotesk, Inter, sans-serif'}}>
                   🚀 Phase 2: Staking Program
                 </h2>
-                <p className="text-lg mb-6 max-w-2xl mx-auto" style={{color: '#ffd700'}}>
+                <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto">
                   Get ready for the biggest meme token airdrop of 2025! Early participants get exclusive bonuses.
                 </p>
                 <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg p-4 mb-8 max-w-3xl mx-auto border border-primary/20">
@@ -676,11 +676,11 @@ export default function Home() {
                   <div className="grid md:grid-cols-2 gap-4 text-sm">
                     <div className="text-center p-3 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)'}}>
                       <div className="font-semibold" style={{color: '#ffd700'}}>Phase 1: Airdrop Launch</div>
-                      <div style={{color: '#ffd700'}}>Distribution of 10M MEME tokens</div>
+                      <div className="text-muted-foreground">Distribution of 10M MEME tokens</div>
                     </div>
                     <div className="text-center p-3 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
                       <div className="font-semibold" style={{color: '#00bfff'}}>Phase 2: Staking Program</div>
-                      <div style={{color: '#ffd700'}}>Starts immediately after airdrop</div>
+                      <div className="text-muted-foreground">Starts immediately after airdrop</div>
                     </div>
                   </div>
                 </div>
@@ -702,7 +702,7 @@ export default function Home() {
                         <span className="text-sm md:text-base font-medium" style={{color: '#ffd700'}}>DAYS</span>
                       </div>
                       
-                      <div className="text-3xl md:text-4xl animate-pulse" style={{color: '#ffd700'}}>:</div>
+                      <div className="text-3xl md:text-4xl text-cyan-400 animate-pulse">:</div>
                       
                       <div className="flex items-center space-x-2">
                         <span className="text-4xl md:text-5xl font-bold animated-gradient"
@@ -712,7 +712,7 @@ export default function Home() {
                         <span className="text-sm md:text-base font-medium" style={{color: '#ffd700'}}>HRS</span>
                       </div>
                       
-                      <div className="text-3xl md:text-4xl animate-pulse" style={{color: '#ffd700'}}>:</div>
+                      <div className="text-3xl md:text-4xl text-cyan-400 animate-pulse">:</div>
                       
                       <div className="flex items-center space-x-2">
                         <span className="text-4xl md:text-5xl font-bold animated-gradient"
@@ -722,7 +722,7 @@ export default function Home() {
                         <span className="text-sm md:text-base font-medium" style={{color: '#ffd700'}}>MIN</span>
                       </div>
                       
-                      <div className="text-3xl md:text-4xl animate-pulse" style={{color: '#ffd700'}}>:</div>
+                      <div className="text-3xl md:text-4xl text-cyan-400 animate-pulse">:</div>
                       
                       <div className="flex items-center space-x-2">
                         <span className="text-4xl md:text-5xl font-bold animated-gradient"
@@ -798,7 +798,7 @@ export default function Home() {
                      style={{background: 'linear-gradient(-45deg, #ffd700, #00bfff, #ffd700, #00bfff)', backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent'}}>
                   {tokenHolders.toLocaleString()}
                 </div>
-                <div className="text-lg font-semibold mb-1" style={{color: '#ffd700'}}>🏆 Total Token Holders</div>
+                <div className="text-lg font-semibold text-white mb-1">🏆 Total Token Holders</div>
                 <div className="text-sm" style={{color: '#00ff88'}}>↗ Live Updates Every 5s</div>
               </div>
               
@@ -1191,7 +1191,7 @@ export default function Home() {
                 <div className="flex items-center space-x-4 text-sm">
                   <div className="flex items-center space-x-2">
                     <div className="w-2 h-2 rounded-full" style={{background: '#00ff88'}}></div>
-                    <span style={{color: '#ffd700'}}>System Status: Online</span>
+                    <span className="text-muted-foreground">System Status: Online</span>
                   </div>
                 </div>
               </div>
@@ -1228,14 +1228,14 @@ export default function Home() {
                     filter: 'drop-shadow(0 2px 8px rgba(255, 215, 0, 0.1))'
                   }}
                 />
-                <h2 className="text-xl font-semibold" style={{color: '#ffd700'}}>Connect Wallet</h2>
+                <h2 className="text-xl font-semibold text-white">Connect Wallet</h2>
               </div>
               <button 
                 onClick={() => setWalletModalOpen(false)}
                 className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors"
                 data-testid="button-close-modal"
               >
-                <span className="text-lg" style={{color: '#ffd700'}}>×</span>
+                <span className="text-white text-lg">×</span>
               </button>
             </div>
 
@@ -1249,7 +1249,7 @@ export default function Home() {
             </div>
 
             {/* Subtitle */}
-            <p className="text-center mb-8 text-sm" style={{color: '#ffd700'}}>
+            <p className="text-center text-gray-300 mb-8 text-sm">
               Select a BNB Smart Chain compatible wallet
             </p>
 
@@ -1285,20 +1285,20 @@ export default function Home() {
                 >
                   <div className="flex items-center space-x-3">
                     <span className="text-2xl">{wallet.icon}</span>
-                    <span className="font-medium group-hover:text-black transition-colors" style={{color: '#ffd700'}}>
+                    <span className="font-medium text-white group-hover:text-black transition-colors">
                       {wallet.name}
                     </span>
                   </div>
                   {selectedWallet === wallet.name && (
-                    <span style={{color: '#ffd700'}}>✓</span>
+                    <span className="text-cyan-400">✓</span>
                   )}
                 </button>
               ))}
             </div>
 
             {/* Footer */}
-            <div className="flex items-center justify-between text-xs pt-4 border-t border-white/10" style={{color: '#ffd700'}}>
-              <a href="#" className="transition-colors" style={{color: '#ffd700'}} data-testid="link-help">
+            <div className="flex items-center justify-between text-xs text-gray-400 pt-4 border-t border-white/10">
+              <a href="#" className="hover:text-cyan-400 transition-colors" data-testid="link-help">
                 Having trouble?
               </a>
               <span>More wallets via WalletConnect</span>
