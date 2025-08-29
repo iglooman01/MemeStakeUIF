@@ -890,7 +890,7 @@ export default function Home() {
                   Our community team is here to help you get started
                 </p>
                 <Button asChild data-testid="button-contact-support">
-                  <a href="#contact">Contact Support</a>
+                  <a href="https://t.me/memestake_official" target="_blank" rel="noopener noreferrer">💬 Contact Support</a>
                 </Button>
               </Card>
               
