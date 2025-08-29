@@ -587,7 +587,7 @@ export default function Home() {
 
       {/* Airdrop Notification Banner */}
       <div className="w-full py-2 px-4 text-center" style={{background: 'linear-gradient(90deg, rgba(255, 215, 0, 0.1) 0%, rgba(0, 191, 255, 0.1) 100%)', borderBottom: '1px solid rgba(255, 215, 0, 0.2)'}} data-testid="airdrop-notification">
-        <p className="text-xs text-white/80">
+        <p className="text-sm text-white/80">
           🎁 <span style={{color: '#ffd700'}}>Limited Airdrop:</span> Connect your wallet now to claim free MEME tokens • <span style={{color: '#ffd700'}}>Join 47K+ holders</span> • Staking rewards up to 250% APY
         </p>
       </div>
@@ -596,8 +596,8 @@ export default function Home() {
       {mobileMenuOpen && (
         <div className="mobile-menu active" data-testid="mobile-menu">
           <div className="p-6">
-            <div className="flex flex-col space-y-4 mt-16">
-              <a href="#about" className="text-lg" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-about">{t.about}</a>
+            <div className="flex flex-col space-y-6 mt-16">
+              <a href="#about" className="text-xl font-medium text-white hover:text-primary transition-colors" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-about">{t.about}</a>
               <Button 
                 className="mt-4" 
                 onClick={() => setWalletModalOpen(true)}
@@ -1249,7 +1249,7 @@ export default function Home() {
             </div>
 
             {/* Subtitle */}
-            <p className="text-center text-gray-300 mb-8 text-sm">
+            <p className="text-center text-gray-300 mb-8 text-base">
               Select a BNB Smart Chain compatible wallet
             </p>
 
@@ -1297,7 +1297,7 @@ export default function Home() {
             </div>
 
             {/* Footer */}
-            <div className="flex items-center justify-between text-xs text-gray-400 pt-4 border-t border-white/10">
+            <div className="flex flex-col sm:flex-row items-center justify-between text-sm text-gray-400 pt-4 border-t border-white/10 gap-2">
               <a href="#" className="hover:text-cyan-400 transition-colors" data-testid="link-help">
                 Having trouble?
               </a>
