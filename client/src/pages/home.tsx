@@ -685,7 +685,7 @@ export default function Home() {
                               style={{background: 'linear-gradient(-45deg, #ffd700, #00bfff, #ffd700, #00bfff)', backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent'}}>
                           {String(airdropTime.days).padStart(2, '0')}
                         </span>
-                        <span className="text-sm md:text-base text-white/80 font-medium">DAYS</span>
+                        <span className="text-sm md:text-base font-medium" style={{color: '#ffd700'}}>DAYS</span>
                       </div>
                       
                       <div className="text-3xl md:text-4xl text-cyan-400 animate-pulse">:</div>
@@ -695,7 +695,7 @@ export default function Home() {
                               style={{background: 'linear-gradient(-45deg, #00bfff, #ffd700, #00bfff, #ffd700)', backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent'}}>
                           {String(airdropTime.hours).padStart(2, '0')}
                         </span>
-                        <span className="text-sm md:text-base text-white/80 font-medium">HRS</span>
+                        <span className="text-sm md:text-base font-medium" style={{color: '#ffd700'}}>HRS</span>
                       </div>
                       
                       <div className="text-3xl md:text-4xl text-cyan-400 animate-pulse">:</div>
@@ -705,7 +705,7 @@ export default function Home() {
                               style={{background: 'linear-gradient(-45deg, #ffd700, #00bfff, #ffd700, #00bfff)', backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent'}}>
                           {String(airdropTime.minutes).padStart(2, '0')}
                         </span>
-                        <span className="text-sm md:text-base text-white/80 font-medium">MIN</span>
+                        <span className="text-sm md:text-base font-medium" style={{color: '#ffd700'}}>MIN</span>
                       </div>
                       
                       <div className="text-3xl md:text-4xl text-cyan-400 animate-pulse">:</div>
@@ -715,7 +715,7 @@ export default function Home() {
                               style={{background: 'linear-gradient(-45deg, #00bfff, #ffd700, #00bfff, #ffd700)', backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent'}}>
                           {String(airdropTime.seconds).padStart(2, '0')}
                         </span>
-                        <span className="text-sm md:text-base text-white/80 font-medium">SEC</span>
+                        <span className="text-sm md:text-base font-medium" style={{color: '#ffd700'}}>S</span>
                       </div>
                     </div>
                   </div>
