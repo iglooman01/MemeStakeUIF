@@ -574,6 +574,13 @@ export default function Home() {
         </nav>
       </header>
 
+      {/* Airdrop Notification Banner */}
+      <div className="w-full py-2 px-4 text-center" style={{background: 'linear-gradient(90deg, rgba(255, 215, 0, 0.1) 0%, rgba(0, 191, 255, 0.1) 100%)', borderBottom: '1px solid rgba(255, 215, 0, 0.2)'}} data-testid="airdrop-notification">
+        <p className="text-xs text-white/80">
+          🎁 <span style={{color: '#ffd700'}}>Limited Airdrop:</span> Connect your wallet now to claim free MEME tokens • <span style={{color: '#00bfff'}}>Join 47K+ holders</span> • Staking rewards up to 250% APY
+        </p>
+      </div>
+
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="mobile-menu active" data-testid="mobile-menu">
