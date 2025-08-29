@@ -514,7 +514,7 @@ export default function Home() {
                   filter: 'drop-shadow(0 4px 15px rgba(255, 215, 0, 0.2))'
                 }}
               />
-              <span className="text-xl font-bold text-white" style={{fontFamily: 'Space Grotesk, Inter, sans-serif', fontWeight: '700'}}>MemeStake</span>
+              <span className="text-xl font-bold" style={{fontFamily: 'Space Grotesk, Inter, sans-serif', fontWeight: '700', color: '#ffd700'}}>MemeStake</span>
             </div>
 
             {/* Desktop Navigation - Multiple Links */}
