@@ -586,7 +586,7 @@ export default function Home() {
       </header>
 
       {/* Airdrop Notification Banner */}
-      <div className="w-full py-2 px-4 text-center" style={{background: 'linear-gradient(90deg, rgba(255, 215, 0, 0.1) 0%, rgba(0, 191, 255, 0.1) 100%)', borderBottom: '1px solid rgba(255, 215, 0, 0.2)'}} data-testid="airdrop-notification">
+      <div className="w-full py-2 px-4 text-center" style={{background: '#000000', borderBottom: '1px solid rgba(255, 215, 0, 0.2)'}} data-testid="airdrop-notification">
         <p className="text-xs sm:text-sm text-white/80">
           🎁 <span style={{color: '#ffd700'}}>Limited Airdrop:</span> Connect your wallet now to claim free MEME tokens • <span style={{color: '#ffd700'}}>Join 47K+ holders</span> • Staking rewards up to 250% APY
         </p>
@@ -652,7 +652,7 @@ export default function Home() {
       </section>
 
       {/* Airdrop Timer */}
-      <section className="py-8" style={{background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(0, 191, 255, 0.1) 100%)'}} data-testid="section-airdrop">
+      <section className="py-8" style={{background: '#000000'}} data-testid="section-airdrop">
         <div className="container">
           <div className="text-center">
             <Card className="p-8 max-w-4xl mx-auto relative overflow-hidden">
@@ -779,7 +779,7 @@ export default function Home() {
       </section>
 
       {/* Live Stats Banner */}
-      <section className="py-4 relative overflow-hidden" style={{background: 'linear-gradient(90deg, rgba(255, 215, 0, 0.15) 0%, rgba(0, 191, 255, 0.15) 50%, rgba(255, 215, 0, 0.15) 100%)'}} data-testid="section-live-stats">
+      <section className="py-4 relative overflow-hidden" style={{background: '#000000'}} data-testid="section-live-stats">
         <div className="container">
           <div className="flex items-center justify-center mb-2">
             <div className="w-3 h-3 rounded-full mr-2" style={{background: '#00ff88', animation: 'pulse 1s infinite'}}></div>
@@ -1128,7 +1128,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="py-16" style={{background: 'linear-gradient(135deg, #0a0e1a 0%, #1a1f2e 100%)'}} data-testid="footer">
+      <footer className="py-16" style={{background: '#000000'}} data-testid="footer">
         <div className="container">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
             
@@ -1272,7 +1272,7 @@ export default function Home() {
                       : 'none'
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'linear-gradient(135deg, #00bfff 0%, #10b981 100%)';
+                    e.currentTarget.style.background = '#000000';
                     e.currentTarget.style.color = '#000';
                   }}
                   onMouseLeave={(e) => {
