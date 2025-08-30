@@ -662,7 +662,7 @@ export default function Home() {
                   <div className="chip gold mr-4">🎁 AIRDROP</div>
                   <div className="chip">🔥 EXCLUSIVE</div>
                 </div>
-                <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{color: '#FFA500', fontFamily: 'Space Grotesk, Inter, sans-serif'}}>
+                <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{color: '#ffd700', fontFamily: 'Space Grotesk, Inter, sans-serif'}}>
                   🚀 Phase 2: Staking Program
                 </h2>
                 <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto">
@@ -679,7 +679,7 @@ export default function Home() {
                       <div className="text-muted-foreground">Distribution of 10M MEME tokens</div>
                     </div>
                     <div className="text-center p-3 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
-                      <div className="font-semibold" style={{color: '#00bfff'}}>Phase 2: Staking Program</div>
+                      <div className="font-semibold" style={{color: '#ffd700'}}>Phase 2: Staking Program</div>
                       <div className="text-muted-foreground">Starts immediately after airdrop</div>
                     </div>
                   </div>
