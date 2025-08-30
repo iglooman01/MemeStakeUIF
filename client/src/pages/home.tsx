@@ -695,38 +695,38 @@ export default function Home() {
                        }}>
                     <div className="flex items-center space-x-6 text-center">
                       <div className="flex items-center space-x-2">
-                        <span className="text-4xl md:text-5xl font-bold animated-gradient" 
-                              style={{background: 'linear-gradient(-45deg, #ffd700, #00bfff, #ffd700, #00bfff)', backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent'}}>
+                        <span className="text-4xl md:text-5xl font-bold" 
+                              style={{color: '#ffd700'}}>
                           {String(airdropTime.days).padStart(2, '0')}
                         </span>
                         <span className="text-sm md:text-base font-medium" style={{color: '#ffd700'}}>DAYS</span>
                       </div>
                       
-                      <div className="text-3xl md:text-4xl text-cyan-400 animate-pulse">:</div>
+                      <div className="text-3xl md:text-4xl animate-pulse" style={{color: '#ffd700'}}>:</div>
                       
                       <div className="flex items-center space-x-2">
-                        <span className="text-4xl md:text-5xl font-bold animated-gradient"
-                              style={{background: 'linear-gradient(-45deg, #00bfff, #ffd700, #00bfff, #ffd700)', backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent'}}>
+                        <span className="text-4xl md:text-5xl font-bold"
+                              style={{color: '#ffd700'}}>
                           {String(airdropTime.hours).padStart(2, '0')}
                         </span>
                         <span className="text-sm md:text-base font-medium" style={{color: '#ffd700'}}>HRS</span>
                       </div>
                       
-                      <div className="text-3xl md:text-4xl text-cyan-400 animate-pulse">:</div>
+                      <div className="text-3xl md:text-4xl animate-pulse" style={{color: '#ffd700'}}>:</div>
                       
                       <div className="flex items-center space-x-2">
-                        <span className="text-4xl md:text-5xl font-bold animated-gradient"
-                              style={{background: 'linear-gradient(-45deg, #ffd700, #00bfff, #ffd700, #00bfff)', backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent'}}>
+                        <span className="text-4xl md:text-5xl font-bold"
+                              style={{color: '#ffd700'}}>
                           {String(airdropTime.minutes).padStart(2, '0')}
                         </span>
                         <span className="text-sm md:text-base font-medium" style={{color: '#ffd700'}}>MIN</span>
                       </div>
                       
-                      <div className="text-3xl md:text-4xl text-cyan-400 animate-pulse">:</div>
+                      <div className="text-3xl md:text-4xl animate-pulse" style={{color: '#ffd700'}}>:</div>
                       
                       <div className="flex items-center space-x-2">
-                        <span className="text-4xl md:text-5xl font-bold animated-gradient"
-                              style={{background: 'linear-gradient(-45deg, #00bfff, #ffd700, #00bfff, #ffd700)', backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent'}}>
+                        <span className="text-4xl md:text-5xl font-bold"
+                              style={{color: '#ffd700'}}>
                           {String(airdropTime.seconds).padStart(2, '0')}
                         </span>
                         <span className="text-sm md:text-base font-medium" style={{color: '#ffd700'}}>S</span>
