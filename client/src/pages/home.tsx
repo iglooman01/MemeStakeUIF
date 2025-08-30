@@ -794,8 +794,8 @@ export default function Home() {
                    boxShadow: '0 0 20px rgba(255, 215, 0, 0.2)'
                  }}>
               <div className="text-center">
-                <div className="text-4xl md:text-5xl font-bold mb-2 animated-gradient" 
-                     style={{background: 'linear-gradient(-45deg, #ffd700, #00bfff, #ffd700, #00bfff)', backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent'}}>
+                <div className="text-4xl md:text-5xl font-bold mb-2" 
+                     style={{color: '#ffd700'}}>
                   {tokenHolders.toLocaleString()}
                 </div>
                 <div className="text-lg font-semibold text-white mb-1">🏆 Total Token Holders</div>
