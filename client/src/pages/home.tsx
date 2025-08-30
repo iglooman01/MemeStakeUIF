@@ -1161,6 +1161,26 @@ export default function Home() {
                 >
                   <FaTelegram className="text-lg" style={{color: '#00bfff'}} />
                 </a>
+                <a 
+                  href="https://youtube.com/@memestake" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+                  style={{background: 'rgba(255, 0, 0, 0.1)', border: '1px solid rgba(255, 0, 0, 0.3)'}}
+                  data-testid="link-youtube"
+                >
+                  <FaYoutube className="text-lg" style={{color: '#ff0000'}} />
+                </a>
+                <a 
+                  href="https://medium.com/@memestake" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+                  style={{background: 'rgba(0, 170, 85, 0.1)', border: '1px solid rgba(0, 170, 85, 0.3)'}}
+                  data-testid="link-medium"
+                >
+                  <FaMedium className="text-lg" style={{color: '#00aa55'}} />
+                </a>
               </div>
               
               {/* Copyright and Status */}
