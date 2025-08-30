@@ -662,7 +662,7 @@ export default function Home() {
                   <div className="chip gold mr-4">🎁 AIRDROP</div>
                   <div className="chip">🔥 EXCLUSIVE</div>
                 </div>
-                <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{color: '#FFD700', fontFamily: 'Space Grotesk, Inter, sans-serif'}}>
+                <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{color: '#FFA500', fontFamily: 'Space Grotesk, Inter, sans-serif'}}>
                   🚀 Phase 2: Staking Program
                 </h2>
                 <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto">
@@ -848,7 +848,7 @@ export default function Home() {
           
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-6">
-              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full" style={{background: 'linear-gradient(135deg, #ffd700, #00bfff)'}}>
+              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full" style={{background: '#ffd700'}}>
                 <span className="text-3xl font-bold text-black">1B</span>
               </div>
               <div className="text-lg font-semibold mt-2">Total Supply</div>
@@ -1160,26 +1160,6 @@ export default function Home() {
                   data-testid="link-telegram"
                 >
                   <FaTelegram className="text-lg" style={{color: '#00bfff'}} />
-                </a>
-                <a 
-                  href="https://medium.com/@memestake" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
-                  style={{background: 'rgba(255, 255, 255, 0.1)', border: '1px solid rgba(255, 255, 255, 0.3)'}}
-                  data-testid="link-medium"
-                >
-                  <FaMedium className="text-lg text-white" />
-                </a>
-                <a 
-                  href="https://youtube.com/@memestake" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
-                  style={{background: 'rgba(255, 0, 0, 0.1)', border: '1px solid rgba(255, 0, 0, 0.3)'}}
-                  data-testid="link-youtube"
-                >
-                  <FaYoutube className="text-lg" style={{color: '#ff0000'}} />
                 </a>
               </div>
               
