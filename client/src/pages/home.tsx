@@ -519,7 +519,7 @@ export default function Home() {
             </div>
 
             {/* Right Side Controls */}
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 sm:space-x-4">
               {/* Language Selector */}
               <Select value={language} onValueChange={handleLanguageChange}>
                 <SelectTrigger className="w-16 h-8 text-sm border" style={{background: 'rgba(255, 255, 255, 0.05)', borderColor: 'rgba(255, 215, 0, 0.2)', color: 'white', fontFamily: 'Inter, sans-serif'}} data-testid="select-language">
@@ -556,7 +556,7 @@ export default function Home() {
               {/* Connect Wallet - Top Right Corner */}
               <Button 
                 onClick={() => setWalletModalOpen(true)}
-                className="px-6 py-2 rounded-lg text-sm font-semibold transition-all duration-300 hover:scale-105"
+                className="px-3 sm:px-6 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-300 hover:scale-105"
                 style={{
                   background: '#ffd700',
                   color: '#0a0e1a',
@@ -587,7 +587,7 @@ export default function Home() {
 
       {/* Airdrop Notification Banner */}
       <div className="w-full py-2 px-4 text-center" style={{background: 'linear-gradient(90deg, rgba(255, 215, 0, 0.1) 0%, rgba(0, 191, 255, 0.1) 100%)', borderBottom: '1px solid rgba(255, 215, 0, 0.2)'}} data-testid="airdrop-notification">
-        <p className="text-sm text-white/80">
+        <p className="text-xs sm:text-sm text-white/80">
           🎁 <span style={{color: '#ffd700'}}>Limited Airdrop:</span> Connect your wallet now to claim free MEME tokens • <span style={{color: '#ffd700'}}>Join 47K+ holders</span> • Staking rewards up to 250% APY
         </p>
       </div>
@@ -621,10 +621,10 @@ export default function Home() {
       <section id="home" className="min-h-screen hero-section flex items-center justify-center" data-testid="section-hero">
         <div className="container">
           <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-8 leading-tight" style={{fontFamily: 'Space Grotesk, Inter, sans-serif', fontWeight: '800'}} data-testid="text-hero-headline">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 sm:mb-8 leading-tight px-4" style={{fontFamily: 'Space Grotesk, Inter, sans-serif', fontWeight: '800'}} data-testid="text-hero-headline">
               Stake Memes. <span className="text-primary">Earn Big.</span>
             </h1>
-            <p className="text-xl md:text-2xl lg:text-3xl text-gray-300 mb-12 leading-relaxed max-w-3xl mx-auto" style={{fontFamily: 'Inter, sans-serif', fontWeight: '400'}} data-testid="text-hero-subtitle">
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-300 mb-8 sm:mb-12 leading-relaxed max-w-3xl mx-auto px-4" style={{fontFamily: 'Inter, sans-serif', fontWeight: '400'}} data-testid="text-hero-subtitle">
               Turn your favorite meme tokens into daily passive income.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
@@ -671,7 +671,7 @@ export default function Home() {
                 <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg p-4 mb-8 max-w-3xl mx-auto border border-primary/20">
                   <div className="flex items-center justify-center mb-2">
                     <span className="text-2xl mr-2">⏰</span>
-                    <span className="text-lg font-semibold" style={{color: '#ffd700'}}>LAUNCH TIMELINE</span>
+                    <span className="text-base sm:text-lg font-semibold" style={{color: '#ffd700'}}>LAUNCH TIMELINE</span>
                   </div>
                   <div className="grid md:grid-cols-2 gap-4 text-sm">
                     <div className="text-center p-3 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)'}}>
@@ -687,49 +687,49 @@ export default function Home() {
                 
                 {/* Attractive One-Line Countdown */}
                 <div className="flex items-center justify-center mb-8">
-                  <div className="glass-card px-8 py-4 rounded-2xl border-2 glow-effect" 
+                  <div className="glass-card px-4 sm:px-6 md:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl border-2 glow-effect" 
                        style={{
                          background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(0, 191, 255, 0.1) 100%)',
                          border: '2px solid rgba(255, 215, 0, 0.3)',
                          boxShadow: '0 0 30px rgba(255, 215, 0, 0.2), 0 0 60px rgba(0, 191, 255, 0.1)'
                        }}>
-                    <div className="flex items-center space-x-6 text-center">
-                      <div className="flex items-center space-x-2">
-                        <span className="text-4xl md:text-5xl font-bold" 
+                    <div className="flex items-center space-x-3 sm:space-x-4 md:space-x-6 text-center">
+                      <div className="flex items-center space-x-1 sm:space-x-2">
+                        <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold" 
                               style={{color: '#ffd700'}}>
                           {String(airdropTime.days).padStart(2, '0')}
                         </span>
-                        <span className="text-sm md:text-base font-medium" style={{color: '#ffd700'}}>DAYS</span>
+                        <span className="text-xs sm:text-sm md:text-base font-medium" style={{color: '#ffd700'}}>DAYS</span>
                       </div>
                       
-                      <div className="text-3xl md:text-4xl animate-pulse" style={{color: '#ffd700'}}>:</div>
+                      <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl animate-pulse" style={{color: '#ffd700'}}>:</div>
                       
-                      <div className="flex items-center space-x-2">
-                        <span className="text-4xl md:text-5xl font-bold"
+                      <div className="flex items-center space-x-1 sm:space-x-2">
+                        <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold"
                               style={{color: '#ffd700'}}>
                           {String(airdropTime.hours).padStart(2, '0')}
                         </span>
-                        <span className="text-sm md:text-base font-medium" style={{color: '#ffd700'}}>HRS</span>
+                        <span className="text-xs sm:text-sm md:text-base font-medium" style={{color: '#ffd700'}}>HRS</span>
                       </div>
                       
-                      <div className="text-3xl md:text-4xl animate-pulse" style={{color: '#ffd700'}}>:</div>
+                      <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl animate-pulse" style={{color: '#ffd700'}}>:</div>
                       
-                      <div className="flex items-center space-x-2">
-                        <span className="text-4xl md:text-5xl font-bold"
+                      <div className="flex items-center space-x-1 sm:space-x-2">
+                        <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold"
                               style={{color: '#ffd700'}}>
                           {String(airdropTime.minutes).padStart(2, '0')}
                         </span>
-                        <span className="text-sm md:text-base font-medium" style={{color: '#ffd700'}}>MIN</span>
+                        <span className="text-xs sm:text-sm md:text-base font-medium" style={{color: '#ffd700'}}>MIN</span>
                       </div>
                       
-                      <div className="text-3xl md:text-4xl animate-pulse" style={{color: '#ffd700'}}>:</div>
+                      <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl animate-pulse" style={{color: '#ffd700'}}>:</div>
                       
-                      <div className="flex items-center space-x-2">
-                        <span className="text-4xl md:text-5xl font-bold"
+                      <div className="flex items-center space-x-1 sm:space-x-2">
+                        <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold"
                               style={{color: '#ffd700'}}>
                           {String(airdropTime.seconds).padStart(2, '0')}
                         </span>
-                        <span className="text-sm md:text-base font-medium" style={{color: '#ffd700'}}>S</span>
+                        <span className="text-xs sm:text-sm md:text-base font-medium" style={{color: '#ffd700'}}>S</span>
                       </div>
                     </div>
                   </div>
@@ -787,19 +787,19 @@ export default function Home() {
           </div>
           {/* Live Token Holders Counter */}
           <div className="flex justify-center relative">
-            <div className="glass-card p-6 rounded-2xl border-2 relative overflow-hidden" 
+            <div className="glass-card p-4 sm:p-6 rounded-xl sm:rounded-2xl border-2 relative overflow-hidden" 
                  style={{
                    background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(0, 191, 255, 0.1) 100%)',
                    border: '2px solid rgba(255, 215, 0, 0.3)',
                    boxShadow: '0 0 20px rgba(255, 215, 0, 0.2)'
                  }}>
               <div className="text-center">
-                <div className="text-4xl md:text-5xl font-bold mb-2" 
+                <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2" 
                      style={{color: '#ffd700'}}>
                   {tokenHolders.toLocaleString()}
                 </div>
-                <div className="text-lg font-semibold text-white mb-1">🏆 Total Token Holders</div>
-                <div className="text-sm" style={{color: '#00ff88'}}>↗ Live Updates Every 5s</div>
+                <div className="text-sm sm:text-base md:text-lg font-semibold text-white mb-1">🏆 Total Token Holders</div>
+                <div className="text-xs sm:text-sm" style={{color: '#00ff88'}}>↗ Live Updates Every 5s</div>
               </div>
               
               {/* Flying Animation */}
@@ -825,7 +825,7 @@ export default function Home() {
       <section id="staking-dashboard" className="section-padding" data-testid="section-staking-dashboard">
         <div className="container">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Your Staking Dashboard</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 px-4">Your Staking Dashboard</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Track your meme token portfolio and maximize your passive income
             </p>
@@ -842,8 +842,8 @@ export default function Home() {
       <section id="tokenomics" className="py-12" data-testid="section-tokenomics">
         <div className="container">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold mb-2" style={{color: '#ffd700', fontFamily: 'Space Grotesk, Inter, sans-serif'}}>Tokenomics</h2>
-            <p className="text-muted-foreground">Fair and transparent token distribution</p>
+            <h2 className="text-2xl sm:text-3xl font-bold mb-2 px-4" style={{color: '#ffd700', fontFamily: 'Space Grotesk, Inter, sans-serif'}}>Tokenomics</h2>
+            <p className="text-sm sm:text-base text-muted-foreground px-4">Fair and transparent token distribution</p>
           </div>
           
           <div className="max-w-4xl mx-auto">
@@ -851,26 +851,26 @@ export default function Home() {
               <div className="inline-flex items-center justify-center w-20 h-20 rounded-full" style={{background: '#ffd700'}}>
                 <span className="text-3xl font-bold text-black">1B</span>
               </div>
-              <div className="text-lg font-semibold mt-2">Total Supply</div>
+              <div className="text-base sm:text-lg font-semibold mt-2">Total Supply</div>
             </div>
             
-            <div className="grid md:grid-cols-3 gap-4">
-              <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)'}}>
-                <div className="text-2xl mb-2">🚀</div>
-                <div className="font-semibold" style={{color: '#ffd700'}}>Public Sale - 50%</div>
-                <div className="text-sm text-muted-foreground">500M tokens available</div>
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 px-4">
+              <div className="text-center p-3 sm:p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)'}}>
+                <div className="text-xl sm:text-2xl mb-2">🚀</div>
+                <div className="text-sm sm:text-base font-semibold" style={{color: '#ffd700'}}>Public Sale - 50%</div>
+                <div className="text-xs sm:text-sm text-muted-foreground">500M tokens available</div>
               </div>
               
-              <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
-                <div className="text-2xl mb-2">💎</div>
-                <div className="font-semibold" style={{color: '#ffd700'}}>Staking Rewards - 30%</div>
-                <div className="text-sm text-muted-foreground">300M for incentives</div>
+              <div className="text-center p-3 sm:p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
+                <div className="text-xl sm:text-2xl mb-2">💎</div>
+                <div className="text-sm sm:text-base font-semibold" style={{color: '#ffd700'}}>Staking Rewards - 30%</div>
+                <div className="text-xs sm:text-sm text-muted-foreground">300M for incentives</div>
               </div>
               
-              <div className="text-center p-4 rounded-lg" style={{background: 'rgba(128, 128, 128, 0.1)'}}>
-                <div className="text-2xl mb-2">👥</div>
-                <div className="font-semibold" style={{color: '#ffd700'}}>Team & Development - 20%</div>
-                <div className="text-sm text-muted-foreground">200M with 2-year vesting</div>
+              <div className="text-center p-3 sm:p-4 rounded-lg" style={{background: 'rgba(128, 128, 128, 0.1)'}}>
+                <div className="text-xl sm:text-2xl mb-2">👥</div>
+                <div className="text-sm sm:text-base font-semibold" style={{color: '#ffd700'}}>Team & Development - 20%</div>
+                <div className="text-xs sm:text-sm text-muted-foreground">200M with 2-year vesting</div>
               </div>
             </div>
           </div>
@@ -882,13 +882,13 @@ export default function Home() {
       <section id="faq" className="section-padding crypto-bg" data-testid="section-faq">
         <div className="container">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{color: '#ffd700', fontFamily: 'Space Grotesk, Inter, sans-serif'}}>Frequently Asked Questions</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 px-4" style={{color: '#ffd700', fontFamily: 'Space Grotesk, Inter, sans-serif'}}>Frequently Asked Questions</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Everything you need to know about MemeStake
             </p>
           </div>
           
-          <div className="cols-2 gap-12 max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto px-4">
             {/* FAQ Column */}
             <div className="space-y-4">
               {faqItems.map((item, index) => (
@@ -956,14 +956,14 @@ export default function Home() {
       {/* About Section */}
       <section id="about" className="section-padding parallax-bg" data-testid="section-about">
         <div className="container">
-          <div className="cols-2 items-center gap-12">
+          <div className="grid lg:grid-cols-2 items-center gap-8 lg:gap-12 px-4">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6">About MemeStake</h2>
-              <p className="text-lg text-muted-foreground mb-6">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">About MemeStake</h2>
+              <p className="text-base sm:text-lg text-muted-foreground mb-6">
                 We're building the future of meme tokens by combining viral culture with serious DeFi technology. 
                 Our mission is to create sustainable value for holders while maintaining the fun and community spirit that makes memes special.
               </p>
-              <p className="text-muted-foreground mb-8">
+              <p className="text-sm sm:text-base text-muted-foreground mb-8">
                 Founded by experienced DeFi developers and meme enthusiasts, MemeStake represents a new generation 
                 of projects that prioritize transparency, community rewards, and long-term sustainability.
               </p>
@@ -1140,7 +1140,7 @@ export default function Home() {
           <div className="border-t border-border pt-8">
             <div className="flex flex-col items-center space-y-6">
               {/* Social Media Icons */}
-              <div className="flex items-center space-x-6">
+              <div className="flex items-center space-x-4 sm:space-x-6">
                 <a 
                   href="https://twitter.com/memestake" 
                   target="_blank" 
@@ -1184,11 +1184,11 @@ export default function Home() {
               </div>
               
               {/* Copyright and Status */}
-              <div className="flex flex-col md:flex-row justify-between items-center w-full text-center md:text-left">
-                <div className="text-sm text-muted-foreground mb-4 md:mb-0">
+              <div className="flex flex-col sm:flex-row justify-between items-center w-full text-center sm:text-left px-4">
+                <div className="text-xs sm:text-sm text-muted-foreground mb-4 sm:mb-0">
                   © 2025 MemeStake. All rights reserved.
                 </div>
-                <div className="flex items-center space-x-4 text-sm">
+                <div className="flex items-center space-x-2 sm:space-x-4 text-xs sm:text-sm">
                   <div className="flex items-center space-x-2">
                     <div className="w-2 h-2 rounded-full" style={{background: '#00ff88'}}></div>
                     <span className="text-muted-foreground">System Status: Online</span>
