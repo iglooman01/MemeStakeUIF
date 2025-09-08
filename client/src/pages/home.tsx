@@ -149,7 +149,23 @@ export default function Home() {
   const [tokenHolders, setTokenHolders] = useState(47832);
   const [walletModalOpen, setWalletModalOpen] = useState(false);
   const [selectedWallet, setSelectedWallet] = useState<string>('');
+  const [walletConnected, setWalletConnected] = useState(false);
+  const [walletAddress, setWalletAddress] = useState<string>('');
+  const [connectedWalletType, setConnectedWalletType] = useState<string>('');
   const { toast } = useToast();
+  
+  // Check for existing wallet connection on component mount
+  useEffect(() => {
+    const savedWalletConnected = localStorage.getItem('walletConnected');
+    const savedWalletAddress = localStorage.getItem('walletAddress');
+    const savedWalletType = localStorage.getItem('walletType');
+    
+    if (savedWalletConnected === 'true' && savedWalletAddress && savedWalletType) {
+      setWalletConnected(true);
+      setWalletAddress(savedWalletAddress);
+      setConnectedWalletType(savedWalletType);
+    }
+  }, []);
   
   const testimonials = [
     {
@@ -428,6 +444,11 @@ export default function Home() {
         localStorage.setItem('walletAddress', result.address);
         localStorage.setItem('walletType', walletName);
         
+        // Update state
+        setWalletConnected(true);
+        setWalletAddress(result.address);
+        setConnectedWalletType(walletName);
+        
         setWalletModalOpen(false);
         toast({
           title: "🎉 Wallet Connected!",
@@ -453,6 +474,30 @@ export default function Home() {
         variant: "destructive"
       });
     }
+  };
+
+  // Disconnect wallet function
+  const handleDisconnectWallet = () => {
+    // Clear localStorage
+    localStorage.removeItem('walletConnected');
+    localStorage.removeItem('walletAddress');
+    localStorage.removeItem('walletType');
+    
+    // Reset state
+    setWalletConnected(false);
+    setWalletAddress('');
+    setConnectedWalletType('');
+    setSelectedWallet('');
+    
+    toast({
+      title: "👋 Wallet Disconnected",
+      description: "You have been disconnected from your wallet",
+    });
+    
+    // Redirect to home page
+    setTimeout(() => {
+      window.location.href = '/';
+    }, 1000);
   };
 
   // Staking launch notification
@@ -582,22 +627,47 @@ export default function Home() {
                 {theme === 'dark' ? '☀️' : '🌙'}
               </Button>
 
-              {/* Connect Wallet - Top Right Corner */}
-              <Button 
-                onClick={() => setWalletModalOpen(true)}
-                className="px-3 sm:px-6 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-300 hover:scale-105"
-                style={{
-                  background: '#ffd700',
-                  color: '#0a0e1a',
-                  fontWeight: '600',
-                  fontFamily: 'Space Grotesk, sans-serif',
-                  border: '1px solid rgba(255, 215, 0, 0.3)',
-                  boxShadow: '0 4px 15px rgba(255, 215, 0, 0.2)'
-                }}
-                data-testid="button-get-started"
-              >
-                {t.getStarted}
-              </Button>
+              {/* Connect Wallet / Wallet Info - Top Right Corner */}
+              {walletConnected ? (
+                <div className="flex items-center gap-2">
+                  <div className="flex flex-col items-end">
+                    <span className="text-xs text-gray-400">{connectedWalletType}</span>
+                    <span className="text-sm text-white font-mono">
+                      {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
+                    </span>
+                  </div>
+                  <Button 
+                    onClick={handleDisconnectWallet}
+                    size="sm"
+                    variant="outline"
+                    className="text-xs px-3 py-2"
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.1)',
+                      borderColor: 'rgba(255, 215, 0, 0.3)',
+                      color: 'white'
+                    }}
+                    data-testid="button-disconnect-wallet"
+                  >
+                    Disconnect
+                  </Button>
+                </div>
+              ) : (
+                <Button 
+                  onClick={() => setWalletModalOpen(true)}
+                  className="px-3 sm:px-6 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-300 hover:scale-105"
+                  style={{
+                    background: '#ffd700',
+                    color: '#0a0e1a',
+                    fontWeight: '600',
+                    fontFamily: 'Space Grotesk, sans-serif',
+                    border: '1px solid rgba(255, 215, 0, 0.3)',
+                    boxShadow: '0 4px 15px rgba(255, 215, 0, 0.2)'
+                  }}
+                  data-testid="button-get-started"
+                >
+                  {t.getStarted}
+                </Button>
+              )}
 
               {/* Mobile Menu Toggle */}
               <button
@@ -627,20 +697,44 @@ export default function Home() {
           <div className="p-6">
             <div className="flex flex-col space-y-6 mt-16">
               <a href="#about" className="text-xl font-medium text-white hover:text-primary transition-colors" onClick={() => setMobileMenuOpen(false)} data-testid="mobile-link-about">{t.about}</a>
-              <Button 
-                className="mt-4" 
-                onClick={() => setWalletModalOpen(true)}
-                style={{
-                  background: '#ffd700',
-                  color: '#0a0e1a',
-                  fontWeight: '600',
-                  fontFamily: 'Space Grotesk, sans-serif',
-                  border: '1px solid rgba(255, 215, 0, 0.3)'
-                }}
-                data-testid="mobile-button-get-started"
-              >
-                {t.getStarted}
-              </Button>
+              {walletConnected ? (
+                <div className="flex flex-col items-center gap-2 mt-4">
+                  <div className="text-center">
+                    <p className="text-xs text-gray-400">{connectedWalletType}</p>
+                    <p className="text-sm text-white font-mono">
+                      {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
+                    </p>
+                  </div>
+                  <Button 
+                    onClick={handleDisconnectWallet}
+                    variant="outline"
+                    className="text-sm px-4 py-2"
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.1)',
+                      borderColor: 'rgba(255, 215, 0, 0.3)',
+                      color: 'white'
+                    }}
+                    data-testid="mobile-button-disconnect-wallet"
+                  >
+                    Disconnect Wallet
+                  </Button>
+                </div>
+              ) : (
+                <Button 
+                  className="mt-4" 
+                  onClick={() => setWalletModalOpen(true)}
+                  style={{
+                    background: '#ffd700',
+                    color: '#0a0e1a',
+                    fontWeight: '600',
+                    fontFamily: 'Space Grotesk, sans-serif',
+                    border: '1px solid rgba(255, 215, 0, 0.3)'
+                  }}
+                  data-testid="mobile-button-get-started"
+                >
+                  {t.getStarted}
+                </Button>
+              )}
             </div>
           </div>
         </div>
@@ -776,21 +870,46 @@ export default function Home() {
                 </div>
                 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
-                  <Button 
-                    size="lg" 
-                    className="text-lg px-8 py-4" 
-                    onClick={() => setWalletModalOpen(true)}
-                    style={{
-                      background: '#ffd700',
-                      color: '#0a0e1a',
-                      fontWeight: '600',
-                      fontFamily: 'Space Grotesk, sans-serif',
-                      border: '1px solid rgba(255, 215, 0, 0.3)'
-                    }}
-                    data-testid="button-claim-airdrop"
-                  >
-                    🎁 Join Airdrop
-                  </Button>
+                  {walletConnected ? (
+                    <div className="flex flex-col items-center gap-4">
+                      <div className="text-center">
+                        <p className="text-sm text-gray-400 mb-2">Connected with {connectedWalletType}</p>
+                        <p className="text-lg text-white font-mono bg-black/20 px-4 py-2 rounded-lg border border-yellow-500/30">
+                          {walletAddress.slice(0, 8)}...{walletAddress.slice(-6)}
+                        </p>
+                      </div>
+                      <Button 
+                        onClick={handleDisconnectWallet}
+                        size="lg"
+                        variant="outline"
+                        className="text-lg px-8 py-4"
+                        style={{
+                          background: 'rgba(255, 255, 255, 0.1)',
+                          borderColor: 'rgba(255, 215, 0, 0.5)',
+                          color: 'white'
+                        }}
+                        data-testid="button-hero-disconnect-wallet"
+                      >
+                        Disconnect Wallet
+                      </Button>
+                    </div>
+                  ) : (
+                    <Button 
+                      size="lg" 
+                      className="text-lg px-8 py-4" 
+                      onClick={() => setWalletModalOpen(true)}
+                      style={{
+                        background: '#ffd700',
+                        color: '#0a0e1a',
+                        fontWeight: '600',
+                        fontFamily: 'Space Grotesk, sans-serif',
+                        border: '1px solid rgba(255, 215, 0, 0.3)'
+                      }}
+                      data-testid="button-claim-airdrop"
+                    >
+                      🎁 Join Airdrop
+                    </Button>
+                  )}
                   <Button asChild variant="outline" size="lg" className="text-lg px-8 py-4" data-testid="button-airdrop-rules">
                     <a href="#faq">📄 Eligibility Rules</a>
                   </Button>
