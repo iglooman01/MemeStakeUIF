@@ -434,9 +434,9 @@ export default function Home() {
           description: `Successfully connected to ${walletName}\nAddress: ${result.address.slice(0, 6)}...${result.address.slice(-4)}`,
         });
         
-        // Navigate to external dashboard after successful connection
+        // Navigate to internal dashboard after successful connection
         setTimeout(() => {
-          window.location.href = 'https://mems-ui-server-dashbaord.replit.app/';
+          window.location.href = '/dashboard';
         }, 1000);
       } else {
         toast({
