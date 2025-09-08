@@ -463,13 +463,7 @@ export default function Home() {
     });
   };
 
-  const walletOptions = [
-    { name: 'MetaMask', icon: '🦊' },
-    { name: 'Trust Wallet', icon: '🛡️' },
-    { name: 'Binance Web3 Wallet', icon: '⬡' },
-    { name: 'SafePal', icon: '🔒' },
-    { name: 'TokenPocket', icon: '🪙' }
-  ];
+  const walletOptions = supportedWallets;
 
   // Flying animation state
   const [flyingAnimation, setFlyingAnimation] = useState(false);
