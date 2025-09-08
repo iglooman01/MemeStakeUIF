@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { FaTwitter, FaTelegram, FaMedium, FaYoutube } from "react-icons/fa";
+import { connectWallet, supportedWallets } from "../config/web3Config";
 import memeStakeLogo from "@assets/ChatGPT Image Aug 27, 2025, 09_52_01 PM_1756366058294.png";
 
 const i18n = {
@@ -403,21 +404,55 @@ export default function Home() {
   };
 
   // Wallet connection functions
-  const handleWalletSelect = (walletName: string) => {
+  const handleWalletSelect = async (walletName: string) => {
     setSelectedWallet(walletName);
-    // Simulate wallet connection
-    setTimeout(() => {
-      setWalletModalOpen(false);
+    
+    // Find the wallet connector type
+    const wallet = supportedWallets.find(w => w.name === walletName);
+    if (!wallet) {
       toast({
-        title: "Wallet Connected!",
-        description: `Successfully connected to ${walletName}`,
+        title: "❌ Wallet Not Supported",
+        description: `${walletName} is not supported`,
+        variant: "destructive"
       });
+      return;
+    }
+
+    try {
+      // Connect to the selected wallet
+      const result = await connectWallet(wallet.connector);
       
-      // Navigate to external dashboard after successful connection
-      setTimeout(() => {
-        window.location.href = 'https://mems-ui-server-dashbaord.replit.app/';
-      }, 1000);
-    }, 1000);
+      if (result.success && result.address) {
+        // Store wallet info
+        localStorage.setItem('walletConnected', 'true');
+        localStorage.setItem('walletAddress', result.address);
+        localStorage.setItem('walletType', walletName);
+        
+        setWalletModalOpen(false);
+        toast({
+          title: "🎉 Wallet Connected!",
+          description: `Successfully connected to ${walletName}\nAddress: ${result.address.slice(0, 6)}...${result.address.slice(-4)}`,
+        });
+        
+        // Navigate to external dashboard after successful connection
+        setTimeout(() => {
+          window.location.href = 'https://mems-ui-server-dashbaord.replit.app/';
+        }, 1000);
+      } else {
+        toast({
+          title: "❌ Connection Failed",
+          description: result.error || `Failed to connect to ${walletName}`,
+          variant: "destructive"
+        });
+      }
+    } catch (error: any) {
+      console.error('Wallet connection error:', error);
+      toast({
+        title: "❌ Connection Error",
+        description: error.message || `Error connecting to ${walletName}`,
+        variant: "destructive"
+      });
+    }
   };
 
   // Staking launch notification
