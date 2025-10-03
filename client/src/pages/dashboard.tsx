@@ -10,7 +10,16 @@ export default function Dashboard() {
   const [airdropTime, setAirdropTime] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [tokenBalance, setTokenBalance] = useState(125000);
   const [stakingRewards, setStakingRewards] = useState(2847.50);
+  const [walletAddress, setWalletAddress] = useState<string>('');
   const { toast } = useToast();
+
+  // Load wallet address from localStorage
+  useEffect(() => {
+    const storedAddress = localStorage.getItem('walletAddress');
+    if (storedAddress) {
+      setWalletAddress(storedAddress);
+    }
+  }, []);
 
   // Airdrop countdown timer
   useEffect(() => {
@@ -127,6 +136,16 @@ export default function Dashboard() {
               <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
             </div>
             <div className="space-y-4">
+              {/* Wallet Address */}
+              {walletAddress && (
+                <div className="text-center p-3 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.2)'}}>
+                  <div className="text-xs text-muted-foreground mb-1">Connected Wallet</div>
+                  <div className="text-sm font-mono font-bold" style={{color: '#00bfff'}}>
+                    {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
+                  </div>
+                </div>
+              )}
+              
               <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)'}}>
                 <div className="text-2xl font-bold" style={{color: '#ffd700'}}>
                   {tokenBalance.toLocaleString()} MEME
