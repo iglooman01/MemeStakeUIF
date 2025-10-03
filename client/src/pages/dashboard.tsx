@@ -12,11 +12,30 @@ export default function Dashboard() {
   const [stakingRewards, setStakingRewards] = useState(28475);
   const [walletAddress, setWalletAddress] = useState<string>('');
   const [sponsorAddress] = useState<string>('0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb');
+  const [buyAmount, setBuyAmount] = useState<string>('');
+  const [inputMode, setInputMode] = useState<'usd' | 'token'>('usd');
+  const [referralCode, setReferralCode] = useState<string>('');
+  const [showBuyPreview, setShowBuyPreview] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [purchasedTokens, setPurchasedTokens] = useState(0);
+  const [txHash] = useState('0x1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b');
   const { toast } = useToast();
+
+  const TOKEN_PRICE = 0.0001; // $0.0001 per token
+  const MIN_PURCHASE_USD = 50;
 
   const referralLink = walletAddress 
     ? `https://memestake.app/ref/${walletAddress}`
     : 'https://memestake.app/ref/';
+
+  // Auto-apply referral code from URL
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const refParam = urlParams.get('ref');
+    if (refParam) {
+      setReferralCode(refParam);
+    }
+  }, []);
 
   const copyReferralLink = () => {
     navigator.clipboard.writeText(referralLink);
@@ -24,6 +43,43 @@ export default function Dashboard() {
       title: "✅ Copied!",
       description: "Referral link copied to clipboard",
     });
+  };
+
+  // Calculate conversions
+  const calculateTokensFromUSD = (usd: number) => usd / TOKEN_PRICE;
+  const calculateUSDFromTokens = (tokens: number) => tokens * TOKEN_PRICE;
+
+  const tokensToGet = inputMode === 'usd' 
+    ? calculateTokensFromUSD(parseFloat(buyAmount) || 0)
+    : parseFloat(buyAmount) || 0;
+
+  const usdAmount = inputMode === 'usd'
+    ? parseFloat(buyAmount) || 0
+    : calculateUSDFromTokens(parseFloat(buyAmount) || 0);
+
+  const handleBuyTokens = () => {
+    if (usdAmount < MIN_PURCHASE_USD) {
+      toast({
+        title: "❌ Minimum Purchase Required",
+        description: `Minimum purchase is $${MIN_PURCHASE_USD}`,
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setShowBuyPreview(true);
+  };
+
+  const confirmPurchase = () => {
+    setShowBuyPreview(false);
+    setPurchasedTokens(tokensToGet);
+    
+    // Simulate transaction
+    setTimeout(() => {
+      setTokenBalance(prev => prev + tokensToGet);
+      setShowSuccessModal(true);
+      setBuyAmount('');
+    }, 2000);
   };
 
   // Load wallet address from localStorage
@@ -172,6 +228,110 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
+          </div>
+        </Card>
+
+        {/* Buy MEMES Tokens Section */}
+        <Card className="p-6 glass-card">
+          <h3 className="text-xl font-semibold mb-4">🛒 Buy $MEMES Tokens</h3>
+          
+          <div className="space-y-4">
+            {/* Amount Input with Toggle */}
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <label className="text-sm text-muted-foreground">Purchase Amount</label>
+                <div className="flex space-x-2">
+                  <button
+                    onClick={() => setInputMode('usd')}
+                    className={`px-3 py-1 rounded text-xs font-semibold transition-all ${
+                      inputMode === 'usd' ? 'text-black' : 'text-gray-400'
+                    }`}
+                    style={{background: inputMode === 'usd' ? '#ffd700' : 'rgba(255, 255, 255, 0.1)'}}
+                    data-testid="toggle-usd"
+                  >
+                    USD
+                  </button>
+                  <button
+                    onClick={() => setInputMode('token')}
+                    className={`px-3 py-1 rounded text-xs font-semibold transition-all ${
+                      inputMode === 'token' ? 'text-black' : 'text-gray-400'
+                    }`}
+                    style={{background: inputMode === 'token' ? '#ffd700' : 'rgba(255, 255, 255, 0.1)'}}
+                    data-testid="toggle-token"
+                  >
+                    TOKEN
+                  </button>
+                </div>
+              </div>
+              
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 font-semibold">
+                  {inputMode === 'usd' ? '$' : ''}
+                </span>
+                <input
+                  type="number"
+                  value={buyAmount}
+                  onChange={(e) => setBuyAmount(e.target.value)}
+                  placeholder={inputMode === 'usd' ? '50.00' : '500000'}
+                  className="w-full pl-8 pr-4 py-3 rounded-lg bg-black/30 border border-white/10 text-white font-semibold"
+                  data-testid="input-buy-amount"
+                />
+              </div>
+            </div>
+
+            {/* Live Conversion Display */}
+            <div className="p-3 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.2)'}}>
+              <div className="text-center">
+                <div className="text-xs text-muted-foreground mb-1">You will receive</div>
+                <div className="text-2xl font-bold" style={{color: '#00bfff'}}>
+                  {tokensToGet.toLocaleString()} $MEMES
+                </div>
+                <div className="text-xs text-muted-foreground mt-1">
+                  ≈ ${usdAmount.toFixed(2)} USD @ $0.0001 per token
+                </div>
+              </div>
+            </div>
+
+            {/* Purchase Info */}
+            <div className="grid grid-cols-2 gap-2 text-xs">
+              <div className="p-2 rounded" style={{background: 'rgba(255, 215, 0, 0.1)'}}>
+                <div className="text-muted-foreground">Min Purchase</div>
+                <div className="font-bold" style={{color: '#ffd700'}}>$50 USD</div>
+              </div>
+              <div className="p-2 rounded" style={{background: 'rgba(0, 255, 136, 0.1)'}}>
+                <div className="text-muted-foreground">Max Purchase</div>
+                <div className="font-bold" style={{color: '#00ff88'}}>No Limit</div>
+              </div>
+            </div>
+
+            {/* Referral Code */}
+            <div>
+              <label className="text-sm text-muted-foreground mb-2 block">Referral Code (Optional)</label>
+              <input
+                type="text"
+                value={referralCode}
+                onChange={(e) => setReferralCode(e.target.value)}
+                placeholder="Enter referral code or use from URL"
+                className="w-full px-4 py-2 rounded-lg bg-black/30 border border-white/10 text-white text-sm"
+                data-testid="input-referral-code"
+              />
+              {referralCode && (
+                <div className="mt-2 text-xs" style={{color: '#00ff88'}}>
+                  ✅ Referral code applied: {referralCode.slice(0, 6)}...{referralCode.slice(-4)}
+                </div>
+              )}
+            </div>
+
+            {/* Buy Button */}
+            <Button 
+              onClick={handleBuyTokens}
+              disabled={!buyAmount || parseFloat(buyAmount) <= 0}
+              className="w-full"
+              style={{background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)', color: '#000'}}
+              data-testid="button-buy-tokens"
+            >
+              🛒 Buy {tokensToGet > 0 ? tokensToGet.toLocaleString() : ''} $MEMES Tokens
+            </Button>
           </div>
         </Card>
 
@@ -378,6 +538,166 @@ export default function Dashboard() {
           </Card>
         </div>
       </div>
+
+      {/* Transaction Preview Modal */}
+      {showBuyPreview && (
+        <div 
+          className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-50 p-4"
+          onClick={() => setShowBuyPreview(false)}
+          data-testid="modal-preview-overlay"
+        >
+          <div 
+            className="rounded-2xl p-6 max-w-md w-full mx-auto backdrop-blur-xl border"
+            style={{
+              background: 'linear-gradient(135deg, rgba(15, 10, 35, 0.98) 0%, rgba(30, 15, 60, 0.98) 100%)',
+              border: '2px solid rgba(255, 215, 0, 0.3)',
+              boxShadow: '0 0 40px rgba(255, 215, 0, 0.2)'
+            }}
+            onClick={(e) => e.stopPropagation()}
+            data-testid="modal-preview-content"
+          >
+            <h3 className="text-xl font-bold mb-4 text-center" style={{color: '#ffd700'}}>
+              📋 Transaction Preview
+            </h3>
+
+            <div className="space-y-3">
+              {/* Tokens to Receive */}
+              <div className="p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.2)'}}>
+                <div className="text-sm text-muted-foreground mb-1">You will receive</div>
+                <div className="text-2xl font-bold" style={{color: '#00bfff'}}>
+                  {tokensToGet.toLocaleString()} $MEMES
+                </div>
+              </div>
+
+              {/* Payment Amount */}
+              <div className="flex justify-between items-center p-3 rounded-lg bg-black/30">
+                <span className="text-sm text-muted-foreground">Payment Amount</span>
+                <span className="font-bold" style={{color: '#ffd700'}}>${usdAmount.toFixed(2)} USD</span>
+              </div>
+
+              {/* Estimated Gas */}
+              <div className="flex justify-between items-center p-3 rounded-lg bg-black/30">
+                <span className="text-sm text-muted-foreground">Estimated Gas Fee</span>
+                <span className="font-bold" style={{color: '#00bfff'}}>~0.0015 BNB</span>
+              </div>
+
+              {/* Referral Distribution */}
+              {referralCode && (
+                <div className="p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.2)'}}>
+                  <div className="text-sm font-semibold mb-2" style={{color: '#00ff88'}}>
+                    🎁 Referral Distribution
+                  </div>
+                  <div className="space-y-2 text-xs">
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Level 1 (5%):</span>
+                      <span className="font-semibold text-white">{(tokensToGet * 0.05).toLocaleString()} $MEMES</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Level 2 (3%):</span>
+                      <span className="font-semibold text-white">{(tokensToGet * 0.03).toLocaleString()} $MEMES</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Level 3 (2%):</span>
+                      <span className="font-semibold text-white">{(tokensToGet * 0.02).toLocaleString()} $MEMES</span>
+                    </div>
+                    <div className="pt-2 border-t border-white/10">
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Referrer Code:</span>
+                        <span className="font-mono text-xs" style={{color: '#00ff88'}}>
+                          {referralCode.slice(0, 6)}...{referralCode.slice(-4)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Action Buttons */}
+              <div className="grid grid-cols-2 gap-3 mt-6">
+                <Button 
+                  variant="outline"
+                  onClick={() => setShowBuyPreview(false)}
+                  data-testid="button-cancel-purchase"
+                >
+                  Cancel
+                </Button>
+                <Button 
+                  onClick={confirmPurchase}
+                  style={{background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)', color: '#000'}}
+                  data-testid="button-confirm-purchase"
+                >
+                  Confirm Purchase
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Success Modal */}
+      {showSuccessModal && (
+        <div 
+          className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-50 p-4"
+          onClick={() => setShowSuccessModal(false)}
+          data-testid="modal-success-overlay"
+        >
+          <div 
+            className="rounded-2xl p-8 max-w-md w-full mx-auto backdrop-blur-xl border text-center"
+            style={{
+              background: 'linear-gradient(135deg, rgba(15, 10, 35, 0.98) 0%, rgba(30, 15, 60, 0.98) 100%)',
+              border: '2px solid rgba(0, 255, 136, 0.3)',
+              boxShadow: '0 0 60px rgba(0, 255, 136, 0.3)'
+            }}
+            onClick={(e) => e.stopPropagation()}
+            data-testid="modal-success-content"
+          >
+            <div className="text-6xl mb-4">🎉</div>
+            <h3 className="text-2xl font-bold mb-3" style={{color: '#00ff88'}}>
+              Purchase Successful!
+            </h3>
+            
+            <div className="space-y-4 mb-6">
+              {/* Tokens Purchased */}
+              <div className="p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.2)'}}>
+                <div className="text-sm text-muted-foreground mb-1">Tokens Purchased</div>
+                <div className="text-3xl font-bold" style={{color: '#00ff88'}}>
+                  {purchasedTokens.toLocaleString()} $MEMES
+                </div>
+              </div>
+
+              {/* Transaction Hash */}
+              <div className="p-3 rounded-lg bg-black/30">
+                <div className="text-xs text-muted-foreground mb-2">Transaction Hash</div>
+                <div className="font-mono text-xs break-all" style={{color: '#00bfff'}}>
+                  {txHash.slice(0, 20)}...{txHash.slice(-10)}
+                </div>
+              </div>
+            </div>
+
+            {/* Share Referral Link Button */}
+            <Button 
+              onClick={() => {
+                copyReferralLink();
+                setShowSuccessModal(false);
+              }}
+              className="w-full mb-3"
+              style={{background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)', color: '#000'}}
+              data-testid="button-share-referral"
+            >
+              📤 Share Your Referral Link
+            </Button>
+
+            <Button 
+              variant="outline"
+              onClick={() => setShowSuccessModal(false)}
+              className="w-full"
+              data-testid="button-close-success"
+            >
+              Close
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
