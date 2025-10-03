@@ -176,7 +176,7 @@ export default function Home() {
     {
       name: "Sarah Williams",
       role: "Crypto Investor",
-      content: "The daily rewards are amazing! I've been earning 25% APY consistently for 3 months. Best decision ever."
+      content: "The daily rewards are amazing! I've been earning 1% daily (365% APY) consistently. Plus the referral system is incredible!"
     },
     {
       name: "Mike Rodriguez", 
@@ -191,8 +191,8 @@ export default function Home() {
       answer: "MemeStake is a stake-to-earn meme token project with audited contracts, transparent tokenomics, and community rewards."
     },
     {
-      question: "How does the ICO work?", 
-      answer: "The ICO runs in phases with fixed pricing. Tokens are claimable after the sale ends; any unsold tokens are allocated per the tokenomics (e.g., staking & liquidity)."
+      question: "How does the public sale work?", 
+      answer: "Public sale offers 25 billion $MEMES tokens at $0.0001 each. Minimum purchase is $50, no maximum limit. Sale runs alongside the airdrop campaign. Connect your BSC wallet to participate!"
     },
     {
       question: "Why choose MemeStake over other meme coins?",
@@ -204,11 +204,23 @@ export default function Home() {
     },
     {
       question: "What chain is MemeStake on?",
-      answer: "MemeStake launches on EVM-compatible chain(s) for low fees and broad wallet support. Network details are announced before TGE."
+      answer: "$MEMES token is on Binance Smart Chain (BSC / BEP-20) for low fees and fast transactions. Make sure your wallet is connected to BSC network before purchasing!"
     },
     {
       question: "How do staking rewards work?", 
-      answer: "Stake tokens into pools to earn rewards over time. Yields depend on pool allocation, duration, and program parameters announced at launch."
+      answer: "Stake $MEMES tokens to earn 365% APY (1% daily rewards). Staking launches immediately after the airdrop ends. Plus, earn referral bonuses at 3 levels: 5% (Level 1), 3% (Level 2), and 2% (Level 3) from your network's staking rewards."
+    },
+    {
+      question: "How does the referral system work?",
+      answer: "Earn passive income through our 3-level referral system! Get 5% from direct invites (Level 1), 3% from Level 2, and 2% from Level 3. Referral rewards apply to BOTH token purchases and staking rewards. Total referral pool is 5 billion $MEMES (10% of supply)."
+    },
+    {
+      question: "What are the purchase limits?",
+      answer: "Minimum purchase is $50. There is NO maximum limit! At $0.0001 per token, $100 gets you 1,000,000 $MEMES tokens. All purchases are on BSC (BEP-20) network."
+    },
+    {
+      question: "What is the total supply and token price?",
+      answer: "Total supply is 50 billion $MEMES tokens. Public sale offers 25 billion tokens (50% of supply) at $0.0001 per token. The raise target is $2,500,000 if all tokens are sold."
     }
   ];
 
@@ -504,7 +516,7 @@ export default function Home() {
   const handleStakingClick = () => {
     toast({
       title: "🚀 Staking Program Coming Soon!",
-      description: "Staking will launch immediately after the airdrop ends. Up to 250% APY rewards await!",
+      description: "Staking will launch immediately after the airdrop ends. 365% APY (1% daily) rewards await!",
     });
   };
 
@@ -687,7 +699,7 @@ export default function Home() {
       {/* Airdrop Notification Banner */}
       <div className="w-full py-2 px-4 text-center" style={{background: '#000000', borderBottom: '1px solid rgba(255, 215, 0, 0.2)'}} data-testid="airdrop-notification">
         <p className="text-xs sm:text-sm text-white/80">
-          🎁 <span style={{color: '#ffd700'}}>Limited Airdrop:</span> Connect your wallet now to claim free MEME tokens • <span style={{color: '#ffd700'}}>Join 47K+ holders</span> • Staking rewards up to 250% APY
+          🎁 <span style={{color: '#ffd700'}}>Limited Airdrop:</span> Connect your wallet now to claim free MEME tokens • <span style={{color: '#ffd700'}}>Join 47K+ holders</span> • Staking rewards 365% APY (1% daily)
         </p>
       </div>
 
@@ -917,7 +929,7 @@ export default function Home() {
                 <div className="text-center">
                   <div className="inline-flex items-center space-x-2 px-6 py-3 rounded-full" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
                     <span className="text-lg">💎</span>
-                    <span className="text-sm font-medium" style={{color: '#ffd700'}}>Staking rewards up to 250% APY start after airdrop completion</span>
+                    <span className="text-sm font-medium" style={{color: '#ffd700'}}>Staking rewards 365% APY (1% daily) start after airdrop completion</span>
                   </div>
                 </div>
               </div>
@@ -994,31 +1006,94 @@ export default function Home() {
             <p className="text-sm sm:text-base text-muted-foreground px-4">Fair and transparent token distribution</p>
           </div>
           
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-6">
-              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full" style={{background: '#ffd700'}}>
-                <span className="text-3xl font-bold text-black">1B</span>
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center justify-center w-24 h-24 rounded-full" style={{background: '#ffd700'}}>
+                <span className="text-2xl font-bold text-black">50B</span>
               </div>
-              <div className="text-base sm:text-lg font-semibold mt-2">Total Supply</div>
+              <div className="text-lg sm:text-xl font-semibold mt-3">Total Supply: 50,000,000,000 $MEMES</div>
+              <div className="text-sm text-muted-foreground mt-2">Sale Price: $0.0001 per $MEMES</div>
             </div>
             
-            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 px-4">
-              <div className="text-center p-3 sm:p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)'}}>
-                <div className="text-xl sm:text-2xl mb-2">🚀</div>
-                <div className="text-sm sm:text-base font-semibold" style={{color: '#ffd700'}}>Public Sale - 50%</div>
-                <div className="text-xs sm:text-sm text-muted-foreground">500M tokens available</div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 px-4 mb-8">
+              <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
+                <div className="text-2xl mb-2">🚀</div>
+                <div className="text-base font-semibold" style={{color: '#ffd700'}}>Public Sale - 50%</div>
+                <div className="text-sm text-muted-foreground">25B tokens available</div>
+                <div className="text-xs text-cyan-400 mt-1">Target: $2,500,000</div>
               </div>
               
-              <div className="text-center p-3 sm:p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
-                <div className="text-xl sm:text-2xl mb-2">💎</div>
-                <div className="text-sm sm:text-base font-semibold" style={{color: '#ffd700'}}>Staking Rewards - 30%</div>
-                <div className="text-xs sm:text-sm text-muted-foreground">300M for incentives</div>
+              <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
+                <div className="text-2xl mb-2">💎</div>
+                <div className="text-base font-semibold" style={{color: '#ffd700'}}>Staking Rewards</div>
+                <div className="text-sm text-muted-foreground">365% APY (1% daily)</div>
+                <div className="text-xs text-cyan-400 mt-1">Starts after airdrop</div>
               </div>
               
-              <div className="text-center p-3 sm:p-4 rounded-lg" style={{background: 'rgba(128, 128, 128, 0.1)'}}>
-                <div className="text-xl sm:text-2xl mb-2">👥</div>
-                <div className="text-sm sm:text-base font-semibold" style={{color: '#ffd700'}}>Team & Development - 20%</div>
-                <div className="text-xs sm:text-sm text-muted-foreground">200M with 2-year vesting</div>
+              <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 105, 180, 0.1)', border: '1px solid rgba(255, 105, 180, 0.3)'}}>
+                <div className="text-2xl mb-2">🎁</div>
+                <div className="text-base font-semibold" style={{color: '#ffd700'}}>Referral Pool - 10%</div>
+                <div className="text-sm text-muted-foreground">5B tokens</div>
+                <div className="text-xs text-cyan-400 mt-1">3-level system</div>
+              </div>
+              
+              <div className="text-center p-4 rounded-lg" style={{background: 'rgba(128, 128, 128, 0.1)', border: '1px solid rgba(128, 128, 128, 0.3)'}}>
+                <div className="text-2xl mb-2">👥</div>
+                <div className="text-base font-semibold" style={{color: '#ffd700'}}>Team & Marketing</div>
+                <div className="text-sm text-muted-foreground">Remaining allocation</div>
+                <div className="text-xs text-cyan-400 mt-1">With vesting schedule</div>
+              </div>
+            </div>
+
+            {/* Referral System */}
+            <div className="bg-gradient-to-r from-purple-900/20 to-pink-900/20 rounded-xl p-6 border border-purple-500/30 mb-6">
+              <h3 className="text-xl font-bold mb-4 text-center" style={{color: '#ffd700'}}>🎁 3-Level Referral System</h3>
+              <div className="grid md:grid-cols-3 gap-4">
+                <div className="text-center p-4 bg-black/30 rounded-lg">
+                  <div className="text-3xl mb-2">🥇</div>
+                  <div className="font-bold text-lg" style={{color: '#ffd700'}}>Level 1</div>
+                  <div className="text-2xl font-bold text-white">5%</div>
+                  <div className="text-sm text-gray-400">Direct invites</div>
+                </div>
+                <div className="text-center p-4 bg-black/30 rounded-lg">
+                  <div className="text-3xl mb-2">🥈</div>
+                  <div className="font-bold text-lg" style={{color: '#ffd700'}}>Level 2</div>
+                  <div className="text-2xl font-bold text-white">3%</div>
+                  <div className="text-sm text-gray-400">Second level</div>
+                </div>
+                <div className="text-center p-4 bg-black/30 rounded-lg">
+                  <div className="text-3xl mb-2">🥉</div>
+                  <div className="font-bold text-lg" style={{color: '#ffd700'}}>Level 3</div>
+                  <div className="text-2xl font-bold text-white">2%</div>
+                  <div className="text-sm text-gray-400">Third level</div>
+                </div>
+              </div>
+              <div className="text-center mt-4 text-sm text-gray-300">
+                Referral rewards apply to both <span style={{color: '#ffd700'}}>Public Sale</span> and <span style={{color: '#00bfff'}}>Staking</span>
+              </div>
+            </div>
+
+            {/* Purchase Info */}
+            <div className="grid md:grid-cols-2 gap-4 px-4">
+              <div className="p-4 rounded-lg bg-black/30 border border-yellow-500/30">
+                <div className="text-center">
+                  <div className="text-lg font-semibold mb-2" style={{color: '#ffd700'}}>💰 Purchase Limits</div>
+                  <div className="space-y-2 text-sm">
+                    <div>Minimum: <span className="text-white font-bold">$50</span></div>
+                    <div>Maximum: <span className="text-white font-bold">No Limit</span></div>
+                    <div className="text-cyan-400 font-mono">$100 = 1,000,000 $MEMES</div>
+                  </div>
+                </div>
+              </div>
+              <div className="p-4 rounded-lg bg-black/30 border border-cyan-500/30">
+                <div className="text-center">
+                  <div className="text-lg font-semibold mb-2" style={{color: '#ffd700'}}>📊 Token Economics</div>
+                  <div className="space-y-2 text-sm">
+                    <div>Price: <span className="text-white font-bold">$0.0001</span></div>
+                    <div>Network: <span className="text-white font-bold">BSC (BEP-20)</span></div>
+                    <div className="text-cyan-400">Fully audited contract</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -1073,7 +1148,7 @@ export default function Home() {
                   <span className="text-primary text-xl">+</span>
                 </summary>
                 <p className="text-sm text-muted-foreground mt-3">
-                  Total supply, public sale %, team vesting (cliff + linear), liquidity lock, and staking allocation are published in the whitepaper and on the Tokenomics section.
+                  Total supply: 50 billion $MEMES. Public sale: 50% (25B tokens at $0.0001 each). Staking rewards: 365% APY (1% daily). Referral pool: 10% (5B tokens) with 3-level structure. All details are in the Tokenomics section and whitepaper.
                 </p>
               </details>
               
@@ -1125,8 +1200,8 @@ export default function Home() {
               <div className="rounded p-4 font-mono text-sm overflow-x-auto" style={{background: 'white', border: '1px solid #e5e7eb'}}>
                 <div className="text-green-600">// MemeStake Contract</div>
                 <div className="text-black">contract MemeStake {'{'}</div>
-                <div className="text-black">&nbsp;&nbsp;uint256 public totalSupply = 1e9;</div>
-                <div className="text-black">&nbsp;&nbsp;uint256 public stakingRewards;</div>
+                <div className="text-black">&nbsp;&nbsp;uint256 public totalSupply = 50e9; // 50 Billion</div>
+                <div className="text-black">&nbsp;&nbsp;uint256 public stakingRewards; // 365% APY</div>
                 <div className="text-black">&nbsp;&nbsp;mapping(address =&gt; uint256) stakes;</div>
                 <div className="text-black">&nbsp;&nbsp;</div>
                 <div className="text-black">&nbsp;&nbsp;function stake(uint256 amount) {'{'}</div>
@@ -1173,13 +1248,14 @@ export default function Home() {
                 </div>
                 <h3 className="font-semibold mb-3">Tokenomics Model</h3>
                 <p className="text-sm text-muted-foreground mb-4">
-                  Complete breakdown of token distribution, vesting schedules, and reward mechanisms.
+                  Complete breakdown of $MEMES token distribution, sale pricing, and reward mechanisms.
                 </p>
                 <ul className="text-sm text-muted-foreground space-y-1">
-                  <li>• Token supply & distribution</li>
-                  <li>• Staking rewards calculation</li>
-                  <li>• Vesting schedules</li>
-                  <li>• Liquidity provisions</li>
+                  <li>• 50B total supply at $0.0001/token</li>
+                  <li>• 365% APY staking (1% daily)</li>
+                  <li>• 3-level referral system (5%/3%/2%)</li>
+                  <li>• Public sale & airdrop details</li>
+                  <li>• BSC network deployment</li>
                 </ul>
               </Card>
               

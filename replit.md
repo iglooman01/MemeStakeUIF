@@ -1,6 +1,25 @@
 # Overview
 
-This is a full-stack web application built with React and Express.js for "MemeStake" - a cryptocurrency staking platform focused on meme culture. The project implements a modern web application with a React frontend using shadcn/ui components and a Node.js backend with Express. The application includes features like multilingual support, dark/light theme switching, and various interactive components for a crypto staking platform.
+This is a full-stack web application built with React and Express.js for "MemeStake" - a cryptocurrency staking platform focused on meme culture. The project implements a modern web application with a React frontend using shadcn/ui components and a Node.js backend with Express. The application includes features like multilingual support, dark/light theme switching, Web3 wallet connection (MetaMask, Trust Wallet, SafePal), and various interactive components for a crypto staking platform.
+
+## $MEMES Token Information
+- **Total Supply**: 50,000,000,000 (50 Billion) $MEMES tokens
+- **Token Price**: $0.0001 per $MEMES
+- **Public Sale**: 25 Billion tokens (50% of supply)
+- **Raise Target**: $2,500,000
+- **Network**: Binance Smart Chain (BSC / BEP-20)
+- **Purchase Limits**: Minimum $50, No maximum limit
+- **Example**: $100 = 1,000,000 $MEMES tokens
+
+## Staking & Rewards
+- **Staking APY**: 365% APY (1% daily rewards)
+- **Launch**: Immediately after airdrop completion
+- **Referral System**: 3-level structure
+  - Level 1 (Direct): 5%
+  - Level 2: 3%
+  - Level 3: 2%
+- **Referral Pool**: 5 Billion $MEMES (10% of total supply)
+- **Referral Benefits**: Apply to both token purchases and staking rewards
 
 # User Preferences
 
@@ -28,9 +47,10 @@ Preferred communication style: Simple, everyday language.
 ## Design System
 - **Component Library**: Custom implementation using Radix UI primitives
 - **Theme System**: CSS variables-based theming supporting light/dark modes
-- **Color Palette**: Banana yellow (#F6C833) as primary color with neutral base
+- **Color Palette**: Pure black (#000000) background with gold (#ffd700) accents
 - **Typography**: System font stack for optimal performance
 - **Layout**: Responsive design with mobile-first approach
+- **Social Media**: Twitter, Telegram, YouTube, Medium integration
 
 ## Project Structure
 - **Monorepo Structure**: Client and server code in separate directories
@@ -74,6 +94,16 @@ Preferred communication style: Simple, everyday language.
 - **Date Handling**: date-fns for date manipulation
 - **Command Palette**: cmdk for search and command interfaces
 - **Development**: Replit-specific plugins for development environment integration
+
+## Web3 Integration
+- **Wallet Support**: MetaMask, Trust Wallet, SafePal
+- **Network**: Binance Smart Chain (BSC / BEP-20)
+- **Features**: 
+  - Wallet connection with network auto-switch
+  - Connected wallet display with address truncation
+  - Disconnect functionality with session cleanup
+  - Automatic redirect to dashboard on connection
+- **Configuration**: Client-side Web3 integration in `client/src/config/web3Config.ts`
 
 ## TypeScript and Tooling
 - **TypeScript**: Strict configuration with path mapping
