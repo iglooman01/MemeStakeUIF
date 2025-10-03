@@ -152,6 +152,7 @@ export default function Home() {
   const [walletConnected, setWalletConnected] = useState(false);
   const [walletAddress, setWalletAddress] = useState<string>('');
   const [connectedWalletType, setConnectedWalletType] = useState<string>('');
+  const [welcomeModalOpen, setWelcomeModalOpen] = useState(false);
   const { toast } = useToast();
   
   // Check for existing wallet connection on component mount
@@ -462,15 +463,11 @@ export default function Home() {
         setConnectedWalletType(walletName);
         
         setWalletModalOpen(false);
-        toast({
-          title: "🎉 Wallet Connected!",
-          description: `Successfully connected to ${walletName}\nAddress: ${result.address.slice(0, 6)}...${result.address.slice(-4)}`,
-        });
         
-        // Navigate to internal dashboard after successful connection
+        // Show welcome modal after successful connection
         setTimeout(() => {
-          window.location.href = '/dashboard';
-        }, 1000);
+          setWelcomeModalOpen(true);
+        }, 300);
       } else {
         // Handle specific errors
         let errorTitle = "❌ Connection Failed";
@@ -1570,6 +1567,124 @@ export default function Home() {
               </a>
               <span>More wallets via WalletConnect</span>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Welcome Modal (after wallet connection) */}
+      {welcomeModalOpen && (
+        <div 
+          className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-50 p-4"
+          onClick={() => setWelcomeModalOpen(false)}
+          data-testid="modal-welcome-overlay"
+        >
+          <div 
+            className="rounded-2xl p-8 max-w-lg w-full mx-auto backdrop-blur-xl border relative overflow-hidden"
+            style={{
+              background: 'linear-gradient(135deg, rgba(15, 10, 35, 0.98) 0%, rgba(30, 15, 60, 0.98) 50%, rgba(15, 10, 35, 0.98) 100%)',
+              border: '2px solid rgba(255, 215, 0, 0.3)',
+              boxShadow: '0 0 60px rgba(255, 215, 0, 0.3), 0 25px 50px -12px rgba(0, 0, 0, 0.5)'
+            }}
+            onClick={(e) => e.stopPropagation()}
+            data-testid="modal-welcome-content"
+          >
+            {/* Decorative elements */}
+            <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+              <div className="absolute top-0 right-0 w-32 h-32 rounded-full" 
+                   style={{background: 'radial-gradient(circle, rgba(255, 215, 0, 0.15) 0%, transparent 70%)'}}></div>
+              <div className="absolute bottom-0 left-0 w-32 h-32 rounded-full" 
+                   style={{background: 'radial-gradient(circle, rgba(0, 191, 255, 0.15) 0%, transparent 70%)'}}></div>
+            </div>
+
+            {/* Close button */}
+            <button 
+              onClick={() => setWelcomeModalOpen(false)}
+              className="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 z-10 hover:rotate-90"
+              style={{background: 'rgba(255, 255, 255, 0.1)', border: '1px solid rgba(255, 255, 255, 0.2)'}}
+              data-testid="button-close-welcome"
+            >
+              <span className="text-white text-xl font-bold">×</span>
+            </button>
+
+            {/* Logo */}
+            <div className="flex justify-center mb-6">
+              <img 
+                src={memeStakeLogo} 
+                alt="MemeStake Logo" 
+                className="w-20 h-20 rounded-2xl animate-pulse"
+                style={{
+                  filter: 'drop-shadow(0 8px 20px rgba(255, 215, 0, 0.4))',
+                  animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+                }}
+              />
+            </div>
+
+            {/* Welcome Message */}
+            <div className="text-center mb-6 relative z-10">
+              <h2 className="text-3xl font-bold mb-3" style={{
+                background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
+              }}>
+                🎉 Welcome to MemeStake!
+              </h2>
+              <p className="text-lg text-gray-300 mb-4">
+                Your wallet is now connected
+              </p>
+              <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full text-sm"
+                   style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.3)'}}>
+                <div className="w-2 h-2 rounded-full animate-pulse" style={{background: '#00ff88'}}></div>
+                <span className="font-mono text-sm" style={{color: '#00bfff'}}>
+                  {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
+                </span>
+              </div>
+            </div>
+
+            {/* Info Section */}
+            <div className="mb-6 p-5 rounded-xl relative z-10" 
+                 style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.2)'}}>
+              <p className="text-center text-gray-300 text-base mb-4">
+                For more information about <span className="font-bold" style={{color: '#ffd700'}}>$MEMES token</span>, 
+                <span className="font-bold" style={{color: '#00bfff'}}> airdrop</span>, and 
+                <span className="font-bold" style={{color: '#00ff88'}}> staking</span>, join our community!
+              </p>
+
+              {/* Telegram Button */}
+              <a
+                href="https://t.me/memestake"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center space-x-3 w-full py-4 rounded-xl font-semibold text-lg transition-all duration-200 hover:scale-105"
+                style={{
+                  background: 'linear-gradient(135deg, #0088cc 0%, #00aaff 100%)',
+                  boxShadow: '0 4px 20px rgba(0, 136, 204, 0.4)'
+                }}
+                data-testid="link-telegram-join"
+              >
+                <FaTelegram className="text-2xl" />
+                <span>Join Our Telegram Group</span>
+              </a>
+            </div>
+
+            {/* Dashboard Button */}
+            <button
+              onClick={() => {
+                setWelcomeModalOpen(false);
+                setTimeout(() => {
+                  window.location.href = '/dashboard';
+                }, 300);
+              }}
+              className="w-full py-4 rounded-xl font-semibold text-lg transition-all duration-200 hover:scale-105"
+              style={{
+                background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)',
+                color: '#000',
+                boxShadow: '0 4px 20px rgba(255, 215, 0, 0.4)'
+              }}
+              data-testid="button-go-dashboard"
+            >
+              Go to Dashboard 🚀
+            </button>
           </div>
         </div>
       )}
