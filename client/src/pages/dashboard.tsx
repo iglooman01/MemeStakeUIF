@@ -60,10 +60,7 @@ export default function Dashboard() {
   }, []);
 
   const handleStakeTokens = () => {
-    toast({
-      title: "Staking Started!",
-      description: "Your tokens are now earning rewards.",
-    });
+    setLocation('/staking');
   };
 
   return (

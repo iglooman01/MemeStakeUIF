@@ -14,6 +14,14 @@ This is a full-stack web application built with React and Express.js for "MemeSt
 ## Staking & Rewards
 - **Staking APY**: 365% APY (1% daily rewards)
 - **Launch**: Immediately after airdrop completion
+- **Minimum Staking Period**: 50 days for penalty-free unstake
+- **Early Unstake Penalty**: All earned rewards deducted from principal if unstaked before 50 days
+- **Staking Page**: Full featured stake/unstake interface at `/staking`
+  - Smart contract approval flow
+  - Gas fee estimation for all transactions
+  - Real-time rewards tracking (daily, claimable, lifetime)
+  - Claim rewards functionality with batching support
+  - Early unstake warning with penalty calculation
 - **Referral System**: 3-level structure
   - Level 1 (Direct): 5%
   - Level 2: 3%
