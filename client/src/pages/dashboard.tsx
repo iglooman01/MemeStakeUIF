@@ -19,7 +19,15 @@ export default function Dashboard() {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [purchasedTokens, setPurchasedTokens] = useState(0);
   const [txHash] = useState('0x1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b');
+  const [isClaiming, setIsClaiming] = useState(false);
   const { toast } = useToast();
+
+  // Earnings data
+  const stakingEarnings = 28475;
+  const referralEarnings = 345000;
+  const bonusEarnings = 15000;
+  const totalEarnings = stakingEarnings + referralEarnings + bonusEarnings;
+  const claimableAmount = totalEarnings;
 
   const TOKEN_PRICE = 0.0001; // $0.0001 per token
   const MIN_PURCHASE_USD = 50;
@@ -79,6 +87,27 @@ export default function Dashboard() {
       setTokenBalance(prev => prev + tokensToGet);
       setShowSuccessModal(true);
       setBuyAmount('');
+    }, 2000);
+  };
+
+  const handleClaimEarnings = () => {
+    if (claimableAmount <= 0) {
+      toast({
+        title: "❌ No Earnings",
+        description: "You don't have any earnings to claim",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsClaiming(true);
+    setTimeout(() => {
+      setTokenBalance(prev => prev + claimableAmount);
+      setIsClaiming(false);
+      toast({
+        title: "🎉 Earnings Claimed!",
+        description: `Successfully claimed ${claimableAmount.toLocaleString()} $MEMES to your wallet`,
+      });
     }, 2000);
   };
 
@@ -402,6 +431,79 @@ export default function Dashboard() {
             </div>
           </Card>
         </div>
+
+        {/* Earnings Section */}
+        <Card className="p-6 glass-card">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold">💰 My Earnings</h3>
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={() => setLocation('/income-history')}
+              data-testid="button-view-history"
+            >
+              📊 View History
+            </Button>
+          </div>
+          
+          <div className="grid md:grid-cols-4 gap-4 mb-4">
+            {/* Staking Earnings */}
+            <div className="p-4 rounded-lg text-center" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.2)'}}>
+              <div className="text-xs text-muted-foreground mb-2">Staking Rewards</div>
+              <div className="text-xl font-bold" style={{color: '#00bfff'}}>
+                {stakingEarnings.toLocaleString()}
+              </div>
+              <div className="text-xs text-muted-foreground mt-1">$MEMES</div>
+            </div>
+
+            {/* Referral Earnings */}
+            <div className="p-4 rounded-lg text-center" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)'}}>
+              <div className="text-xs text-muted-foreground mb-2">Referral Rewards</div>
+              <div className="text-xl font-bold" style={{color: '#ffd700'}}>
+                {referralEarnings.toLocaleString()}
+              </div>
+              <div className="text-xs text-muted-foreground mt-1">$MEMES</div>
+            </div>
+
+            {/* Bonus Earnings */}
+            <div className="p-4 rounded-lg text-center" style={{background: 'rgba(255, 105, 180, 0.1)', border: '1px solid rgba(255, 105, 180, 0.2)'}}>
+              <div className="text-xs text-muted-foreground mb-2">Bonus Rewards</div>
+              <div className="text-xl font-bold" style={{color: '#ff69b4'}}>
+                {bonusEarnings.toLocaleString()}
+              </div>
+              <div className="text-xs text-muted-foreground mt-1">$MEMES</div>
+            </div>
+
+            {/* Total Earnings */}
+            <div className="p-4 rounded-lg text-center" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.2)'}}>
+              <div className="text-xs text-muted-foreground mb-2">Total Earnings</div>
+              <div className="text-xl font-bold" style={{color: '#00ff88'}}>
+                {totalEarnings.toLocaleString()}
+              </div>
+              <div className="text-xs text-muted-foreground mt-1">$MEMES</div>
+            </div>
+          </div>
+
+          {/* Claim Section */}
+          <div className="p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.2)'}}>
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-sm text-muted-foreground mb-1">Claimable Amount</div>
+                <div className="text-2xl font-bold" style={{color: '#00ff88'}}>
+                  {claimableAmount.toLocaleString()} $MEMES
+                </div>
+              </div>
+              <Button 
+                onClick={handleClaimEarnings}
+                disabled={isClaiming || claimableAmount <= 0}
+                style={{background: 'linear-gradient(135deg, #00ff88 0%, #00cc70 100%)', color: '#000'}}
+                data-testid="button-claim-earnings"
+              >
+                {isClaiming ? '⏳ Claiming...' : '💎 Claim to Wallet'}
+              </Button>
+            </div>
+          </div>
+        </Card>
 
         {/* Token Sale Information */}
         <Card className="p-6 glass-card">
