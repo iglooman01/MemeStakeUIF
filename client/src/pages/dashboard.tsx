@@ -11,7 +11,20 @@ export default function Dashboard() {
   const [tokenBalance, setTokenBalance] = useState(125000);
   const [stakingRewards, setStakingRewards] = useState(28475);
   const [walletAddress, setWalletAddress] = useState<string>('');
+  const [sponsorAddress] = useState<string>('0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb');
   const { toast } = useToast();
+
+  const referralLink = walletAddress 
+    ? `https://memestake.app/ref/${walletAddress}`
+    : 'https://memestake.app/ref/';
+
+  const copyReferralLink = () => {
+    navigator.clipboard.writeText(referralLink);
+    toast({
+      title: "✅ Copied!",
+      description: "Referral link copied to clipboard",
+    });
+  };
 
   // Load wallet address from localStorage
   useEffect(() => {
@@ -120,6 +133,45 @@ export default function Dashboard() {
                 <div className="text-center">
                   <div className="text-2xl font-bold" style={{color: '#ffd700'}}>{String(airdropTime.seconds).padStart(2, '0')}</div>
                   <div className="text-sm text-muted-foreground">SECS</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Referral & Sponsor Section */}
+            <div className="grid md:grid-cols-2 gap-4 mt-6">
+              {/* Referral Link */}
+              <div className="p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)'}}>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-semibold" style={{color: '#ffd700'}}>🔗 Your Referral Link</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="text"
+                    value={referralLink}
+                    readOnly
+                    className="flex-1 px-3 py-2 rounded text-xs font-mono bg-black/30 border border-white/10 text-gray-300"
+                    data-testid="input-referral-link"
+                  />
+                  <button
+                    onClick={copyReferralLink}
+                    className="px-4 py-2 rounded font-semibold text-sm transition-all duration-200 hover:scale-105"
+                    style={{background: '#ffd700', color: '#000'}}
+                    data-testid="button-copy-referral"
+                  >
+                    📋 Copy
+                  </button>
+                </div>
+              </div>
+
+              {/* Sponsor Address */}
+              <div className="p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.2)'}}>
+                <div className="mb-2">
+                  <span className="text-sm font-semibold" style={{color: '#00bfff'}}>👤 Your Sponsor</span>
+                </div>
+                <div className="flex items-center justify-center p-3 rounded bg-black/30 border border-white/10">
+                  <span className="font-mono text-sm font-bold" style={{color: '#00bfff'}}>
+                    {sponsorAddress.slice(0, 6)}...{sponsorAddress.slice(-4)}
+                  </span>
                 </div>
               </div>
             </div>
