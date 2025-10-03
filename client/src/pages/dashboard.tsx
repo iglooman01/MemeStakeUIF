@@ -149,7 +149,7 @@ export default function Dashboard() {
             <div className="space-y-4">
               <div className="flex justify-between items-center">
                 <span className="text-muted-foreground">APY Rate:</span>
-                <span className="font-bold" style={{color: '#00ff88'}}>250%</span>
+                <span className="font-bold" style={{color: '#00ff88'}}>365% (1% Daily)</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-muted-foreground">Staked Amount:</span>
@@ -161,7 +161,7 @@ export default function Dashboard() {
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-muted-foreground">Daily Rewards:</span>
-                <span className="font-bold" style={{color: '#00bfff'}}>+68.5 MEME</span>
+                <span className="font-bold" style={{color: '#00bfff'}}>+1,000 MEME (1%)</span>
               </div>
               
               <Button 
@@ -175,16 +175,58 @@ export default function Dashboard() {
           </Card>
         </div>
 
+        {/* Token Sale Information */}
+        <Card className="p-6 glass-card">
+          <h3 className="text-lg font-semibold mb-4">💎 Token Sale & Economics</h3>
+          <div className="grid md:grid-cols-3 gap-4">
+            <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
+              <div className="text-sm text-muted-foreground mb-2">Public Sale</div>
+              <div className="text-xl font-bold" style={{color: '#ffd700'}}>25B Tokens</div>
+              <div className="text-xs text-cyan-400 mt-1">50% of supply</div>
+            </div>
+            <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
+              <div className="text-sm text-muted-foreground mb-2">Token Price</div>
+              <div className="text-xl font-bold" style={{color: '#00bfff'}}>$0.0001</div>
+              <div className="text-xs text-cyan-400 mt-1">BSC (BEP-20)</div>
+            </div>
+            <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 105, 180, 0.1)', border: '1px solid rgba(255, 105, 180, 0.3)'}}>
+              <div className="text-sm text-muted-foreground mb-2">Purchase Limits</div>
+              <div className="text-xl font-bold" style={{color: '#ff69b4'}}>$50 Min</div>
+              <div className="text-xs text-cyan-400 mt-1">No maximum</div>
+            </div>
+          </div>
+          <div className="mt-4 p-3 rounded-lg text-center text-sm" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
+            <span style={{color: '#ffd700'}}>💰 Example:</span> $100 = 1,000,000 $MEMES tokens
+          </div>
+        </Card>
+
         {/* Referrals & Community */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           
           {/* Referrals */}
           <Card className="p-6 glass-card">
-            <h3 className="text-lg font-semibold mb-4">👥 Referral Program</h3>
+            <h3 className="text-lg font-semibold mb-4">🎁 3-Level Referral Program</h3>
             <div className="space-y-4">
+              <div className="grid grid-cols-3 gap-2 mb-3">
+                <div className="text-center p-2 rounded-lg bg-black/30">
+                  <div className="text-xl mb-1">🥇</div>
+                  <div className="text-xs text-muted-foreground">Level 1</div>
+                  <div className="font-bold text-sm" style={{color: '#ffd700'}}>5%</div>
+                </div>
+                <div className="text-center p-2 rounded-lg bg-black/30">
+                  <div className="text-xl mb-1">🥈</div>
+                  <div className="text-xs text-muted-foreground">Level 2</div>
+                  <div className="font-bold text-sm" style={{color: '#ffd700'}}>3%</div>
+                </div>
+                <div className="text-center p-2 rounded-lg bg-black/30">
+                  <div className="text-xl mb-1">🥉</div>
+                  <div className="text-xs text-muted-foreground">Level 3</div>
+                  <div className="font-bold text-sm" style={{color: '#ffd700'}}>2%</div>
+                </div>
+              </div>
               <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)'}}>
                 <div className="text-2xl font-bold" style={{color: '#ffd700'}}>15</div>
-                <div className="text-sm text-muted-foreground">Friends Referred</div>
+                <div className="text-sm text-muted-foreground">Total Referrals</div>
               </div>
               <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
                 <div className="text-xl font-bold" style={{color: '#00bfff'}}>$420.50</div>
@@ -205,16 +247,20 @@ export default function Dashboard() {
                 <span className="font-bold" style={{color: '#00ff88'}}>47,832</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">Total Staked:</span>
-                <span className="font-bold" style={{color: '#ffd700'}}>1.2B MEME</span>
+                <span className="text-muted-foreground">Total Supply:</span>
+                <span className="font-bold" style={{color: '#ffd700'}}>50B $MEMES</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-muted-foreground">Token Price:</span>
+                <span className="font-bold" style={{color: '#00bfff'}}>$0.0001</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-muted-foreground">Your Rank:</span>
-                <span className="font-bold" style={{color: '#00bfff'}}>#1,847</span>
+                <span className="font-bold" style={{color: '#00ff88'}}>#1,847</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">Rewards Pool:</span>
-                <span className="font-bold" style={{color: '#ff6b6b'}}>300M MEME</span>
+                <span className="text-muted-foreground">Referral Pool:</span>
+                <span className="font-bold" style={{color: '#ff6b6b'}}>5B $MEMES (10%)</span>
               </div>
             </div>
           </Card>
