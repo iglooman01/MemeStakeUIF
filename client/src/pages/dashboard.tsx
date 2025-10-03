@@ -9,7 +9,7 @@ export default function Dashboard() {
   const [location, setLocation] = useLocation();
   const [airdropTime, setAirdropTime] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [tokenBalance, setTokenBalance] = useState(125000);
-  const [stakingRewards, setStakingRewards] = useState(2847.50);
+  const [stakingRewards, setStakingRewards] = useState(28475);
   const [walletAddress, setWalletAddress] = useState<string>('');
   const { toast } = useToast();
 
@@ -155,7 +155,7 @@ export default function Dashboard() {
               
               <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
                 <div className="text-xl font-bold" style={{color: '#00bfff'}}>
-                  ${stakingRewards.toFixed(2)}
+                  {stakingRewards.toLocaleString()} $MEMES
                 </div>
                 <div className="text-sm text-muted-foreground">Total Rewards Earned</div>
               </div>
@@ -226,31 +226,75 @@ export default function Dashboard() {
           <Card className="p-6 glass-card">
             <h3 className="text-lg font-semibold mb-4">🎁 3-Level Referral Program</h3>
             <div className="space-y-4">
-              <div className="grid grid-cols-3 gap-2 mb-3">
-                <div className="text-center p-2 rounded-lg bg-black/30">
-                  <div className="text-xl mb-1">🥇</div>
-                  <div className="text-xs text-muted-foreground">Level 1</div>
-                  <div className="font-bold text-sm" style={{color: '#ffd700'}}>5%</div>
+              {/* Level 1 Referrals */}
+              <div className="p-3 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)'}}>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center space-x-2">
+                    <span className="text-xl">🥇</span>
+                    <span className="font-semibold text-sm" style={{color: '#ffd700'}}>Level 1 (5%)</span>
+                  </div>
+                  <span className="text-sm font-bold text-white">8 Referrals</span>
                 </div>
-                <div className="text-center p-2 rounded-lg bg-black/30">
-                  <div className="text-xl mb-1">🥈</div>
-                  <div className="text-xs text-muted-foreground">Level 2</div>
-                  <div className="font-bold text-sm" style={{color: '#ffd700'}}>3%</div>
-                </div>
-                <div className="text-center p-2 rounded-lg bg-black/30">
-                  <div className="text-xl mb-1">🥉</div>
-                  <div className="text-xs text-muted-foreground">Level 3</div>
-                  <div className="font-bold text-sm" style={{color: '#ffd700'}}>2%</div>
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  <div>
+                    <div className="text-muted-foreground">Volume</div>
+                    <div className="font-bold" style={{color: '#ffd700'}}>5,000,000 $MEMES</div>
+                  </div>
+                  <div>
+                    <div className="text-muted-foreground">You Earned</div>
+                    <div className="font-bold" style={{color: '#00ff88'}}>250,000 $MEMES</div>
+                  </div>
                 </div>
               </div>
-              <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)'}}>
-                <div className="text-2xl font-bold" style={{color: '#ffd700'}}>15</div>
-                <div className="text-sm text-muted-foreground">Total Referrals</div>
+
+              {/* Level 2 Referrals */}
+              <div className="p-3 rounded-lg" style={{background: 'rgba(192, 192, 192, 0.1)', border: '1px solid rgba(192, 192, 192, 0.2)'}}>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center space-x-2">
+                    <span className="text-xl">🥈</span>
+                    <span className="font-semibold text-sm" style={{color: '#c0c0c0'}}>Level 2 (3%)</span>
+                  </div>
+                  <span className="text-sm font-bold text-white">5 Referrals</span>
+                </div>
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  <div>
+                    <div className="text-muted-foreground">Volume</div>
+                    <div className="font-bold" style={{color: '#c0c0c0'}}>2,500,000 $MEMES</div>
+                  </div>
+                  <div>
+                    <div className="text-muted-foreground">You Earned</div>
+                    <div className="font-bold" style={{color: '#00ff88'}}>75,000 $MEMES</div>
+                  </div>
+                </div>
               </div>
-              <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
-                <div className="text-xl font-bold" style={{color: '#00bfff'}}>$420.50</div>
-                <div className="text-sm text-muted-foreground">Referral Earnings</div>
+
+              {/* Level 3 Referrals */}
+              <div className="p-3 rounded-lg" style={{background: 'rgba(205, 127, 50, 0.1)', border: '1px solid rgba(205, 127, 50, 0.2)'}}>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center space-x-2">
+                    <span className="text-xl">🥉</span>
+                    <span className="font-semibold text-sm" style={{color: '#cd7f32'}}>Level 3 (2%)</span>
+                  </div>
+                  <span className="text-sm font-bold text-white">2 Referrals</span>
+                </div>
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  <div>
+                    <div className="text-muted-foreground">Volume</div>
+                    <div className="font-bold" style={{color: '#cd7f32'}}>1,000,000 $MEMES</div>
+                  </div>
+                  <div>
+                    <div className="text-muted-foreground">You Earned</div>
+                    <div className="font-bold" style={{color: '#00ff88'}}>20,000 $MEMES</div>
+                  </div>
+                </div>
               </div>
+
+              {/* Total Earnings */}
+              <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.2)'}}>
+                <div className="text-sm text-muted-foreground mb-1">Total Referral Earnings</div>
+                <div className="text-2xl font-bold" style={{color: '#00ff88'}}>345,000 $MEMES</div>
+              </div>
+
               <Button variant="outline" className="w-full">
                 📋 Copy Referral Link
               </Button>
