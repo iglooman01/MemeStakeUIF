@@ -472,19 +472,46 @@ export default function Home() {
           window.location.href = '/dashboard';
         }, 1000);
       } else {
+        // Handle specific errors
+        let errorTitle = "❌ Connection Failed";
+        let errorDescription = result.error || `Failed to connect to ${walletName}`;
+        
+        if (result.error?.includes('not installed') || result.error?.includes('not found')) {
+          errorTitle = "⚠️ Wallet Not Found";
+          errorDescription = `${walletName} is not installed. Please install the ${walletName} browser extension first.`;
+        }
+        
         toast({
-          title: "❌ Connection Failed",
-          description: result.error || `Failed to connect to ${walletName}`,
+          title: errorTitle,
+          description: errorDescription,
           variant: "destructive"
         });
+        setSelectedWallet('');
       }
     } catch (error: any) {
       console.error('Wallet connection error:', error);
+      
+      let errorTitle = "❌ Connection Error";
+      let errorDescription = error.message || `Error connecting to ${walletName}`;
+      
+      // Handle user rejection (error code 4001)
+      if (error.code === 4001) {
+        errorTitle = "🚫 Connection Rejected";
+        errorDescription = "You rejected the wallet connection. Please try again and click 'Approve' in your wallet popup.";
+      } else if (error.code === -32002) {
+        errorTitle = "⏳ Request Already Pending";
+        errorDescription = "A wallet connection request is already open. Please check your wallet extension popup.";
+      } else if (!window.ethereum) {
+        errorTitle = "⚠️ No Wallet Detected";
+        errorDescription = "Please install MetaMask, Trust Wallet, or SafePal browser extension to connect.";
+      }
+      
       toast({
-        title: "❌ Connection Error",
-        description: error.message || `Error connecting to ${walletName}`,
+        title: errorTitle,
+        description: errorDescription,
         variant: "destructive"
       });
+      setSelectedWallet('');
     }
   };
 
@@ -1473,9 +1500,25 @@ export default function Home() {
             </div>
 
             {/* Subtitle */}
-            <p className="text-center text-gray-300 mb-8 text-base">
+            <p className="text-center text-gray-300 mb-6 text-base">
               Select a BNB Smart Chain compatible wallet
             </p>
+
+            {/* Connection Guide */}
+            <div className="mb-6 p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.2)'}}>
+              <div className="flex items-start space-x-3">
+                <span className="text-2xl">💡</span>
+                <div className="flex-1 text-sm text-gray-300">
+                  <p className="font-medium mb-2 text-cyan-400">How to connect:</p>
+                  <ol className="space-y-1 text-xs">
+                    <li>1. Make sure your wallet extension is installed</li>
+                    <li>2. Click on your preferred wallet below</li>
+                    <li>3. Click <strong className="text-cyan-400">"Approve"</strong> in the popup that appears</li>
+                    <li>4. If no popup appears, check your browser extensions</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
 
             {/* Wallet Options */}
             <div className="grid gap-3 mb-6">
