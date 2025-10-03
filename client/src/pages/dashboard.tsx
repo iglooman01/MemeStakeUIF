@@ -503,10 +503,6 @@ export default function Dashboard() {
                 <div className="text-sm text-muted-foreground mb-1">Total Referral Earnings</div>
                 <div className="text-2xl font-bold" style={{color: '#00ff88'}}>345,000 $MEMES</div>
               </div>
-
-              <Button variant="outline" className="w-full">
-                📋 Copy Referral Link
-              </Button>
             </div>
           </Card>
 
