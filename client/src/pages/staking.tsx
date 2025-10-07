@@ -304,19 +304,6 @@ export default function Staking() {
                       </div>
                     </div>
 
-                    <div className="p-3 rounded-lg text-xs" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
-                      <div className="flex justify-between mb-1">
-                        <span className="text-muted-foreground">Estimated Gas Fee:</span>
-                        <span className="font-semibold" style={{color: '#00bfff'}}>{estimatedGas} BNB</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Expected Daily Reward:</span>
-                        <span className="font-semibold" style={{color: '#00ff88'}}>
-                          {stakeAmount ? (parseFloat(stakeAmount) * 0.01).toLocaleString() : '0'} $MEMES
-                        </span>
-                      </div>
-                    </div>
-
                     <Button 
                       onClick={handleStake}
                       disabled={isProcessing || !stakeAmount}
@@ -371,13 +358,6 @@ export default function Staking() {
                     >
                       MAX
                     </button>
-                  </div>
-                </div>
-
-                <div className="p-3 rounded-lg text-xs" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Estimated Gas Fee:</span>
-                    <span className="font-semibold" style={{color: '#00bfff'}}>{estimatedGas} BNB</span>
                   </div>
                 </div>
 
