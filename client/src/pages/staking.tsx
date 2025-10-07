@@ -24,7 +24,15 @@ export default function Staking() {
 
   const APY = 365;
   const DAILY_RATE = 1;
-  const MIN_STAKE_DAYS = 50;
+  const PENALTY_FREE_DAYS = 90;
+  const PENALTY_PERCENTAGE = 20;
+
+  // Sample staking records
+  const stakingRecords = [
+    { id: 1, dateStaked: '2024-01-12', amount: 50000, daysStaked: 240, status: 'active' },
+    { id: 2, dateStaked: '2024-03-01', amount: 20000, daysStaked: 60, status: 'active' },
+    { id: 3, dateStaked: '2023-12-20', amount: 30000, daysStaked: 365, status: 'active' },
+  ];
 
   useEffect(() => {
     const storedAddress = localStorage.getItem('walletAddress');
@@ -38,6 +46,42 @@ export default function Staking() {
     const diffTime = Math.abs(now.getTime() - stakingStartDate.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     return diffDays;
+  };
+
+  const getPenaltyInfo = (daysStaked: number) => {
+    if (daysStaked >= PENALTY_FREE_DAYS) {
+      return { hasPenalty: false, text: '✅ No Penalty', color: '#00ff88' };
+    } else {
+      return { hasPenalty: true, text: `⚠️ ${PENALTY_PERCENTAGE}% Penalty`, color: '#ffa500' };
+    }
+  };
+
+  const handleUnstakeRecord = (record: any) => {
+    const penaltyInfo = getPenaltyInfo(record.daysStaked);
+    let finalAmount = record.amount;
+    
+    if (penaltyInfo.hasPenalty) {
+      const penaltyAmount = record.amount * (PENALTY_PERCENTAGE / 100);
+      finalAmount = record.amount - penaltyAmount;
+      
+      toast({
+        title: "⚠️ Penalty Applied",
+        description: `${PENALTY_PERCENTAGE}% penalty (${penaltyAmount.toLocaleString()} $MEMES) deducted. You will receive ${finalAmount.toLocaleString()} $MEMES.`,
+        variant: "destructive"
+      });
+    }
+
+    setIsProcessing(true);
+    setTimeout(() => {
+      setTokenBalance(prev => prev + finalAmount);
+      setStakedAmount(prev => prev - record.amount);
+      setIsProcessing(false);
+      
+      toast({
+        title: "✅ Unstake Successful!",
+        description: `${finalAmount.toLocaleString()} $MEMES transferred to your wallet`,
+      });
+    }, 2000);
   };
 
   const handleApprove = async () => {
@@ -108,7 +152,7 @@ export default function Staking() {
     let finalAmount = parseFloat(unstakeAmount);
     let penaltyAmount = 0;
 
-    if (isEarlyUnstake && daysStaked < MIN_STAKE_DAYS) {
+    if (isEarlyUnstake && daysStaked < PENALTY_FREE_DAYS) {
       penaltyAmount = claimableRewards;
       finalAmount = finalAmount - penaltyAmount;
       
@@ -123,11 +167,11 @@ export default function Staking() {
     setTimeout(() => {
       setStakedAmount(prev => prev - parseFloat(unstakeAmount));
       setTokenBalance(prev => prev + finalAmount);
-      setClaimableRewards(prev => isEarlyUnstake && daysStaked < MIN_STAKE_DAYS ? 0 : prev);
+      setClaimableRewards(prev => isEarlyUnstake && daysStaked < PENALTY_FREE_DAYS ? 0 : prev);
       setUnstakeAmount('');
       setIsProcessing(false);
       
-      if (!isEarlyUnstake || daysStaked >= MIN_STAKE_DAYS) {
+      if (!isEarlyUnstake || daysStaked >= PENALTY_FREE_DAYS) {
         toast({
           title: "✅ Unstaking Successful!",
           description: `Successfully unstaked ${parseFloat(unstakeAmount).toLocaleString()} $MEMES tokens`,
@@ -159,7 +203,7 @@ export default function Staking() {
   };
 
   const daysStaked = getDaysStaked();
-  const remainingDays = Math.max(0, MIN_STAKE_DAYS - daysStaked);
+  const remainingDays = Math.max(0, PENALTY_FREE_DAYS - daysStaked);
 
   return (
     <div className="min-h-screen text-foreground" style={{background: 'linear-gradient(135deg, #0a0e1a 0%, #1a1f2e 50%, #0f1421 100%)'}} data-testid="staking-page">
@@ -318,70 +362,84 @@ export default function Staking() {
               </div>
             ) : (
               <div className="space-y-4">
-                {/* Staking Duration Info */}
-                <div className="p-4 rounded-lg" style={{
-                  background: remainingDays > 0 ? 'rgba(255, 165, 0, 0.1)' : 'rgba(0, 255, 136, 0.1)',
-                  border: remainingDays > 0 ? '1px solid rgba(255, 165, 0, 0.3)' : '1px solid rgba(0, 255, 136, 0.3)'
-                }}>
-                  <div className="text-sm mb-2">
-                    <span className="text-muted-foreground">Days Staked: </span>
-                    <span className="font-bold" style={{color: '#ffd700'}}>{daysStaked} days</span>
-                  </div>
-                  {remainingDays > 0 ? (
-                    <div className="text-xs text-orange-400">
-                      ⚠️ Early unstake penalty applies! {remainingDays} days remaining for penalty-free unstake.
-                    </div>
-                  ) : (
-                    <div className="text-xs" style={{color: '#00ff88'}}>
-                      ✅ You can unstake penalty-free anytime!
-                    </div>
-                  )}
+                {/* Unstaking Info Banner */}
+                <div className="p-3 rounded-lg text-xs" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.2)'}}>
+                  <div className="font-semibold mb-1" style={{color: '#00bfff'}}>Unstaking Rules:</div>
+                  <ul className="space-y-1 text-gray-300">
+                    <li>• Penalty-free after: <strong>90 days</strong></li>
+                    <li>• Early unstake penalty: <strong>20% deduction</strong></li>
+                    <li>• Minimum recommended lock: <strong>365 days</strong></li>
+                  </ul>
                 </div>
 
-                {/* Unstake Input */}
-                <div>
-                  <label className="text-sm text-muted-foreground mb-2 block">Amount to Unstake</label>
-                  <div className="flex space-x-2">
-                    <input
-                      type="number"
-                      value={unstakeAmount}
-                      onChange={(e) => setUnstakeAmount(e.target.value)}
-                      placeholder="0.00"
-                      className="flex-1 px-4 py-3 rounded-lg bg-black/30 border border-white/10 text-white"
-                      data-testid="input-unstake-amount"
-                    />
-                    <button
-                      onClick={() => setUnstakeAmount(stakedAmount.toString())}
-                      className="px-4 py-2 rounded-lg text-sm font-semibold"
-                      style={{background: 'rgba(255, 215, 0, 0.2)', color: '#ffd700', border: '1px solid rgba(255, 215, 0, 0.3)'}}
-                      data-testid="button-max-unstake"
-                    >
-                      MAX
-                    </button>
-                  </div>
+                {/* Staking Records Table */}
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-white/10">
+                        <th className="text-left py-2 px-2 text-xs text-muted-foreground">#</th>
+                        <th className="text-left py-2 px-2 text-xs text-muted-foreground">Date Staked</th>
+                        <th className="text-right py-2 px-2 text-xs text-muted-foreground">Amount</th>
+                        <th className="text-center py-2 px-2 text-xs text-muted-foreground">Days</th>
+                        <th className="text-center py-2 px-2 text-xs text-muted-foreground">Penalty</th>
+                        <th className="text-center py-2 px-2 text-xs text-muted-foreground">Action</th>
+                        <th className="text-center py-2 px-2 text-xs text-muted-foreground">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {stakingRecords.map((record) => {
+                        const penaltyInfo = getPenaltyInfo(record.daysStaked);
+                        return (
+                          <tr 
+                            key={record.id} 
+                            className="border-b border-white/5 hover:bg-white/5 transition-colors"
+                            data-testid={`stake-record-${record.id}`}
+                          >
+                            <td className="py-3 px-2 text-gray-400">{record.id}</td>
+                            <td className="py-3 px-2">{record.dateStaked}</td>
+                            <td className="py-3 px-2 text-right font-bold" style={{color: '#ffd700'}}>
+                              {record.amount.toLocaleString()} MEME
+                            </td>
+                            <td className="py-3 px-2 text-center font-semibold" style={{color: '#00bfff'}}>
+                              {record.daysStaked} days
+                            </td>
+                            <td className="py-3 px-2 text-center">
+                              <span style={{color: penaltyInfo.color, fontSize: '11px'}}>
+                                {penaltyInfo.text}
+                              </span>
+                            </td>
+                            <td className="py-3 px-2 text-center">
+                              <button
+                                onClick={() => handleUnstakeRecord(record)}
+                                disabled={isProcessing || record.status !== 'active'}
+                                className="px-3 py-1 rounded text-xs font-semibold transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                                style={{
+                                  background: record.status === 'active' ? 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)' : 'rgba(100, 100, 100, 0.3)',
+                                  color: record.status === 'active' ? '#000' : '#666'
+                                }}
+                                data-testid={`button-unstake-${record.id}`}
+                              >
+                                🔓 Unstake
+                              </button>
+                            </td>
+                            <td className="py-3 px-2 text-center">
+                              <span 
+                                className="px-2 py-1 rounded text-xs font-semibold"
+                                style={{
+                                  background: record.status === 'active' ? 'rgba(0, 255, 136, 0.2)' : 'rgba(100, 100, 100, 0.2)',
+                                  color: record.status === 'active' ? '#00ff88' : '#888',
+                                  border: `1px solid ${record.status === 'active' ? 'rgba(0, 255, 136, 0.3)' : 'rgba(100, 100, 100, 0.3)'}`
+                                }}
+                              >
+                                {record.status === 'active' ? 'Active' : 'Completed'}
+                              </span>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
                 </div>
-
-                {remainingDays > 0 && (
-                  <Button 
-                    onClick={() => handleUnstake(true)}
-                    disabled={isProcessing || !unstakeAmount}
-                    className="w-full"
-                    variant="destructive"
-                    data-testid="button-early-unstake"
-                  >
-                    {isProcessing ? '⏳ Processing...' : '⚠️ Early Unstake (Penalty Applied)'}
-                  </Button>
-                )}
-                
-                <Button 
-                  onClick={() => handleUnstake(false)}
-                  disabled={isProcessing || !unstakeAmount || remainingDays > 0}
-                  className="w-full"
-                  style={{background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)', color: '#000'}}
-                  data-testid="button-unstake"
-                >
-                  {isProcessing ? '⏳ Unstaking...' : '💰 Unstake Tokens'}
-                </Button>
               </div>
             )}
           </Card>
