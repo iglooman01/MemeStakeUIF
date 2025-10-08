@@ -179,7 +179,7 @@ export default function Home() {
     {
       name: "Sarah Williams",
       role: "Crypto Investor",
-      content: "The daily rewards are amazing! I've been earning 1% daily (350% APY) consistently. Plus the referral system is incredible!"
+      content: "The daily rewards are amazing! I've been earning 1% daily (365% APY) consistently. Plus the referral system is incredible!"
     },
     {
       name: "Mike Rodriguez", 
@@ -211,7 +211,7 @@ export default function Home() {
     },
     {
       question: "How do staking rewards work?", 
-      answer: "Stake $MEMES tokens to earn 350% APY (1% daily rewards). Staking launches immediately after the airdrop ends. Plus, earn referral bonuses at 3 levels: 5% (Level 1), 3% (Level 2), and 2% (Level 3) from your network's staking rewards."
+      answer: "Stake $MEMES tokens to earn 365% APY (1% daily rewards). Staking launches immediately after the airdrop ends. Plus, earn referral bonuses at 3 levels: 5% (Level 1), 3% (Level 2), and 2% (Level 3) from your network's staking rewards."
     },
     {
       question: "How does the referral system work?",
@@ -553,7 +553,7 @@ export default function Home() {
   const handleStakingClick = () => {
     toast({
       title: "🚀 Staking Program Coming Soon!",
-      description: "Staking will launch immediately after the airdrop ends. 350% APY (1% daily) rewards await!",
+      description: "Staking will launch immediately after the airdrop ends. 365% APY (1% daily) rewards await!",
     });
   };
 
@@ -747,7 +747,7 @@ export default function Home() {
       {/* Airdrop Notification Banner */}
       <div className="w-full py-2 px-4 text-center" style={{background: '#000000', borderBottom: '1px solid rgba(255, 215, 0, 0.2)'}} data-testid="airdrop-notification">
         <p className="text-xs sm:text-sm text-white/80">
-          🎁 <span style={{color: '#ffd700'}}>Limited Airdrop:</span> Connect your wallet now to claim free MEME tokens • <span style={{color: '#ffd700'}}>Join 47K+ holders</span> • Staking rewards 350% APY (1% daily)
+          🎁 <span style={{color: '#ffd700'}}>Limited Airdrop:</span> Connect your wallet now to claim free MEME tokens • <span style={{color: '#ffd700'}}>Join 47K+ holders</span> • Staking rewards 365% APY (1% daily)
         </p>
       </div>
 
@@ -993,7 +993,7 @@ export default function Home() {
                 <div className="text-center">
                   <div className="inline-flex items-center space-x-2 px-6 py-3 rounded-full" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
                     <span className="text-lg">💎</span>
-                    <span className="text-sm font-medium" style={{color: '#ffd700'}}>Staking rewards 350% APY (1% daily) start after airdrop completion</span>
+                    <span className="text-sm font-medium" style={{color: '#ffd700'}}>Staking rewards 365% APY (1% daily) start after airdrop completion</span>
                   </div>
                 </div>
               </div>
@@ -1090,7 +1090,7 @@ export default function Home() {
               <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
                 <div className="text-2xl mb-2">💎</div>
                 <div className="text-base font-semibold" style={{color: '#ffd700'}}>Staking Rewards</div>
-                <div className="text-sm text-muted-foreground">350% APY (1% daily)</div>
+                <div className="text-sm text-muted-foreground">365% APY (1% daily)</div>
                 <div className="text-xs text-cyan-400 mt-1">Starts after airdrop</div>
               </div>
               
@@ -1212,7 +1212,7 @@ export default function Home() {
                   <span className="text-primary text-xl">+</span>
                 </summary>
                 <p className="text-sm text-muted-foreground mt-3">
-                  Total supply: 50 billion $MEMES. Public sale: 50% (25B tokens at $0.0001 each). Staking rewards: 350% APY (1% daily). Referral pool: 10% (5B tokens) with 3-level structure. All details are in the Tokenomics section and whitepaper.
+                  Total supply: 50 billion $MEMES. Public sale: 50% (25B tokens at $0.0001 each). Staking rewards: 365% APY (1% daily). Referral pool: 10% (5B tokens) with 3-level structure. All details are in the Tokenomics section and whitepaper.
                 </p>
               </details>
               
@@ -1265,7 +1265,7 @@ export default function Home() {
                 <div className="text-green-600">// MemeStake Contract</div>
                 <div className="text-black">contract MemeStake {'{'}</div>
                 <div className="text-black">&nbsp;&nbsp;uint256 public totalSupply = 50e9; // 50 Billion</div>
-                <div className="text-black">&nbsp;&nbsp;uint256 public stakingRewards; // 350% APY</div>
+                <div className="text-black">&nbsp;&nbsp;uint256 public stakingRewards; // 365% APY</div>
                 <div className="text-black">&nbsp;&nbsp;mapping(address =&gt; uint256) stakes;</div>
                 <div className="text-black">&nbsp;&nbsp;</div>
                 <div className="text-black">&nbsp;&nbsp;function stake(uint256 amount) {'{'}</div>
@@ -1316,7 +1316,7 @@ export default function Home() {
                 </p>
                 <ul className="text-sm text-muted-foreground space-y-1">
                   <li>• 50B total supply at $0.0001/token</li>
-                  <li>• 350% APY staking (1% daily)</li>
+                  <li>• 365% APY staking (1% daily)</li>
                   <li>• 3-level referral system (5%/3%/2%)</li>
                   <li>• Public sale & airdrop details</li>
                   <li>• BSC network deployment</li>

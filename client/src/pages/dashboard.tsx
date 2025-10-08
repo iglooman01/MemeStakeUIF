@@ -447,7 +447,7 @@ export default function Dashboard() {
             <div className="space-y-4">
               <div className="flex justify-between items-center">
                 <span className="text-muted-foreground">APY Rate:</span>
-                <span className="font-bold" style={{color: '#00ff88'}}>350% APY</span>
+                <span className="font-bold" style={{color: '#00ff88'}}>365% APY</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-muted-foreground">Staked Amount:</span>
@@ -714,7 +714,7 @@ export default function Dashboard() {
                   <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)'}}>
                     <div className="text-3xl mb-2">💰</div>
                     <div className="font-semibold mb-2">High APY</div>
-                    <div className="text-sm text-muted-foreground">Up to 350% APY</div>
+                    <div className="text-sm text-muted-foreground">Up to 365% APY</div>
                   </div>
                   <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
                     <div className="text-3xl mb-2">🔒</div>
@@ -748,7 +748,7 @@ export default function Dashboard() {
               <details className="p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.05)'}}>
                 <summary className="font-semibold cursor-pointer">How do I earn rewards?</summary>
                 <p className="text-sm text-muted-foreground mt-3">
-                  Stake $MEMES tokens to earn 350% APY (1% daily rewards). Plus earn referral bonuses at 3 levels: 5%, 3%, and 2%.
+                  Stake $MEMES tokens to earn 365% APY (1% daily rewards). Plus earn referral bonuses at 3 levels: 5%, 3%, and 2%.
                 </p>
               </details>
               

@@ -22,7 +22,7 @@ export default function Staking() {
   const [estimatedGas, setEstimatedGas] = useState('0.0012');
   const { toast } = useToast();
 
-  const APY = 350;
+  const APY = 365;
   const DAILY_RATE = 1;
   const PENALTY_FREE_DAYS = 90;
   const PENALTY_PERCENTAGE = 20;
@@ -239,7 +239,7 @@ export default function Staking() {
         <Card className="p-6 glass-card text-center">
           <div className="flex items-center justify-center space-x-4 mb-4">
             <div>
-              <div className="text-4xl font-bold" style={{color: '#00ff88'}}>350% APY</div>
+              <div className="text-4xl font-bold" style={{color: '#00ff88'}}>365% APY</div>
               <div className="text-sm text-muted-foreground">Annual Percentage Yield</div>
             </div>
             <div className="text-3xl">💎</div>
@@ -516,7 +516,7 @@ export default function Staking() {
               <ul className="space-y-1 text-gray-300 text-xs">
                 <li>• Minimum staking period: <strong>50 days</strong> for penalty-free unstake</li>
                 <li>• Early unstake (before 50 days): <strong>All earned rewards will be deducted</strong> from your principal amount</li>
-                <li>• Daily rewards: <strong>1% of staked amount</strong> (350% APY)</li>
+                <li>• Daily rewards: <strong>1% of staked amount</strong> (365% APY)</li>
                 <li>• Rewards can be claimed anytime without affecting your stake</li>
                 <li>• Gas fees apply to all transactions (stake, unstake, claim)</li>
               </ul>

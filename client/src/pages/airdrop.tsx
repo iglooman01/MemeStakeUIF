@@ -429,7 +429,7 @@ export default function Airdrop() {
                 <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)'}}>
                   <div className="text-3xl mb-2">💰</div>
                   <div className="font-semibold mb-2">High APY</div>
-                  <div className="text-sm text-muted-foreground">Up to 250% APY</div>
+                  <div className="text-sm text-muted-foreground">Up to 365% APY</div>
                 </div>
                 <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
                   <div className="text-3xl mb-2">🔒</div>
@@ -463,7 +463,7 @@ export default function Airdrop() {
             <details className="p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.05)'}}>
               <summary className="font-semibold cursor-pointer">How do I earn rewards?</summary>
               <p className="text-sm text-muted-foreground mt-3">
-                Complete social tasks to earn airdrop tokens. Invite friends for referral bonuses. Stake tokens for 250% APY rewards.
+                Complete social tasks to earn airdrop tokens. Invite friends for referral bonuses. Stake tokens for 365% APY rewards.
               </p>
             </details>
             
