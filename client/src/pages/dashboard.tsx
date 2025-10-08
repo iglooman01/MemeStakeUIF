@@ -723,34 +723,10 @@ export default function Dashboard() {
               </div>
             </div>
           </Card>
+        </div>
 
-          {/* Community Stats */}
-          <Card className="p-6 glass-card">
-            <h3 className="text-lg font-semibold mb-4">🌟 Community</h3>
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">Total Stakers:</span>
-                <span className="font-bold" style={{color: '#00ff88'}}>47,832</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">Total Supply:</span>
-                <span className="font-bold" style={{color: '#ffd700'}}>50B $MEMES</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">Token Price:</span>
-                <span className="font-bold" style={{color: '#00bfff'}}>$0.0001</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">Your Rank:</span>
-                <span className="font-bold" style={{color: '#00ff88'}}>#1,847</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">Referral Pool:</span>
-                <span className="font-bold" style={{color: '#ff6b6b'}}>5B $MEMES (10%)</span>
-              </div>
-            </div>
-          </Card>
-
+        {/* Main Information Sections */}
+        <div className="space-y-6">
           {/* 1. Platform & Token Details */}
           <Card className="p-8 glass-card" id="tokenomics-section" style={{background: 'linear-gradient(135deg, rgba(15, 10, 35, 0.95) 0%, rgba(30, 15, 60, 0.95) 100%)', border: '2px solid rgba(255, 215, 0, 0.2)'}}>
             <h2 className="text-4xl font-bold mb-8 text-center" style={{color: '#ffd700'}}>
