@@ -611,91 +611,94 @@ export default function Dashboard() {
         </Card>
 
         {/* 🎁 3-Level Referral Program Section */}
-        <Card className="p-8 glass-card" style={{background: 'linear-gradient(135deg, rgba(15, 10, 35, 0.95) 0%, rgba(30, 15, 60, 0.95) 100%)', border: '2px solid rgba(0, 255, 136, 0.3)', boxShadow: '0 8px 32px rgba(0, 255, 136, 0.15)'}}>
-          <h2 className="text-4xl font-bold mb-8 text-center" style={{color: '#00ff88'}}>
-            🎁 3-Level Referral Program
-          </h2>
+        <Card className="p-6 glass-card" style={{background: 'linear-gradient(135deg, rgba(15, 10, 35, 0.95) 0%, rgba(30, 15, 60, 0.95) 100%)', border: '2px solid rgba(0, 255, 136, 0.25)', boxShadow: '0 4px 20px rgba(0, 255, 136, 0.1)'}}>
+          <div className="mb-6">
+            <h2 className="text-xl font-bold text-center" style={{color: '#00ff88'}}>
+              🎁 3-Level Referral Program
+            </h2>
+            <p className="text-xs text-center text-gray-400 mt-1">Earn rewards from your network across three levels</p>
+          </div>
           
           {/* Landscape Layout - 3 Levels Side by Side */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             {/* Level 1 */}
-            <div className="p-6 rounded-xl transition-all hover:scale-105 hover:shadow-2xl" style={{background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.1))', border: '2px solid rgba(255, 215, 0, 0.4)', boxShadow: '0 4px 20px rgba(255, 215, 0, 0.2)'}}>
-              <div className="text-center mb-4">
-                <div className="text-5xl mb-3">🥇</div>
-                <h3 className="text-2xl font-bold mb-2" style={{color: '#ffd700'}}>Level 1</h3>
-                <div className="text-lg font-semibold" style={{color: '#ffd700'}}>5% Commission</div>
+            <div className="p-4 rounded-lg transition-all hover:scale-[1.02]" style={{background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.08))', border: '1px solid rgba(255, 215, 0, 0.3)', boxShadow: '0 2px 10px rgba(255, 215, 0, 0.15)'}}>
+              <div className="text-center mb-3">
+                <div className="text-3xl mb-2">🥇</div>
+                <h3 className="text-base font-bold mb-1" style={{color: '#ffd700'}}>Level 1</h3>
+                <div className="text-sm font-semibold" style={{color: '#ffd700'}}>5% Commission</div>
               </div>
               
-              <div className="space-y-3">
-                <div className="p-3 rounded-lg bg-black/30">
-                  <div className="text-xs text-muted-foreground mb-1">Direct Referrals</div>
-                  <div className="text-xl font-bold text-white">8 Users</div>
+              <div className="space-y-2">
+                <div className="p-2 rounded-md bg-black/30">
+                  <div className="text-[10px] text-muted-foreground mb-0.5">Direct Referrals</div>
+                  <div className="text-sm font-bold text-white">8 Users</div>
                 </div>
-                <div className="p-3 rounded-lg bg-black/30">
-                  <div className="text-xs text-muted-foreground mb-1">Total Volume</div>
-                  <div className="text-lg font-bold" style={{color: '#ffd700'}}>5,000,000 $MEMES</div>
+                <div className="p-2 rounded-md bg-black/30">
+                  <div className="text-[10px] text-muted-foreground mb-0.5">Total Volume</div>
+                  <div className="text-sm font-bold" style={{color: '#ffd700'}}>5,000,000 $MEMES</div>
                 </div>
-                <div className="p-3 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.2)', border: '1px solid rgba(0, 255, 136, 0.3)'}}>
-                  <div className="text-xs text-muted-foreground mb-1">You Earned</div>
-                  <div className="text-xl font-bold" style={{color: '#00ff88'}}>250,000 $MEMES</div>
+                <div className="p-2 rounded-md" style={{background: 'rgba(0, 255, 136, 0.15)', border: '1px solid rgba(0, 255, 136, 0.25)'}}>
+                  <div className="text-[10px] text-muted-foreground mb-0.5">You Earned</div>
+                  <div className="text-sm font-bold" style={{color: '#00ff88'}}>250,000 $MEMES</div>
                 </div>
               </div>
             </div>
 
             {/* Level 2 */}
-            <div className="p-6 rounded-xl transition-all hover:scale-105 hover:shadow-2xl" style={{background: 'linear-gradient(135deg, rgba(192, 192, 192, 0.2), rgba(192, 192, 192, 0.1))', border: '2px solid rgba(192, 192, 192, 0.4)', boxShadow: '0 4px 20px rgba(192, 192, 192, 0.2)'}}>
-              <div className="text-center mb-4">
-                <div className="text-5xl mb-3">🥈</div>
-                <h3 className="text-2xl font-bold mb-2" style={{color: '#c0c0c0'}}>Level 2</h3>
-                <div className="text-lg font-semibold" style={{color: '#c0c0c0'}}>3% Commission</div>
+            <div className="p-4 rounded-lg transition-all hover:scale-[1.02]" style={{background: 'linear-gradient(135deg, rgba(192, 192, 192, 0.15), rgba(192, 192, 192, 0.08))', border: '1px solid rgba(192, 192, 192, 0.3)', boxShadow: '0 2px 10px rgba(192, 192, 192, 0.15)'}}>
+              <div className="text-center mb-3">
+                <div className="text-3xl mb-2">🥈</div>
+                <h3 className="text-base font-bold mb-1" style={{color: '#c0c0c0'}}>Level 2</h3>
+                <div className="text-sm font-semibold" style={{color: '#c0c0c0'}}>3% Commission</div>
               </div>
               
-              <div className="space-y-3">
-                <div className="p-3 rounded-lg bg-black/30">
-                  <div className="text-xs text-muted-foreground mb-1">2nd Tier Referrals</div>
-                  <div className="text-xl font-bold text-white">5 Users</div>
+              <div className="space-y-2">
+                <div className="p-2 rounded-md bg-black/30">
+                  <div className="text-[10px] text-muted-foreground mb-0.5">2nd Tier Referrals</div>
+                  <div className="text-sm font-bold text-white">5 Users</div>
                 </div>
-                <div className="p-3 rounded-lg bg-black/30">
-                  <div className="text-xs text-muted-foreground mb-1">Total Volume</div>
-                  <div className="text-lg font-bold" style={{color: '#c0c0c0'}}>2,500,000 $MEMES</div>
+                <div className="p-2 rounded-md bg-black/30">
+                  <div className="text-[10px] text-muted-foreground mb-0.5">Total Volume</div>
+                  <div className="text-sm font-bold" style={{color: '#c0c0c0'}}>2,500,000 $MEMES</div>
                 </div>
-                <div className="p-3 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.2)', border: '1px solid rgba(0, 255, 136, 0.3)'}}>
-                  <div className="text-xs text-muted-foreground mb-1">You Earned</div>
-                  <div className="text-xl font-bold" style={{color: '#00ff88'}}>75,000 $MEMES</div>
+                <div className="p-2 rounded-md" style={{background: 'rgba(0, 255, 136, 0.15)', border: '1px solid rgba(0, 255, 136, 0.25)'}}>
+                  <div className="text-[10px] text-muted-foreground mb-0.5">You Earned</div>
+                  <div className="text-sm font-bold" style={{color: '#00ff88'}}>75,000 $MEMES</div>
                 </div>
               </div>
             </div>
 
             {/* Level 3 */}
-            <div className="p-6 rounded-xl transition-all hover:scale-105 hover:shadow-2xl" style={{background: 'linear-gradient(135deg, rgba(205, 127, 50, 0.2), rgba(205, 127, 50, 0.1))', border: '2px solid rgba(205, 127, 50, 0.4)', boxShadow: '0 4px 20px rgba(205, 127, 50, 0.2)'}}>
-              <div className="text-center mb-4">
-                <div className="text-5xl mb-3">🥉</div>
-                <h3 className="text-2xl font-bold mb-2" style={{color: '#cd7f32'}}>Level 3</h3>
-                <div className="text-lg font-semibold" style={{color: '#cd7f32'}}>2% Commission</div>
+            <div className="p-4 rounded-lg transition-all hover:scale-[1.02]" style={{background: 'linear-gradient(135deg, rgba(205, 127, 50, 0.15), rgba(205, 127, 50, 0.08))', border: '1px solid rgba(205, 127, 50, 0.3)', boxShadow: '0 2px 10px rgba(205, 127, 50, 0.15)'}}>
+              <div className="text-center mb-3">
+                <div className="text-3xl mb-2">🥉</div>
+                <h3 className="text-base font-bold mb-1" style={{color: '#cd7f32'}}>Level 3</h3>
+                <div className="text-sm font-semibold" style={{color: '#cd7f32'}}>2% Commission</div>
               </div>
               
-              <div className="space-y-3">
-                <div className="p-3 rounded-lg bg-black/30">
-                  <div className="text-xs text-muted-foreground mb-1">3rd Tier Referrals</div>
-                  <div className="text-xl font-bold text-white">2 Users</div>
+              <div className="space-y-2">
+                <div className="p-2 rounded-md bg-black/30">
+                  <div className="text-[10px] text-muted-foreground mb-0.5">3rd Tier Referrals</div>
+                  <div className="text-sm font-bold text-white">2 Users</div>
                 </div>
-                <div className="p-3 rounded-lg bg-black/30">
-                  <div className="text-xs text-muted-foreground mb-1">Total Volume</div>
-                  <div className="text-lg font-bold" style={{color: '#cd7f32'}}>1,000,000 $MEMES</div>
+                <div className="p-2 rounded-md bg-black/30">
+                  <div className="text-[10px] text-muted-foreground mb-0.5">Total Volume</div>
+                  <div className="text-sm font-bold" style={{color: '#cd7f32'}}>1,000,000 $MEMES</div>
                 </div>
-                <div className="p-3 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.2)', border: '1px solid rgba(0, 255, 136, 0.3)'}}>
-                  <div className="text-xs text-muted-foreground mb-1">You Earned</div>
-                  <div className="text-xl font-bold" style={{color: '#00ff88'}}>20,000 $MEMES</div>
+                <div className="p-2 rounded-md" style={{background: 'rgba(0, 255, 136, 0.15)', border: '1px solid rgba(0, 255, 136, 0.25)'}}>
+                  <div className="text-[10px] text-muted-foreground mb-0.5">You Earned</div>
+                  <div className="text-sm font-bold" style={{color: '#00ff88'}}>20,000 $MEMES</div>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Total Earnings Banner */}
-          <div className="p-6 rounded-xl text-center" style={{background: 'linear-gradient(135deg, rgba(0, 255, 136, 0.3), rgba(0, 255, 136, 0.15))', border: '2px solid rgba(0, 255, 136, 0.5)', boxShadow: '0 6px 30px rgba(0, 255, 136, 0.3)'}}>
-            <div className="text-sm text-gray-300 mb-2 font-semibold">💰 TOTAL REFERRAL EARNINGS</div>
-            <div className="text-4xl font-bold" style={{color: '#00ff88'}}>345,000 $MEMES</div>
-            <div className="text-sm text-gray-400 mt-2">From 5B Referral Pool (10% of Total Supply)</div>
+          <div className="p-4 rounded-lg text-center" style={{background: 'linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 255, 136, 0.1))', border: '1px solid rgba(0, 255, 136, 0.4)', boxShadow: '0 3px 15px rgba(0, 255, 136, 0.2)'}}>
+            <div className="text-[10px] text-gray-400 mb-1 font-medium uppercase tracking-wide">Total Referral Earnings</div>
+            <div className="text-2xl font-bold mb-1" style={{color: '#00ff88'}}>345,000 $MEMES</div>
+            <div className="text-[10px] text-gray-500">From 5B Referral Pool (10% of Total Supply)</div>
           </div>
         </Card>
 
