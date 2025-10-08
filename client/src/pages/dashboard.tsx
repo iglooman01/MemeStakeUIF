@@ -773,7 +773,7 @@ export default function Dashboard() {
                   <div className="text-center p-4 rounded-lg transition-all hover:scale-105" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.2)'}}>
                     <div className="text-3xl mb-2">🔒</div>
                     <div className="font-semibold mb-2" style={{color: '#00bfff'}}>Flexible Periods</div>
-                    <div className="text-sm text-muted-foreground">50-365 days</div>
+                    <div className="text-sm text-muted-foreground">anytime unstake</div>
                   </div>
                   <div className="text-center p-4 rounded-lg transition-all hover:scale-105" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.2)'}}>
                     <div className="text-3xl mb-2">⚡</div>
