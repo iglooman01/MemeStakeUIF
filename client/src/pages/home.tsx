@@ -806,21 +806,15 @@ export default function Home() {
         className="min-h-screen hero-section flex items-center justify-center relative" 
         data-testid="section-hero"
         style={{
-          backgroundImage: `url(${heroBackground})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat'
+          background: 'linear-gradient(135deg, #000000 0%, #0a0e1a 50%, #000000 100%)'
         }}
       >
-        {/* Dark overlay for better text readability */}
-        <div className="absolute inset-0 bg-black/70" style={{backdropFilter: 'blur(2px)'}}></div>
-        
         <div className="container relative z-10">
           <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 sm:mb-8 leading-tight px-4" style={{fontFamily: 'Space Grotesk, Inter, sans-serif', fontWeight: '800', textShadow: '0 4px 20px rgba(0,0,0,0.5)'}} data-testid="text-hero-headline">
-              Stake Memes. <span className="text-primary">Earn Big.</span>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 sm:mb-8 leading-tight px-4" style={{fontFamily: 'Space Grotesk, Inter, sans-serif', fontWeight: '800'}} data-testid="text-hero-headline">
+              Stake Memes. <span style={{color: '#ffd700'}}>Earn Big.</span>
             </h1>
-            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-200 mb-8 sm:mb-12 leading-relaxed max-w-3xl mx-auto px-4" style={{fontFamily: 'Inter, sans-serif', fontWeight: '400', textShadow: '0 2px 10px rgba(0,0,0,0.5)'}} data-testid="text-hero-subtitle">
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-300 mb-8 sm:mb-12 leading-relaxed max-w-3xl mx-auto px-4" style={{fontFamily: 'Inter, sans-serif', fontWeight: '400'}} data-testid="text-hero-subtitle">
               From LOLs to APYs
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
