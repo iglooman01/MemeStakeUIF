@@ -784,7 +784,7 @@ export default function Home() {
               Stake Memes. <span className="text-primary">Earn Big.</span>
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-300 mb-8 sm:mb-12 leading-relaxed max-w-3xl mx-auto px-4" style={{fontFamily: 'Inter, sans-serif', fontWeight: '400'}} data-testid="text-hero-subtitle">
-              Turn your favorite meme tokens into daily passive income.
+              From LOLs to APYs
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Button 
