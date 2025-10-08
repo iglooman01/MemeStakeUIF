@@ -335,154 +335,98 @@ export default function Dashboard() {
           </div>
         </Card>
 
-        {/* Buy MEMES Tokens Section - Redesigned */}
-        <Card className="p-6 glass-card" style={{background: 'linear-gradient(135deg, rgba(15, 10, 35, 0.98) 0%, rgba(30, 15, 60, 0.98) 100%)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
-          <div className="text-center mb-6">
-            <h3 className="text-2xl font-bold mb-2" style={{color: '#ffd700'}}>💰 Purchase $MEMES Tokens</h3>
-            <p className="text-xs text-gray-400">Secure • Instant • Global</p>
-          </div>
+        {/* Buy MEMES Tokens Section - Simple & Direct */}
+        <Card className="p-5 glass-card" style={{border: '2px solid rgba(255, 215, 0, 0.4)'}}>
+          <h3 className="text-xl font-bold mb-4 text-center" style={{color: '#ffd700'}}>🛒 Buy $MEMES Tokens</h3>
           
-          <div className="space-y-5">
-            {/* Step 1: Choose Currency */}
-            <div className="p-4 rounded-xl" style={{background: 'rgba(0, 0, 0, 0.3)', border: '1px solid rgba(255, 255, 255, 0.1)'}}>
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center space-x-2">
-                  <span className="flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold" style={{background: '#ffd700', color: '#000'}}>1</span>
-                  <span className="text-sm font-semibold text-white">Select Currency</span>
-                </div>
-                <div className="flex space-x-2">
+          <div className="space-y-4">
+            {/* Amount Input */}
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm text-gray-400">Amount</span>
+                <div className="flex space-x-1">
                   <button
                     onClick={() => setInputMode('usd')}
-                    className={`px-4 py-1.5 rounded-md text-xs font-bold transition-all ${
-                      inputMode === 'usd' ? 'text-black' : 'text-gray-400'
-                    }`}
-                    style={{background: inputMode === 'usd' ? 'linear-gradient(135deg, #ffd700, #ffed4e)' : 'rgba(255, 255, 255, 0.1)'}}
+                    className={`px-3 py-1 rounded text-xs font-bold ${inputMode === 'usd' ? 'text-black' : 'text-gray-500'}`}
+                    style={{background: inputMode === 'usd' ? '#ffd700' : 'rgba(255, 255, 255, 0.1)'}}
                     data-testid="toggle-usd"
                   >
-                    💵 USD
+                    USD
                   </button>
                   <button
                     onClick={() => setInputMode('token')}
-                    className={`px-4 py-1.5 rounded-md text-xs font-bold transition-all ${
-                      inputMode === 'token' ? 'text-black' : 'text-gray-400'
-                    }`}
-                    style={{background: inputMode === 'token' ? 'linear-gradient(135deg, #ffd700, #ffed4e)' : 'rgba(255, 255, 255, 0.1)'}}
+                    className={`px-3 py-1 rounded text-xs font-bold ${inputMode === 'token' ? 'text-black' : 'text-gray-500'}`}
+                    style={{background: inputMode === 'token' ? '#ffd700' : 'rgba(255, 255, 255, 0.1)'}}
                     data-testid="toggle-token"
                   >
-                    🪙 TOKEN
+                    TOKEN
                   </button>
                 </div>
               </div>
+              <input
+                type="number"
+                value={buyAmount}
+                onChange={(e) => setBuyAmount(e.target.value)}
+                placeholder={inputMode === 'usd' ? '50' : '500000'}
+                className="w-full px-4 py-3 rounded-lg text-lg font-bold text-white"
+                style={{background: 'rgba(0, 0, 0, 0.4)', border: '1px solid rgba(255, 215, 0, 0.3)'}}
+                data-testid="input-buy-amount"
+              />
+              <div className="flex justify-between mt-1 text-xs text-gray-500">
+                <span>Min: $50</span>
+                <span>No Max</span>
+              </div>
             </div>
 
-            {/* Step 2: Enter Amount */}
-            <div className="p-4 rounded-xl" style={{background: 'rgba(0, 0, 0, 0.3)', border: '1px solid rgba(255, 255, 255, 0.1)'}}>
-              <div className="flex items-center space-x-2 mb-3">
-                <span className="flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold" style={{background: '#ffd700', color: '#000'}}>2</span>
-                <span className="text-sm font-semibold text-white">Enter Amount</span>
+            {/* You Get */}
+            <div className="p-3 rounded-lg text-center" style={{background: 'rgba(0, 191, 255, 0.15)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
+              <div className="text-xs text-gray-400 mb-1">You Get</div>
+              <div className="text-2xl font-bold" style={{color: '#00bfff'}}>
+                {tokensToGet.toLocaleString()} $MEMES
               </div>
-              <div className="relative">
-                <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-xl font-bold" style={{color: '#ffd700'}}>
-                  {inputMode === 'usd' ? '$' : '🪙'}
-                </span>
+              <div className="text-xs text-gray-500 mt-1">
+                ${usdAmount.toFixed(2)} @ $0.0001/token
+              </div>
+            </div>
+
+            {/* Referral Code */}
+            {showReferralInput && (
+              <div>
                 <input
-                  type="number"
-                  value={buyAmount}
-                  onChange={(e) => setBuyAmount(e.target.value)}
-                  placeholder={inputMode === 'usd' ? '50.00' : '500000'}
-                  className="w-full pl-12 pr-4 py-4 rounded-lg text-xl font-bold text-white text-center"
-                  style={{background: 'rgba(255, 215, 0, 0.1)', border: '2px solid rgba(255, 215, 0, 0.3)'}}
-                  data-testid="input-buy-amount"
+                  type="text"
+                  value={referralCode}
+                  onChange={(e) => setReferralCode(e.target.value)}
+                  placeholder="Referral code (optional)"
+                  className="w-full px-3 py-2 rounded-lg bg-black/30 border border-white/10 text-white text-sm"
+                  data-testid="input-referral-code"
                 />
+                {referralCode && (
+                  <div className="text-xs mt-1" style={{color: '#00ff88'}}>
+                    ✅ {referralCode.slice(0, 6)}...{referralCode.slice(-4)}
+                  </div>
+                )}
               </div>
-              <div className="flex items-center justify-between mt-3 text-[10px] text-gray-400">
-                <span>Min: ${MIN_PURCHASE_USD}</span>
-                <span>Max: No Limit</span>
-              </div>
-            </div>
-
-            {/* Step 3: Conversion Preview */}
-            <div className="p-4 rounded-xl" style={{background: 'linear-gradient(135deg, rgba(0, 191, 255, 0.2), rgba(0, 191, 255, 0.1))', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
-              <div className="flex items-center space-x-2 mb-3">
-                <span className="flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold" style={{background: '#00bfff', color: '#000'}}>3</span>
-                <span className="text-sm font-semibold text-white">You Will Receive</span>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold mb-1" style={{color: '#00bfff'}}>
-                  {tokensToGet.toLocaleString()}
-                </div>
-                <div className="text-sm font-semibold" style={{color: '#00bfff'}}>$MEMES Tokens</div>
-                <div className="text-[10px] text-gray-400 mt-2">
-                  ≈ ${usdAmount.toFixed(2)} USD • 1 $MEMES = $0.0001
-                </div>
-              </div>
-            </div>
-
-            {/* Referral Code - Collapsible */}
-            <div>
+            )}
+            {!showReferralInput && (
               <button
-                onClick={() => setShowReferralInput(!showReferralInput)}
-                className="w-full text-left flex items-center justify-between p-3 rounded-lg transition-all hover:bg-white/5"
-                style={{border: '1px dashed rgba(255, 215, 0, 0.3)'}}
+                onClick={() => setShowReferralInput(true)}
+                className="text-xs text-gray-500 hover:text-gray-300"
                 data-testid="button-toggle-referral"
               >
-                <span className="text-sm font-semibold" style={{color: '#ffd700'}}>
-                  🎁 Have a Referral Code?
-                </span>
-                <span className="text-base" style={{color: '#ffd700', transform: showReferralInput ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s'}}>
-                  {showReferralInput ? '▲' : '▼'}
-                </span>
+                + Add referral code
               </button>
-              
-              {showReferralInput && (
-                <div className="mt-3 p-3 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.2)'}}>
-                  <input
-                    type="text"
-                    value={referralCode}
-                    onChange={(e) => setReferralCode(e.target.value)}
-                    placeholder="Enter referral code"
-                    className="w-full px-4 py-2 rounded-lg bg-black/40 border border-white/10 text-white text-sm font-mono"
-                    data-testid="input-referral-code"
-                  />
-                  {referralCode && (
-                    <div className="mt-2 text-xs font-semibold" style={{color: '#00ff88'}}>
-                      ✅ Code Applied: {referralCode.slice(0, 6)}...{referralCode.slice(-4)}
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
+            )}
 
             {/* Buy Button */}
             <Button 
               onClick={handleBuyTokens}
               disabled={!buyAmount || parseFloat(buyAmount) <= 0}
-              className="w-full py-6 text-base font-bold transition-all hover:scale-[1.02]"
-              style={{background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)', color: '#000', boxShadow: '0 4px 20px rgba(255, 215, 0, 0.4)'}}
+              className="w-full py-5 text-base font-bold"
+              style={{background: 'linear-gradient(135deg, #ffd700, #ffed4e)', color: '#000'}}
               data-testid="button-buy-tokens"
             >
-              {tokensToGet > 0 ? (
-                <span>🛒 Purchase {tokensToGet.toLocaleString()} $MEMES • ${usdAmount.toFixed(2)}</span>
-              ) : (
-                <span>🛒 Enter Amount to Continue</span>
-              )}
+              {tokensToGet > 0 ? `Buy Now - $${usdAmount.toFixed(2)}` : 'Enter Amount'}
             </Button>
-
-            {/* Trust Badges */}
-            <div className="flex items-center justify-center space-x-4 pt-2">
-              <div className="flex items-center space-x-1 text-[10px] text-gray-400">
-                <span>🔒</span>
-                <span>Secure</span>
-              </div>
-              <div className="flex items-center space-x-1 text-[10px] text-gray-400">
-                <span>⚡</span>
-                <span>Instant</span>
-              </div>
-              <div className="flex items-center space-x-1 text-[10px] text-gray-400">
-                <span>🌍</span>
-                <span>Global</span>
-              </div>
-            </div>
           </div>
         </Card>
 

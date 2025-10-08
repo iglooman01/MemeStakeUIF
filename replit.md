@@ -31,7 +31,9 @@ This is a full-stack web application built with React and Express.js for "MemeSt
 
 # User Preferences
 
-Preferred communication style: Simple, everyday language.
+- **Communication Style**: Simple, everyday language
+- **Design Philosophy**: Efficient, budget-friendly, no wasting time or money
+- **UI/UX Approach**: Direct and simple - "just order and get result"
 
 # System Architecture
 
