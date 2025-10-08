@@ -558,8 +558,7 @@ export default function Home() {
         if (shouldIncrease) {
           const increase = Math.floor(Math.random() * 5) + 1; // Increase by 1-5 holders
           
-          // Play peaceful chime and trigger flying animation
-          playPeacefulChime();
+          // Trigger flying animation
           setNewHoldersCount(increase);
           setFlyingAnimation(true);
           
