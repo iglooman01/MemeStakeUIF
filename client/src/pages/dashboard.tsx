@@ -855,6 +855,212 @@ export default function Dashboard() {
             </div>
           </Card>
 
+          {/* Roadmap Section */}
+          <Card className="p-6 glass-card">
+            <h2 className="text-2xl font-bold mb-6 text-center" style={{color: '#ffd700'}}>
+              🗺️ Roadmap
+            </h2>
+            <p className="text-center text-muted-foreground mb-8">Our journey to revolutionize the memes ecosystem</p>
+            
+            <div className="space-y-6">
+              {/* Q1 2025 */}
+              <div className="relative">
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-2xl" style={{background: 'rgba(0, 255, 136, 0.2)', border: '2px solid rgba(0, 255, 136, 0.4)'}}>
+                    🎉
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="text-xl font-semibold" style={{color: '#00ff88'}}>Q1 2025 - Platform Launch</h3>
+                      <span className="px-3 py-1 rounded-full text-xs font-medium" style={{background: 'rgba(0, 255, 136, 0.2)', color: '#00ff88'}}>✅ COMPLETED</span>
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-3 mt-3">
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <span>✅</span>
+                        <span>Airdrop system launch</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <span>✅</span>
+                        <span>Social media integration</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <span>✅</span>
+                        <span>Email verification</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <span>✅</span>
+                        <span>Referral program</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <span>✅</span>
+                        <span>Community dashboard</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <span>✅</span>
+                        <span>Token contract deploy</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Q2 2025 */}
+              <div className="relative">
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-2xl" style={{background: 'rgba(255, 215, 0, 0.2)', border: '2px solid rgba(255, 215, 0, 0.4)'}}>
+                    ⚡
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="text-xl font-semibold" style={{color: '#ffd700'}}>Q2 2025 - Enhanced Features</h3>
+                      <span className="px-3 py-1 rounded-full text-xs font-medium" style={{background: 'rgba(255, 215, 0, 0.2)', color: '#ffd700'}}>🔄 IN PROGRESS</span>
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-3 mt-3">
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <span>🎯</span>
+                        <span>Advanced staking pools</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <span>🏆</span>
+                        <span>Multi-tier rewards</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <span>📱</span>
+                        <span>Mobile app</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <span>🤝</span>
+                        <span>Partnership integrations</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <span>🔒</span>
+                        <span>Enhanced security</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <span>🛠️</span>
+                        <span>Developer API</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Q3 2025 */}
+              <div className="relative">
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-2xl" style={{background: 'rgba(0, 191, 255, 0.2)', border: '2px solid rgba(0, 191, 255, 0.4)'}}>
+                    🚀
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="text-xl font-semibold" style={{color: '#00bfff'}}>Q3 2025 - Ecosystem Expansion</h3>
+                      <span className="px-3 py-1 rounded-full text-xs font-medium" style={{background: 'rgba(0, 191, 255, 0.2)', color: '#00bfff'}}>🔮 UPCOMING</span>
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-3 mt-3">
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <span>🎨</span>
+                        <span>NFT marketplace</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <span>🎮</span>
+                        <span>Play-to-earn games</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <span>🌐</span>
+                        <span>Cross-chain integration</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <span>🗳️</span>
+                        <span>DAO governance</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <span>🚜</span>
+                        <span>DeFi yield farming</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <span>🏆</span>
+                        <span>Community tournaments</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Progress Bar */}
+            <div className="mt-8 p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.03)'}}>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-medium">Overall Progress</span>
+                <span className="text-sm font-bold" style={{color: '#ffd700'}}>40%</span>
+              </div>
+              <div className="w-full bg-gray-700 rounded-full h-2">
+                <div className="h-2 rounded-full" style={{width: '40%', background: 'linear-gradient(90deg, #ffd700, #00bfff)'}}></div>
+              </div>
+              <p className="text-xs text-muted-foreground mt-2 text-center">Revolutionizing the memes ecosystem, one milestone at a time</p>
+            </div>
+          </Card>
+
+          {/* Token Contract Details */}
+          <Card className="p-6 glass-card">
+            <h2 className="text-2xl font-bold mb-6 text-center" style={{color: '#ffd700'}}>
+              📄 Token Contract Details
+            </h2>
+            
+            <div className="space-y-4">
+              <div className="p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)'}}>
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-sm font-medium text-muted-foreground">Contract Address</span>
+                  <button className="px-3 py-1 rounded-md text-xs font-medium transition-all hover:scale-105" style={{background: '#ffd700', color: '#000'}}>
+                    📋 Copy
+                  </button>
+                </div>
+                <div className="font-mono text-sm break-all" style={{color: '#ffd700'}}>
+                  0x90950A338595dD5438F71839f01a882632a54587
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="p-4 rounded-lg text-center" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.2)'}}>
+                  <div className="text-sm text-muted-foreground mb-2">Token Name</div>
+                  <div className="text-lg font-bold" style={{color: '#00bfff'}}>MemeStake</div>
+                </div>
+                <div className="p-4 rounded-lg text-center" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.2)'}}>
+                  <div className="text-sm text-muted-foreground mb-2">Token Symbol</div>
+                  <div className="text-lg font-bold" style={{color: '#00ff88'}}>MEMES</div>
+                </div>
+                <div className="p-4 rounded-lg text-center" style={{background: 'rgba(255, 105, 180, 0.1)', border: '1px solid rgba(255, 105, 180, 0.2)'}}>
+                  <div className="text-sm text-muted-foreground mb-2">Decimals</div>
+                  <div className="text-lg font-bold" style={{color: '#ff69b4'}}>18</div>
+                </div>
+                <div className="p-4 rounded-lg text-center" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)'}}>
+                  <div className="text-sm text-muted-foreground mb-2">Blockchain</div>
+                  <div className="text-lg font-bold" style={{color: '#ffd700'}}>BNB Chain</div>
+                </div>
+              </div>
+
+              <div className="flex gap-3 mt-4">
+                <a
+                  href="https://bscscan.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 p-3 rounded-lg text-center font-medium transition-all hover:scale-105"
+                  style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)', color: '#ffd700'}}
+                >
+                  📄 View on BscScan
+                </a>
+                <a
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 p-3 rounded-lg text-center font-medium transition-all hover:scale-105"
+                  style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.2)', color: '#00bfff'}}
+                >
+                  📥 Download Whitepaper
+                </a>
+              </div>
+            </div>
+          </Card>
+
           {/* Footer */}
           <Footer />
         </div>
