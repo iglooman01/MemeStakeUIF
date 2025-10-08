@@ -662,6 +662,18 @@ export default function Home() {
                 {theme === 'dark' ? '☀️' : '🌙'}
               </Button>
 
+              {/* Telegram Link */}
+              <a
+                href="https://t.me/memestake_group"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 h-8 w-8 border rounded-md flex items-center justify-center transition-all hover:scale-110"
+                style={{background: 'rgba(255, 255, 255, 0.05)', borderColor: 'rgba(255, 215, 0, 0.2)', color: '#ffd700'}}
+                data-testid="link-telegram"
+              >
+                <FaTelegram className="text-lg" />
+              </a>
+
               {/* Connect Wallet / Wallet Info - Top Right Corner */}
               {walletConnected ? (
                 <div className="flex items-center gap-2">
