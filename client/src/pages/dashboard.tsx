@@ -675,15 +675,73 @@ export default function Dashboard() {
             </div>
           </Card>
 
-          {/* Complete Platform Details */}
-          <Card className="p-6 glass-card">
-            <h2 className="text-2xl font-bold mb-6 text-center" style={{color: '#ffd700'}}>
-              💎 Complete Platform Details
+          {/* Platform & Token Details */}
+          <Card className="p-8 glass-card">
+            <h2 className="text-3xl font-bold mb-8 text-center" style={{color: '#ffd700'}}>
+              💎 Platform & Token Details
             </h2>
             
-            <div className="space-y-6">
+            <div className="space-y-8">
+              {/* Token Contract */}
+              <div className="p-6 rounded-xl" style={{background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(0, 191, 255, 0.1) 100%)', border: '2px solid rgba(255, 215, 0, 0.3)'}}>
+                <h3 className="text-xl font-semibold mb-4 text-center" style={{color: '#ffd700'}}>📄 Contract Information</h3>
+                
+                <div className="p-4 rounded-lg mb-4" style={{background: 'rgba(0, 0, 0, 0.3)', border: '1px solid rgba(255, 215, 0, 0.2)'}}>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium text-muted-foreground">Contract Address</span>
+                    <button className="px-3 py-1 rounded-md text-xs font-medium transition-all hover:scale-105" style={{background: '#ffd700', color: '#000'}}>
+                      📋 Copy
+                    </button>
+                  </div>
+                  <div className="font-mono text-sm break-all" style={{color: '#ffd700'}}>
+                    0x90950A338595dD5438F71839f01a882632a54587
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  <div className="p-3 rounded-lg text-center" style={{background: 'rgba(0, 191, 255, 0.15)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
+                    <div className="text-xs text-muted-foreground mb-1">Token Name</div>
+                    <div className="text-sm font-bold" style={{color: '#00bfff'}}>MemeStake</div>
+                  </div>
+                  <div className="p-3 rounded-lg text-center" style={{background: 'rgba(0, 255, 136, 0.15)', border: '1px solid rgba(0, 255, 136, 0.3)'}}>
+                    <div className="text-xs text-muted-foreground mb-1">Symbol</div>
+                    <div className="text-sm font-bold" style={{color: '#00ff88'}}>MEMES</div>
+                  </div>
+                  <div className="p-3 rounded-lg text-center" style={{background: 'rgba(255, 105, 180, 0.15)', border: '1px solid rgba(255, 105, 180, 0.3)'}}>
+                    <div className="text-xs text-muted-foreground mb-1">Decimals</div>
+                    <div className="text-sm font-bold" style={{color: '#ff69b4'}}>18</div>
+                  </div>
+                  <div className="p-3 rounded-lg text-center" style={{background: 'rgba(255, 215, 0, 0.15)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
+                    <div className="text-xs text-muted-foreground mb-1">Network</div>
+                    <div className="text-sm font-bold" style={{color: '#ffd700'}}>BNB Chain</div>
+                  </div>
+                </div>
+
+                <div className="flex gap-3 mt-4">
+                  <a
+                    href="https://bscscan.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 p-3 rounded-lg text-center text-sm font-medium transition-all hover:scale-105"
+                    style={{background: 'rgba(255, 215, 0, 0.2)', border: '1px solid rgba(255, 215, 0, 0.3)', color: '#ffd700'}}
+                  >
+                    📄 View on BscScan
+                  </a>
+                  <a
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 p-3 rounded-lg text-center text-sm font-medium transition-all hover:scale-105"
+                    style={{background: 'rgba(0, 191, 255, 0.2)', border: '1px solid rgba(0, 191, 255, 0.3)', color: '#00bfff'}}
+                  >
+                    📥 Whitepaper
+                  </a>
+                </div>
+              </div>
+
+              {/* Tokenomics */}
               <div>
-                <h3 className="text-xl font-semibold mb-4" style={{color: '#00bfff'}}>📊 Tokenomics</h3>
+                <h3 className="text-xl font-semibold mb-4" style={{color: '#00bfff'}}>📊 Tokenomics Overview</h3>
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)'}}>
                     <div className="text-sm text-muted-foreground mb-2">Total Supply</div>
@@ -704,22 +762,23 @@ export default function Dashboard() {
                 </div>
               </div>
 
+              {/* Staking Features */}
               <div>
-                <h3 className="text-xl font-semibold mb-4" style={{color: '#00bfff'}}>💰 Staking Features</h3>
+                <h3 className="text-xl font-semibold mb-4" style={{color: '#00ff88'}}>💰 Staking Features</h3>
                 <div className="grid md:grid-cols-3 gap-4">
-                  <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)'}}>
+                  <div className="text-center p-4 rounded-lg transition-all hover:scale-105" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)'}}>
                     <div className="text-3xl mb-2">💰</div>
-                    <div className="font-semibold mb-2">High APY</div>
+                    <div className="font-semibold mb-2" style={{color: '#ffd700'}}>High APY</div>
                     <div className="text-sm text-muted-foreground">Up to 365% APY</div>
                   </div>
-                  <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
+                  <div className="text-center p-4 rounded-lg transition-all hover:scale-105" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.2)'}}>
                     <div className="text-3xl mb-2">🔒</div>
-                    <div className="font-semibold mb-2">Flexible Periods</div>
+                    <div className="font-semibold mb-2" style={{color: '#00bfff'}}>Flexible Periods</div>
                     <div className="text-sm text-muted-foreground">50-365 days</div>
                   </div>
-                  <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)'}}>
+                  <div className="text-center p-4 rounded-lg transition-all hover:scale-105" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.2)'}}>
                     <div className="text-3xl mb-2">⚡</div>
-                    <div className="font-semibold mb-2">Daily Rewards</div>
+                    <div className="font-semibold mb-2" style={{color: '#00ff88'}}>Daily Rewards</div>
                     <div className="text-sm text-muted-foreground">1% per day</div>
                   </div>
                 </div>
@@ -993,67 +1052,6 @@ export default function Dashboard() {
                 <div className="h-2 rounded-full" style={{width: '40%', background: 'linear-gradient(90deg, #ffd700, #00bfff)'}}></div>
               </div>
               <p className="text-xs text-muted-foreground mt-2 text-center">Revolutionizing the memes ecosystem, one milestone at a time</p>
-            </div>
-          </Card>
-
-          {/* Token Contract Details */}
-          <Card className="p-6 glass-card">
-            <h2 className="text-2xl font-bold mb-6 text-center" style={{color: '#ffd700'}}>
-              📄 Token Contract Details
-            </h2>
-            
-            <div className="space-y-4">
-              <div className="p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)'}}>
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm font-medium text-muted-foreground">Contract Address</span>
-                  <button className="px-3 py-1 rounded-md text-xs font-medium transition-all hover:scale-105" style={{background: '#ffd700', color: '#000'}}>
-                    📋 Copy
-                  </button>
-                </div>
-                <div className="font-mono text-sm break-all" style={{color: '#ffd700'}}>
-                  0x90950A338595dD5438F71839f01a882632a54587
-                </div>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-4">
-                <div className="p-4 rounded-lg text-center" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.2)'}}>
-                  <div className="text-sm text-muted-foreground mb-2">Token Name</div>
-                  <div className="text-lg font-bold" style={{color: '#00bfff'}}>MemeStake</div>
-                </div>
-                <div className="p-4 rounded-lg text-center" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.2)'}}>
-                  <div className="text-sm text-muted-foreground mb-2">Token Symbol</div>
-                  <div className="text-lg font-bold" style={{color: '#00ff88'}}>MEMES</div>
-                </div>
-                <div className="p-4 rounded-lg text-center" style={{background: 'rgba(255, 105, 180, 0.1)', border: '1px solid rgba(255, 105, 180, 0.2)'}}>
-                  <div className="text-sm text-muted-foreground mb-2">Decimals</div>
-                  <div className="text-lg font-bold" style={{color: '#ff69b4'}}>18</div>
-                </div>
-                <div className="p-4 rounded-lg text-center" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)'}}>
-                  <div className="text-sm text-muted-foreground mb-2">Blockchain</div>
-                  <div className="text-lg font-bold" style={{color: '#ffd700'}}>BNB Chain</div>
-                </div>
-              </div>
-
-              <div className="flex gap-3 mt-4">
-                <a
-                  href="https://bscscan.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 p-3 rounded-lg text-center font-medium transition-all hover:scale-105"
-                  style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)', color: '#ffd700'}}
-                >
-                  📄 View on BscScan
-                </a>
-                <a
-                  href="#"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 p-3 rounded-lg text-center font-medium transition-all hover:scale-105"
-                  style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.2)', color: '#00bfff'}}
-                >
-                  📥 Download Whitepaper
-                </a>
-              </div>
             </div>
           </Card>
 
