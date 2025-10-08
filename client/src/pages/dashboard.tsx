@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import memeStakeLogo from "@assets/6269020538709674998_1759926006311.jpg";
-import { CommunityStats } from "@/components/community-stats";
 import { Footer } from "@/components/footer";
 
 export default function Dashboard() {
@@ -675,9 +674,6 @@ export default function Dashboard() {
               </div>
             </div>
           </Card>
-
-          {/* MemeStake Community Stats */}
-          <CommunityStats />
 
           {/* Complete Platform Details */}
           <Card className="p-6 glass-card">

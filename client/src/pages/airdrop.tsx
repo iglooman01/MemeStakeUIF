@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Progress } from "@/components/ui/progress";
 import memeStakeLogo from "@assets/6269020538709674998_1759926006311.jpg";
-import { CommunityStats } from "@/components/community-stats";
 import { Footer } from "@/components/footer";
 
 export default function Airdrop() {
@@ -390,9 +389,6 @@ export default function Airdrop() {
             <span>⚡Instant</span>
           </div>
         </Card>
-
-        {/* Community Stats */}
-        <CommunityStats />
 
         {/* Complete Platform Details */}
         <Card className="p-6 mb-6 glass-card">
