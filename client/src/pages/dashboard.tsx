@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import memeStakeLogo from "@assets/6269020538709674998_1759926006311.jpg";
-import { Footer } from "@/components/footer";
 
 export default function Dashboard() {
   const [location, setLocation] = useLocation();
@@ -1054,9 +1053,6 @@ export default function Dashboard() {
               <p className="text-xs text-muted-foreground mt-2 text-center">Revolutionizing the memes ecosystem, one milestone at a time</p>
             </div>
           </Card>
-
-          {/* Footer */}
-          <Footer />
         </div>
       </div>
 

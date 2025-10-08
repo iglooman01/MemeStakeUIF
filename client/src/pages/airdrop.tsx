@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Progress } from "@/components/ui/progress";
 import memeStakeLogo from "@assets/6269020538709674998_1759926006311.jpg";
-import { Footer } from "@/components/footer";
 
 export default function Airdrop() {
   const [location, setLocation] = useLocation();
@@ -565,9 +564,6 @@ export default function Airdrop() {
             </a>
           </div>
         </Card>
-
-        {/* Footer */}
-        <Footer />
       </div>
     </div>
   );
