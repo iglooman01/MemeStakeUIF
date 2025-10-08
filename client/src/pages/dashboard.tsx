@@ -389,15 +389,6 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Minimum Warning */}
-            {buyAmount && usdAmount > 0 && usdAmount < MIN_PURCHASE_USD && (
-              <div className="p-2 rounded-lg text-center" style={{background: 'rgba(255, 0, 0, 0.1)', border: '1px solid rgba(255, 0, 0, 0.3)'}}>
-                <div className="text-xs font-semibold text-red-400">
-                  ⚠️ Minimum purchase is ${MIN_PURCHASE_USD}
-                </div>
-              </div>
-            )}
-
             {/* Referral Code */}
             {showReferralInput && (
               <div>
