@@ -959,16 +959,6 @@ export default function Dashboard() {
               <p className="text-sm text-muted-foreground">Stake tokens for 1-12 months and earn up to 350% APY with daily reward distribution.</p>
             </div>
           </div>
-
-          <div className="mt-8 p-6 rounded-lg text-center" style={{background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(0, 191, 255, 0.15) 100%)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
-            <h3 className="text-lg font-bold mb-2" style={{color: '#ffd700'}}>💬 Still need help?</h3>
-            <p className="text-sm text-muted-foreground mb-4">Our community team is here to help you get started with MemeStake</p>
-            <a href="https://t.me/memestake_group" target="_blank" rel="noopener noreferrer" data-testid="link-telegram-support">
-              <Button className="gradient-button" style={{background: 'linear-gradient(135deg, #00bfff 0%, #0095dd 100%)', color: '#fff'}}>
-                💬 Join Telegram Group
-              </Button>
-            </a>
-          </div>
         </Card>
 
         {/* About MemeStake */}
@@ -1014,8 +1004,19 @@ export default function Dashboard() {
           </div>
         </Card>
 
+        {/* Still Need Help Section */}
+        <Card className="p-8 glass-card text-center" data-testid="card-still-need-help">
+          <h3 className="text-2xl font-bold mb-3" style={{color: '#ffd700'}}>💬 Still need help?</h3>
+          <p className="text-lg text-muted-foreground mb-6">Our community team is here to help you get started with MemeStake</p>
+          <a href="https://t.me/memestake_group" target="_blank" rel="noopener noreferrer" data-testid="link-telegram-support">
+            <Button className="gradient-button text-lg px-8 py-3" style={{background: 'linear-gradient(135deg, #00bfff 0%, #0095dd 100%)', color: '#fff'}}>
+              💬 Join Telegram Group
+            </Button>
+          </a>
+        </Card>
+
         {/* Join Our Community - Footer */}
-        <Card className="p-8 glass-card text-center">
+        <Card className="p-8 glass-card text-center" data-testid="card-join-community-footer">
           <h2 className="text-3xl font-bold mb-4" style={{color: '#ffd700'}}>Join Our Community</h2>
           <p className="text-lg text-muted-foreground mb-8">
             Connect with 47,000+ members in our vibrant community! Get real-time updates, share strategies, and never miss an opportunity.
