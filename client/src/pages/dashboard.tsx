@@ -531,8 +531,15 @@ export default function Dashboard() {
               </div>
               
               <Button 
-                className="w-full mt-4 gradient-button" 
+                size="lg"
+                className="w-full mt-6 text-lg font-bold py-6 transition-all hover:scale-105 animate-pulse" 
                 onClick={handleStakeTokens}
+                style={{
+                  background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)',
+                  color: '#000',
+                  boxShadow: '0 8px 25px rgba(255, 215, 0, 0.4)',
+                  border: '2px solid rgba(255, 215, 0, 0.5)'
+                }}
                 data-testid="button-stake-more"
               >
                 💎 Stake More Tokens
