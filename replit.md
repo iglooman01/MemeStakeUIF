@@ -12,7 +12,7 @@ This is a full-stack web application built with React and Express.js for "MemeSt
 - **Example**: $100 = 1,000,000 $MEMES tokens
 
 ## Staking & Rewards
-- **Staking APY**: 365% APY (1% daily rewards)
+- **Staking APY**: 350% APY (1% daily rewards)
 - **Launch**: Immediately after airdrop completion
 - **Minimum Staking Period**: 50 days for penalty-free unstake
 - **Early Unstake Penalty**: All earned rewards deducted from principal if unstaked before 50 days

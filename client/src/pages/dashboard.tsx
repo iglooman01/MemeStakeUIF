@@ -445,7 +445,7 @@ export default function Dashboard() {
             <div className="space-y-4">
               <div className="flex justify-between items-center">
                 <span className="text-muted-foreground">APY Rate:</span>
-                <span className="font-bold" style={{color: '#00ff88'}}>365% (1% Daily)</span>
+                <span className="font-bold" style={{color: '#00ff88'}}>350% APY</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-muted-foreground">Staked Amount:</span>
@@ -940,7 +940,7 @@ export default function Dashboard() {
             </div>
             <div className="p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.05)', border: '1px solid rgba(0, 191, 255, 0.2)'}}>
               <h3 className="font-bold mb-2" style={{color: '#00bfff'}}>How do I earn rewards?</h3>
-              <p className="text-sm text-muted-foreground">Complete social tasks for airdrops, stake tokens for up to 365% APY, and refer friends for bonus rewards.</p>
+              <p className="text-sm text-muted-foreground">Complete social tasks for airdrops, stake tokens for up to 350% APY, and refer friends for bonus rewards.</p>
             </div>
             <div className="p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.05)', border: '1px solid rgba(0, 255, 136, 0.2)'}}>
               <h3 className="font-bold mb-2" style={{color: '#00ff88'}}>Is my investment safe?</h3>
@@ -956,7 +956,7 @@ export default function Dashboard() {
             </div>
             <div className="p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.05)', border: '1px solid rgba(0, 191, 255, 0.2)'}}>
               <h3 className="font-bold mb-2" style={{color: '#00bfff'}}>How does staking work?</h3>
-              <p className="text-sm text-muted-foreground">Stake tokens for 1-12 months and earn up to 365% APY with daily reward distribution.</p>
+              <p className="text-sm text-muted-foreground">Stake tokens for 1-12 months and earn up to 350% APY with daily reward distribution.</p>
             </div>
           </div>
 
