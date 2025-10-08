@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import memeStakeLogo from "@assets/ChatGPT Image Aug 27, 2025, 09_52_01 PM_1756366058294.png";
+import { CommunityStats } from "@/components/community-stats";
+import { Footer } from "@/components/footer";
 
 export default function Dashboard() {
   const [location, setLocation] = useLocation();
@@ -673,6 +675,188 @@ export default function Dashboard() {
               </div>
             </div>
           </Card>
+
+          {/* MemeStake Community Stats */}
+          <CommunityStats />
+
+          {/* Complete Platform Details */}
+          <Card className="p-6 glass-card">
+            <h2 className="text-2xl font-bold mb-6 text-center" style={{color: '#ffd700'}}>
+              💎 Complete Platform Details
+            </h2>
+            
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-xl font-semibold mb-4" style={{color: '#00bfff'}}>📊 Tokenomics</h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)'}}>
+                    <div className="text-sm text-muted-foreground mb-2">Total Supply</div>
+                    <div className="text-xl font-bold" style={{color: '#ffd700'}}>50,000,000,000 $MEMES</div>
+                  </div>
+                  <div className="p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.2)'}}>
+                    <div className="text-sm text-muted-foreground mb-2">Token Price</div>
+                    <div className="text-xl font-bold" style={{color: '#00bfff'}}>$0.0001</div>
+                  </div>
+                  <div className="p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.2)'}}>
+                    <div className="text-sm text-muted-foreground mb-2">Public Sale</div>
+                    <div className="text-xl font-bold" style={{color: '#00ff88'}}>25B Tokens (50%)</div>
+                  </div>
+                  <div className="p-4 rounded-lg" style={{background: 'rgba(255, 105, 180, 0.1)', border: '1px solid rgba(255, 105, 180, 0.2)'}}>
+                    <div className="text-sm text-muted-foreground mb-2">Blockchain</div>
+                    <div className="text-xl font-bold" style={{color: '#ff69b4'}}>BNB Chain (BEP-20)</div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-xl font-semibold mb-4" style={{color: '#00bfff'}}>💰 Staking Features</h3>
+                <div className="grid md:grid-cols-3 gap-4">
+                  <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)'}}>
+                    <div className="text-3xl mb-2">💰</div>
+                    <div className="font-semibold mb-2">High APY</div>
+                    <div className="text-sm text-muted-foreground">Up to 350% APY</div>
+                  </div>
+                  <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
+                    <div className="text-3xl mb-2">🔒</div>
+                    <div className="font-semibold mb-2">Flexible Periods</div>
+                    <div className="text-sm text-muted-foreground">50-365 days</div>
+                  </div>
+                  <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)'}}>
+                    <div className="text-3xl mb-2">⚡</div>
+                    <div className="font-semibold mb-2">Daily Rewards</div>
+                    <div className="text-sm text-muted-foreground">1% per day</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          {/* FAQ Section */}
+          <Card className="p-6 glass-card">
+            <h2 className="text-2xl font-bold mb-6 text-center" style={{color: '#ffd700'}}>
+              ❓ Frequently Asked Questions
+            </h2>
+            
+            <div className="space-y-4">
+              <details className="p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.05)'}}>
+                <summary className="font-semibold cursor-pointer">What is MemeStake?</summary>
+                <p className="text-sm text-muted-foreground mt-3">
+                  MemeStake is a stake-to-earn meme token project with audited contracts, transparent tokenomics, and community rewards.
+                </p>
+              </details>
+              
+              <details className="p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.05)'}}>
+                <summary className="font-semibold cursor-pointer">How do I earn rewards?</summary>
+                <p className="text-sm text-muted-foreground mt-3">
+                  Stake $MEMES tokens to earn 350% APY (1% daily rewards). Plus earn referral bonuses at 3 levels: 5%, 3%, and 2%.
+                </p>
+              </details>
+              
+              <details className="p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.05)'}}>
+                <summary className="font-semibold cursor-pointer">Is my investment safe?</summary>
+                <p className="text-sm text-muted-foreground mt-3">
+                  Yes. The contracts are audited and reports will be linked from our whitepaper once final review is complete.
+                </p>
+              </details>
+              
+              <details className="p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.05)'}}>
+                <summary className="font-semibold cursor-pointer">When can I withdraw my tokens?</summary>
+                <p className="text-sm text-muted-foreground mt-3">
+                  Minimum staking period is 50 days for penalty-free unstake. Early unstaking incurs a 20% penalty.
+                </p>
+              </details>
+            </div>
+          </Card>
+
+          {/* About MemeStake */}
+          <Card className="p-6 glass-card">
+            <h2 className="text-2xl font-bold mb-6 text-center" style={{color: '#ffd700'}}>
+              🚀 About MemeStake
+            </h2>
+            
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-xl font-semibold mb-3" style={{color: '#00bfff'}}>Our Mission</h3>
+                <p className="text-muted-foreground">
+                  MemeStake is revolutionizing the meme coin ecosystem by combining decentralized airdrops with innovative staking mechanisms. 
+                  We deliver tokens direct to your wallet while building the strongest meme community in crypto.
+                </p>
+              </div>
+              
+              <div>
+                <h3 className="text-xl font-semibold mb-3" style={{color: '#00bfff'}}>Why Choose Us?</h3>
+                <div className="grid md:grid-cols-2 gap-3">
+                  <div className="flex items-start space-x-2">
+                    <span>✅</span>
+                    <span className="text-sm text-muted-foreground">True decentralized rewards system</span>
+                  </div>
+                  <div className="flex items-start space-x-2">
+                    <span>✅</span>
+                    <span className="text-sm text-muted-foreground">Community-driven governance</span>
+                  </div>
+                  <div className="flex items-start space-x-2">
+                    <span>✅</span>
+                    <span className="text-sm text-muted-foreground">High-yield staking opportunities</span>
+                  </div>
+                  <div className="flex items-start space-x-2">
+                    <span>✅</span>
+                    <span className="text-sm text-muted-foreground">Transparent tokenomics</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          {/* Join Our Community */}
+          <Card className="p-6 glass-card">
+            <h2 className="text-2xl font-bold mb-4 text-center" style={{color: '#ffd700'}}>
+              🌟 Join Our Community
+            </h2>
+            <p className="text-center text-muted-foreground mb-6">
+              Connect with 47,000+ members! Get real-time updates, share strategies, and never miss an opportunity.
+            </p>
+            
+            <div className="grid md:grid-cols-3 gap-4">
+              <a
+                href="https://t.me/memestake_group"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-4 rounded-lg text-center transition-all hover:scale-105"
+                style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.2)'}}
+              >
+                <div className="text-3xl mb-2">✈️</div>
+                <div className="font-semibold mb-1">Telegram Group</div>
+                <div className="text-xs text-muted-foreground">Chat & Discussion</div>
+              </a>
+              
+              <a
+                href="https://t.me/memestake_official"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-4 rounded-lg text-center transition-all hover:scale-105"
+                style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)'}}
+              >
+                <div className="text-3xl mb-2">📢</div>
+                <div className="font-semibold mb-1">Official Channel</div>
+                <div className="text-xs text-muted-foreground">News & Updates</div>
+              </a>
+              
+              <a
+                href="https://twitter.com/memestake_official"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-4 rounded-lg text-center transition-all hover:scale-105"
+                style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.2)'}}
+              >
+                <div className="text-3xl mb-2">🐦</div>
+                <div className="font-semibold mb-1">Twitter/X</div>
+                <div className="text-xs text-muted-foreground">Follow Updates</div>
+              </a>
+            </div>
+          </Card>
+
+          {/* Footer */}
+          <Footer />
         </div>
       </div>
 
