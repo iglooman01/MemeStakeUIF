@@ -11,6 +11,7 @@ export default function Dashboard() {
   const [tokenBalance, setTokenBalance] = useState(125000);
   const [stakingRewards, setStakingRewards] = useState(28475);
   const [walletAddress, setWalletAddress] = useState<string>('');
+  const [walletType, setWalletType] = useState<string>('');
   const [sponsorAddress] = useState<string>('0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb');
   const [buyAmount, setBuyAmount] = useState<string>('');
   const [inputMode, setInputMode] = useState<'usd' | 'token'>('usd');
@@ -111,13 +112,31 @@ export default function Dashboard() {
     }, 2000);
   };
 
-  // Load wallet address from localStorage
+  // Load wallet address and type from localStorage
   useEffect(() => {
     const storedAddress = localStorage.getItem('walletAddress');
+    const storedWalletType = localStorage.getItem('walletType');
     if (storedAddress) {
       setWalletAddress(storedAddress);
     }
+    if (storedWalletType) {
+      setWalletType(storedWalletType);
+    }
   }, []);
+
+  // Handle disconnect wallet
+  const handleDisconnectWallet = () => {
+    localStorage.removeItem('walletConnected');
+    localStorage.removeItem('walletAddress');
+    localStorage.removeItem('walletType');
+    toast({
+      title: "👋 Wallet Disconnected",
+      description: "You have been disconnected from your wallet",
+    });
+    setTimeout(() => {
+      setLocation('/');
+    }, 1000);
+  };
 
   // Airdrop countdown timer
   useEffect(() => {
@@ -152,28 +171,79 @@ export default function Dashboard() {
     <div className="min-h-screen text-foreground" style={{background: 'linear-gradient(135deg, #0a0e1a 0%, #1a1f2e 50%, #0f1421 100%)'}} data-testid="dashboard-page">
       
       {/* Header */}
-      <header className="border-b border-border" style={{background: 'rgba(15, 10, 35, 0.8)'}} data-testid="dashboard-header">
-        <div className="max-w-6xl mx-auto px-6 py-4">
+      <header className="sticky top-0 z-50 border-b border-border backdrop-blur-md" style={{background: 'rgba(15, 10, 35, 0.95)'}} data-testid="dashboard-header">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-3">
               <img 
                 src={memeStakeLogo} 
                 alt="MemeStake Logo" 
-                className="w-12 h-12 rounded-lg"
+                className="w-10 h-10 rounded-lg cursor-pointer"
                 style={{filter: 'drop-shadow(0 4px 15px rgba(255, 215, 0, 0.2))'}}
+                onClick={() => setLocation('/')}
               />
-              <span className="text-xl font-bold text-white">MemeStake Dashboard</span>
+              <span className="text-lg font-bold text-white hidden sm:block">MemeStake</span>
             </div>
             
-            {/* Back to Home */}
-            <Button 
-              variant="outline" 
-              onClick={() => setLocation('/')}
-              data-testid="button-back-home"
-            >
-              🏠 Back to Home
-            </Button>
+            {/* Navigation Links */}
+            <div className="hidden md:flex items-center space-x-6">
+              <a 
+                href="#about" 
+                className="text-sm font-medium text-gray-300 hover:text-white transition-colors"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const aboutSection = document.getElementById('about-section');
+                  aboutSection?.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
+                About us
+              </a>
+              <a 
+                href="#tokenomics" 
+                className="text-sm font-medium text-gray-300 hover:text-white transition-colors"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const tokenomicsSection = document.getElementById('tokenomics-section');
+                  tokenomicsSection?.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
+                Tokenomics
+              </a>
+              <a 
+                href="#roadmap" 
+                className="text-sm font-medium text-gray-300 hover:text-white transition-colors"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const roadmapSection = document.getElementById('roadmap-section');
+                  roadmapSection?.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
+                Roadmap
+              </a>
+            </div>
+
+            {/* Wallet Info & Disconnect */}
+            <div className="flex items-center space-x-3">
+              {walletAddress && (
+                <div className="hidden sm:flex items-center space-x-2 px-3 py-2 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
+                  <div className="text-xs text-gray-400">{walletType || 'Wallet'}</div>
+                  <div className="text-sm font-mono font-bold" style={{color: '#ffd700'}}>
+                    {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
+                  </div>
+                </div>
+              )}
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={handleDisconnectWallet}
+                className="text-xs sm:text-sm"
+                style={{borderColor: 'rgba(255, 215, 0, 0.3)', color: '#ffd700'}}
+                data-testid="button-disconnect-wallet"
+              >
+                Disconnect
+              </Button>
+            </div>
           </div>
         </div>
       </header>
@@ -675,7 +745,7 @@ export default function Dashboard() {
           </Card>
 
           {/* Platform & Token Details */}
-          <Card className="p-8 glass-card">
+          <Card className="p-8 glass-card" id="tokenomics-section">
             <h2 className="text-3xl font-bold mb-8 text-center" style={{color: '#ffd700'}}>
               💎 Platform & Token Details
             </h2>
@@ -823,7 +893,7 @@ export default function Dashboard() {
           </Card>
 
           {/* About MemeStake */}
-          <Card className="p-6 glass-card">
+          <Card className="p-6 glass-card" id="about-section">
             <h2 className="text-2xl font-bold mb-6 text-center" style={{color: '#ffd700'}}>
               🚀 About MemeStake
             </h2>
@@ -910,7 +980,7 @@ export default function Dashboard() {
           </Card>
 
           {/* Roadmap Section */}
-          <Card className="p-6 glass-card">
+          <Card className="p-6 glass-card" id="roadmap-section">
             <h2 className="text-2xl font-bold mb-6 text-center" style={{color: '#ffd700'}}>
               🗺️ Roadmap
             </h2>
