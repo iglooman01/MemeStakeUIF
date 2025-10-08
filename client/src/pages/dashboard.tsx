@@ -676,10 +676,10 @@ export default function Dashboard() {
             </div>
           </Card>
         </div>
-
-        {/* MemeStake Community Stats */}
-        <CommunityStats />
       </div>
+
+      {/* MemeStake Community Stats */}
+      <CommunityStats />
 
       {/* Footer */}
       <Footer />
