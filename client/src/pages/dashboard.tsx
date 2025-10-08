@@ -389,6 +389,15 @@ export default function Dashboard() {
               </div>
             </div>
 
+            {/* Minimum Warning */}
+            {buyAmount && usdAmount > 0 && usdAmount < MIN_PURCHASE_USD && (
+              <div className="p-2 rounded-lg text-center" style={{background: 'rgba(255, 0, 0, 0.1)', border: '1px solid rgba(255, 0, 0, 0.3)'}}>
+                <div className="text-xs font-semibold text-red-400">
+                  ⚠️ Minimum purchase is ${MIN_PURCHASE_USD}
+                </div>
+              </div>
+            )}
+
             {/* Referral Code */}
             {showReferralInput && (
               <div>
@@ -420,7 +429,7 @@ export default function Dashboard() {
             {/* Buy Button */}
             <Button 
               onClick={handleBuyTokens}
-              disabled={!buyAmount || parseFloat(buyAmount) <= 0}
+              disabled={!buyAmount || parseFloat(buyAmount) <= 0 || usdAmount < MIN_PURCHASE_USD}
               className="w-full py-5 text-base font-bold"
               style={{background: 'linear-gradient(135deg, #ffd700, #ffed4e)', color: '#000'}}
               data-testid="button-buy-tokens"
