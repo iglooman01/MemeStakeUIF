@@ -821,21 +821,35 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Airdrop Timer */}
-      <section className="py-8" style={{background: '#000000'}} data-testid="section-airdrop">
-        <div className="container">
+      {/* Connect Wallet Section */}
+      <section className="py-16" style={{background: 'linear-gradient(180deg, #000000 0%, #0a0e1a 100%)'}} data-testid="section-airdrop">
+        <div className="container max-w-6xl mx-auto px-4">
+          {/* Section Title */}
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4" style={{color: '#ffd700', fontFamily: 'Space Grotesk, Inter, sans-serif'}}>
+              Connect Wallet
+            </h2>
+            <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+              Connect your wallet to access exclusive airdrops and start earning rewards
+            </p>
+          </div>
+
           <div className="text-center">
-            <Card className="p-8 max-w-4xl mx-auto relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10"></div>
+            <Card className="p-8 md:p-12 max-w-5xl mx-auto relative overflow-hidden" style={{
+              background: 'linear-gradient(135deg, rgba(15, 10, 35, 0.95) 0%, rgba(30, 15, 60, 0.95) 100%)',
+              border: '2px solid rgba(255, 215, 0, 0.2)',
+              boxShadow: '0 0 60px rgba(255, 215, 0, 0.15)'
+            }}>
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5"></div>
               <div className="relative z-10">
-                <div className="flex items-center justify-center mb-4">
-                  <div className="chip gold mr-4">🎁 AIRDROP</div>
-                  <div className="chip">🔥 EXCLUSIVE</div>
+                <div className="flex items-center justify-center gap-3 mb-6">
+                  <div className="chip gold">🎁 AIRDROP</div>
+                  <div className="chip" style={{background: 'rgba(0, 191, 255, 0.2)', border: '1px solid rgba(0, 191, 255, 0.4)'}}>🔥 EXCLUSIVE</div>
                 </div>
-                <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{color: '#ffd700', fontFamily: 'Space Grotesk, Inter, sans-serif'}}>
+                <h3 className="text-2xl md:text-3xl font-bold mb-4" style={{color: '#ffd700', fontFamily: 'Space Grotesk, Inter, sans-serif'}}>
                   Connect Your Wallet & Get Airdrop
-                </h2>
-                <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto">
+                </h3>
+                <p className="text-base md:text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
                   Get ready for the biggest meme token airdrop of 2025! Early participants get exclusive bonuses.
                 </p>
                 <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg p-4 mb-8 max-w-3xl mx-auto border border-primary/20">
