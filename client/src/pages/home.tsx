@@ -154,6 +154,7 @@ export default function Home() {
   const [walletAddress, setWalletAddress] = useState<string>('');
   const [connectedWalletType, setConnectedWalletType] = useState<string>('');
   const [welcomeModalOpen, setWelcomeModalOpen] = useState(false);
+  const [isConnecting, setIsConnecting] = useState(false);
   const { toast } = useToast();
   
   // Check for existing wallet connection on component mount
@@ -436,6 +437,7 @@ export default function Home() {
   // Wallet connection functions
   const handleWalletSelect = async (walletName: string) => {
     setSelectedWallet(walletName);
+    setIsConnecting(true); // Show loader
     
     // Find the wallet connector type
     const wallet = supportedWallets.find(w => w.name === walletName);
@@ -445,6 +447,7 @@ export default function Home() {
         description: `${walletName} is not supported`,
         variant: "destructive"
       });
+      setIsConnecting(false);
       return;
     }
 
@@ -465,10 +468,17 @@ export default function Home() {
         
         setWalletModalOpen(false);
         
-        // Show welcome modal after successful connection
+        // Show success message
+        toast({
+          title: "✅ Wallet Connected!",
+          description: `Connected with ${walletName}. Redirecting to dashboard...`,
+        });
+        
+        // Redirect to dashboard after successful connection
         setTimeout(() => {
-          setWelcomeModalOpen(true);
-        }, 300);
+          setIsConnecting(false);
+          setLocation('/dashboard');
+        }, 1000);
       } else {
         // Handle specific errors
         let errorTitle = "❌ Connection Failed";
@@ -485,6 +495,7 @@ export default function Home() {
           variant: "destructive"
         });
         setSelectedWallet('');
+        setIsConnecting(false);
       }
     } catch (error: any) {
       console.error('Wallet connection error:', error);
@@ -510,6 +521,7 @@ export default function Home() {
         variant: "destructive"
       });
       setSelectedWallet('');
+      setIsConnecting(false);
     }
   };
 
@@ -1546,12 +1558,22 @@ export default function Home() {
             </div>
 
             {/* Wallet Options */}
-            <div className="grid gap-3 mb-6">
+            <div className="grid gap-3 mb-6 relative">
+              {isConnecting && (
+                <div className="absolute inset-0 bg-black/60 backdrop-blur-sm rounded-xl flex items-center justify-center z-10">
+                  <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-t-2 mx-auto mb-3" style={{borderColor: '#ffd700'}}></div>
+                    <p className="text-white font-medium">Connecting...</p>
+                    <p className="text-gray-400 text-sm mt-1">Check your wallet extension</p>
+                  </div>
+                </div>
+              )}
               {walletOptions.map((wallet) => (
                 <button
                   key={wallet.name}
                   onClick={() => handleWalletSelect(wallet.name)}
-                  className="flex items-center justify-between p-4 rounded-xl border transition-all duration-200 group hover:scale-[1.02]"
+                  disabled={isConnecting}
+                  className="flex items-center justify-between p-4 rounded-xl border transition-all duration-200 group hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
                   style={{
                     background: selectedWallet === wallet.name 
                       ? 'rgba(255, 255, 255, 0.05)' 
@@ -1564,8 +1586,10 @@ export default function Home() {
                       : 'none'
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = '#000000';
-                    e.currentTarget.style.color = '#000';
+                    if (!isConnecting) {
+                      e.currentTarget.style.background = '#000000';
+                      e.currentTarget.style.color = '#000';
+                    }
                   }}
                   onMouseLeave={(e) => {
                     if (selectedWallet !== wallet.name) {
