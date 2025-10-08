@@ -3,6 +3,8 @@ import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { CommunityStats } from "@/components/community-stats";
+import { Footer } from "@/components/footer";
 import memeStakeLogo from "@assets/ChatGPT Image Aug 27, 2025, 09_52_01 PM_1756366058294.png";
 
 export default function Dashboard() {
@@ -674,7 +676,13 @@ export default function Dashboard() {
             </div>
           </Card>
         </div>
+
+        {/* MemeStake Community Stats */}
+        <CommunityStats />
       </div>
+
+      {/* Footer */}
+      <Footer />
 
       {/* Transaction Preview Modal */}
       {showBuyPreview && (
