@@ -751,55 +751,55 @@ export default function Dashboard() {
             </div>
           </Card>
 
-          {/* Platform & Token Details */}
-          <Card className="p-8 glass-card" id="tokenomics-section">
-            <h2 className="text-3xl font-bold mb-8 text-center" style={{color: '#ffd700'}}>
+          {/* 1. Platform & Token Details */}
+          <Card className="p-8 glass-card" id="tokenomics-section" style={{background: 'linear-gradient(135deg, rgba(15, 10, 35, 0.95) 0%, rgba(30, 15, 60, 0.95) 100%)', border: '2px solid rgba(255, 215, 0, 0.2)'}}>
+            <h2 className="text-4xl font-bold mb-8 text-center" style={{color: '#ffd700'}}>
               💎 Platform & Token Details
             </h2>
             
             <div className="space-y-8">
               {/* Token Contract */}
-              <div className="p-6 rounded-xl" style={{background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(0, 191, 255, 0.1) 100%)', border: '2px solid rgba(255, 215, 0, 0.3)'}}>
-                <h3 className="text-xl font-semibold mb-4 text-center" style={{color: '#ffd700'}}>📄 Contract Information</h3>
+              <div className="p-6 rounded-xl" style={{background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(0, 191, 255, 0.15) 100%)', border: '2px solid rgba(255, 215, 0, 0.3)', boxShadow: '0 4px 20px rgba(255, 215, 0, 0.1)'}}>
+                <h3 className="text-2xl font-bold mb-4 text-center" style={{color: '#ffd700'}}>📄 Contract Information</h3>
                 
-                <div className="p-4 rounded-lg mb-4" style={{background: 'rgba(0, 0, 0, 0.3)', border: '1px solid rgba(255, 215, 0, 0.2)'}}>
+                <div className="p-4 rounded-lg mb-4" style={{background: 'rgba(0, 0, 0, 0.4)', border: '2px solid rgba(255, 215, 0, 0.3)'}}>
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-muted-foreground">Contract Address</span>
-                    <button className="px-3 py-1 rounded-md text-xs font-medium transition-all hover:scale-105" style={{background: '#ffd700', color: '#000'}}>
+                    <span className="text-sm font-semibold text-gray-300">Contract Address</span>
+                    <button className="px-4 py-2 rounded-md text-xs font-bold transition-all hover:scale-110" style={{background: 'linear-gradient(135deg, #ffd700, #ffed4e)', color: '#000', boxShadow: '0 4px 15px rgba(255, 215, 0, 0.3)'}}>
                       📋 Copy
                     </button>
                   </div>
-                  <div className="font-mono text-sm break-all" style={{color: '#ffd700'}}>
+                  <div className="font-mono text-base font-bold break-all" style={{color: '#ffd700'}}>
                     0x90950A338595dD5438F71839f01a882632a54587
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                  <div className="p-3 rounded-lg text-center" style={{background: 'rgba(0, 191, 255, 0.15)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
-                    <div className="text-xs text-muted-foreground mb-1">Token Name</div>
-                    <div className="text-sm font-bold" style={{color: '#00bfff'}}>MemeStake</div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="p-4 rounded-xl text-center transition-all hover:scale-105" style={{background: 'linear-gradient(135deg, rgba(0, 191, 255, 0.2), rgba(0, 191, 255, 0.1))', border: '2px solid rgba(0, 191, 255, 0.4)'}}>
+                    <div className="text-xs font-semibold text-gray-400 mb-1">Token Name</div>
+                    <div className="text-base font-bold" style={{color: '#00bfff'}}>MemeStake</div>
                   </div>
-                  <div className="p-3 rounded-lg text-center" style={{background: 'rgba(0, 255, 136, 0.15)', border: '1px solid rgba(0, 255, 136, 0.3)'}}>
-                    <div className="text-xs text-muted-foreground mb-1">Symbol</div>
-                    <div className="text-sm font-bold" style={{color: '#00ff88'}}>MEMES</div>
+                  <div className="p-4 rounded-xl text-center transition-all hover:scale-105" style={{background: 'linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 255, 136, 0.1))', border: '2px solid rgba(0, 255, 136, 0.4)'}}>
+                    <div className="text-xs font-semibold text-gray-400 mb-1">Symbol</div>
+                    <div className="text-base font-bold" style={{color: '#00ff88'}}>MEMES</div>
                   </div>
-                  <div className="p-3 rounded-lg text-center" style={{background: 'rgba(255, 105, 180, 0.15)', border: '1px solid rgba(255, 105, 180, 0.3)'}}>
-                    <div className="text-xs text-muted-foreground mb-1">Decimals</div>
-                    <div className="text-sm font-bold" style={{color: '#ff69b4'}}>18</div>
+                  <div className="p-4 rounded-xl text-center transition-all hover:scale-105" style={{background: 'linear-gradient(135deg, rgba(255, 105, 180, 0.2), rgba(255, 105, 180, 0.1))', border: '2px solid rgba(255, 105, 180, 0.4)'}}>
+                    <div className="text-xs font-semibold text-gray-400 mb-1">Decimals</div>
+                    <div className="text-base font-bold" style={{color: '#ff69b4'}}>18</div>
                   </div>
-                  <div className="p-3 rounded-lg text-center" style={{background: 'rgba(255, 215, 0, 0.15)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
-                    <div className="text-xs text-muted-foreground mb-1">Network</div>
-                    <div className="text-sm font-bold" style={{color: '#ffd700'}}>BNB Chain</div>
+                  <div className="p-4 rounded-xl text-center transition-all hover:scale-105" style={{background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.1))', border: '2px solid rgba(255, 215, 0, 0.4)'}}>
+                    <div className="text-xs font-semibold text-gray-400 mb-1">Network</div>
+                    <div className="text-base font-bold" style={{color: '#ffd700'}}>BNB Chain</div>
                   </div>
                 </div>
 
-                <div className="flex gap-3 mt-4">
+                <div className="flex gap-4 mt-4">
                   <a
                     href="https://bscscan.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 p-3 rounded-lg text-center text-sm font-medium transition-all hover:scale-105"
-                    style={{background: 'rgba(255, 215, 0, 0.2)', border: '1px solid rgba(255, 215, 0, 0.3)', color: '#ffd700'}}
+                    className="flex-1 p-3 rounded-xl text-center text-sm font-bold transition-all hover:scale-105"
+                    style={{background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 215, 0, 0.2))', border: '2px solid rgba(255, 215, 0, 0.4)', color: '#ffd700', boxShadow: '0 4px 15px rgba(255, 215, 0, 0.2)'}}
                   >
                     📄 View on BscScan
                   </a>
@@ -807,8 +807,8 @@ export default function Dashboard() {
                     href="#"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 p-3 rounded-lg text-center text-sm font-medium transition-all hover:scale-105"
-                    style={{background: 'rgba(0, 191, 255, 0.2)', border: '1px solid rgba(0, 191, 255, 0.3)', color: '#00bfff'}}
+                    className="flex-1 p-3 rounded-xl text-center text-sm font-bold transition-all hover:scale-105"
+                    style={{background: 'linear-gradient(135deg, rgba(0, 191, 255, 0.3), rgba(0, 191, 255, 0.2))', border: '2px solid rgba(0, 191, 255, 0.4)', color: '#00bfff', boxShadow: '0 4px 15px rgba(0, 191, 255, 0.2)'}}
                   >
                     📥 Whitepaper
                   </a>
@@ -817,217 +817,93 @@ export default function Dashboard() {
 
               {/* Tokenomics */}
               <div>
-                <h3 className="text-xl font-semibold mb-4" style={{color: '#00bfff'}}>📊 Tokenomics Overview</h3>
+                <h3 className="text-2xl font-bold mb-6 text-center" style={{color: '#00bfff'}}>📊 Tokenomics Overview</h3>
                 <div className="grid md:grid-cols-2 gap-4">
-                  <div className="p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)'}}>
-                    <div className="text-sm text-muted-foreground mb-2">Total Supply</div>
-                    <div className="text-xl font-bold" style={{color: '#ffd700'}}>50,000,000,000 $MEMES</div>
+                  <div className="p-5 rounded-xl transition-all hover:scale-105" style={{background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.05))', border: '2px solid rgba(255, 215, 0, 0.3)', boxShadow: '0 4px 15px rgba(255, 215, 0, 0.1)'}}>
+                    <div className="text-sm font-semibold text-gray-400 mb-2">Total Supply</div>
+                    <div className="text-2xl font-bold" style={{color: '#ffd700'}}>50,000,000,000 $MEMES</div>
                   </div>
-                  <div className="p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.2)'}}>
-                    <div className="text-sm text-muted-foreground mb-2">Token Price</div>
-                    <div className="text-xl font-bold" style={{color: '#00bfff'}}>$0.0001</div>
+                  <div className="p-5 rounded-xl transition-all hover:scale-105" style={{background: 'linear-gradient(135deg, rgba(0, 191, 255, 0.15), rgba(0, 191, 255, 0.05))', border: '2px solid rgba(0, 191, 255, 0.3)', boxShadow: '0 4px 15px rgba(0, 191, 255, 0.1)'}}>
+                    <div className="text-sm font-semibold text-gray-400 mb-2">Token Price</div>
+                    <div className="text-2xl font-bold" style={{color: '#00bfff'}}>$0.0001</div>
                   </div>
-                  <div className="p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.2)'}}>
-                    <div className="text-sm text-muted-foreground mb-2">Public Sale</div>
-                    <div className="text-xl font-bold" style={{color: '#00ff88'}}>25B Tokens (50%)</div>
+                  <div className="p-5 rounded-xl transition-all hover:scale-105" style={{background: 'linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 255, 136, 0.05))', border: '2px solid rgba(0, 255, 136, 0.3)', boxShadow: '0 4px 15px rgba(0, 255, 136, 0.1)'}}>
+                    <div className="text-sm font-semibold text-gray-400 mb-2">Public Sale</div>
+                    <div className="text-2xl font-bold" style={{color: '#00ff88'}}>25B Tokens (50%)</div>
                   </div>
-                  <div className="p-4 rounded-lg" style={{background: 'rgba(255, 105, 180, 0.1)', border: '1px solid rgba(255, 105, 180, 0.2)'}}>
-                    <div className="text-sm text-muted-foreground mb-2">Blockchain</div>
-                    <div className="text-xl font-bold" style={{color: '#ff69b4'}}>BNB Chain (BEP-20)</div>
+                  <div className="p-5 rounded-xl transition-all hover:scale-105" style={{background: 'linear-gradient(135deg, rgba(255, 105, 180, 0.15), rgba(255, 105, 180, 0.05))', border: '2px solid rgba(255, 105, 180, 0.3)', boxShadow: '0 4px 15px rgba(255, 105, 180, 0.1)'}}>
+                    <div className="text-sm font-semibold text-gray-400 mb-2">Blockchain</div>
+                    <div className="text-2xl font-bold" style={{color: '#ff69b4'}}>BNB Chain (BEP-20)</div>
                   </div>
                 </div>
               </div>
 
               {/* Staking Features */}
               <div>
-                <h3 className="text-xl font-semibold mb-4" style={{color: '#00ff88'}}>💰 Staking Features</h3>
+                <h3 className="text-2xl font-bold mb-6 text-center" style={{color: '#00ff88'}}>💰 Staking Features</h3>
                 <div className="grid md:grid-cols-3 gap-4">
-                  <div className="text-center p-4 rounded-lg transition-all hover:scale-105" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)'}}>
-                    <div className="text-3xl mb-2">💰</div>
-                    <div className="font-semibold mb-2" style={{color: '#ffd700'}}>High APY</div>
-                    <div className="text-sm text-muted-foreground">Up to 365% APY</div>
+                  <div className="text-center p-6 rounded-xl transition-all hover:scale-105 cursor-pointer" style={{background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.05))', border: '2px solid rgba(255, 215, 0, 0.3)', boxShadow: '0 4px 15px rgba(255, 215, 0, 0.1)'}}>
+                    <div className="text-4xl mb-3">💰</div>
+                    <div className="text-lg font-bold mb-2" style={{color: '#ffd700'}}>High APY</div>
+                    <div className="text-sm font-semibold text-gray-400">Up to 365% APY</div>
                   </div>
-                  <div className="text-center p-4 rounded-lg transition-all hover:scale-105" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.2)'}}>
-                    <div className="text-3xl mb-2">🔒</div>
-                    <div className="font-semibold mb-2" style={{color: '#00bfff'}}>Flexible Periods</div>
-                    <div className="text-sm text-muted-foreground">anytime unstake</div>
+                  <div className="text-center p-6 rounded-xl transition-all hover:scale-105 cursor-pointer" style={{background: 'linear-gradient(135deg, rgba(0, 191, 255, 0.15), rgba(0, 191, 255, 0.05))', border: '2px solid rgba(0, 191, 255, 0.3)', boxShadow: '0 4px 15px rgba(0, 191, 255, 0.1)'}}>
+                    <div className="text-4xl mb-3">🔒</div>
+                    <div className="text-lg font-bold mb-2" style={{color: '#00bfff'}}>Flexible Periods</div>
+                    <div className="text-sm font-semibold text-gray-400">anytime unstake</div>
                   </div>
-                  <div className="text-center p-4 rounded-lg transition-all hover:scale-105" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.2)'}}>
-                    <div className="text-3xl mb-2">⚡</div>
-                    <div className="font-semibold mb-2" style={{color: '#00ff88'}}>Daily Rewards</div>
-                    <div className="text-sm text-muted-foreground">1% per day</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Card>
-
-          {/* FAQ Section */}
-          <Card className="p-6 glass-card">
-            <h2 className="text-2xl font-bold mb-6 text-center" style={{color: '#ffd700'}}>
-              ❓ Frequently Asked Questions
-            </h2>
-            
-            <div className="space-y-4">
-              <details className="p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.05)'}}>
-                <summary className="font-semibold cursor-pointer">What is MemeStake?</summary>
-                <p className="text-sm text-muted-foreground mt-3">
-                  MemeStake is a stake-to-earn meme token project with audited contracts, transparent tokenomics, and community rewards.
-                </p>
-              </details>
-              
-              <details className="p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.05)'}}>
-                <summary className="font-semibold cursor-pointer">How do I earn rewards?</summary>
-                <p className="text-sm text-muted-foreground mt-3">
-                  Stake $MEMES tokens to earn 365% APY (1% daily rewards). Plus earn referral bonuses at 3 levels: 5%, 3%, and 2%.
-                </p>
-              </details>
-              
-              <details className="p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.05)'}}>
-                <summary className="font-semibold cursor-pointer">Is my investment safe?</summary>
-                <p className="text-sm text-muted-foreground mt-3">
-                  Yes. The contracts are audited and reports will be linked from our whitepaper once final review is complete.
-                </p>
-              </details>
-              
-              <details className="p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.05)'}}>
-                <summary className="font-semibold cursor-pointer">When can I withdraw my tokens?</summary>
-                <p className="text-sm text-muted-foreground mt-3">
-                  Minimum staking period is 50 days for penalty-free unstake. Early unstaking incurs a 20% penalty.
-                </p>
-              </details>
-            </div>
-          </Card>
-
-          {/* About MemeStake */}
-          <Card className="p-6 glass-card" id="about-section">
-            <h2 className="text-2xl font-bold mb-6 text-center" style={{color: '#ffd700'}}>
-              🚀 About MemeStake
-            </h2>
-            
-            <div className="space-y-4">
-              <div>
-                <h3 className="text-xl font-semibold mb-3" style={{color: '#00bfff'}}>Our Mission</h3>
-                <p className="text-muted-foreground">
-                  MemeStake is revolutionizing the meme coin ecosystem by combining decentralized airdrops with innovative staking mechanisms. 
-                  We deliver tokens direct to your wallet while building the strongest meme community in crypto.
-                </p>
-              </div>
-              
-              <div>
-                <h3 className="text-xl font-semibold mb-3" style={{color: '#00bfff'}}>Why Choose Us?</h3>
-                <div className="grid md:grid-cols-2 gap-3">
-                  <div className="flex items-start space-x-2">
-                    <span>✅</span>
-                    <span className="text-sm text-muted-foreground">True decentralized rewards system</span>
-                  </div>
-                  <div className="flex items-start space-x-2">
-                    <span>✅</span>
-                    <span className="text-sm text-muted-foreground">Community-driven governance</span>
-                  </div>
-                  <div className="flex items-start space-x-2">
-                    <span>✅</span>
-                    <span className="text-sm text-muted-foreground">High-yield staking opportunities</span>
-                  </div>
-                  <div className="flex items-start space-x-2">
-                    <span>✅</span>
-                    <span className="text-sm text-muted-foreground">Transparent tokenomics</span>
+                  <div className="text-center p-6 rounded-xl transition-all hover:scale-105 cursor-pointer" style={{background: 'linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 255, 136, 0.05))', border: '2px solid rgba(0, 255, 136, 0.3)', boxShadow: '0 4px 15px rgba(0, 255, 136, 0.1)'}}>
+                    <div className="text-4xl mb-3">⚡</div>
+                    <div className="text-lg font-bold mb-2" style={{color: '#00ff88'}}>Daily Rewards</div>
+                    <div className="text-sm font-semibold text-gray-400">1% per day</div>
                   </div>
                 </div>
               </div>
             </div>
           </Card>
 
-          {/* Join Our Community */}
-          <Card className="p-6 glass-card">
-            <h2 className="text-2xl font-bold mb-4 text-center" style={{color: '#ffd700'}}>
-              🌟 Join Our Community
-            </h2>
-            <p className="text-center text-muted-foreground mb-6">
-              Connect with 47,000+ members! Get real-time updates, share strategies, and never miss an opportunity.
-            </p>
-            
-            <div className="grid md:grid-cols-3 gap-4">
-              <a
-                href="https://t.me/memestake_group"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-4 rounded-lg text-center transition-all hover:scale-105"
-                style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.2)'}}
-              >
-                <div className="text-3xl mb-2">✈️</div>
-                <div className="font-semibold mb-1">Telegram Group</div>
-                <div className="text-xs text-muted-foreground">Chat & Discussion</div>
-              </a>
-              
-              <a
-                href="https://t.me/memestake_official"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-4 rounded-lg text-center transition-all hover:scale-105"
-                style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)'}}
-              >
-                <div className="text-3xl mb-2">📢</div>
-                <div className="font-semibold mb-1">Official Channel</div>
-                <div className="text-xs text-muted-foreground">News & Updates</div>
-              </a>
-              
-              <a
-                href="https://twitter.com/memestake_official"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-4 rounded-lg text-center transition-all hover:scale-105"
-                style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.2)'}}
-              >
-                <div className="text-3xl mb-2">🐦</div>
-                <div className="font-semibold mb-1">Twitter/X</div>
-                <div className="text-xs text-muted-foreground">Follow Updates</div>
-              </a>
-            </div>
-          </Card>
-
-          {/* Roadmap Section */}
-          <Card className="p-6 glass-card" id="roadmap-section">
-            <h2 className="text-2xl font-bold mb-6 text-center" style={{color: '#ffd700'}}>
+          {/* 2. Roadmap Section */}
+          <Card className="p-8 glass-card" id="roadmap-section" style={{background: 'linear-gradient(135deg, rgba(15, 10, 35, 0.95) 0%, rgba(30, 15, 60, 0.95) 100%)', border: '2px solid rgba(0, 191, 255, 0.2)'}}>
+            <h2 className="text-4xl font-bold mb-4 text-center" style={{color: '#ffd700'}}>
               🗺️ Roadmap
             </h2>
-            <p className="text-center text-muted-foreground mb-8">Our journey to revolutionize the memes ecosystem</p>
+            <p className="text-center text-gray-400 mb-8 text-lg">Our journey to revolutionize the memes ecosystem</p>
             
             <div className="space-y-6">
               {/* Q1 2025 */}
-              <div className="relative">
+              <div className="p-6 rounded-xl transition-all hover:scale-[1.02]" style={{background: 'linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 255, 136, 0.05))', border: '2px solid rgba(0, 255, 136, 0.3)', boxShadow: '0 4px 15px rgba(0, 255, 136, 0.1)'}}>
                 <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-2xl" style={{background: 'rgba(0, 255, 136, 0.2)', border: '2px solid rgba(0, 255, 136, 0.4)'}}>
+                  <div className="flex-shrink-0 w-14 h-14 rounded-full flex items-center justify-center text-3xl" style={{background: 'rgba(0, 255, 136, 0.3)', border: '3px solid rgba(0, 255, 136, 0.5)'}}>
                     🎉
                   </div>
                   <div className="flex-1">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="text-xl font-semibold" style={{color: '#00ff88'}}>Q1 2025 - Platform Launch</h3>
-                      <span className="px-3 py-1 rounded-full text-xs font-medium" style={{background: 'rgba(0, 255, 136, 0.2)', color: '#00ff88'}}>✅ COMPLETED</span>
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="text-xl font-bold" style={{color: '#00ff88'}}>Q1 2025 - Platform Launch</h3>
+                      <span className="px-4 py-1 rounded-full text-xs font-bold" style={{background: 'rgba(0, 255, 136, 0.3)', color: '#00ff88', border: '1px solid rgba(0, 255, 136, 0.5)'}}>✅ COMPLETED</span>
                     </div>
                     <div className="grid md:grid-cols-2 gap-3 mt-3">
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <span>✅</span>
+                      <div className="flex items-center gap-2 text-sm font-semibold text-gray-400">
+                        <span className="text-green-500">✅</span>
                         <span>Airdrop system launch</span>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <span>✅</span>
+                      <div className="flex items-center gap-2 text-sm font-semibold text-gray-400">
+                        <span className="text-green-500">✅</span>
                         <span>Social media integration</span>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <span>✅</span>
+                      <div className="flex items-center gap-2 text-sm font-semibold text-gray-400">
+                        <span className="text-green-500">✅</span>
                         <span>Email verification</span>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <span>✅</span>
+                      <div className="flex items-center gap-2 text-sm font-semibold text-gray-400">
+                        <span className="text-green-500">✅</span>
                         <span>Referral program</span>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <span>✅</span>
+                      <div className="flex items-center gap-2 text-sm font-semibold text-gray-400">
+                        <span className="text-green-500">✅</span>
                         <span>Community dashboard</span>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <span>✅</span>
+                      <div className="flex items-center gap-2 text-sm font-semibold text-gray-400">
+                        <span className="text-green-500">✅</span>
                         <span>Token contract deploy</span>
                       </div>
                     </div>
@@ -1036,38 +912,38 @@ export default function Dashboard() {
               </div>
 
               {/* Q2 2025 */}
-              <div className="relative">
+              <div className="p-6 rounded-xl transition-all hover:scale-[1.02]" style={{background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.05))', border: '2px solid rgba(255, 215, 0, 0.3)', boxShadow: '0 4px 15px rgba(255, 215, 0, 0.1)'}}>
                 <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-2xl" style={{background: 'rgba(255, 215, 0, 0.2)', border: '2px solid rgba(255, 215, 0, 0.4)'}}>
+                  <div className="flex-shrink-0 w-14 h-14 rounded-full flex items-center justify-center text-3xl animate-pulse" style={{background: 'rgba(255, 215, 0, 0.3)', border: '3px solid rgba(255, 215, 0, 0.5)'}}>
                     ⚡
                   </div>
                   <div className="flex-1">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="text-xl font-semibold" style={{color: '#ffd700'}}>Q2 2025 - Enhanced Features</h3>
-                      <span className="px-3 py-1 rounded-full text-xs font-medium" style={{background: 'rgba(255, 215, 0, 0.2)', color: '#ffd700'}}>🔄 IN PROGRESS</span>
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="text-xl font-bold" style={{color: '#ffd700'}}>Q2 2025 - Enhanced Features</h3>
+                      <span className="px-4 py-1 rounded-full text-xs font-bold animate-pulse" style={{background: 'rgba(255, 215, 0, 0.3)', color: '#ffd700', border: '1px solid rgba(255, 215, 0, 0.5)'}}>🔄 IN PROGRESS</span>
                     </div>
                     <div className="grid md:grid-cols-2 gap-3 mt-3">
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-2 text-sm font-semibold text-gray-400">
                         <span>🎯</span>
                         <span>Advanced staking pools</span>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-2 text-sm font-semibold text-gray-400">
                         <span>🏆</span>
                         <span>Multi-tier rewards</span>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-2 text-sm font-semibold text-gray-400">
                         <span>📱</span>
                         <span>Mobile app</span>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-2 text-sm font-semibold text-gray-400">
                         <span>🤝</span>
                         <span>Partnership integrations</span>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-2 text-sm font-semibold text-gray-400">
                         <span>🔒</span>
                         <span>Enhanced security</span>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-2 text-sm font-semibold text-gray-400">
                         <span>🛠️</span>
                         <span>Developer API</span>
                       </div>
@@ -1077,38 +953,38 @@ export default function Dashboard() {
               </div>
 
               {/* Q3 2025 */}
-              <div className="relative">
+              <div className="p-6 rounded-xl transition-all hover:scale-[1.02]" style={{background: 'linear-gradient(135deg, rgba(0, 191, 255, 0.15), rgba(0, 191, 255, 0.05))', border: '2px solid rgba(0, 191, 255, 0.3)', boxShadow: '0 4px 15px rgba(0, 191, 255, 0.1)'}}>
                 <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-2xl" style={{background: 'rgba(0, 191, 255, 0.2)', border: '2px solid rgba(0, 191, 255, 0.4)'}}>
+                  <div className="flex-shrink-0 w-14 h-14 rounded-full flex items-center justify-center text-3xl" style={{background: 'rgba(0, 191, 255, 0.3)', border: '3px solid rgba(0, 191, 255, 0.5)'}}>
                     🚀
                   </div>
                   <div className="flex-1">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="text-xl font-semibold" style={{color: '#00bfff'}}>Q3 2025 - Ecosystem Expansion</h3>
-                      <span className="px-3 py-1 rounded-full text-xs font-medium" style={{background: 'rgba(0, 191, 255, 0.2)', color: '#00bfff'}}>🔮 UPCOMING</span>
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="text-xl font-bold" style={{color: '#00bfff'}}>Q3 2025 - Ecosystem Expansion</h3>
+                      <span className="px-4 py-1 rounded-full text-xs font-bold" style={{background: 'rgba(0, 191, 255, 0.3)', color: '#00bfff', border: '1px solid rgba(0, 191, 255, 0.5)'}}>🔮 UPCOMING</span>
                     </div>
                     <div className="grid md:grid-cols-2 gap-3 mt-3">
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-2 text-sm font-semibold text-gray-400">
                         <span>🎨</span>
                         <span>NFT marketplace</span>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-2 text-sm font-semibold text-gray-400">
                         <span>🎮</span>
                         <span>Play-to-earn games</span>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-2 text-sm font-semibold text-gray-400">
                         <span>🌐</span>
                         <span>Cross-chain integration</span>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-2 text-sm font-semibold text-gray-400">
                         <span>🗳️</span>
                         <span>DAO governance</span>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-2 text-sm font-semibold text-gray-400">
                         <span>🚜</span>
                         <span>DeFi yield farming</span>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-2 text-sm font-semibold text-gray-400">
                         <span>🏆</span>
                         <span>Community tournaments</span>
                       </div>
@@ -1119,15 +995,139 @@ export default function Dashboard() {
             </div>
 
             {/* Progress Bar */}
-            <div className="mt-8 p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.03)'}}>
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium">Overall Progress</span>
-                <span className="text-sm font-bold" style={{color: '#ffd700'}}>40%</span>
+            <div className="mt-8 p-6 rounded-xl" style={{background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(0, 191, 255, 0.1))', border: '2px solid rgba(255, 215, 0, 0.2)'}}>
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-base font-bold text-gray-300">Overall Progress</span>
+                <span className="text-lg font-bold" style={{color: '#ffd700'}}>40%</span>
               </div>
-              <div className="w-full bg-gray-700 rounded-full h-2">
-                <div className="h-2 rounded-full" style={{width: '40%', background: 'linear-gradient(90deg, #ffd700, #00bfff)'}}></div>
+              <div className="w-full rounded-full h-3" style={{background: 'rgba(0, 0, 0, 0.3)'}}>
+                <div className="h-3 rounded-full transition-all" style={{width: '40%', background: 'linear-gradient(90deg, #ffd700 0%, #00bfff 50%, #00ff88 100%)', boxShadow: '0 2px 10px rgba(255, 215, 0, 0.3)'}}></div>
               </div>
-              <p className="text-xs text-muted-foreground mt-2 text-center">Revolutionizing the memes ecosystem, one milestone at a time</p>
+              <p className="text-sm text-gray-400 mt-3 text-center font-semibold">Revolutionizing the memes ecosystem, one milestone at a time</p>
+            </div>
+          </Card>
+
+          {/* 3. FAQ Section */}
+          <Card className="p-8 glass-card" style={{background: 'linear-gradient(135deg, rgba(15, 10, 35, 0.95) 0%, rgba(30, 15, 60, 0.95) 100%)', border: '2px solid rgba(255, 105, 180, 0.2)'}}>
+            <h2 className="text-4xl font-bold mb-8 text-center" style={{color: '#ffd700'}}>
+              ❓ Frequently Asked Questions
+            </h2>
+            
+            <div className="space-y-4">
+              <details className="p-5 rounded-xl cursor-pointer transition-all hover:scale-[1.01]" style={{background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.05))', border: '2px solid rgba(255, 215, 0, 0.2)'}}>
+                <summary className="text-lg font-bold" style={{color: '#ffd700'}}>What is MemeStake?</summary>
+                <p className="text-sm text-gray-400 mt-4 leading-relaxed">
+                  MemeStake is a stake-to-earn meme token project with audited contracts, transparent tokenomics, and community rewards.
+                </p>
+              </details>
+              
+              <details className="p-5 rounded-xl cursor-pointer transition-all hover:scale-[1.01]" style={{background: 'linear-gradient(135deg, rgba(0, 191, 255, 0.1), rgba(0, 191, 255, 0.05))', border: '2px solid rgba(0, 191, 255, 0.2)'}}>
+                <summary className="text-lg font-bold" style={{color: '#00bfff'}}>How do I earn rewards?</summary>
+                <p className="text-sm text-gray-400 mt-4 leading-relaxed">
+                  Stake $MEMES tokens to earn 365% APY (1% daily rewards). Plus earn referral bonuses at 3 levels: 5%, 3%, and 2%.
+                </p>
+              </details>
+              
+              <details className="p-5 rounded-xl cursor-pointer transition-all hover:scale-[1.01]" style={{background: 'linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 255, 136, 0.05))', border: '2px solid rgba(0, 255, 136, 0.2)'}}>
+                <summary className="text-lg font-bold" style={{color: '#00ff88'}}>Is my investment safe?</summary>
+                <p className="text-sm text-gray-400 mt-4 leading-relaxed">
+                  Yes. The contracts are audited and reports will be linked from our whitepaper once final review is complete.
+                </p>
+              </details>
+              
+              <details className="p-5 rounded-xl cursor-pointer transition-all hover:scale-[1.01]" style={{background: 'linear-gradient(135deg, rgba(255, 105, 180, 0.1), rgba(255, 105, 180, 0.05))', border: '2px solid rgba(255, 105, 180, 0.2)'}}>
+                <summary className="text-lg font-bold" style={{color: '#ff69b4'}}>When can I withdraw my tokens?</summary>
+                <p className="text-sm text-gray-400 mt-4 leading-relaxed">
+                  Minimum staking period is 50 days for penalty-free unstake. Early unstaking incurs a 20% penalty.
+                </p>
+              </details>
+            </div>
+          </Card>
+
+          {/* 4. About MemeStake */}
+          <Card className="p-8 glass-card" id="about-section" style={{background: 'linear-gradient(135deg, rgba(15, 10, 35, 0.95) 0%, rgba(30, 15, 60, 0.95) 100%)', border: '2px solid rgba(0, 255, 136, 0.2)'}}>
+            <h2 className="text-4xl font-bold mb-8 text-center" style={{color: '#ffd700'}}>
+              🚀 About MemeStake
+            </h2>
+            
+            <div className="space-y-6">
+              <div className="p-6 rounded-xl" style={{background: 'linear-gradient(135deg, rgba(0, 191, 255, 0.15), rgba(0, 191, 255, 0.05))', border: '2px solid rgba(0, 191, 255, 0.3)'}}>
+                <h3 className="text-2xl font-bold mb-4" style={{color: '#00bfff'}}>Our Mission</h3>
+                <p className="text-gray-300 leading-relaxed text-base">
+                  MemeStake is revolutionizing the meme coin ecosystem by combining decentralized airdrops with innovative staking mechanisms. 
+                  We deliver tokens direct to your wallet while building the strongest meme community in crypto.
+                </p>
+              </div>
+              
+              <div className="p-6 rounded-xl" style={{background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.05))', border: '2px solid rgba(255, 215, 0, 0.3)'}}>
+                <h3 className="text-2xl font-bold mb-4" style={{color: '#ffd700'}}>Why Choose Us?</h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="flex items-start space-x-3 p-3 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)'}}>
+                    <span className="text-xl">✅</span>
+                    <span className="text-sm font-semibold text-gray-300">True decentralized rewards system</span>
+                  </div>
+                  <div className="flex items-start space-x-3 p-3 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)'}}>
+                    <span className="text-xl">✅</span>
+                    <span className="text-sm font-semibold text-gray-300">Community-driven governance</span>
+                  </div>
+                  <div className="flex items-start space-x-3 p-3 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)'}}>
+                    <span className="text-xl">✅</span>
+                    <span className="text-sm font-semibold text-gray-300">High-yield staking opportunities</span>
+                  </div>
+                  <div className="flex items-start space-x-3 p-3 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)'}}>
+                    <span className="text-xl">✅</span>
+                    <span className="text-sm font-semibold text-gray-300">Transparent tokenomics</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          {/* 5. Join Our Community */}
+          <Card className="p-8 glass-card" style={{background: 'linear-gradient(135deg, rgba(15, 10, 35, 0.95) 0%, rgba(30, 15, 60, 0.95) 100%)', border: '2px solid rgba(255, 215, 0, 0.2)'}}>
+            <h2 className="text-4xl font-bold mb-4 text-center" style={{color: '#ffd700'}}>
+              🌟 Join Our Community
+            </h2>
+            <p className="text-center text-gray-400 mb-8 text-lg font-semibold">
+              Connect with 47,000+ members! Get real-time updates, share strategies, and never miss an opportunity.
+            </p>
+            
+            <div className="grid md:grid-cols-3 gap-6">
+              <a
+                href="https://t.me/memestake_group"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-6 rounded-xl text-center transition-all hover:scale-110 cursor-pointer"
+                style={{background: 'linear-gradient(135deg, rgba(0, 191, 255, 0.2), rgba(0, 191, 255, 0.1))', border: '2px solid rgba(0, 191, 255, 0.4)', boxShadow: '0 4px 15px rgba(0, 191, 255, 0.2)'}}
+              >
+                <div className="text-5xl mb-3">✈️</div>
+                <div className="text-lg font-bold mb-2" style={{color: '#00bfff'}}>Telegram Group</div>
+                <div className="text-sm text-gray-400 font-semibold">Chat & Discussion</div>
+              </a>
+              
+              <a
+                href="https://t.me/memestake_official"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-6 rounded-xl text-center transition-all hover:scale-110 cursor-pointer"
+                style={{background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.1))', border: '2px solid rgba(255, 215, 0, 0.4)', boxShadow: '0 4px 15px rgba(255, 215, 0, 0.2)'}}
+              >
+                <div className="text-5xl mb-3">📢</div>
+                <div className="text-lg font-bold mb-2" style={{color: '#ffd700'}}>Official Channel</div>
+                <div className="text-sm text-gray-400 font-semibold">News & Updates</div>
+              </a>
+              
+              <a
+                href="https://twitter.com/memestake_official"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-6 rounded-xl text-center transition-all hover:scale-110 cursor-pointer"
+                style={{background: 'linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 255, 136, 0.1))', border: '2px solid rgba(0, 255, 136, 0.4)', boxShadow: '0 4px 15px rgba(0, 255, 136, 0.2)'}}
+              >
+                <div className="text-5xl mb-3">🐦</div>
+                <div className="text-lg font-bold mb-2" style={{color: '#00ff88'}}>Twitter/X</div>
+                <div className="text-sm text-gray-400 font-semibold">Follow Updates</div>
+              </a>
             </div>
           </Card>
         </div>
