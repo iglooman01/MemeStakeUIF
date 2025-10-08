@@ -894,17 +894,6 @@ export default function Home() {
                   </div>
                 </div>
                 
-                <div className="grid md:grid-cols-2 gap-4 mb-8">
-                  <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.03)'}}>
-                    <div className="text-xl font-bold" style={{color: '#ffd700'}}>10,000,000</div>
-                    <div className="text-sm text-muted-foreground">Target Users</div>
-                  </div>
-                  <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.03)'}}>
-                    <div className="text-xl font-bold" style={{color: '#ffd700'}}>25,000+</div>
-                    <div className="text-sm text-muted-foreground">Participants</div>
-                  </div>
-                </div>
-                
                 <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
                   {walletConnected ? (
                     <div className="flex flex-col items-center gap-4">
