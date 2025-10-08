@@ -148,111 +148,32 @@ export default function Dashboard() {
     setLocation('/staking');
   };
 
-  const handleDisconnect = () => {
-    localStorage.removeItem('walletAddress');
-    localStorage.removeItem('walletConnected');
-    localStorage.removeItem('walletType');
-    setWalletAddress('');
-    toast({
-      title: "👋 Wallet Disconnected",
-      description: "You have been disconnected successfully",
-    });
-    setTimeout(() => {
-      setLocation('/');
-    }, 1000);
-  };
-
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
-
   return (
     <div className="min-h-screen text-foreground" style={{background: 'linear-gradient(135deg, #0a0e1a 0%, #1a1f2e 50%, #0f1421 100%)'}} data-testid="dashboard-page">
       
       {/* Header */}
-      <header className="border-b border-border sticky top-0 z-50" style={{background: 'rgba(15, 10, 35, 0.95)', backdropFilter: 'blur(10px)'}} data-testid="dashboard-header">
-        <div className="max-w-7xl mx-auto px-4 py-3">
+      <header className="border-b border-border" style={{background: 'rgba(15, 10, 35, 0.8)'}} data-testid="dashboard-header">
+        <div className="max-w-6xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <div className="flex items-center space-x-2">
               <img 
                 src={memeStakeLogo} 
                 alt="MemeStake Logo" 
-                className="w-10 h-10 rounded-lg"
+                className="w-12 h-12 rounded-lg"
                 style={{filter: 'drop-shadow(0 4px 15px rgba(255, 215, 0, 0.2))'}}
               />
-              <span className="text-lg font-bold text-white hidden sm:inline">MemeStake</span>
+              <span className="text-xl font-bold text-white">MemeStake Dashboard</span>
             </div>
             
-            {/* Navigation Links */}
-            <nav className="hidden md:flex items-center space-x-6">
-              <button 
-                onClick={() => setLocation('/dashboard')}
-                className="text-sm font-medium text-gray-300 hover:text-white transition-colors"
-                data-testid="nav-dashboard"
-              >
-                Dashboard
-              </button>
-              <a 
-                href="https://mems-ui-server-dashbaord.replit.app/dashboard"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm font-medium text-gray-300 hover:text-white transition-colors"
-                data-testid="nav-airdrop"
-              >
-                Airdrop
-              </a>
-              <button 
-                onClick={() => scrollToSection('tokenomics')}
-                className="text-sm font-medium text-gray-300 hover:text-white transition-colors"
-                data-testid="nav-tokenomics"
-              >
-                Tokenomics
-              </button>
-              <button 
-                onClick={() => scrollToSection('faq')}
-                className="text-sm font-medium text-gray-300 hover:text-white transition-colors"
-                data-testid="nav-faq"
-              >
-                FAQ
-              </button>
-              <a 
-                href="https://t.me/memestake_group"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm font-medium px-3 py-1.5 rounded-lg transition-all"
-                style={{background: 'rgba(0, 191, 255, 0.2)', color: '#00bfff'}}
-                data-testid="nav-telegram"
-              >
-                💬 Join Telegram
-              </a>
-            </nav>
-
-            {/* Wallet Info & Disconnect */}
-            <div className="flex items-center space-x-3">
-              {walletAddress && (
-                <>
-                  <div className="hidden sm:flex items-center px-3 py-1.5 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
-                    <span className="text-xs font-mono font-bold" style={{color: '#ffd700'}} data-testid="header-wallet-address">
-                      {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
-                    </span>
-                  </div>
-                  <Button 
-                    variant="outline"
-                    size="sm"
-                    onClick={handleDisconnect}
-                    className="text-xs"
-                    style={{borderColor: 'rgba(255, 69, 58, 0.5)', color: '#ff453a'}}
-                    data-testid="button-disconnect"
-                  >
-                    Disconnect
-                  </Button>
-                </>
-              )}
-            </div>
+            {/* Back to Home */}
+            <Button 
+              variant="outline" 
+              onClick={() => setLocation('/')}
+              data-testid="button-back-home"
+            >
+              🏠 Back to Home
+            </Button>
           </div>
         </div>
       </header>
@@ -624,7 +545,7 @@ export default function Dashboard() {
         </Card>
 
         {/* Token Sale Information */}
-        <Card className="p-6 glass-card" id="tokenomics">
+        <Card className="p-6 glass-card">
           <h3 className="text-lg font-semibold mb-4">💎 Token Sale & Economics</h3>
           <div className="grid md:grid-cols-3 gap-4">
             <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
@@ -753,39 +674,6 @@ export default function Dashboard() {
             </div>
           </Card>
         </div>
-
-        {/* FAQ Section */}
-        <Card className="p-8 glass-card" id="faq">
-          <h2 className="text-3xl font-bold mb-6 text-center" style={{color: '#ffd700'}}>❓ Frequently Asked Questions</h2>
-          <p className="text-center text-muted-foreground mb-8">Everything you need to know about MemeStake</p>
-          
-          <div className="space-y-4">
-            <div className="p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.05)', border: '1px solid rgba(255, 215, 0, 0.2)'}}>
-              <h3 className="font-bold mb-2" style={{color: '#ffd700'}}>What is MemeStake?</h3>
-              <p className="text-sm text-muted-foreground">MemeStake is a decentralized meme token platform combining airdrops, staking, and community rewards on BSC.</p>
-            </div>
-            <div className="p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.05)', border: '1px solid rgba(0, 191, 255, 0.2)'}}>
-              <h3 className="font-bold mb-2" style={{color: '#00bfff'}}>How do I earn rewards?</h3>
-              <p className="text-sm text-muted-foreground">Complete social tasks for airdrops, stake tokens for up to 350% APY, and refer friends for bonus rewards.</p>
-            </div>
-            <div className="p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.05)', border: '1px solid rgba(0, 255, 136, 0.2)'}}>
-              <h3 className="font-bold mb-2" style={{color: '#00ff88'}}>Is my investment safe?</h3>
-              <p className="text-sm text-muted-foreground">Yes! We use audited smart contracts, transparent tokenomics, and secure BSC blockchain technology.</p>
-            </div>
-            <div className="p-4 rounded-lg" style={{background: 'rgba(255, 105, 180, 0.05)', border: '1px solid rgba(255, 105, 180, 0.2)'}}>
-              <h3 className="font-bold mb-2" style={{color: '#ff69b4'}}>When can I withdraw my tokens?</h3>
-              <p className="text-sm text-muted-foreground">Airdrop tokens are claimable after completing tasks. Staked tokens follow the lock period you selected.</p>
-            </div>
-            <div className="p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.05)', border: '1px solid rgba(255, 215, 0, 0.2)'}}>
-              <h3 className="font-bold mb-2" style={{color: '#ffd700'}}>What are the tokenomics?</h3>
-              <p className="text-sm text-muted-foreground">50B total supply: 50% public/airdrops, 30% staking rewards, 20% team & development.</p>
-            </div>
-            <div className="p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.05)', border: '1px solid rgba(0, 191, 255, 0.2)'}}>
-              <h3 className="font-bold mb-2" style={{color: '#00bfff'}}>How does staking work?</h3>
-              <p className="text-sm text-muted-foreground">Stake tokens for 1-12 months and earn up to 350% APY with daily reward distribution.</p>
-            </div>
-          </div>
-        </Card>
       </div>
 
       {/* Transaction Preview Modal */}
