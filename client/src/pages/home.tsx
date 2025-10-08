@@ -9,7 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { FaTwitter, FaTelegram, FaMedium, FaYoutube } from "react-icons/fa";
 import { connectWallet, supportedWallets } from "../config/web3Config";
-import memeStakeLogo from "@assets/ChatGPT Image Aug 27, 2025, 09_52_01 PM_1756366058294.png";
+import memeStakeLogo from "@assets/6269020538709674998_1759926006311.jpg";
 
 const i18n = {
   en: { 

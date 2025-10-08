@@ -3,7 +3,7 @@ import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import memeStakeLogo from "@assets/ChatGPT Image Aug 27, 2025, 09_52_01 PM_1756366058294.png";
+import memeStakeLogo from "@assets/6269020538709674998_1759926006311.jpg";
 import { CommunityStats } from "@/components/community-stats";
 import { Footer } from "@/components/footer";
 
