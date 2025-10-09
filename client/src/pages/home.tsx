@@ -842,8 +842,8 @@ export default function Home() {
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 sm:mb-8 leading-tight px-4" style={{fontFamily: 'Space Grotesk, Inter, sans-serif', fontWeight: '800'}} data-testid="text-hero-headline">
               Stake Memes. <span style={{color: '#ffd700'}}>Earn Big.</span>
             </h1>
-            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-300 mb-8 sm:mb-12 leading-relaxed max-w-3xl mx-auto px-4" style={{fontFamily: 'Inter, sans-serif', fontWeight: '400'}} data-testid="text-hero-subtitle">
-              From LOLs to APYs
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-8 sm:mb-12 leading-relaxed max-w-3xl mx-auto px-4" style={{fontFamily: 'Inter, sans-serif'}} data-testid="text-hero-subtitle">
+              <span style={{color: '#ffd700', fontWeight: '700'}}>From LOLs to APYs</span>
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Button 
