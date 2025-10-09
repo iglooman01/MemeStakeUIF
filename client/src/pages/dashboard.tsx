@@ -1151,7 +1151,13 @@ export default function Dashboard() {
               <input
                 type="number"
                 value={buyAmount}
-                onChange={(e) => setBuyAmount(e.target.value)}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (value === '' || parseFloat(value) >= 0) {
+                    setBuyAmount(value);
+                  }
+                }}
+                min="0"
                 placeholder={inputMode === 'usd' ? '50' : '500000'}
                 className="w-full px-4 py-3 rounded-lg text-lg font-bold text-white"
                 style={{background: 'rgba(0, 0, 0, 0.4)', border: '1px solid rgba(255, 215, 0, 0.3)'}}
@@ -1161,6 +1167,11 @@ export default function Dashboard() {
                 <span>Min: $50</span>
                 <span>No Max</span>
               </div>
+              {buyAmount && parseFloat(buyAmount) > 0 && usdAmount < MIN_PURCHASE_USD && (
+                <div className="mt-2 p-2 rounded text-xs font-semibold text-center" style={{background: 'rgba(255, 0, 0, 0.1)', border: '1px solid rgba(255, 0, 0, 0.3)', color: '#ff6b6b'}}>
+                  ⚠️ Minimum purchase is $50
+                </div>
+              )}
             </div>
 
             {/* You Get */}
