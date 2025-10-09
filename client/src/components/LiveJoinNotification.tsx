@@ -37,6 +37,9 @@ const messages = [
   'just signed up!',
   'claimed tokens!',
   'joined MemeStake!',
+  'connected wallet!',
+  'just connected!',
+  'wallet connected!',
 ];
 
 export function LiveJoinNotification() {
