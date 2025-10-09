@@ -1093,50 +1093,6 @@ export default function Dashboard() {
           </div>
         </Card>
 
-        {/* 3-Level Referral Program */}
-        <Card className="p-6 glass-card">
-          <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value="referral" style={{borderColor: 'rgba(255, 215, 0, 0.3)'}}>
-              <AccordionTrigger className="text-white hover:text-[#ffd700]">
-                <h3 className="text-xl font-bold" style={{color: '#ffd700'}}>🎁 3-Level Referral Program</h3>
-              </AccordionTrigger>
-              <AccordionContent className="text-gray-400 pt-4">
-                <div className="space-y-4">
-                  <p className="text-center mb-6">Earn passive income by referring friends to MemeStake!</p>
-                  
-                  <div className="grid md:grid-cols-3 gap-4">
-                    <div className="p-4 rounded-lg text-center" style={{background: 'rgba(0, 255, 136, 0.1)', border: '2px solid rgba(0, 255, 136, 0.3)'}}>
-                      <div className="text-3xl font-bold mb-2" style={{color: '#00ff88'}}>5%</div>
-                      <div className="text-sm font-semibold mb-1" style={{color: '#00ff88'}}>Level 1 (Direct)</div>
-                      <div className="text-xs text-gray-500">Your direct referrals</div>
-                    </div>
-                    
-                    <div className="p-4 rounded-lg text-center" style={{background: 'rgba(0, 191, 255, 0.1)', border: '2px solid rgba(0, 191, 255, 0.3)'}}>
-                      <div className="text-3xl font-bold mb-2" style={{color: '#00bfff'}}>3%</div>
-                      <div className="text-sm font-semibold mb-1" style={{color: '#00bfff'}}>Level 2</div>
-                      <div className="text-xs text-gray-500">Referrals of your referrals</div>
-                    </div>
-                    
-                    <div className="p-4 rounded-lg text-center" style={{background: 'rgba(255, 215, 0, 0.1)', border: '2px solid rgba(255, 215, 0, 0.3)'}}>
-                      <div className="text-3xl font-bold mb-2" style={{color: '#ffd700'}}>2%</div>
-                      <div className="text-sm font-semibold mb-1" style={{color: '#ffd700'}}>Level 3</div>
-                      <div className="text-xs text-gray-500">Third level referrals</div>
-                    </div>
-                  </div>
-                  
-                  <div className="mt-6 p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
-                    <div className="flex items-center gap-2 mb-2">
-                      <Gift className="w-5 h-5" style={{color: '#ffd700'}} />
-                      <span className="font-bold" style={{color: '#ffd700'}}>Referral Pool: 5 Billion $MEMES (10% of total supply)</span>
-                    </div>
-                    <p className="text-sm text-gray-400">Earn rewards from both token purchases AND staking rewards of your referrals!</p>
-                  </div>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        </Card>
-
         {/* MemeStake Community */}
         <Card className="p-6 glass-card">
           <Accordion type="single" collapsible className="w-full">
@@ -1180,64 +1136,6 @@ export default function Dashboard() {
                         <div className="text-sm text-gray-500">Read our blog</div>
                       </div>
                     </a>
-                  </div>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        </Card>
-
-        {/* Complete Platform Details */}
-        <Card className="p-6 glass-card">
-          <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value="details" style={{borderColor: 'rgba(255, 215, 0, 0.3)'}}>
-              <AccordionTrigger className="text-white hover:text-[#ffd700]">
-                <h3 className="text-xl font-bold" style={{color: '#ffd700'}}>💎 Complete Platform Details</h3>
-              </AccordionTrigger>
-              <AccordionContent className="text-gray-400 pt-4">
-                <div className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div className="p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.3)'}}>
-                      <div className="text-sm text-gray-500 mb-1">Total Supply</div>
-                      <div className="text-2xl font-bold" style={{color: '#00ff88'}}>50,000,000,000 $MEMES</div>
-                    </div>
-                    
-                    <div className="p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
-                      <div className="text-sm text-gray-500 mb-1">Token Price</div>
-                      <div className="text-2xl font-bold" style={{color: '#ffd700'}}>$0.0001 per $MEMES</div>
-                    </div>
-                    
-                    <div className="p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
-                      <div className="text-sm text-gray-500 mb-1">Public Sale</div>
-                      <div className="text-2xl font-bold" style={{color: '#00bfff'}}>25B Tokens (50%)</div>
-                    </div>
-                    
-                    <div className="p-4 rounded-lg" style={{background: 'rgba(255, 105, 180, 0.1)', border: '1px solid rgba(255, 105, 180, 0.3)'}}>
-                      <div className="text-sm text-gray-500 mb-1">Raise Target</div>
-                      <div className="text-2xl font-bold" style={{color: '#ff69b4'}}>$2,500,000</div>
-                    </div>
-                  </div>
-                  
-                  <div className="p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
-                    <h4 className="font-bold mb-3" style={{color: '#00bfff'}}>Token Distribution:</h4>
-                    <div className="space-y-2">
-                      <div className="flex justify-between items-center">
-                        <span>Public Sale</span>
-                        <span className="font-bold" style={{color: '#ffd700'}}>25B (50%)</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span>Staking Rewards</span>
-                        <span className="font-bold" style={{color: '#ffd700'}}>10B (20%)</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span>Referral Pool</span>
-                        <span className="font-bold" style={{color: '#ffd700'}}>5B (10%)</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span>Team & Development</span>
-                        <span className="font-bold" style={{color: '#ffd700'}}>10B (20%)</span>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </AccordionContent>
@@ -1300,54 +1198,6 @@ export default function Dashboard() {
                       <li>• DAO governance</li>
                       <li>• Cross-chain bridges</li>
                     </ul>
-                  </div>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        </Card>
-
-        {/* Staking Features */}
-        <Card className="p-6 glass-card">
-          <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value="staking" style={{borderColor: 'rgba(0, 255, 136, 0.3)'}}>
-              <AccordionTrigger className="text-white hover:text-[#00ff88]">
-                <h3 className="text-xl font-bold" style={{color: '#00ff88'}}>Staking Features</h3>
-              </AccordionTrigger>
-              <AccordionContent className="text-gray-400 pt-4">
-                <div className="space-y-4">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div className="p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.3)'}}>
-                      <Zap className="w-8 h-8 mb-2" style={{color: '#00ff88'}} />
-                      <div className="font-bold mb-1" style={{color: '#00ff88'}}>365% APY</div>
-                      <div className="text-sm">1% daily rewards on staked tokens</div>
-                    </div>
-                    
-                    <div className="p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
-                      <Lock className="w-8 h-8 mb-2" style={{color: '#00bfff'}} />
-                      <div className="font-bold mb-1" style={{color: '#00bfff'}}>50-Day Lock</div>
-                      <div className="text-sm">Minimum staking period for penalty-free unstake</div>
-                    </div>
-                    
-                    <div className="p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
-                      <TrendingUp className="w-8 h-8 mb-2" style={{color: '#ffd700'}} />
-                      <div className="font-bold mb-1" style={{color: '#ffd700'}}>Compound Rewards</div>
-                      <div className="text-sm">Automatically compound your earnings</div>
-                    </div>
-                    
-                    <div className="p-4 rounded-lg" style={{background: 'rgba(255, 105, 180, 0.1)', border: '1px solid rgba(255, 105, 180, 0.3)'}}>
-                      <Gift className="w-8 h-8 mb-2" style={{color: '#ff69b4'}} />
-                      <div className="font-bold mb-1" style={{color: '#ff69b4'}}>Instant Launch</div>
-                      <div className="text-sm">Starts immediately after airdrop completion</div>
-                    </div>
-                  </div>
-                  
-                  <div className="p-4 rounded-lg" style={{background: 'rgba(255, 0, 0, 0.1)', border: '1px solid rgba(255, 0, 0, 0.3)'}}>
-                    <div className="flex items-center gap-2 mb-2">
-                      <AlertTriangle className="w-5 h-5" style={{color: '#ff0000'}} />
-                      <span className="font-bold" style={{color: '#ff0000'}}>Early Unstake Penalty</span>
-                    </div>
-                    <p className="text-sm">If you unstake before 50 days, all earned rewards will be deducted from your principal amount.</p>
                   </div>
                 </div>
               </AccordionContent>
@@ -1467,7 +1317,7 @@ export default function Dashboard() {
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="w-5 h-5 mt-0.5 flex-shrink-0" style={{color: '#00bfff'}} />
-                      <span>Minimum staking period: <strong style={{color: '#00bfff'}}>50 days</strong> for penalty-free unstake</span>
+                      <span>Minimum staking period: <strong style={{color: '#00bfff'}}>90 days</strong> for penalty-free unstake</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="w-5 h-5 mt-0.5 flex-shrink-0" style={{color: '#00bfff'}} />
@@ -1480,7 +1330,7 @@ export default function Dashboard() {
                   </ul>
                   <div className="mt-4 p-3 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
                     <div className="text-sm font-bold mb-2" style={{color: '#00bfff'}}>💰 Staking Reward Example:</div>
-                    <div className="text-xs text-gray-400">Stake 1M $MEMES → Earn ~10,000 $MEMES daily → 500,000 $MEMES in 50 days</div>
+                    <div className="text-xs text-gray-400">Stake 1M $MEMES → Earn ~10,000 $MEMES daily → 900,000 $MEMES in 90 days</div>
                   </div>
                   <div className="mt-3">
                     <Button size="lg" className="w-full" style={{background: 'linear-gradient(135deg, #00bfff 0%, #0099cc 100%)', color: '#000'}} data-testid="button-goto-staking">
@@ -1499,98 +1349,6 @@ export default function Dashboard() {
               </AccordionContent>
             </AccordionItem>
           </Accordion>
-        </Card>
-
-        {/* 🎁 3-Level Referral Program Section */}
-        <Card className="p-6 glass-card" style={{background: 'linear-gradient(135deg, rgba(15, 10, 35, 0.95) 0%, rgba(30, 15, 60, 0.95) 100%)', border: '2px solid rgba(0, 255, 136, 0.25)', boxShadow: '0 4px 20px rgba(0, 255, 136, 0.1)'}}>
-          <div className="mb-6">
-            <h2 className="text-xl font-bold text-center" style={{color: '#00ff88'}}>
-              🎁 3-Level Referral Program
-            </h2>
-            <p className="text-xs text-center text-gray-400 mt-1">Earn rewards from your network across three levels</p>
-          </div>
-          
-          {/* Landscape Layout - 3 Levels Side by Side */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            {/* Level 1 */}
-            <div className="p-4 rounded-lg transition-all hover:scale-[1.02]" style={{background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.08))', border: '1px solid rgba(255, 215, 0, 0.3)', boxShadow: '0 2px 10px rgba(255, 215, 0, 0.15)'}}>
-              <div className="text-center mb-3">
-                <div className="text-3xl mb-2">🥇</div>
-                <h3 className="text-base font-bold mb-1" style={{color: '#ffd700'}}>Level 1</h3>
-                <div className="text-sm font-semibold" style={{color: '#ffd700'}}>5% Commission</div>
-              </div>
-              
-              <div className="space-y-2">
-                <div className="p-2 rounded-md bg-black/30">
-                  <div className="text-[10px] text-muted-foreground mb-0.5">Direct Referrals</div>
-                  <div className="text-sm font-bold text-white">8 Users</div>
-                </div>
-                <div className="p-2 rounded-md bg-black/30">
-                  <div className="text-[10px] text-muted-foreground mb-0.5">Total Volume</div>
-                  <div className="text-sm font-bold" style={{color: '#ffd700'}}>5,000,000 $MEMES</div>
-                </div>
-                <div className="p-2 rounded-md" style={{background: 'rgba(0, 255, 136, 0.15)', border: '1px solid rgba(0, 255, 136, 0.25)'}}>
-                  <div className="text-[10px] text-muted-foreground mb-0.5">You Earned</div>
-                  <div className="text-sm font-bold" style={{color: '#00ff88'}}>250,000 $MEMES</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Level 2 */}
-            <div className="p-4 rounded-lg transition-all hover:scale-[1.02]" style={{background: 'linear-gradient(135deg, rgba(192, 192, 192, 0.15), rgba(192, 192, 192, 0.08))', border: '1px solid rgba(192, 192, 192, 0.3)', boxShadow: '0 2px 10px rgba(192, 192, 192, 0.15)'}}>
-              <div className="text-center mb-3">
-                <div className="text-3xl mb-2">🥈</div>
-                <h3 className="text-base font-bold mb-1" style={{color: '#c0c0c0'}}>Level 2</h3>
-                <div className="text-sm font-semibold" style={{color: '#c0c0c0'}}>3% Commission</div>
-              </div>
-              
-              <div className="space-y-2">
-                <div className="p-2 rounded-md bg-black/30">
-                  <div className="text-[10px] text-muted-foreground mb-0.5">2nd Tier Referrals</div>
-                  <div className="text-sm font-bold text-white">5 Users</div>
-                </div>
-                <div className="p-2 rounded-md bg-black/30">
-                  <div className="text-[10px] text-muted-foreground mb-0.5">Total Volume</div>
-                  <div className="text-sm font-bold" style={{color: '#c0c0c0'}}>2,500,000 $MEMES</div>
-                </div>
-                <div className="p-2 rounded-md" style={{background: 'rgba(0, 255, 136, 0.15)', border: '1px solid rgba(0, 255, 136, 0.25)'}}>
-                  <div className="text-[10px] text-muted-foreground mb-0.5">You Earned</div>
-                  <div className="text-sm font-bold" style={{color: '#00ff88'}}>75,000 $MEMES</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Level 3 */}
-            <div className="p-4 rounded-lg transition-all hover:scale-[1.02]" style={{background: 'linear-gradient(135deg, rgba(205, 127, 50, 0.15), rgba(205, 127, 50, 0.08))', border: '1px solid rgba(205, 127, 50, 0.3)', boxShadow: '0 2px 10px rgba(205, 127, 50, 0.15)'}}>
-              <div className="text-center mb-3">
-                <div className="text-3xl mb-2">🥉</div>
-                <h3 className="text-base font-bold mb-1" style={{color: '#cd7f32'}}>Level 3</h3>
-                <div className="text-sm font-semibold" style={{color: '#cd7f32'}}>2% Commission</div>
-              </div>
-              
-              <div className="space-y-2">
-                <div className="p-2 rounded-md bg-black/30">
-                  <div className="text-[10px] text-muted-foreground mb-0.5">3rd Tier Referrals</div>
-                  <div className="text-sm font-bold text-white">2 Users</div>
-                </div>
-                <div className="p-2 rounded-md bg-black/30">
-                  <div className="text-[10px] text-muted-foreground mb-0.5">Total Volume</div>
-                  <div className="text-sm font-bold" style={{color: '#cd7f32'}}>1,000,000 $MEMES</div>
-                </div>
-                <div className="p-2 rounded-md" style={{background: 'rgba(0, 255, 136, 0.15)', border: '1px solid rgba(0, 255, 136, 0.25)'}}>
-                  <div className="text-[10px] text-muted-foreground mb-0.5">You Earned</div>
-                  <div className="text-sm font-bold" style={{color: '#00ff88'}}>20,000 $MEMES</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Total Earnings Banner */}
-          <div className="p-4 rounded-lg text-center" style={{background: 'linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 255, 136, 0.1))', border: '1px solid rgba(0, 255, 136, 0.4)', boxShadow: '0 3px 15px rgba(0, 255, 136, 0.2)'}}>
-            <div className="text-[10px] text-gray-400 mb-1 font-medium uppercase tracking-wide">Total Referral Earnings</div>
-            <div className="text-2xl font-bold mb-1" style={{color: '#00ff88'}}>345,000 $MEMES</div>
-            <div className="text-[10px] text-gray-500">From 5B Referral Pool (10% of Total Supply)</div>
-          </div>
         </Card>
 
         {/* MemeStake Community Section */}
@@ -1656,169 +1414,6 @@ export default function Dashboard() {
             <div className="p-2 rounded" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
               <Zap className="w-5 h-5 mx-auto mb-1" style={{color: '#00bfff'}} />
               <div style={{color: '#00bfff'}}>⚡Instant</div>
-            </div>
-          </div>
-        </Card>
-
-        {/* Complete Platform Details - Tokenomics & Token Sale */}
-        <Card className="p-8 glass-card">
-          <h2 className="text-3xl font-bold text-center mb-8" style={{color: '#ffd700'}}>💎 Complete Platform Details</h2>
-          
-          <div className="mb-8">
-            <h3 className="text-2xl font-bold mb-4" style={{color: '#ffd700'}}>Tokenomics & Token Sale</h3>
-            
-            <div className="p-6 rounded-xl mb-6" style={{background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(0, 191, 255, 0.1))', border: '2px solid rgba(255, 215, 0, 0.3)'}}>
-              <h4 className="text-xl font-bold mb-2" style={{color: '#ffd700'}}>MEMES Token</h4>
-              <p className="text-gray-400 mb-6">The ultimate memes token for airdrops, staking, and community rewards</p>
-              
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="text-center p-3 rounded-lg bg-black/30">
-                  <div className="text-xs text-gray-500 mb-1">Token Name</div>
-                  <div className="font-bold text-white">MemeStake</div>
-                </div>
-                <div className="text-center p-3 rounded-lg bg-black/30">
-                  <div className="text-xs text-gray-500 mb-1">Token Ticker</div>
-                  <div className="font-bold" style={{color: '#ffd700'}}>MEMES</div>
-                </div>
-                <div className="text-center p-3 rounded-lg bg-black/30">
-                  <div className="text-xs text-gray-500 mb-1">Blockchain</div>
-                  <div className="font-bold" style={{color: '#00bfff'}}>BNB Chain</div>
-                </div>
-                <div className="text-center p-3 rounded-lg bg-black/30">
-                  <div className="text-xs text-gray-500 mb-1">Token Type</div>
-                  <div className="font-bold" style={{color: '#00ff88'}}>BEP-20</div>
-                </div>
-                <div className="text-center p-3 rounded-lg bg-black/30">
-                  <div className="text-xs text-gray-500 mb-1">Decimals</div>
-                  <div className="font-bold text-white">18</div>
-                </div>
-                <div className="text-center p-3 rounded-lg bg-black/30">
-                  <div className="text-xs text-gray-500 mb-1">Token Price</div>
-                  <div className="font-bold" style={{color: '#ffd700'}}>$0.0001</div>
-                </div>
-                <div className="text-center p-3 rounded-lg bg-black/30">
-                  <div className="text-xs text-gray-500 mb-1">Raise Target</div>
-                  <div className="font-bold" style={{color: '#00bfff'}}>$2.5M</div>
-                </div>
-                <div className="text-center p-3 rounded-lg bg-black/30">
-                  <div className="text-xs text-gray-500 mb-1">Network</div>
-                  <div className="font-bold" style={{color: '#00ff88'}}>BSC</div>
-                </div>
-              </div>
-
-              <div className="mt-6 p-4 rounded-lg text-center" style={{background: 'rgba(255, 215, 0, 0.2)', border: '1px solid rgba(255, 215, 0, 0.4)'}}>
-                <div className="text-3xl font-bold mb-1" style={{color: '#ffd700'}}>50,000,000,000</div>
-                <div className="text-sm text-gray-400">Total Supply (50 Billion $MEMES)</div>
-                <div className="text-xs text-gray-500 mt-1">Fixed supply - no inflation</div>
-              </div>
-            </div>
-
-            <h5 className="text-lg font-bold mb-4" style={{color: '#00bfff'}}>Token Sale Information</h5>
-            <div className="grid md:grid-cols-3 gap-4 mb-6">
-              <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
-                <div className="text-sm text-muted-foreground mb-2">Public Sale</div>
-                <div className="text-xl font-bold" style={{color: '#ffd700'}}>25B Tokens</div>
-                <div className="text-xs text-cyan-400 mt-1">50% of supply</div>
-              </div>
-              <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
-                <div className="text-sm text-muted-foreground mb-2">Token Price</div>
-                <div className="text-xl font-bold" style={{color: '#00bfff'}}>$0.0001</div>
-                <div className="text-xs text-cyan-400 mt-1">BSC (BEP-20)</div>
-              </div>
-              <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 105, 180, 0.1)', border: '1px solid rgba(255, 105, 180, 0.3)'}}>
-                <div className="text-sm text-muted-foreground mb-2">Purchase Limits</div>
-                <div className="text-xl font-bold" style={{color: '#ff69b4'}}>$50 Min</div>
-                <div className="text-xs text-cyan-400 mt-1">No maximum</div>
-              </div>
-            </div>
-            <div className="mb-6 p-3 rounded-lg text-center text-sm" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
-              <span style={{color: '#ffd700'}}>💰 Example:</span> $100 = 1,000,000 $MEMES tokens
-            </div>
-
-            <h5 className="text-lg font-bold mb-4" style={{color: '#00bfff'}}>Token Distribution</h5>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-              <div className="p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-bold" style={{color: '#ffd700'}}>50%</span>
-                  <span className="text-sm text-gray-400">Public Sale</span>
-                </div>
-                <div className="text-xs text-gray-500">25 Billion tokens</div>
-              </div>
-              <div className="p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-bold" style={{color: '#00bfff'}}>10%</span>
-                  <span className="text-sm text-gray-400">Referral Pool</span>
-                </div>
-                <div className="text-xs text-gray-500">5 Billion tokens</div>
-              </div>
-              <div className="p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.3)'}}>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-bold" style={{color: '#00ff88'}}>20%</span>
-                  <span className="text-sm text-gray-400">Staking Rewards</span>
-                </div>
-                <div className="text-xs text-gray-500">10 Billion tokens</div>
-              </div>
-              <div className="p-4 rounded-lg" style={{background: 'rgba(255, 105, 180, 0.1)', border: '1px solid rgba(255, 105, 180, 0.3)'}}>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-bold" style={{color: '#ff69b4'}}>20%</span>
-                  <span className="text-sm text-gray-400">Team & Development</span>
-                </div>
-                <div className="text-xs text-gray-500">10 Billion tokens</div>
-              </div>
-            </div>
-
-            <h6 className="text-md font-bold mb-3" style={{color: '#00ff88'}}>Token Utility</h6>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
-              <div className="p-3 rounded-lg bg-black/30 text-sm text-gray-400">
-                • Airdrop rewards for task completion
-              </div>
-              <div className="p-3 rounded-lg bg-black/30 text-sm text-gray-400">
-                • Referral bonus multipliers
-              </div>
-              <div className="p-3 rounded-lg bg-black/30 text-sm text-gray-400">
-                • Staking for additional rewards
-              </div>
-              <div className="p-3 rounded-lg bg-black/30 text-sm text-gray-400">
-                • Governance voting rights
-              </div>
-            </div>
-
-            <div className="p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
-              <div className="text-sm font-bold mb-2" style={{color: '#ffd700'}}>Contract Address</div>
-              <div className="flex items-center justify-between gap-3">
-                <code className="text-xs font-mono text-gray-400 flex-1 truncate">0x90950A338595dD5438F71839f01a882632a54587</code>
-                <Button size="sm" variant="outline" style={{borderColor: '#ffd700', color: '#ffd700'}} data-testid="button-copy-contract">
-                  <Copy className="w-4 h-4" />
-                </Button>
-              </div>
-            </div>
-
-            <div className="mt-4 text-center">
-              <Button variant="outline" size="lg" style={{borderColor: '#00bfff', color: '#00bfff'}} data-testid="button-download-whitepaper">
-                📄 Download Whitepaper
-              </Button>
-            </div>
-          </div>
-        </Card>
-
-        {/* Staking Features */}
-        <Card className="p-8 glass-card">
-          <h3 className="text-2xl font-bold text-center mb-8" style={{color: '#ffd700'}}>Staking Features</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="text-center p-6 rounded-xl" style={{background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.05))', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
-              <div className="text-4xl mb-3">💰</div>
-              <h4 className="text-lg font-bold mb-2" style={{color: '#ffd700'}}>High APY</h4>
-              <p className="text-sm text-gray-400">Up to 250% APY for long-term staking</p>
-            </div>
-            <div className="text-center p-6 rounded-xl" style={{background: 'linear-gradient(135deg, rgba(0, 191, 255, 0.1), rgba(0, 191, 255, 0.05))', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
-              <div className="text-4xl mb-3">🔒</div>
-              <h4 className="text-lg font-bold mb-2" style={{color: '#00bfff'}}>Flexible Periods</h4>
-              <p className="text-sm text-gray-400">1 month to 1 year staking options</p>
-            </div>
-            <div className="text-center p-6 rounded-xl" style={{background: 'linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 255, 136, 0.05))', border: '1px solid rgba(0, 255, 136, 0.3)'}}>
-              <div className="text-4xl mb-3">⚡</div>
-              <h4 className="text-lg font-bold mb-2" style={{color: '#00ff88'}}>Instant Rewards</h4>
-              <p className="text-sm text-gray-400">Daily reward distribution</p>
             </div>
           </div>
         </Card>

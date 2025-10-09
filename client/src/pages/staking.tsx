@@ -514,8 +514,8 @@ export default function Staking() {
             <div className="flex-1 text-sm">
               <p className="font-semibold mb-2" style={{color: '#ffd700'}}>Important Staking Rules:</p>
               <ul className="space-y-1 text-gray-300 text-xs">
-                <li>• Minimum staking period: <strong>50 days</strong> for penalty-free unstake</li>
-                <li>• Early unstake (before 50 days): <strong>All earned rewards will be deducted</strong> from your principal amount</li>
+                <li>• Minimum staking period: <strong>90 days</strong> for penalty-free unstake</li>
+                <li>• Early unstake (before 90 days): <strong>All earned rewards will be deducted</strong> from your principal amount</li>
                 <li>• Daily rewards: <strong>1% of staked amount</strong> (365% APY)</li>
                 <li>• Rewards can be claimed anytime without affecting your stake</li>
                 <li>• Gas fees apply to all transactions (stake, unstake, claim)</li>
