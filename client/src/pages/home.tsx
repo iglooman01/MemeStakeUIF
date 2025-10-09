@@ -1103,34 +1103,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Referral System */}
-            <div className="bg-gradient-to-r from-purple-900/20 to-pink-900/20 rounded-xl p-6 border border-purple-500/30 mb-6">
-              <h3 className="text-xl font-bold mb-4 text-center" style={{color: '#ffd700'}}>🎁 3-Level Referral System</h3>
-              <div className="grid md:grid-cols-3 gap-4">
-                <div className="text-center p-4 bg-black/30 rounded-lg">
-                  <div className="text-3xl mb-2">🥇</div>
-                  <div className="font-bold text-lg" style={{color: '#ffd700'}}>Level 1</div>
-                  <div className="text-2xl font-bold text-white">5%</div>
-                  <div className="text-sm text-gray-400">Direct invites</div>
-                </div>
-                <div className="text-center p-4 bg-black/30 rounded-lg">
-                  <div className="text-3xl mb-2">🥈</div>
-                  <div className="font-bold text-lg" style={{color: '#ffd700'}}>Level 2</div>
-                  <div className="text-2xl font-bold text-white">3%</div>
-                  <div className="text-sm text-gray-400">Second level</div>
-                </div>
-                <div className="text-center p-4 bg-black/30 rounded-lg">
-                  <div className="text-3xl mb-2">🥉</div>
-                  <div className="font-bold text-lg" style={{color: '#ffd700'}}>Level 3</div>
-                  <div className="text-2xl font-bold text-white">2%</div>
-                  <div className="text-sm text-gray-400">Third level</div>
-                </div>
-              </div>
-              <div className="text-center mt-4 text-sm text-gray-300">
-                Referral rewards apply to both <span style={{color: '#ffd700'}}>Public Sale</span> and <span style={{color: '#00bfff'}}>Staking</span>
-              </div>
-            </div>
-
             {/* Purchase Info */}
             <div className="grid md:grid-cols-2 gap-4 px-4">
               <div className="p-4 rounded-lg bg-black/30 border border-yellow-500/30">
