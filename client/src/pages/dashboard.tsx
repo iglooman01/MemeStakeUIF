@@ -95,8 +95,7 @@ export default function Dashboard() {
   // Earnings data
   const stakingEarnings = 28475;
   const referralEarnings = 345000;
-  const bonusEarnings = 15000;
-  const totalEarnings = stakingEarnings + referralEarnings + bonusEarnings;
+  const totalEarnings = stakingEarnings + referralEarnings;
   const claimableAmount = totalEarnings;
 
   const TOKEN_PRICE = 0.0001; // $0.0001 per token
@@ -1348,7 +1347,7 @@ export default function Dashboard() {
             </Button>
           </div>
           
-          <div className="grid md:grid-cols-4 gap-4 mb-4">
+          <div className="grid md:grid-cols-3 gap-4 mb-4">
             {/* Staking Earnings */}
             <div className="p-4 rounded-lg text-center" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.2)'}}>
               <div className="text-xs text-muted-foreground mb-2">Staking Rewards</div>
@@ -1363,15 +1362,6 @@ export default function Dashboard() {
               <div className="text-xs text-muted-foreground mb-2">Referral Rewards</div>
               <div className="text-xl font-bold" style={{color: '#ffd700'}}>
                 {referralEarnings.toLocaleString()}
-              </div>
-              <div className="text-xs text-muted-foreground mt-1">$MEMES</div>
-            </div>
-
-            {/* Bonus Earnings */}
-            <div className="p-4 rounded-lg text-center" style={{background: 'rgba(255, 105, 180, 0.1)', border: '1px solid rgba(255, 105, 180, 0.2)'}}>
-              <div className="text-xs text-muted-foreground mb-2">Bonus Rewards</div>
-              <div className="text-xl font-bold" style={{color: '#ff69b4'}}>
-                {bonusEarnings.toLocaleString()}
               </div>
               <div className="text-xs text-muted-foreground mt-1">$MEMES</div>
             </div>
