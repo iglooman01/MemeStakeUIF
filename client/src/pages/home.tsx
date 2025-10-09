@@ -967,7 +967,7 @@ export default function Home() {
                     <Button 
                       size="lg" 
                       className="text-lg px-8 py-4" 
-                      onClick={() => setWalletModalOpen(true)}
+                      onClick={() => setLocation('/dashboard')}
                       style={{
                         background: '#ffd700',
                         color: '#0a0e1a',
