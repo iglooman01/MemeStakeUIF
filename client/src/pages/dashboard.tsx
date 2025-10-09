@@ -1149,7 +1149,7 @@ export default function Dashboard() {
                     style={{background: inputMode === 'usd' ? '#ffd700' : 'rgba(255, 255, 255, 0.1)'}}
                     data-testid="toggle-usd"
                   >
-                    USD
+                    BNB
                   </button>
                   <button
                     onClick={() => setInputMode('token')}
@@ -1157,7 +1157,7 @@ export default function Dashboard() {
                     style={{background: inputMode === 'token' ? '#ffd700' : 'rgba(255, 255, 255, 0.1)'}}
                     data-testid="toggle-token"
                   >
-                    TOKEN
+                    USDT(BEP20)
                   </button>
                 </div>
               </div>
@@ -1171,13 +1171,13 @@ export default function Dashboard() {
                   }
                 }}
                 min="0"
-                placeholder={inputMode === 'usd' ? '50' : '500000'}
+                placeholder={inputMode === 'usd' ? '0.1' : '50'}
                 className="w-full px-4 py-3 rounded-lg text-lg font-bold text-white"
                 style={{background: 'rgba(0, 0, 0, 0.4)', border: '1px solid rgba(255, 215, 0, 0.3)'}}
                 data-testid="input-buy-amount"
               />
               <div className="flex justify-between mt-1 text-xs text-gray-500">
-                <span>Min: $50</span>
+                <span>Min: {inputMode === 'usd' ? '0.1 BNB' : '50 USDT'}</span>
                 <span>No Max</span>
               </div>
               {buyAmount && parseFloat(buyAmount) > 0 && usdAmount < MIN_PURCHASE_USD && (
