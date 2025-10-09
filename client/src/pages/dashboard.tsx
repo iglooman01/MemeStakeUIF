@@ -1285,7 +1285,7 @@ export default function Dashboard() {
                     </div>
                     <ul className="ml-7 space-y-1 text-sm">
                       <li>• Staking platform activation</li>
-                      <li>• 350% APY rewards begin</li>
+                      <li>• 365% APY rewards begin</li>
                       <li>• Exchange listings</li>
                     </ul>
                   </div>
@@ -1319,7 +1319,7 @@ export default function Dashboard() {
                   <div className="grid md:grid-cols-2 gap-4">
                     <div className="p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.3)'}}>
                       <Zap className="w-8 h-8 mb-2" style={{color: '#00ff88'}} />
-                      <div className="font-bold mb-1" style={{color: '#00ff88'}}>350% APY</div>
+                      <div className="font-bold mb-1" style={{color: '#00ff88'}}>365% APY</div>
                       <div className="text-sm">1% daily rewards on staked tokens</div>
                     </div>
                     
@@ -1463,7 +1463,7 @@ export default function Dashboard() {
                   <ul className="space-y-2">
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="w-5 h-5 mt-0.5 flex-shrink-0" style={{color: '#00bfff'}} />
-                      <span>Earn up to <strong style={{color: '#00bfff'}}>350% APY</strong> (1% daily rewards)</span>
+                      <span>Earn up to <strong style={{color: '#00bfff'}}>365% APY</strong> (1% daily rewards)</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="w-5 h-5 mt-0.5 flex-shrink-0" style={{color: '#00bfff'}} />
