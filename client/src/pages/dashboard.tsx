@@ -588,21 +588,62 @@ export default function Dashboard() {
         <Card className="p-6 glass-card">
           <div className="text-center">
             {/* Claim Your Airdrop Now Button */}
-            <div className="mt-6">
+            <div className="mt-6 relative group">
               <button
                 onClick={() => setShowAirdropClaim(!showAirdropClaim)}
-                className="w-full py-4 px-6 rounded-xl font-bold text-xl transition-all duration-300 transform hover:scale-105"
+                className="w-full py-5 px-8 rounded-2xl font-extrabold text-2xl relative overflow-hidden transition-all duration-500 transform hover:scale-105 hover:rotate-1"
                 style={{
-                  background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%)',
+                  background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 25%, #ffd700 50%, #ffed4e 75%, #ffd700 100%)',
+                  backgroundSize: '200% 200%',
+                  animation: 'gradientShift 3s ease infinite',
                   color: '#000',
-                  boxShadow: '0 4px 20px rgba(255, 215, 0, 0.4)'
+                  boxShadow: '0 8px 32px rgba(255, 215, 0, 0.6), 0 0 60px rgba(255, 215, 0, 0.3)',
+                  border: '2px solid rgba(255, 237, 78, 0.8)'
                 }}
                 data-testid="button-toggle-airdrop-claim"
               >
-                <span className="flex items-center justify-center">
-                  {showAirdropClaim ? '▲' : '▼'} CLAIM YOUR AIRDROP NOW!
+                {/* Animated shine effect */}
+                <span 
+                  className="absolute inset-0 w-full h-full"
+                  style={{
+                    background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
+                    animation: 'shine 2s infinite',
+                    transform: 'skewX(-20deg)'
+                  }}
+                />
+                
+                {/* Pulsing glow effect */}
+                <span 
+                  className="absolute inset-0 rounded-2xl"
+                  style={{
+                    background: 'radial-gradient(circle, rgba(255, 215, 0, 0.4) 0%, transparent 70%)',
+                    animation: 'pulse 2s ease-in-out infinite'
+                  }}
+                />
+                
+                {/* Button content */}
+                <span className="flex items-center justify-center gap-3 relative z-10">
+                  <span className="text-3xl animate-bounce">🎁</span>
+                  <span className="tracking-wider">
+                    {showAirdropClaim ? 'HIDE CLAIM FORM' : 'CLAIM YOUR AIRDROP NOW!'}
+                  </span>
+                  <span 
+                    className="text-2xl transition-transform duration-300"
+                    style={{
+                      transform: showAirdropClaim ? 'rotate(180deg)' : 'rotate(0deg)',
+                      display: 'inline-block'
+                    }}
+                  >
+                    ▼
+                  </span>
                 </span>
               </button>
+              
+              {/* Decorative particles */}
+              <div className="absolute -top-2 -left-2 w-4 h-4 bg-yellow-400 rounded-full opacity-60 animate-ping" style={{animationDuration: '2s'}} />
+              <div className="absolute -top-2 -right-2 w-4 h-4 bg-yellow-400 rounded-full opacity-60 animate-ping" style={{animationDuration: '2.5s'}} />
+              <div className="absolute -bottom-2 -left-2 w-4 h-4 bg-yellow-400 rounded-full opacity-60 animate-ping" style={{animationDuration: '3s'}} />
+              <div className="absolute -bottom-2 -right-2 w-4 h-4 bg-yellow-400 rounded-full opacity-60 animate-ping" style={{animationDuration: '2.2s'}} />
             </div>
 
             {/* Airdrop Claim Section - Dropdown */}
