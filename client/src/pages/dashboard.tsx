@@ -335,20 +335,20 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Claim Your Airdrop Now 1 Button */}
+            {/* Claim Your Airdrop Now Button */}
             <div className="mt-6">
               <button
                 onClick={() => setShowAirdropClaim(!showAirdropClaim)}
                 className="w-full py-4 px-6 rounded-xl font-bold text-xl transition-all duration-300 transform hover:scale-105"
                 style={{
-                  background: 'linear-gradient(135deg, #00bfff 0%, #0080ff 100%)',
-                  color: '#fff',
-                  boxShadow: '0 4px 20px rgba(0, 191, 255, 0.4)'
+                  background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%)',
+                  color: '#000',
+                  boxShadow: '0 4px 20px rgba(255, 215, 0, 0.4)'
                 }}
                 data-testid="button-toggle-airdrop-claim"
               >
                 <span className="flex items-center justify-center">
-                  {showAirdropClaim ? '▲' : '▼'} Claim Your Airdrop Now 1
+                  {showAirdropClaim ? '▲' : '▼'} CLAIM YOUR AIRDROP NOW!
                 </span>
               </button>
             </div>
