@@ -1107,6 +1107,143 @@ export default function Dashboard() {
           </div>
         </Card>
 
+        {/* How It Works - Process Steps */}
+        <Card className="p-8 glass-card" style={{background: 'linear-gradient(135deg, rgba(0, 191, 255, 0.1), rgba(0, 191, 255, 0.05))', border: '2px solid rgba(0, 191, 255, 0.3)'}}>
+          <h2 className="text-3xl font-bold text-center mb-2" style={{color: '#00bfff'}}>🚀 How It Works</h2>
+          <p className="text-center text-gray-400 mb-8">Follow these simple steps to maximize your rewards</p>
+          
+          <Accordion type="single" collapsible className="w-full" defaultValue="item-1">
+            <AccordionItem value="item-1" style={{borderColor: 'rgba(0, 191, 255, 0.3)'}}>
+              <AccordionTrigger className="text-white hover:text-[#00bfff]">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{background: 'rgba(0, 255, 136, 0.2)', border: '2px solid #00ff88'}}>
+                    <span className="text-lg font-bold" style={{color: '#00ff88'}}>1</span>
+                  </div>
+                  <span className="text-lg font-semibold">Claim Your Airdrop</span>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="text-gray-400 pt-4">
+                <div className="pl-14 space-y-3">
+                  <p>Start earning free $MEMES tokens through our airdrop program:</p>
+                  <ul className="space-y-2">
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-5 h-5 mt-0.5 flex-shrink-0" style={{color: '#00ff88'}} />
+                      <span>Connect your wallet (MetaMask, Trust Wallet, or SafePal)</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-5 h-5 mt-0.5 flex-shrink-0" style={{color: '#00ff88'}} />
+                      <span>Verify your email address with OTP code</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-5 h-5 mt-0.5 flex-shrink-0" style={{color: '#00ff88'}} />
+                      <span>Complete social tasks (Follow, Like, Retweet) - Earn 250 $MEMES per task</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-5 h-5 mt-0.5 flex-shrink-0" style={{color: '#00ff88'}} />
+                      <span>Refer friends and earn 100 $MEMES per referral</span>
+                    </li>
+                  </ul>
+                  <div className="mt-4 p-3 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.3)'}}>
+                    <div className="text-sm font-bold mb-1" style={{color: '#00ff88'}}>💎 Max Airdrop Rewards: 1,000 $MEMES</div>
+                    <div className="text-xs text-gray-500">Complete all 4 social tasks to unlock maximum rewards</div>
+                  </div>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-2" style={{borderColor: 'rgba(0, 191, 255, 0.3)'}}>
+              <AccordionTrigger className="text-white hover:text-[#00bfff]">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{background: 'rgba(255, 215, 0, 0.2)', border: '2px solid #ffd700'}}>
+                    <span className="text-lg font-bold" style={{color: '#ffd700'}}>2</span>
+                  </div>
+                  <span className="text-lg font-semibold">Buy MEMES Tokens</span>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="text-gray-400 pt-4">
+                <div className="pl-14 space-y-3">
+                  <p>Purchase $MEMES tokens during our public sale:</p>
+                  <ul className="space-y-2">
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-5 h-5 mt-0.5 flex-shrink-0" style={{color: '#ffd700'}} />
+                      <span>Token Price: <strong style={{color: '#ffd700'}}>$0.0001</strong> per $MEMES</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-5 h-5 mt-0.5 flex-shrink-0" style={{color: '#ffd700'}} />
+                      <span>Minimum Purchase: <strong style={{color: '#ffd700'}}>$50</strong> (500,000 $MEMES)</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-5 h-5 mt-0.5 flex-shrink-0" style={{color: '#ffd700'}} />
+                      <span>No maximum limit - buy as much as you want</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-5 h-5 mt-0.5 flex-shrink-0" style={{color: '#ffd700'}} />
+                      <span>Network: BSC (BEP-20) - Low gas fees</span>
+                    </li>
+                  </ul>
+                  <div className="grid grid-cols-2 gap-3 mt-4">
+                    <div className="p-3 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
+                      <div className="text-xs text-gray-500 mb-1">Example 1</div>
+                      <div className="text-sm font-bold" style={{color: '#ffd700'}}>$100 = 1M $MEMES</div>
+                    </div>
+                    <div className="p-3 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
+                      <div className="text-xs text-gray-500 mb-1">Example 2</div>
+                      <div className="text-sm font-bold" style={{color: '#ffd700'}}>$1,000 = 10M $MEMES</div>
+                    </div>
+                  </div>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-3" style={{borderColor: 'rgba(0, 191, 255, 0.3)'}}>
+              <AccordionTrigger className="text-white hover:text-[#00bfff]">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{background: 'rgba(0, 191, 255, 0.2)', border: '2px solid #00bfff'}}>
+                    <span className="text-lg font-bold" style={{color: '#00bfff'}}>3</span>
+                  </div>
+                  <span className="text-lg font-semibold">Stake MEMES Tokens</span>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="text-gray-400 pt-4">
+                <div className="pl-14 space-y-3">
+                  <p>Maximize your earnings with high-yield staking:</p>
+                  <ul className="space-y-2">
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-5 h-5 mt-0.5 flex-shrink-0" style={{color: '#00bfff'}} />
+                      <span>Earn up to <strong style={{color: '#00bfff'}}>350% APY</strong> (1% daily rewards)</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-5 h-5 mt-0.5 flex-shrink-0" style={{color: '#00bfff'}} />
+                      <span>Minimum staking period: <strong style={{color: '#00bfff'}}>50 days</strong> for penalty-free unstake</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-5 h-5 mt-0.5 flex-shrink-0" style={{color: '#00bfff'}} />
+                      <span>Daily rewards auto-compound or claim anytime</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-5 h-5 mt-0.5 flex-shrink-0" style={{color: '#00bfff'}} />
+                      <span>Early unstake warning: All rewards deducted from principal</span>
+                    </li>
+                  </ul>
+                  <div className="mt-4 p-3 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
+                    <div className="text-sm font-bold mb-2" style={{color: '#00bfff'}}>💰 Staking Reward Example:</div>
+                    <div className="text-xs text-gray-400">Stake 1M $MEMES → Earn ~10,000 $MEMES daily → 500,000 $MEMES in 50 days</div>
+                  </div>
+                  <div className="mt-3">
+                    <Button size="lg" className="w-full" style={{background: 'linear-gradient(135deg, #00bfff 0%, #0099cc 100%)', color: '#000'}} data-testid="button-goto-staking">
+                      Go to Staking Page →
+                    </Button>
+                  </div>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+
+          <div className="mt-6 p-4 rounded-lg text-center" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
+            <div className="text-sm font-bold mb-2" style={{color: '#00bfff'}}>🎯 Complete All 3 Steps to Maximize Your Earnings!</div>
+            <div className="text-xs text-gray-400">Airdrop + Purchase + Staking = Maximum Profit Potential</div>
+          </div>
+        </Card>
 
         {/* 🎁 3-Level Referral Program Section */}
         <Card className="p-6 glass-card" style={{background: 'linear-gradient(135deg, rgba(15, 10, 35, 0.95) 0%, rgba(30, 15, 60, 0.95) 100%)', border: '2px solid rgba(0, 255, 136, 0.25)', boxShadow: '0 4px 20px rgba(0, 255, 136, 0.1)'}}>
