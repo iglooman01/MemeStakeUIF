@@ -7,6 +7,8 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import memeStakeLogo from "@assets/ChatGPT Image Oct 9, 2025, 11_08_34 AM_1759988345567.png";
 import { CONTRACTS } from "@/config/contracts";
+import { Home, BookOpen, Coins } from "lucide-react";
+import { SiTelegram } from "react-icons/si";
 
 export default function Dashboard() {
   const [location, setLocation] = useLocation();
@@ -457,10 +459,59 @@ export default function Dashboard() {
                 className="w-10 h-10 rounded-lg cursor-pointer"
                 style={{filter: 'drop-shadow(0 4px 15px rgba(255, 215, 0, 0.2))'}}
                 onClick={() => setLocation('/')}
+                data-testid="logo-memestake"
               />
               <span className="text-lg font-bold text-white hidden sm:block">MemeStake</span>
             </div>
             
+            {/* Navigation Menu */}
+            <nav className="hidden md:flex items-center space-x-6">
+              <button
+                onClick={() => setLocation('/dashboard')}
+                className="flex items-center space-x-2 text-sm font-medium transition-colors hover:text-[#ffd700]"
+                style={{color: location === '/dashboard' ? '#ffd700' : '#ffffff'}}
+                data-testid="nav-dashboard"
+              >
+                <Home className="w-4 h-4" />
+                <span>Dashboard</span>
+              </button>
+              
+              <button
+                onClick={() => setLocation('/')}
+                className="flex items-center space-x-2 text-sm font-medium text-white transition-colors hover:text-[#ffd700]"
+                data-testid="nav-about"
+              >
+                <BookOpen className="w-4 h-4" />
+                <span>About</span>
+              </button>
+              
+              <button
+                onClick={() => {
+                  setLocation('/');
+                  setTimeout(() => {
+                    const element = document.getElementById('tokenomics');
+                    if (element) element.scrollIntoView({ behavior: 'smooth' });
+                  }, 100);
+                }}
+                className="flex items-center space-x-2 text-sm font-medium text-white transition-colors hover:text-[#ffd700]"
+                data-testid="nav-tokenomics"
+              >
+                <Coins className="w-4 h-4" />
+                <span>Tokenomics</span>
+              </button>
+              
+              <a
+                href="https://t.me/memestake_group"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center space-x-2 text-sm font-medium text-white transition-colors hover:text-[#00bfff] px-3 py-1.5 rounded-lg"
+                style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}
+                data-testid="nav-telegram"
+              >
+                <SiTelegram className="w-4 h-4" style={{color: '#00bfff'}} />
+                <span>Join Telegram</span>
+              </a>
+            </nav>
 
             {/* Wallet Info & Disconnect */}
             <div className="flex items-center space-x-3">
