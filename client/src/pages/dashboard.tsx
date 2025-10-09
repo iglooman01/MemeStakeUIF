@@ -355,12 +355,12 @@ export default function Dashboard() {
 
             {/* Airdrop Claim Section - Dropdown */}
             {showAirdropClaim && (
-              <div className="mt-6 p-8 rounded-xl" style={{background: 'rgb(64, 64, 64)', border: 'none'}}>
-                <h2 className="text-3xl font-bold mb-4 text-center text-white">
+              <div className="mt-6 p-8 rounded-xl" style={{background: 'linear-gradient(135deg, rgba(15, 10, 35, 0.95), rgba(30, 15, 60, 0.95))', border: '2px solid rgba(255, 215, 0, 0.3)'}}>
+                <h2 className="text-3xl font-bold mb-4 text-center" style={{color: '#ffd700'}}>
                   Claim Your MEMES Airdrop
                 </h2>
                 <p className="text-center text-gray-300 mb-8">
-                  Complete the verification steps below to claim your exclusive MEMES tokens from our <span style={{color: '#f59e0b'}}>decentralized airdrop direct in your wallet</span> and join our growing community.
+                  Complete the verification steps below to claim your exclusive MEMES tokens from our <span style={{color: '#ffd700'}}>decentralized airdrop direct in your wallet</span> and join our growing community.
                 </p>
 
                 {/* 1. Email Verification */}
@@ -377,13 +377,13 @@ export default function Dashboard() {
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="Enter your email"
                             className="flex-1 px-4 py-3 rounded-lg text-white placeholder-gray-500"
-                            style={{background: 'rgb(45, 45, 45)', border: '1px solid rgb(80, 80, 80)'}}
+                            style={{background: 'rgba(0, 0, 0, 0.3)', border: '1px solid rgba(255, 215, 0, 0.3)'}}
                             data-testid="input-email"
                           />
                           <button
                             onClick={handleSendOTP}
                             className="px-6 py-3 rounded-lg font-semibold"
-                            style={{background: '#f59e0b', color: '#000'}}
+                            style={{background: '#00bfff', color: '#000'}}
                             data-testid="button-send-otp"
                           >
                             📧 Send OTP
@@ -391,7 +391,7 @@ export default function Dashboard() {
                           <button
                             onClick={handleSkipVerification}
                             className="px-6 py-3 rounded-lg font-semibold"
-                            style={{background: '#f59e0b', color: '#000'}}
+                            style={{background: '#ffd700', color: '#000'}}
                             data-testid="button-skip-verification"
                           >
                             🚀 Skip
@@ -405,13 +405,13 @@ export default function Dashboard() {
                             onChange={(e) => setOtp(e.target.value)}
                             placeholder="Enter OTP"
                             className="flex-1 px-4 py-3 rounded-lg text-white placeholder-gray-500"
-                            style={{background: 'rgb(45, 45, 45)', border: '1px solid rgb(80, 80, 80)'}}
+                            style={{background: 'rgba(0, 0, 0, 0.3)', border: '1px solid rgba(255, 215, 0, 0.3)'}}
                             data-testid="input-otp"
                           />
                           <button
                             onClick={handleVerifyOTP}
                             className="px-6 py-3 rounded-lg font-semibold"
-                            style={{background: '#f59e0b', color: '#000'}}
+                            style={{background: '#00ff88', color: '#000'}}
                             data-testid="button-verify-otp"
                           >
                             ✅ Verify OTP
@@ -420,7 +420,7 @@ export default function Dashboard() {
                       )}
                     </div>
                   ) : (
-                    <div className="text-center py-2 text-green-400">
+                    <div className="text-center py-2" style={{color: '#00ff88'}}>
                       ✅ Email Verified
                     </div>
                   )}
@@ -431,8 +431,8 @@ export default function Dashboard() {
                   <h3 className="text-lg font-semibold mb-4 text-white">2. Social Media Tasks</h3>
                   
                   {!emailVerified && (
-                    <div className="mb-4 p-4 rounded-lg text-center" style={{background: 'rgba(245, 158, 11, 0.2)', border: '1px solid rgba(245, 158, 11, 0.3)'}}>
-                      <span style={{color: '#f59e0b'}}>🔒 Verify your email first to unlock tasks</span>
+                    <div className="mb-4 p-4 rounded-lg text-center" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
+                      <span style={{color: '#ffd700'}}>🔒 Verify your email first to unlock tasks</span>
                     </div>
                   )}
 
@@ -443,12 +443,12 @@ export default function Dashboard() {
                       { id: 'twitter', label: 'Follow on Twitter/X', icon: '🐦', url: 'https://twitter.com/memestake_official' },
                       { id: 'youtube', label: 'Subscribe YouTube', icon: '📺', url: 'https://youtube.com/@memestake' }
                     ].map((task) => (
-                      <div key={task.id} className="flex items-center justify-between p-4 rounded-lg" style={{background: 'rgb(45, 45, 45)', border: '1px solid rgb(80, 80, 80)'}}>
-                        <span className="text-sm" style={{color: tasksCompleted[task.id as keyof typeof tasksCompleted] ? '#10b981' : 'rgb(156, 163, 175)'}}>
+                      <div key={task.id} className="flex items-center justify-between p-4 rounded-lg" style={{background: 'rgba(0, 0, 0, 0.3)', border: '1px solid rgba(255, 255, 255, 0.1)'}}>
+                        <span className="text-sm" style={{color: tasksCompleted[task.id as keyof typeof tasksCompleted] ? '#00ff88' : '#fff'}}>
                           {task.icon} {task.label}
                         </span>
                         {tasksCompleted[task.id as keyof typeof tasksCompleted] ? (
-                          <span style={{color: '#10b981'}}>✅</span>
+                          <span style={{color: '#00ff88'}}>✅</span>
                         ) : (
                           <div className="flex items-center gap-2">
                             <span className="text-sm text-gray-400">Locked</span>
@@ -476,7 +476,7 @@ export default function Dashboard() {
                     ))}
                   </div>
 
-                  <div className="mt-4 text-sm text-gray-400">
+                  <div className="mt-4 text-sm" style={{color: '#00bfff'}}>
                     Progress: {Object.values(tasksCompleted).filter(Boolean).length}/4 Tasks
                   </div>
                 </div>
@@ -484,7 +484,7 @@ export default function Dashboard() {
                 {/* 3. Airdrop Status */}
                 <div className="mb-6">
                   <h3 className="text-lg font-semibold mb-4 text-white">3. Your Airdrop Status</h3>
-                  <div className="p-4 rounded-lg text-center space-y-2" style={{background: 'rgb(45, 45, 45)', border: '1px solid rgb(80, 80, 80)'}}>
+                  <div className="p-4 rounded-lg text-center space-y-2" style={{background: 'rgba(0, 0, 0, 0.3)', border: '1px solid rgba(255, 255, 255, 0.1)'}}>
                     <p className="text-gray-300 text-sm">
                       Complete your social media tasks and connect your wallet to claim your airdrop tokens
                     </p>
@@ -499,17 +499,17 @@ export default function Dashboard() {
                   <h3 className="text-lg font-semibold mb-4 text-white">4. Token & Referal Details</h3>
                   
                   <div className="grid grid-cols-3 gap-4 mb-4">
-                    <div className="text-center p-3 rounded-lg" style={{background: 'rgb(45, 45, 45)', border: '1px solid rgb(80, 80, 80)'}}>
+                    <div className="text-center p-3 rounded-lg" style={{background: 'rgba(0, 0, 0, 0.3)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
                       <div className="text-xs text-gray-400 mb-1">Your Referrals:</div>
-                      <div className="text-2xl font-bold text-white">{referralCount}</div>
+                      <div className="text-2xl font-bold" style={{color: '#ffd700'}}>{referralCount}</div>
                     </div>
-                    <div className="text-center p-3 rounded-lg" style={{background: 'rgb(45, 45, 45)', border: '1px solid rgb(80, 80, 80)'}}>
+                    <div className="text-center p-3 rounded-lg" style={{background: 'rgba(0, 0, 0, 0.3)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
                       <div className="text-xs text-gray-400 mb-1">Your Referral Tokens:</div>
-                      <div className="text-2xl font-bold text-white">{referralTokens}</div>
+                      <div className="text-2xl font-bold" style={{color: '#00bfff'}}>{referralTokens}</div>
                     </div>
-                    <div className="text-center p-3 rounded-lg" style={{background: 'rgb(45, 45, 45)', border: '1px solid rgb(80, 80, 80)'}}>
+                    <div className="text-center p-3 rounded-lg" style={{background: 'rgba(0, 0, 0, 0.3)', border: '1px solid rgba(0, 255, 136, 0.3)'}}>
                       <div className="text-xs text-gray-400 mb-1">Airdrop Tokens:</div>
-                      <div className="text-2xl font-bold text-white">{airdropTokens}</div>
+                      <div className="text-2xl font-bold" style={{color: '#00ff88'}}>{airdropTokens}</div>
                     </div>
                   </div>
 
@@ -525,13 +525,13 @@ export default function Dashboard() {
                         value={referralLink}
                         readOnly
                         className="flex-1 px-4 py-3 rounded-lg text-gray-300 text-sm font-mono"
-                        style={{background: 'rgb(45, 45, 45)', border: '1px solid rgb(80, 80, 80)'}}
+                        style={{background: 'rgba(0, 0, 0, 0.3)', border: '1px solid rgba(255, 215, 0, 0.3)'}}
                         data-testid="input-airdrop-referral-link"
                       />
                       <button
                         onClick={copyReferralLink}
                         className="px-6 py-3 rounded-lg font-semibold"
-                        style={{background: '#f59e0b', color: '#000'}}
+                        style={{background: '#ffd700', color: '#000'}}
                         data-testid="button-copy-airdrop-referral"
                       >
                         Copy
