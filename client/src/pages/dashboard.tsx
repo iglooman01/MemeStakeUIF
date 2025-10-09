@@ -40,9 +40,17 @@ export default function Dashboard() {
   const [otp, setOtp] = useState('');
   const [showOtpInput, setShowOtpInput] = useState(false);
   const [resendCooldown, setResendCooldown] = useState(0);
-  const [contractWalletBalance, setContractWalletBalance] = useState<string>('');
-  const [showEligibility, setShowEligibility] = useState(false);
+  const [tasksPending, setTasksPending] = useState<Record<string, boolean>>({
+    telegram_group: false,
+    telegram_channel: false,
+    twitter: false,
+    youtube: false
+  });
+  const [airdropClaimed, setAirdropClaimed] = useState(false);
+  const [airdropTxHash, setAirdropTxHash] = useState<string>('');
+  const [isClaimingAirdrop, setIsClaimingAirdrop] = useState(false);
   const [isFetchingBalance, setIsFetchingBalance] = useState(false);
+  const [contractWalletBalance, setContractWalletBalance] = useState<string>('');
   
   const { toast } = useToast();
 
@@ -262,7 +270,44 @@ export default function Dashboard() {
       return;
     }
 
-    completeTaskMutation.mutate({ walletAddress, taskId: taskName });
+    // Set task to pending first
+    setTasksPending(prev => ({ ...prev, [taskName]: true }));
+    
+    // Complete task after a delay
+    setTimeout(() => {
+      completeTaskMutation.mutate({ walletAddress, taskId: taskName });
+      setTasksPending(prev => ({ ...prev, [taskName]: false }));
+    }, 1500);
+  };
+
+  // Mock smart contract claim function
+  const handleClaimAirdrop = async () => {
+    if (!walletAddress) {
+      toast({
+        title: "❌ No Wallet",
+        description: "Please connect your wallet first",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsClaimingAirdrop(true);
+    
+    // Simulate smart contract call claimTokens(walletAddress)
+    setTimeout(() => {
+      // Generate mock transaction hash
+      const mockTxHash = '0x' + Array.from({length: 64}, () => 
+        Math.floor(Math.random() * 16).toString(16)).join('');
+      
+      setAirdropTxHash(mockTxHash);
+      setAirdropClaimed(true);
+      setIsClaimingAirdrop(false);
+      
+      toast({
+        title: "🎉 Airdrop Claimed!",
+        description: "1000 MEMES tokens have been sent to your wallet",
+      });
+    }, 2000);
   };
 
   // Fetch wallet balance from smart contract
@@ -703,8 +748,75 @@ export default function Dashboard() {
                   </div>
                 </div>
 
-                {/* 1. Email Verification */}
-                <div className="mb-6 relative z-10">
+                {/* If already claimed, show permanent message */}
+                {airdropClaimed ? (
+                  <div className="p-8 rounded-xl text-center" style={{
+                    background: 'linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 255, 136, 0.05))',
+                    border: '2px solid rgba(0, 255, 136, 0.4)',
+                    boxShadow: '0 8px 24px rgba(0, 255, 136, 0.3)'
+                  }}>
+                    <div className="mb-4 text-5xl">✅</div>
+                    <h3 className="text-2xl font-bold mb-3" style={{color: '#00ff88'}}>
+                      You have already received your airdrop.
+                    </h3>
+                    <p className="text-gray-300 mb-4">Transaction Hash:</p>
+                    <a
+                      href={`https://bscscan.com/tx/${airdropTxHash}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block px-6 py-3 rounded-xl font-mono text-sm transition-all duration-300 transform hover:scale-105"
+                      style={{
+                        background: 'rgba(0, 255, 136, 0.2)',
+                        color: '#00ff88',
+                        border: '2px solid rgba(0, 255, 136, 0.4)'
+                      }}
+                    >
+                      {airdropTxHash.slice(0, 10)}...{airdropTxHash.slice(-8)}
+                    </a>
+                  </div>
+                ) : allTasksCompleted ? (
+                  /* Step 4: Show eligibility and claim button when all tasks complete */
+                  <div className="space-y-6">
+                    <div className="text-center py-6">
+                      <div className="mb-4 text-6xl animate-bounce">💰</div>
+                      <h3 className="text-3xl font-bold mb-3" style={{
+                        background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%)',
+                        backgroundSize: '200% 200%',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text',
+                        animation: 'gradientShift 3s ease infinite'
+                      }}>
+                        You are eligible for 1000 MEMES Token Reward!
+                      </h3>
+                      <p className="text-gray-300 text-lg">
+                        Click the button below to claim your tokens
+                      </p>
+                    </div>
+                    
+                    <button
+                      onClick={handleClaimAirdrop}
+                      disabled={isClaimingAirdrop}
+                      className="w-full px-8 py-5 rounded-xl font-bold text-2xl transition-all duration-300 transform hover:scale-105 hover:rotate-1"
+                      style={{
+                        background: isClaimingAirdrop 
+                          ? 'rgba(100, 100, 100, 0.3)' 
+                          : 'linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%)',
+                        backgroundSize: '200% 200%',
+                        animation: isClaimingAirdrop ? 'none' : 'gradientShift 3s ease infinite',
+                        color: '#000',
+                        boxShadow: isClaimingAirdrop ? 'none' : '0 8px 24px rgba(255, 215, 0, 0.5)',
+                        cursor: isClaimingAirdrop ? 'not-allowed' : 'pointer'
+                      }}
+                      data-testid="button-claim-airdrop"
+                    >
+                      {isClaimingAirdrop ? '⏳ Claiming...' : '🎁 Claim Now'}
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    {/* 1. Email Verification */}
+                    <div className="mb-6 relative z-10">
                   <div 
                     className="p-6 rounded-xl transition-all duration-300"
                     style={{
@@ -919,14 +1031,21 @@ export default function Dashboard() {
                                 background: 'rgba(0, 255, 136, 0.2)',
                                 border: '1px solid rgba(0, 255, 136, 0.4)'
                               }}>
-                                <span className="text-sm font-bold" style={{color: '#00ff88'}}>✓ Done</span>
+                                <span className="text-sm font-bold" style={{color: '#00ff88'}}>✓ Completed</span>
+                              </div>
+                            ) : tasksPending[task.id as keyof typeof tasksPending] ? (
+                              <div className="flex items-center gap-2 px-4 py-2 rounded-full animate-pulse" style={{
+                                background: 'rgba(255, 215, 0, 0.2)',
+                                border: '1px solid rgba(255, 215, 0, 0.4)'
+                              }}>
+                                <span className="text-sm font-bold" style={{color: '#ffd700'}}>⏳ Pending</span>
                               </div>
                             ) : (
                               <button
                                 onClick={() => {
                                   if (emailVerified) {
                                     window.open(task.url, '_blank');
-                                    setTimeout(() => handleCompleteTask(task.id), 2000);
+                                    handleCompleteTask(task.id);
                                   } else {
                                     toast({
                                       title: "🔒 Locked",
@@ -946,7 +1065,7 @@ export default function Dashboard() {
                                 disabled={!emailVerified}
                                 data-testid={`button-${task.id}`}
                               >
-                                {emailVerified ? '🚀 Start' : '🔒'}
+                                {emailVerified ? '🚀 Start' : '🔒 Locked'}
                               </button>
                             )}
                           </div>
@@ -955,125 +1074,8 @@ export default function Dashboard() {
                     </div>
                   </div>
                 </div>
-
-                {/* 3. Airdrop Status */}
-                <div className="relative z-10">
-                  <div 
-                    className="p-6 rounded-xl transition-all duration-300"
-                    style={{
-                      background: allTasksCompleted 
-                        ? 'linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 255, 136, 0.05))' 
-                        : 'linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.05))',
-                      border: allTasksCompleted 
-                        ? '2px solid rgba(0, 255, 136, 0.4)' 
-                        : '2px solid rgba(255, 215, 0, 0.4)',
-                      boxShadow: allTasksCompleted 
-                        ? '0 8px 24px rgba(0, 255, 136, 0.2)' 
-                        : '0 8px 24px rgba(255, 215, 0, 0.2)'
-                    }}
-                  >
-                    <div className="flex items-center gap-3 mb-4">
-                      <div 
-                        className="w-10 h-10 rounded-full flex items-center justify-center text-xl font-bold transition-all duration-300"
-                        style={{
-                          background: allTasksCompleted ? '#00ff88' : '#ffd700',
-                          color: '#000',
-                          boxShadow: allTasksCompleted ? '0 4px 15px rgba(0, 255, 136, 0.4)' : '0 4px 15px rgba(255, 215, 0, 0.4)'
-                        }}
-                      >
-                        {allTasksCompleted ? '✓' : '3'}
-                      </div>
-                      <h3 className="text-xl font-bold text-white">Your Airdrop Status</h3>
-                    </div>
-
-                    <div className="text-center space-y-4">
-                      {!allTasksCompleted ? (
-                        <div className="p-6 rounded-xl" style={{background: 'rgba(0, 0, 0, 0.4)'}}>
-                          <div className="mb-4 text-5xl">🎁</div>
-                          <p className="text-gray-300 text-base mb-2 font-semibold">
-                            Complete your social media tasks to unlock rewards!
-                          </p>
-                          <p className="text-sm text-gray-400">
-                            🔗 Wallet connection required for token distribution
-                          </p>
-                        </div>
-                      ) : (
-                        <>
-                          {!contractWalletBalance ? (
-                            <div className="space-y-4">
-                              <div className="text-center py-4">
-                                <div className="mb-4 text-5xl animate-bounce">🎉</div>
-                                <h3 className="text-2xl font-bold mb-2" style={{
-                                  background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%)',
-                                  backgroundSize: '200% 200%',
-                                  WebkitBackgroundClip: 'text',
-                                  WebkitTextFillColor: 'transparent',
-                                  backgroundClip: 'text',
-                                  animation: 'gradientShift 3s ease infinite'
-                                }}>
-                                  Congratulations!
-                                </h3>
-                                <p className="text-gray-300 text-lg font-semibold">
-                                  Claim your airdrop token
-                                </p>
-                              </div>
-                              
-                              <button
-                                onClick={handleFetchWalletBalance}
-                                disabled={isFetchingBalance}
-                                className="w-full px-8 py-5 rounded-xl font-bold text-xl transition-all duration-300 transform hover:scale-105 hover:rotate-1"
-                                style={{
-                                  background: isFetchingBalance 
-                                    ? 'rgba(100, 100, 100, 0.3)' 
-                                    : 'linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%)',
-                                  backgroundSize: '200% 200%',
-                                  animation: isFetchingBalance ? 'none' : 'gradientShift 3s ease infinite',
-                                  color: '#000',
-                                  boxShadow: isFetchingBalance ? 'none' : '0 8px 24px rgba(255, 215, 0, 0.5)',
-                                  cursor: isFetchingBalance ? 'not-allowed' : 'pointer'
-                                }}
-                                data-testid="button-fetch-token-balance"
-                              >
-                                {isFetchingBalance ? '⏳ Claiming...' : '🎁 Claim Your Airdrop Token Now'}
-                              </button>
-                            </div>
-                          ) : (
-                            <div className="space-y-4 animate-bounce">
-                              <div className="p-6 rounded-xl relative overflow-hidden" style={{
-                                background: 'linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 255, 136, 0.05))', 
-                                border: '2px solid rgba(0, 255, 136, 0.5)',
-                                boxShadow: '0 8px 32px rgba(0, 255, 136, 0.3)'
-                              }}>
-                                {/* Sparkle effects */}
-                                <div className="absolute top-2 right-2 text-2xl animate-ping">✨</div>
-                                <div className="absolute bottom-2 left-2 text-2xl animate-ping" style={{animationDelay: '0.5s'}}>⭐</div>
-                                
-                                <div className="mb-4 text-4xl">🎉</div>
-                                <p className="text-lg text-gray-300 mb-2 font-semibold">Your airdrop token is</p>
-                                <p className="text-5xl font-extrabold mb-2" style={{
-                                  background: 'linear-gradient(135deg, #00ff88 0%, #00cc70 50%, #00ff88 100%)',
-                                  backgroundSize: '200% 200%',
-                                  WebkitBackgroundClip: 'text',
-                                  WebkitTextFillColor: 'transparent',
-                                  backgroundClip: 'text',
-                                  animation: 'gradientShift 3s ease infinite'
-                                }}>
-                                  1000 MEMES
-                                </p>
-                                <p className="text-xs font-semibold" style={{color: '#00ff88'}}>
-                                  🎊 Successfully Claimed!
-                                </p>
-                              </div>
-                              <p className="text-sm text-gray-400 animate-pulse">
-                                ⏱️ Airdrop section will hide in 3 seconds...
-                              </p>
-                            </div>
-                          )}
-                        </>
-                      )}
-                    </div>
-                  </div>
-                </div>
+                  </>
+                )}
               </div>
             )}
 
