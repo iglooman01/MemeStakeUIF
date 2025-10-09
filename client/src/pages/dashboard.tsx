@@ -1107,30 +1107,6 @@ export default function Dashboard() {
           </div>
         </Card>
 
-        {/* Token Sale Information */}
-        <Card className="p-6 glass-card">
-          <h3 className="text-lg font-semibold mb-4">💎 Token Sale & Economics</h3>
-          <div className="grid md:grid-cols-3 gap-4">
-            <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
-              <div className="text-sm text-muted-foreground mb-2">Public Sale</div>
-              <div className="text-xl font-bold" style={{color: '#ffd700'}}>25B Tokens</div>
-              <div className="text-xs text-cyan-400 mt-1">50% of supply</div>
-            </div>
-            <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
-              <div className="text-sm text-muted-foreground mb-2">Token Price</div>
-              <div className="text-xl font-bold" style={{color: '#00bfff'}}>$0.0001</div>
-              <div className="text-xs text-cyan-400 mt-1">BSC (BEP-20)</div>
-            </div>
-            <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 105, 180, 0.1)', border: '1px solid rgba(255, 105, 180, 0.3)'}}>
-              <div className="text-sm text-muted-foreground mb-2">Purchase Limits</div>
-              <div className="text-xl font-bold" style={{color: '#ff69b4'}}>$50 Min</div>
-              <div className="text-xs text-cyan-400 mt-1">No maximum</div>
-            </div>
-          </div>
-          <div className="mt-4 p-3 rounded-lg text-center text-sm" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
-            <span style={{color: '#ffd700'}}>💰 Example:</span> $100 = 1,000,000 $MEMES tokens
-          </div>
-        </Card>
 
         {/* 🎁 3-Level Referral Program Section */}
         <Card className="p-6 glass-card" style={{background: 'linear-gradient(135deg, rgba(15, 10, 35, 0.95) 0%, rgba(30, 15, 60, 0.95) 100%)', border: '2px solid rgba(0, 255, 136, 0.25)', boxShadow: '0 4px 20px rgba(0, 255, 136, 0.1)'}}>
@@ -1291,12 +1267,12 @@ export default function Dashboard() {
           </div>
         </Card>
 
-        {/* Complete Platform Details - Tokenomics */}
+        {/* Complete Platform Details - Tokenomics & Token Sale */}
         <Card className="p-8 glass-card">
-          <h2 className="text-3xl font-bold text-center mb-8" style={{color: '#ffd700'}}>Complete Platform Details</h2>
+          <h2 className="text-3xl font-bold text-center mb-8" style={{color: '#ffd700'}}>💎 Complete Platform Details</h2>
           
           <div className="mb-8">
-            <h3 className="text-2xl font-bold mb-4" style={{color: '#ffd700'}}>Tokenomics</h3>
+            <h3 className="text-2xl font-bold mb-4" style={{color: '#ffd700'}}>Tokenomics & Token Sale</h3>
             
             <div className="p-6 rounded-xl mb-6" style={{background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(0, 191, 255, 0.1))', border: '2px solid rgba(255, 215, 0, 0.3)'}}>
               <h4 className="text-xl font-bold mb-2" style={{color: '#ffd700'}}>MEMES Token</h4>
@@ -1324,24 +1300,46 @@ export default function Dashboard() {
                   <div className="font-bold text-white">18</div>
                 </div>
                 <div className="text-center p-3 rounded-lg bg-black/30">
-                  <div className="text-xs text-gray-500 mb-1">Initial Price</div>
-                  <div className="font-bold" style={{color: '#ffd700'}}>$0.001</div>
+                  <div className="text-xs text-gray-500 mb-1">Token Price</div>
+                  <div className="font-bold" style={{color: '#ffd700'}}>$0.0001</div>
                 </div>
                 <div className="text-center p-3 rounded-lg bg-black/30">
-                  <div className="text-xs text-gray-500 mb-1">Market Cap</div>
-                  <div className="font-bold" style={{color: '#00bfff'}}>$1M</div>
+                  <div className="text-xs text-gray-500 mb-1">Raise Target</div>
+                  <div className="font-bold" style={{color: '#00bfff'}}>$2.5M</div>
                 </div>
                 <div className="text-center p-3 rounded-lg bg-black/30">
-                  <div className="text-xs text-gray-500 mb-1">Launch Date</div>
-                  <div className="font-bold" style={{color: '#00ff88'}}>Q1 2025</div>
+                  <div className="text-xs text-gray-500 mb-1">Network</div>
+                  <div className="font-bold" style={{color: '#00ff88'}}>BSC</div>
                 </div>
               </div>
 
               <div className="mt-6 p-4 rounded-lg text-center" style={{background: 'rgba(255, 215, 0, 0.2)', border: '1px solid rgba(255, 215, 0, 0.4)'}}>
-                <div className="text-3xl font-bold mb-1" style={{color: '#ffd700'}}>1,000,000,000</div>
-                <div className="text-sm text-gray-400">Total Supply</div>
+                <div className="text-3xl font-bold mb-1" style={{color: '#ffd700'}}>50,000,000,000</div>
+                <div className="text-sm text-gray-400">Total Supply (50 Billion $MEMES)</div>
                 <div className="text-xs text-gray-500 mt-1">Fixed supply - no inflation</div>
               </div>
+            </div>
+
+            <h5 className="text-lg font-bold mb-4" style={{color: '#00bfff'}}>Token Sale Information</h5>
+            <div className="grid md:grid-cols-3 gap-4 mb-6">
+              <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
+                <div className="text-sm text-muted-foreground mb-2">Public Sale</div>
+                <div className="text-xl font-bold" style={{color: '#ffd700'}}>25B Tokens</div>
+                <div className="text-xs text-cyan-400 mt-1">50% of supply</div>
+              </div>
+              <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
+                <div className="text-sm text-muted-foreground mb-2">Token Price</div>
+                <div className="text-xl font-bold" style={{color: '#00bfff'}}>$0.0001</div>
+                <div className="text-xs text-cyan-400 mt-1">BSC (BEP-20)</div>
+              </div>
+              <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 105, 180, 0.1)', border: '1px solid rgba(255, 105, 180, 0.3)'}}>
+                <div className="text-sm text-muted-foreground mb-2">Purchase Limits</div>
+                <div className="text-xl font-bold" style={{color: '#ff69b4'}}>$50 Min</div>
+                <div className="text-xs text-cyan-400 mt-1">No maximum</div>
+              </div>
+            </div>
+            <div className="mb-6 p-3 rounded-lg text-center text-sm" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
+              <span style={{color: '#ffd700'}}>💰 Example:</span> $100 = 1,000,000 $MEMES tokens
             </div>
 
             <h5 className="text-lg font-bold mb-4" style={{color: '#00bfff'}}>Token Distribution</h5>
@@ -1349,30 +1347,30 @@ export default function Dashboard() {
               <div className="p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm font-bold" style={{color: '#ffd700'}}>50%</span>
-                  <span className="text-sm text-gray-400">Public Sale & Airdrops</span>
+                  <span className="text-sm text-gray-400">Public Sale</span>
                 </div>
-                <div className="text-xs text-gray-500">500M tokens</div>
+                <div className="text-xs text-gray-500">25 Billion tokens</div>
               </div>
               <div className="p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-bold" style={{color: '#00bfff'}}>30%</span>
-                  <span className="text-sm text-gray-400">Staking Rewards</span>
+                  <span className="text-sm font-bold" style={{color: '#00bfff'}}>10%</span>
+                  <span className="text-sm text-gray-400">Referral Pool</span>
                 </div>
-                <div className="text-xs text-gray-500">300M tokens</div>
+                <div className="text-xs text-gray-500">5 Billion tokens</div>
               </div>
               <div className="p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.3)'}}>
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm font-bold" style={{color: '#00ff88'}}>20%</span>
-                  <span className="text-sm text-gray-400">Team & Development</span>
+                  <span className="text-sm text-gray-400">Staking Rewards</span>
                 </div>
-                <div className="text-xs text-gray-500">200M tokens</div>
+                <div className="text-xs text-gray-500">10 Billion tokens</div>
               </div>
               <div className="p-4 rounded-lg" style={{background: 'rgba(255, 105, 180, 0.1)', border: '1px solid rgba(255, 105, 180, 0.3)'}}>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-bold" style={{color: '#ff69b4'}}>10%</span>
-                  <span className="text-sm text-gray-400">Marketing & Partnerships</span>
+                  <span className="text-sm font-bold" style={{color: '#ff69b4'}}>20%</span>
+                  <span className="text-sm text-gray-400">Team & Development</span>
                 </div>
-                <div className="text-xs text-gray-500">100M tokens</div>
+                <div className="text-xs text-gray-500">10 Billion tokens</div>
               </div>
             </div>
 
