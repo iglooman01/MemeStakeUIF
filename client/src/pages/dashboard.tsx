@@ -22,6 +22,23 @@ export default function Dashboard() {
   const [purchasedTokens, setPurchasedTokens] = useState(0);
   const [txHash] = useState('0x1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b');
   const [isClaiming, setIsClaiming] = useState(false);
+  
+  // Airdrop claim section state
+  const [showAirdropClaim, setShowAirdropClaim] = useState(false);
+  const [emailVerified, setEmailVerified] = useState(false);
+  const [email, setEmail] = useState('');
+  const [otp, setOtp] = useState('');
+  const [showOtpInput, setShowOtpInput] = useState(false);
+  const [tasksCompleted, setTasksCompleted] = useState({
+    telegram_group: false,
+    telegram_channel: false,
+    twitter: false,
+    youtube: false
+  });
+  const [airdropTokens, setAirdropTokens] = useState(0);
+  const [referralCount, setReferralCount] = useState(1);
+  const [referralTokens, setReferralTokens] = useState(0);
+  
   const { toast } = useToast();
 
   // Earnings data
@@ -53,6 +70,69 @@ export default function Dashboard() {
     toast({
       title: "✅ Copied!",
       description: "Referral link copied to clipboard",
+    });
+  };
+
+  // Airdrop claim handlers
+  const handleSendOTP = async () => {
+    if (!email || !email.includes('@')) {
+      toast({
+        title: "❌ Invalid Email",
+        description: "Please enter a valid email address",
+      });
+      return;
+    }
+    
+    // Simulate OTP sending
+    setShowOtpInput(true);
+    toast({
+      title: "📧 OTP Sent!",
+      description: `Verification code sent to ${email}`,
+    });
+  };
+
+  const handleVerifyOTP = () => {
+    if (!otp || otp.length < 4) {
+      toast({
+        title: "❌ Invalid OTP",
+        description: "Please enter the verification code",
+      });
+      return;
+    }
+    
+    setEmailVerified(true);
+    toast({
+      title: "✅ Email Verified!",
+      description: "You can now complete social tasks",
+    });
+  };
+
+  const handleSkipVerification = () => {
+    setEmailVerified(true);
+    toast({
+      title: "⏭️ Skipped",
+      description: "Email verification skipped",
+    });
+  };
+
+  const handleCompleteTask = (taskName: string) => {
+    if (!emailVerified) {
+      toast({
+        title: "🔒 Locked",
+        description: "Verify your email first to unlock tasks",
+      });
+      return;
+    }
+
+    setTasksCompleted(prev => ({ ...prev, [taskName]: true }));
+    
+    // Calculate airdrop tokens based on completed tasks
+    const completedCount = Object.values({ ...tasksCompleted, [taskName]: true }).filter(Boolean).length;
+    setAirdropTokens(completedCount * 250); // 250 tokens per task
+    
+    toast({
+      title: "✅ Task Completed!",
+      description: "You earned 250 MEMES tokens",
     });
   };
 
@@ -293,6 +373,209 @@ export default function Dashboard() {
                 }
               }
             `}</style>
+
+            {/* Claim Your Airdrop Now 1 Button */}
+            <div className="mt-6">
+              <button
+                onClick={() => setShowAirdropClaim(!showAirdropClaim)}
+                className="w-full py-4 px-6 rounded-xl font-bold text-xl transition-all duration-300 transform hover:scale-105"
+                style={{
+                  background: 'linear-gradient(135deg, #00bfff 0%, #0080ff 100%)',
+                  color: '#fff',
+                  boxShadow: '0 4px 20px rgba(0, 191, 255, 0.4)'
+                }}
+                data-testid="button-toggle-airdrop-claim"
+              >
+                <span className="flex items-center justify-center">
+                  {showAirdropClaim ? '▲' : '▼'} Claim Your Airdrop Now 1
+                </span>
+              </button>
+            </div>
+
+            {/* Airdrop Claim Section - Dropdown */}
+            {showAirdropClaim && (
+              <div className="mt-6 p-6 rounded-xl" style={{background: 'linear-gradient(135deg, rgba(15, 10, 35, 0.95), rgba(30, 15, 60, 0.95))', border: '2px solid rgba(255, 215, 0, 0.2)'}}>
+                <h2 className="text-2xl font-bold mb-4 text-center" style={{color: '#ffd700'}}>
+                  Claim Your MEMES Airdrop
+                </h2>
+                <p className="text-center text-gray-300 mb-6">
+                  Complete the verification steps below to claim your exclusive MEMES tokens from our decentralized airdrop direct in your wallet
+                </p>
+
+                {/* 1. Email Verification */}
+                <div className="mb-6 p-4 rounded-lg" style={{background: 'rgba(0, 0, 0, 0.3)', border: '1px solid rgba(255, 255, 255, 0.1)'}}>
+                  <h3 className="text-lg font-semibold mb-3" style={{color: '#00bfff'}}>1. Email Verification</h3>
+                  
+                  {!emailVerified ? (
+                    <div className="space-y-3">
+                      {!showOtpInput ? (
+                        <>
+                          <input
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="Enter your email"
+                            className="w-full px-4 py-2 rounded-lg bg-black/40 border border-white/10 text-white"
+                            data-testid="input-email"
+                          />
+                          <div className="flex gap-2">
+                            <Button
+                              onClick={handleSendOTP}
+                              className="flex-1"
+                              style={{background: '#00bfff', color: '#000'}}
+                              data-testid="button-send-otp"
+                            >
+                              📧 Send OTP
+                            </Button>
+                            <Button
+                              onClick={handleSkipVerification}
+                              variant="outline"
+                              className="flex-1"
+                              data-testid="button-skip-verification"
+                            >
+                              🚀 Skip
+                            </Button>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <input
+                            type="text"
+                            value={otp}
+                            onChange={(e) => setOtp(e.target.value)}
+                            placeholder="Enter OTP"
+                            className="w-full px-4 py-2 rounded-lg bg-black/40 border border-white/10 text-white"
+                            data-testid="input-otp"
+                          />
+                          <Button
+                            onClick={handleVerifyOTP}
+                            className="w-full"
+                            style={{background: '#00ff88', color: '#000'}}
+                            data-testid="button-verify-otp"
+                          >
+                            ✅ Verify OTP
+                          </Button>
+                        </>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="text-center py-2" style={{color: '#00ff88'}}>
+                      ✅ Email Verified
+                    </div>
+                  )}
+                </div>
+
+                {/* 2. Social Media Tasks */}
+                <div className="mb-6 p-4 rounded-lg" style={{background: 'rgba(0, 0, 0, 0.3)', border: '1px solid rgba(255, 255, 255, 0.1)'}}>
+                  <h3 className="text-lg font-semibold mb-3" style={{color: '#00bfff'}}>2. Social Media Tasks</h3>
+                  
+                  {!emailVerified && (
+                    <div className="text-center py-2 text-gray-400 text-sm mb-3">
+                      🔒 Verify your email first to unlock tasks
+                    </div>
+                  )}
+
+                  <div className="space-y-3">
+                    {[
+                      { id: 'telegram_group', label: 'Join Telegram Group', icon: '💬', url: 'https://t.me/memestake_group' },
+                      { id: 'telegram_channel', label: 'Join Telegram Channel', icon: '📢', url: 'https://t.me/memestake_official' },
+                      { id: 'twitter', label: 'Follow on Twitter/X', icon: '🐦', url: 'https://twitter.com/memestake_official' },
+                      { id: 'youtube', label: 'Subscribe YouTube', icon: '📺', url: 'https://youtube.com/@memestake' }
+                    ].map((task) => (
+                      <div key={task.id} className="flex items-center justify-between p-3 rounded-lg" style={{background: 'rgba(0, 0, 0, 0.2)'}}>
+                        <span className="text-sm" style={{color: tasksCompleted[task.id as keyof typeof tasksCompleted] ? '#00ff88' : '#fff'}}>
+                          {task.icon} {task.label}
+                        </span>
+                        {tasksCompleted[task.id as keyof typeof tasksCompleted] ? (
+                          <span style={{color: '#00ff88'}}>✅</span>
+                        ) : (
+                          <button
+                            onClick={() => {
+                              if (emailVerified) {
+                                window.open(task.url, '_blank');
+                                setTimeout(() => handleCompleteTask(task.id), 2000);
+                              } else {
+                                toast({
+                                  title: "🔒 Locked",
+                                  description: "Verify your email first",
+                                });
+                              }
+                            }}
+                            className="px-3 py-1 rounded text-xs font-semibold"
+                            style={{background: emailVerified ? '#00bfff' : '#666', color: '#000'}}
+                            disabled={!emailVerified}
+                            data-testid={`button-${task.id}`}
+                          >
+                            {emailVerified ? 'Visit' : '🔒'}
+                          </button>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-3 text-center text-sm" style={{color: '#00bfff'}}>
+                    Progress: {Object.values(tasksCompleted).filter(Boolean).length}/4 Tasks
+                  </div>
+                </div>
+
+                {/* 3. Airdrop Status */}
+                <div className="mb-6 p-4 rounded-lg" style={{background: 'rgba(0, 0, 0, 0.3)', border: '1px solid rgba(255, 255, 255, 0.1)'}}>
+                  <h3 className="text-lg font-semibold mb-3" style={{color: '#00bfff'}}>3. Your Airdrop Status</h3>
+                  <div className="text-center space-y-2">
+                    <p className="text-gray-300 text-sm">
+                      Complete your social media tasks and connect your wallet to claim your airdrop tokens
+                    </p>
+                    <p className="text-xs text-gray-400">
+                      🔗 Wallet connection required for token distribution
+                    </p>
+                  </div>
+                </div>
+
+                {/* 4. Token & Referral Details */}
+                <div className="p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)'}}>
+                  <h3 className="text-lg font-semibold mb-3" style={{color: '#ffd700'}}>4. Token & Referral Details</h3>
+                  
+                  <div className="grid grid-cols-3 gap-3 mb-4">
+                    <div className="text-center">
+                      <div className="text-2xl font-bold" style={{color: '#ffd700'}}>{referralCount}</div>
+                      <div className="text-xs text-gray-400">Your Referrals</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold" style={{color: '#00bfff'}}>{referralTokens}</div>
+                      <div className="text-xs text-gray-400">Referral Tokens</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold" style={{color: '#00ff88'}}>{airdropTokens}</div>
+                      <div className="text-xs text-gray-400">Airdrop Tokens</div>
+                    </div>
+                  </div>
+
+                  <p className="text-xs text-gray-400 text-center mb-3">
+                    Referral tokens will be claimed slot by slot after tokens launching
+                  </p>
+
+                  <div className="space-y-2">
+                    <label className="text-sm text-gray-400">Your Referral Link:</label>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={referralLink}
+                        readOnly
+                        className="flex-1 px-3 py-2 rounded bg-black/40 border border-white/10 text-gray-300 text-sm font-mono"
+                        data-testid="input-airdrop-referral-link"
+                      />
+                      <Button
+                        onClick={copyReferralLink}
+                        style={{background: '#ffd700', color: '#000'}}
+                        data-testid="button-copy-airdrop-referral"
+                      >
+                        Copy
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Referral & Sponsor Section */}
             <div className="grid md:grid-cols-2 gap-4 mt-6">
