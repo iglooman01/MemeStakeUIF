@@ -7,8 +7,14 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import memeStakeLogo from "@assets/ChatGPT Image Oct 9, 2025, 11_08_34 AM_1759988345567.png";
 import { CONTRACTS } from "@/config/contracts";
-import { Home, BookOpen, Coins } from "lucide-react";
-import { SiTelegram } from "react-icons/si";
+import { Home, BookOpen, Coins, Copy, CheckCircle2, Users, TrendingUp, Shield, Rocket, Trophy, Zap, Lock } from "lucide-react";
+import { SiTelegram, SiTwitter } from "react-icons/si";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 export default function Dashboard() {
   const [location, setLocation] = useLocation();
@@ -1215,6 +1221,427 @@ export default function Dashboard() {
             <div className="text-[10px] text-gray-400 mb-1 font-medium uppercase tracking-wide">Total Referral Earnings</div>
             <div className="text-2xl font-bold mb-1" style={{color: '#00ff88'}}>345,000 $MEMES</div>
             <div className="text-[10px] text-gray-500">From 5B Referral Pool (10% of Total Supply)</div>
+          </div>
+        </Card>
+
+        {/* MemeStake Community Section */}
+        <Card className="p-8 glass-card" style={{background: 'linear-gradient(135deg, rgba(15, 10, 35, 0.95), rgba(30, 15, 60, 0.95))', border: '2px solid rgba(255, 215, 0, 0.3)'}}>
+          <h2 className="text-3xl font-bold text-center mb-2" style={{color: '#ffd700'}}>MemeStake Community</h2>
+          <p className="text-center text-gray-400 mb-8">Building the future of decentralized meme culture with innovation, transparency, and community-first principles.</p>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
+              <div className="text-3xl font-bold mb-1" style={{color: '#ffd700'}}>47,832</div>
+              <div className="text-xs text-gray-400">Total Live Holders</div>
+              <div className="text-xs text-cyan-400 mt-1">Growing every second</div>
+            </div>
+            <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
+              <div className="text-3xl font-bold mb-1" style={{color: '#00bfff'}}>47K+</div>
+              <div className="text-xs text-gray-400">Community Members</div>
+              <div className="text-xs text-cyan-400 mt-1">Active participants worldwide</div>
+            </div>
+            <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.3)'}}>
+              <div className="text-3xl font-bold mb-1" style={{color: '#00ff88'}}>47,832</div>
+              <div className="text-xs text-gray-400">MEMES Distributed</div>
+              <div className="text-xs text-cyan-400 mt-1">Rewarded to our community</div>
+            </div>
+            <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 105, 180, 0.1)', border: '1px solid rgba(255, 105, 180, 0.3)'}}>
+              <div className="text-3xl font-bold mb-1" style={{color: '#ff69b4'}}>24/7</div>
+              <div className="text-xs text-gray-400">Premium Support</div>
+              <div className="text-xs text-cyan-400 mt-1">Always here to help you succeed</div>
+            </div>
+          </div>
+
+          <div className="text-center">
+            <h3 className="text-xl font-bold mb-4" style={{color: '#ffd700'}}>Ready to Shape the Future?</h3>
+            <p className="text-gray-400 mb-6">Join thousands of innovators, creators, and meme enthusiasts building the next generation of decentralized culture.</p>
+            <a
+              href="https://t.me/memestake_group"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block"
+            >
+              <Button size="lg" style={{background: '#00bfff', color: '#000'}} data-testid="button-join-community">
+                Join Our Community
+              </Button>
+            </a>
+          </div>
+
+          <div className="mt-8 p-4 rounded-lg text-center" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
+            <p className="text-sm mb-3" style={{color: '#00bfff'}}>💡 Want to share your referral link to friends and relatives on social media?</p>
+            <p className="text-xs text-gray-400 mb-4">Just click the button below - it's easy for sharing and you earn rewards for every successful referral!</p>
+            <Button variant="outline" size="lg" style={{borderColor: '#00bfff', color: '#00bfff'}} data-testid="button-share-referral">
+              Share & Earn Rewards
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-3 gap-4 mt-6 text-center text-sm">
+            <div className="p-2 rounded" style={{background: 'rgba(0, 255, 136, 0.1)'}}>
+              <Lock className="w-5 h-5 mx-auto mb-1" style={{color: '#00ff88'}} />
+              <div style={{color: '#00ff88'}}>🔒Secure</div>
+            </div>
+            <div className="p-2 rounded" style={{background: 'rgba(255, 215, 0, 0.1)'}}>
+              <Trophy className="w-5 h-5 mx-auto mb-1" style={{color: '#ffd700'}} />
+              <div style={{color: '#ffd700'}}>🌍Global</div>
+            </div>
+            <div className="p-2 rounded" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
+              <Zap className="w-5 h-5 mx-auto mb-1" style={{color: '#00bfff'}} />
+              <div style={{color: '#00bfff'}}>⚡Instant</div>
+            </div>
+          </div>
+        </Card>
+
+        {/* Complete Platform Details - Tokenomics */}
+        <Card className="p-8 glass-card">
+          <h2 className="text-3xl font-bold text-center mb-8" style={{color: '#ffd700'}}>Complete Platform Details</h2>
+          
+          <div className="mb-8">
+            <h3 className="text-2xl font-bold mb-4" style={{color: '#ffd700'}}>Tokenomics</h3>
+            
+            <div className="p-6 rounded-xl mb-6" style={{background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(0, 191, 255, 0.1))', border: '2px solid rgba(255, 215, 0, 0.3)'}}>
+              <h4 className="text-xl font-bold mb-2" style={{color: '#ffd700'}}>MEMES Token</h4>
+              <p className="text-gray-400 mb-6">The ultimate memes token for airdrops, staking, and community rewards</p>
+              
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="text-center p-3 rounded-lg bg-black/30">
+                  <div className="text-xs text-gray-500 mb-1">Token Name</div>
+                  <div className="font-bold text-white">MemeStake</div>
+                </div>
+                <div className="text-center p-3 rounded-lg bg-black/30">
+                  <div className="text-xs text-gray-500 mb-1">Token Ticker</div>
+                  <div className="font-bold" style={{color: '#ffd700'}}>MEMES</div>
+                </div>
+                <div className="text-center p-3 rounded-lg bg-black/30">
+                  <div className="text-xs text-gray-500 mb-1">Blockchain</div>
+                  <div className="font-bold" style={{color: '#00bfff'}}>BNB Chain</div>
+                </div>
+                <div className="text-center p-3 rounded-lg bg-black/30">
+                  <div className="text-xs text-gray-500 mb-1">Token Type</div>
+                  <div className="font-bold" style={{color: '#00ff88'}}>BEP-20</div>
+                </div>
+                <div className="text-center p-3 rounded-lg bg-black/30">
+                  <div className="text-xs text-gray-500 mb-1">Decimals</div>
+                  <div className="font-bold text-white">18</div>
+                </div>
+                <div className="text-center p-3 rounded-lg bg-black/30">
+                  <div className="text-xs text-gray-500 mb-1">Initial Price</div>
+                  <div className="font-bold" style={{color: '#ffd700'}}>$0.001</div>
+                </div>
+                <div className="text-center p-3 rounded-lg bg-black/30">
+                  <div className="text-xs text-gray-500 mb-1">Market Cap</div>
+                  <div className="font-bold" style={{color: '#00bfff'}}>$1M</div>
+                </div>
+                <div className="text-center p-3 rounded-lg bg-black/30">
+                  <div className="text-xs text-gray-500 mb-1">Launch Date</div>
+                  <div className="font-bold" style={{color: '#00ff88'}}>Q1 2025</div>
+                </div>
+              </div>
+
+              <div className="mt-6 p-4 rounded-lg text-center" style={{background: 'rgba(255, 215, 0, 0.2)', border: '1px solid rgba(255, 215, 0, 0.4)'}}>
+                <div className="text-3xl font-bold mb-1" style={{color: '#ffd700'}}>1,000,000,000</div>
+                <div className="text-sm text-gray-400">Total Supply</div>
+                <div className="text-xs text-gray-500 mt-1">Fixed supply - no inflation</div>
+              </div>
+            </div>
+
+            <h5 className="text-lg font-bold mb-4" style={{color: '#00bfff'}}>Token Distribution</h5>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              <div className="p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-bold" style={{color: '#ffd700'}}>50%</span>
+                  <span className="text-sm text-gray-400">Public Sale & Airdrops</span>
+                </div>
+                <div className="text-xs text-gray-500">500M tokens</div>
+              </div>
+              <div className="p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-bold" style={{color: '#00bfff'}}>30%</span>
+                  <span className="text-sm text-gray-400">Staking Rewards</span>
+                </div>
+                <div className="text-xs text-gray-500">300M tokens</div>
+              </div>
+              <div className="p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.3)'}}>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-bold" style={{color: '#00ff88'}}>20%</span>
+                  <span className="text-sm text-gray-400">Team & Development</span>
+                </div>
+                <div className="text-xs text-gray-500">200M tokens</div>
+              </div>
+              <div className="p-4 rounded-lg" style={{background: 'rgba(255, 105, 180, 0.1)', border: '1px solid rgba(255, 105, 180, 0.3)'}}>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-bold" style={{color: '#ff69b4'}}>10%</span>
+                  <span className="text-sm text-gray-400">Marketing & Partnerships</span>
+                </div>
+                <div className="text-xs text-gray-500">100M tokens</div>
+              </div>
+            </div>
+
+            <h6 className="text-md font-bold mb-3" style={{color: '#00ff88'}}>Token Utility</h6>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+              <div className="p-3 rounded-lg bg-black/30 text-sm text-gray-400">
+                • Airdrop rewards for task completion
+              </div>
+              <div className="p-3 rounded-lg bg-black/30 text-sm text-gray-400">
+                • Referral bonus multipliers
+              </div>
+              <div className="p-3 rounded-lg bg-black/30 text-sm text-gray-400">
+                • Staking for additional rewards
+              </div>
+              <div className="p-3 rounded-lg bg-black/30 text-sm text-gray-400">
+                • Governance voting rights
+              </div>
+            </div>
+
+            <div className="p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
+              <div className="text-sm font-bold mb-2" style={{color: '#ffd700'}}>Contract Address</div>
+              <div className="flex items-center justify-between gap-3">
+                <code className="text-xs font-mono text-gray-400 flex-1 truncate">0x90950A338595dD5438F71839f01a882632a54587</code>
+                <Button size="sm" variant="outline" style={{borderColor: '#ffd700', color: '#ffd700'}} data-testid="button-copy-contract">
+                  <Copy className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+
+            <div className="mt-4 text-center">
+              <Button variant="outline" size="lg" style={{borderColor: '#00bfff', color: '#00bfff'}} data-testid="button-download-whitepaper">
+                📄 Download Whitepaper
+              </Button>
+            </div>
+          </div>
+        </Card>
+
+        {/* Staking Features */}
+        <Card className="p-8 glass-card">
+          <h3 className="text-2xl font-bold text-center mb-8" style={{color: '#ffd700'}}>Staking Features</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="text-center p-6 rounded-xl" style={{background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.05))', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
+              <div className="text-4xl mb-3">💰</div>
+              <h4 className="text-lg font-bold mb-2" style={{color: '#ffd700'}}>High APY</h4>
+              <p className="text-sm text-gray-400">Up to 250% APY for long-term staking</p>
+            </div>
+            <div className="text-center p-6 rounded-xl" style={{background: 'linear-gradient(135deg, rgba(0, 191, 255, 0.1), rgba(0, 191, 255, 0.05))', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
+              <div className="text-4xl mb-3">🔒</div>
+              <h4 className="text-lg font-bold mb-2" style={{color: '#00bfff'}}>Flexible Periods</h4>
+              <p className="text-sm text-gray-400">1 month to 1 year staking options</p>
+            </div>
+            <div className="text-center p-6 rounded-xl" style={{background: 'linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 255, 136, 0.05))', border: '1px solid rgba(0, 255, 136, 0.3)'}}>
+              <div className="text-4xl mb-3">⚡</div>
+              <h4 className="text-lg font-bold mb-2" style={{color: '#00ff88'}}>Instant Rewards</h4>
+              <p className="text-sm text-gray-400">Daily reward distribution</p>
+            </div>
+          </div>
+        </Card>
+
+        {/* Roadmap */}
+        <Card className="p-8 glass-card">
+          <h3 className="text-2xl font-bold text-center mb-2" style={{color: '#ffd700'}}>🗺️ Roadmap</h3>
+          <p className="text-center text-gray-400 mb-8">Our journey to revolutionize the memes ecosystem</p>
+          
+          <div className="space-y-6">
+            <div className="p-6 rounded-xl" style={{background: 'linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 255, 136, 0.05))', border: '1px solid rgba(0, 255, 136, 0.3)'}}>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="text-3xl">🎉</div>
+                <div>
+                  <h4 className="text-lg font-bold" style={{color: '#00ff88'}}>Q1 2025 - Platform Launch</h4>
+                  <div className="text-xs font-bold" style={{color: '#00ff88'}}>✅ COMPLETED</div>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                <div className="text-sm text-gray-400">🎁 Airdrop system launch</div>
+                <div className="text-sm text-gray-400">📱 Social media integration</div>
+                <div className="text-sm text-gray-400">📧 Email verification</div>
+                <div className="text-sm text-gray-400">👥 Referral program</div>
+                <div className="text-sm text-gray-400">📊 Community dashboard</div>
+                <div className="text-sm text-gray-400">🔗 Token contract deploy</div>
+              </div>
+            </div>
+
+            <div className="p-6 rounded-xl" style={{background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.05))', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="text-3xl">⚡</div>
+                <div>
+                  <h4 className="text-lg font-bold" style={{color: '#ffd700'}}>Q2 2025 - Enhanced Features</h4>
+                  <div className="text-xs font-bold" style={{color: '#ffd700'}}>🔄 IN PROGRESS</div>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                <div className="text-sm text-gray-400">🎯 Advanced staking pools</div>
+                <div className="text-sm text-gray-400">🏆 Multi-tier rewards</div>
+                <div className="text-sm text-gray-400">📱 Mobile app</div>
+                <div className="text-sm text-gray-400">🤝 Partnership integrations</div>
+                <div className="text-sm text-gray-400">🔒 Enhanced security</div>
+                <div className="text-sm text-gray-400">🛠️ Developer API</div>
+              </div>
+            </div>
+
+            <div className="p-6 rounded-xl" style={{background: 'linear-gradient(135deg, rgba(0, 191, 255, 0.15), rgba(0, 191, 255, 0.05))', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="text-3xl">🚀</div>
+                <div>
+                  <h4 className="text-lg font-bold" style={{color: '#00bfff'}}>Q3 2025 - Ecosystem Expansion</h4>
+                  <div className="text-xs font-bold" style={{color: '#00bfff'}}>🔮 UPCOMING</div>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                <div className="text-sm text-gray-400">🎨 NFT marketplace</div>
+                <div className="text-sm text-gray-400">🎮 Play-to-earn games</div>
+                <div className="text-sm text-gray-400">🌐 Cross-chain integration</div>
+                <div className="text-sm text-gray-400">🗳️ DAO governance</div>
+                <div className="text-sm text-gray-400">🚜 DeFi yield farming</div>
+                <div className="text-sm text-gray-400">🏆 Community tournaments</div>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-lg text-center" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
+              <div className="text-sm text-gray-400 mb-2">Overall Progress</div>
+              <div className="text-3xl font-bold mb-1" style={{color: '#ffd700'}}>40%</div>
+              <div className="text-xs text-gray-500">Revolutionizing the memes ecosystem, one milestone at a time</div>
+            </div>
+          </div>
+        </Card>
+
+        {/* FAQ Section */}
+        <Card className="p-8 glass-card">
+          <h3 className="text-2xl font-bold text-center mb-2" style={{color: '#ffd700'}}>Frequently Asked Questions</h3>
+          <p className="text-center text-gray-400 mb-8">Everything you need to know about MemeStake</p>
+          
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="item-1" style={{borderColor: 'rgba(255, 215, 0, 0.3)'}}>
+              <AccordionTrigger className="text-white hover:text-[#ffd700]">What is MemeStake?</AccordionTrigger>
+              <AccordionContent className="text-gray-400">
+                MemeStake is a decentralized airdrop and staking platform for the MEMES token. We deliver tokens direct in your wallet while building the strongest meme community in crypto.
+              </AccordionContent>
+            </AccordionItem>
+            
+            <AccordionItem value="item-2" style={{borderColor: 'rgba(255, 215, 0, 0.3)'}}>
+              <AccordionTrigger className="text-white hover:text-[#ffd700]">How do I earn rewards?</AccordionTrigger>
+              <AccordionContent className="text-gray-400">
+                You can earn rewards through airdrops by completing social tasks, staking your MEMES tokens for up to 250% APY, and referring friends through our 3-level referral program.
+              </AccordionContent>
+            </AccordionItem>
+            
+            <AccordionItem value="item-3" style={{borderColor: 'rgba(255, 215, 0, 0.3)'}}>
+              <AccordionTrigger className="text-white hover:text-[#ffd700]">Is my investment safe?</AccordionTrigger>
+              <AccordionContent className="text-gray-400">
+                Yes, our smart contracts are audited and deployed on BNB Chain. We use industry-standard security practices and transparent tokenomics to ensure the safety of your investment.
+              </AccordionContent>
+            </AccordionItem>
+            
+            <AccordionItem value="item-4" style={{borderColor: 'rgba(255, 215, 0, 0.3)'}}>
+              <AccordionTrigger className="text-white hover:text-[#ffd700]">When can I withdraw my tokens?</AccordionTrigger>
+              <AccordionContent className="text-gray-400">
+                Airdrop tokens are immediately claimable to your wallet. Staked tokens can be withdrawn after the lock period ends, with flexible options from 1 month to 1 year.
+              </AccordionContent>
+            </AccordionItem>
+            
+            <AccordionItem value="item-5" style={{borderColor: 'rgba(255, 215, 0, 0.3)'}}>
+              <AccordionTrigger className="text-white hover:text-[#ffd700]">What are the tokenomics?</AccordionTrigger>
+              <AccordionContent className="text-gray-400">
+                Total supply: 1B MEMES tokens. Distribution: 50% Public Sale & Airdrops, 30% Staking Rewards, 20% Team & Development, 10% Marketing & Partnerships. Fixed supply with no inflation.
+              </AccordionContent>
+            </AccordionItem>
+            
+            <AccordionItem value="item-6" style={{borderColor: 'rgba(255, 215, 0, 0.3)'}}>
+              <AccordionTrigger className="text-white hover:text-[#ffd700]">How does staking work?</AccordionTrigger>
+              <AccordionContent className="text-gray-400">
+                Stake your MEMES tokens for flexible periods (1 month to 1 year) and earn up to 250% APY. Rewards are distributed daily and can be claimed anytime. The longer you stake, the higher the APY.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+
+          <div className="mt-8 p-6 rounded-xl text-center" style={{background: 'linear-gradient(135deg, rgba(0, 191, 255, 0.15), rgba(0, 191, 255, 0.05))', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
+            <h4 className="text-lg font-bold mb-2" style={{color: '#00bfff'}}>💬 Still need help?</h4>
+            <p className="text-sm text-gray-400 mb-4">Our community team is here to help you get started with MemeStake</p>
+            <a
+              href="https://t.me/memestake_group"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button size="lg" style={{background: '#00bfff', color: '#000'}} data-testid="button-faq-telegram">
+                💬 Join Telegram Group
+              </Button>
+            </a>
+          </div>
+        </Card>
+
+        {/* About MemeStake */}
+        <Card className="p-8 glass-card">
+          <h2 className="text-3xl font-bold text-center mb-8" style={{color: '#ffd700'}}>About MemeStake</h2>
+          
+          <div className="mb-8">
+            <h3 className="text-xl font-bold mb-3" style={{color: '#00bfff'}}>🚀 Our Mission</h3>
+            <p className="text-gray-400">
+              MemeStake is revolutionizing the meme coin ecosystem by combining decentralized airdrops with innovative staking mechanisms. We deliver tokens direct in your wallet while building the strongest meme community in crypto.
+            </p>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-bold mb-3" style={{color: '#00ff88'}}>💎 Why Choose Us?</h3>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-gray-400">
+                <CheckCircle2 className="w-5 h-5" style={{color: '#00ff88'}} />
+                <span>True decentralized rewards system</span>
+              </div>
+              <div className="flex items-center gap-2 text-gray-400">
+                <CheckCircle2 className="w-5 h-5" style={{color: '#00ff88'}} />
+                <span>Community-driven governance</span>
+              </div>
+              <div className="flex items-center gap-2 text-gray-400">
+                <CheckCircle2 className="w-5 h-5" style={{color: '#00ff88'}} />
+                <span>High-yield staking opportunities</span>
+              </div>
+              <div className="flex items-center gap-2 text-gray-400">
+                <CheckCircle2 className="w-5 h-5" style={{color: '#00ff88'}} />
+                <span>Transparent tokenomics</span>
+              </div>
+            </div>
+          </div>
+        </Card>
+
+        {/* Join Our Community */}
+        <Card className="p-8 glass-card text-center" style={{background: 'linear-gradient(135deg, rgba(15, 10, 35, 0.95), rgba(30, 15, 60, 0.95))', border: '2px solid rgba(0, 191, 255, 0.3)'}}>
+          <h2 className="text-3xl font-bold mb-4" style={{color: '#00bfff'}}>Join Our Community</h2>
+          <p className="text-gray-400 mb-8">Connect with 47,000+ members in our vibrant community! Get real-time updates, share strategies, and never miss an opportunity.</p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <a
+              href="https://t.me/memestake_group"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-6 rounded-xl transition-all hover:scale-105"
+              style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}
+              data-testid="link-telegram-group"
+            >
+              <SiTelegram className="w-12 h-12 mx-auto mb-3" style={{color: '#00bfff'}} />
+              <div className="font-bold mb-1" style={{color: '#00bfff'}}>Telegram Group</div>
+              <div className="text-xs text-gray-400">Chat & Discussion</div>
+            </a>
+
+            <a
+              href="https://t.me/memestake_official"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-6 rounded-xl transition-all hover:scale-105"
+              style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}
+              data-testid="link-telegram-official"
+            >
+              <SiTelegram className="w-12 h-12 mx-auto mb-3" style={{color: '#ffd700'}} />
+              <div className="font-bold mb-1" style={{color: '#ffd700'}}>Official Channel</div>
+              <div className="text-xs text-gray-400">News & Updates</div>
+            </a>
+
+            <a
+              href="https://twitter.com/memestake_official"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-6 rounded-xl transition-all hover:scale-105"
+              style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.3)'}}
+              data-testid="link-twitter"
+            >
+              <SiTwitter className="w-12 h-12 mx-auto mb-3" style={{color: '#00ff88'}} />
+              <div className="font-bold mb-1" style={{color: '#00ff88'}}>Twitter/X</div>
+              <div className="text-xs text-gray-400">Follow Updates</div>
+            </a>
           </div>
         </Card>
 
