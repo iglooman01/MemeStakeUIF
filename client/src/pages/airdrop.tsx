@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Progress } from "@/components/ui/progress";
-import memeStakeLogo from "@assets/6269020538709674998_1759926006311.jpg";
+import memeStakeLogo from "@assets/ChatGPT Image Oct 9, 2025, 11_08_34 AM_1759988345567.png";
 
 export default function Airdrop() {
   const [location, setLocation] = useLocation();
