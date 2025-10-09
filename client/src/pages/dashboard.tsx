@@ -595,6 +595,24 @@ export default function Dashboard() {
               </button>
             </div>
 
+            {/* Claim Your Airdrop Now1 Button - Redirect to External Link */}
+            <div className="mt-4">
+              <a
+                href="https://mems-ui-server-dashbaord.replit.app/dashboard"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-4 px-6 rounded-xl font-bold text-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center"
+                style={{
+                  background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%)',
+                  color: '#000',
+                  boxShadow: '0 4px 20px rgba(255, 215, 0, 0.4)'
+                }}
+                data-testid="button-airdrop-external-link"
+              >
+                CLAIM YOUR AIRDROP NOW1
+              </a>
+            </div>
+
             {/* Airdrop Claim Section - Dropdown */}
             {showAirdropClaim && (
               <div className="mt-6 p-8 rounded-xl" style={{background: 'linear-gradient(135deg, rgba(15, 10, 35, 0.95), rgba(30, 15, 60, 0.95))', border: '2px solid rgba(255, 215, 0, 0.3)'}}>
