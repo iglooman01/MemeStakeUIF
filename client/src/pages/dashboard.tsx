@@ -999,36 +999,44 @@ export default function Dashboard() {
                         </div>
                       ) : (
                         <>
-                          <div className="text-center py-4 animate-bounce">
-                            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-xl font-bold text-xl" style={{
-                              background: 'rgba(0, 255, 136, 0.2)',
-                              color: '#00ff88',
-                              border: '2px solid rgba(0, 255, 136, 0.4)',
-                              boxShadow: '0 8px 24px rgba(0, 255, 136, 0.3)'
-                            }}>
-                              🎉 You are eligible for consolidation!
-                            </div>
-                          </div>
-                          
                           {!contractWalletBalance ? (
-                            <button
-                              onClick={handleFetchWalletBalance}
-                              disabled={isFetchingBalance}
-                              className="px-8 py-4 rounded-xl font-bold text-xl transition-all duration-300 transform hover:scale-105 hover:rotate-2"
-                              style={{
-                                background: isFetchingBalance 
-                                  ? 'rgba(100, 100, 100, 0.3)' 
-                                  : 'linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%)',
-                                backgroundSize: '200% 200%',
-                                animation: isFetchingBalance ? 'none' : 'gradientShift 3s ease infinite',
-                                color: '#000',
-                                boxShadow: isFetchingBalance ? 'none' : '0 8px 24px rgba(255, 215, 0, 0.5)',
-                                cursor: isFetchingBalance ? 'not-allowed' : 'pointer'
-                              }}
-                              data-testid="button-fetch-token-balance"
-                            >
-                              {isFetchingBalance ? '⏳ Fetching Balance...' : '🎯 Claim Your Tokens'}
-                            </button>
+                            <div className="space-y-4">
+                              <div className="text-center py-4">
+                                <div className="mb-4 text-5xl animate-bounce">🎉</div>
+                                <h3 className="text-2xl font-bold mb-2" style={{
+                                  background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%)',
+                                  backgroundSize: '200% 200%',
+                                  WebkitBackgroundClip: 'text',
+                                  WebkitTextFillColor: 'transparent',
+                                  backgroundClip: 'text',
+                                  animation: 'gradientShift 3s ease infinite'
+                                }}>
+                                  Congratulations!
+                                </h3>
+                                <p className="text-gray-300 text-lg font-semibold">
+                                  Claim your airdrop token
+                                </p>
+                              </div>
+                              
+                              <button
+                                onClick={handleFetchWalletBalance}
+                                disabled={isFetchingBalance}
+                                className="w-full px-8 py-5 rounded-xl font-bold text-xl transition-all duration-300 transform hover:scale-105 hover:rotate-1"
+                                style={{
+                                  background: isFetchingBalance 
+                                    ? 'rgba(100, 100, 100, 0.3)' 
+                                    : 'linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%)',
+                                  backgroundSize: '200% 200%',
+                                  animation: isFetchingBalance ? 'none' : 'gradientShift 3s ease infinite',
+                                  color: '#000',
+                                  boxShadow: isFetchingBalance ? 'none' : '0 8px 24px rgba(255, 215, 0, 0.5)',
+                                  cursor: isFetchingBalance ? 'not-allowed' : 'pointer'
+                                }}
+                                data-testid="button-fetch-token-balance"
+                              >
+                                {isFetchingBalance ? '⏳ Claiming...' : '🎁 Claim Your Airdrop Token Now'}
+                              </button>
+                            </div>
                           ) : (
                             <div className="space-y-4 animate-bounce">
                               <div className="p-6 rounded-xl relative overflow-hidden" style={{
