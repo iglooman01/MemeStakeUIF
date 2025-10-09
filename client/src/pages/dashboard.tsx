@@ -30,6 +30,7 @@ export default function Dashboard() {
   const [email, setEmail] = useState('');
   const [otp, setOtp] = useState('');
   const [showOtpInput, setShowOtpInput] = useState(false);
+  const [resendCooldown, setResendCooldown] = useState(0);
   
   const { toast } = useToast();
 
@@ -207,6 +208,18 @@ export default function Dashboard() {
     }
     
     sendOtpMutation.mutate({ email, walletAddress });
+    setResendCooldown(60); // Start 60 second cooldown
+  };
+
+  const handleResendOTP = async () => {
+    if (resendCooldown > 0) return;
+    
+    sendOtpMutation.mutate({ email, walletAddress });
+    setResendCooldown(60);
+    toast({
+      title: "📧 OTP Resent",
+      description: "Check your email for the new verification code",
+    });
   };
 
   const handleVerifyOTP = () => {
@@ -345,6 +358,16 @@ export default function Dashboard() {
     
     return () => clearInterval(timer);
   }, []);
+
+  // Resend OTP cooldown timer
+  useEffect(() => {
+    if (resendCooldown > 0) {
+      const timer = setTimeout(() => {
+        setResendCooldown(resendCooldown - 1);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [resendCooldown]);
 
   const handleStakeTokens = () => {
     setLocation('/staking');
@@ -499,24 +522,44 @@ export default function Dashboard() {
                           </button>
                         </div>
                       ) : (
-                        <div className="flex gap-3">
-                          <input
-                            type="text"
-                            value={otp}
-                            onChange={(e) => setOtp(e.target.value)}
-                            placeholder="Enter OTP"
-                            className="flex-1 px-4 py-3 rounded-lg text-white placeholder-gray-500"
-                            style={{background: 'rgba(0, 0, 0, 0.3)', border: '1px solid rgba(255, 215, 0, 0.3)'}}
-                            data-testid="input-otp"
-                          />
-                          <button
-                            onClick={handleVerifyOTP}
-                            className="px-6 py-3 rounded-lg font-semibold"
-                            style={{background: '#00ff88', color: '#000'}}
-                            data-testid="button-verify-otp"
-                          >
-                            ✅ Verify OTP
-                          </button>
+                        <div>
+                          <div className="flex gap-3">
+                            <input
+                              type="text"
+                              value={otp}
+                              onChange={(e) => setOtp(e.target.value)}
+                              placeholder="Enter OTP"
+                              className="flex-1 px-4 py-3 rounded-lg text-white placeholder-gray-500"
+                              style={{background: 'rgba(0, 0, 0, 0.3)', border: '1px solid rgba(255, 215, 0, 0.3)'}}
+                              data-testid="input-otp"
+                            />
+                            <button
+                              onClick={handleVerifyOTP}
+                              className="px-6 py-3 rounded-lg font-semibold"
+                              style={{background: '#00ff88', color: '#000'}}
+                              data-testid="button-verify-otp"
+                            >
+                              ✅ Verify OTP
+                            </button>
+                          </div>
+                          <div className="mt-3 text-center">
+                            <button
+                              onClick={handleResendOTP}
+                              disabled={resendCooldown > 0}
+                              className="text-sm font-semibold px-4 py-2 rounded-lg transition-all duration-200"
+                              style={{
+                                background: resendCooldown > 0 ? 'rgba(100, 100, 100, 0.3)' : 'rgba(0, 191, 255, 0.2)',
+                                color: resendCooldown > 0 ? '#666' : '#00bfff',
+                                border: `1px solid ${resendCooldown > 0 ? 'rgba(100, 100, 100, 0.3)' : 'rgba(0, 191, 255, 0.3)'}`,
+                                cursor: resendCooldown > 0 ? 'not-allowed' : 'pointer'
+                              }}
+                              data-testid="button-resend-otp"
+                            >
+                              {resendCooldown > 0 
+                                ? `Resend OTP in ${resendCooldown}s` 
+                                : '🔄 Resend OTP'}
+                            </button>
+                          </div>
                         </div>
                       )}
                     </div>
