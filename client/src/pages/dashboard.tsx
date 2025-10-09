@@ -6,6 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import memeStakeLogo from "@assets/ChatGPT Image Oct 9, 2025, 11_08_34 AM_1759988345567.png";
+import { CONTRACTS } from "@/config/contracts";
 
 export default function Dashboard() {
   const [location, setLocation] = useLocation();
@@ -31,6 +32,10 @@ export default function Dashboard() {
   const [otp, setOtp] = useState('');
   const [showOtpInput, setShowOtpInput] = useState(false);
   const [resendCooldown, setResendCooldown] = useState(0);
+  const [contractWalletBalance, setContractWalletBalance] = useState<string>('');
+  const [showEligibility, setShowEligibility] = useState(false);
+  const [isFetchingBalance, setIsFetchingBalance] = useState(false);
+  const [airdropCompleted, setAirdropCompleted] = useState(false);
   
   const { toast } = useToast();
 
@@ -67,6 +72,9 @@ export default function Dashboard() {
   const airdropTokens = participant?.airdropTokens || 0;
   const referralCount = airdropData?.referralCount || 0;
   const referralTokens = participant?.referralTokens || 0;
+  
+  // Check if all tasks are completed
+  const allTasksCompleted = emailVerified && Object.values(tasksCompleted).every(Boolean);
 
   // Earnings data
   const stakingEarnings = 28475;
@@ -248,6 +256,67 @@ export default function Dashboard() {
     }
 
     completeTaskMutation.mutate({ walletAddress, taskId: taskName });
+  };
+
+  // Fetch wallet balance from smart contract
+  const handleFetchWalletBalance = async () => {
+    if (!walletAddress) {
+      toast({
+        title: "❌ No Wallet",
+        description: "Please connect your wallet first",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsFetchingBalance(true);
+    
+    try {
+      // Check if window.ethereum is available
+      if (typeof window.ethereum !== 'undefined') {
+        const provider = window.ethereum;
+        
+        // Create the contract call data for balanceOf function
+        const data = '0x70a08231' + walletAddress.slice(2).padStart(64, '0');
+        
+        // Call the contract
+        const result = await provider.request({
+          method: 'eth_call',
+          params: [{
+            to: CONTRACTS.MEMES_TOKEN.address,
+            data: data
+          }, 'latest']
+        });
+        
+        // Convert result from hex to decimal and format
+        const balance = parseInt(result, 16);
+        const formattedBalance = (balance / 1e18).toFixed(2); // Assuming 18 decimals
+        
+        setContractWalletBalance(formattedBalance);
+        
+        toast({
+          title: "✅ Balance Retrieved",
+          description: `Your MEMES token balance: ${formattedBalance}`,
+        });
+        
+        // After successful fetch, hide airdrop section after 3 seconds
+        setTimeout(() => {
+          setAirdropCompleted(true);
+          setShowAirdropClaim(false);
+        }, 3000);
+      } else {
+        throw new Error('MetaMask not found');
+      }
+    } catch (error: any) {
+      console.error('Error fetching balance:', error);
+      toast({
+        title: "❌ Error",
+        description: error.message || "Failed to fetch wallet balance",
+        variant: "destructive"
+      });
+    } finally {
+      setIsFetchingBalance(false);
+    }
   };
 
   // Calculate conversions
@@ -628,13 +697,54 @@ export default function Dashboard() {
                 {/* 3. Airdrop Status */}
                 <div>
                   <h3 className="text-lg font-semibold mb-4 text-white">3. Your Airdrop Status</h3>
-                  <div className="p-4 rounded-lg text-center space-y-2" style={{background: 'rgba(0, 0, 0, 0.3)', border: '1px solid rgba(255, 255, 255, 0.1)'}}>
-                    <p className="text-gray-300 text-sm">
-                      Complete your social media tasks and connect your wallet to claim your airdrop tokens
-                    </p>
-                    <p className="text-xs text-gray-400">
-                      🔗 Wallet connection required for token distribution
-                    </p>
+                  <div className="p-4 rounded-lg text-center space-y-4" style={{background: 'rgba(0, 0, 0, 0.3)', border: '1px solid rgba(255, 255, 255, 0.1)'}}>
+                    {!allTasksCompleted ? (
+                      <>
+                        <p className="text-gray-300 text-sm">
+                          Complete your social media tasks and connect your wallet to claim your airdrop tokens
+                        </p>
+                        <p className="text-xs text-gray-400">
+                          🔗 Wallet connection required for token distribution
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <div className="text-center py-3">
+                          <p className="text-lg font-semibold mb-2" style={{color: '#00ff88'}}>
+                            ✅ You are eligible for consolidation address
+                          </p>
+                        </div>
+                        
+                        {!contractWalletBalance ? (
+                          <button
+                            onClick={handleFetchWalletBalance}
+                            disabled={isFetchingBalance}
+                            className="px-6 py-3 rounded-lg font-bold text-lg transition-all duration-200 transform hover:scale-105"
+                            style={{
+                              background: isFetchingBalance ? 'rgba(100, 100, 100, 0.3)' : 'linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%)',
+                              color: '#000',
+                              boxShadow: isFetchingBalance ? 'none' : '0 4px 15px rgba(255, 215, 0, 0.4)',
+                              cursor: isFetchingBalance ? 'not-allowed' : 'pointer'
+                            }}
+                            data-testid="button-fetch-token-balance"
+                          >
+                            {isFetchingBalance ? '⏳ Fetching...' : '🎯 Token'}
+                          </button>
+                        ) : (
+                          <div className="space-y-3">
+                            <div className="p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.3)'}}>
+                              <p className="text-sm text-gray-400 mb-1">Your Wallet Balance:</p>
+                              <p className="text-3xl font-bold" style={{color: '#00ff88'}}>
+                                {contractWalletBalance} MEMES
+                              </p>
+                            </div>
+                            <p className="text-sm text-gray-400">
+                              ✅ Airdrop section will hide in 3 seconds...
+                            </p>
+                          </div>
+                        )}
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
