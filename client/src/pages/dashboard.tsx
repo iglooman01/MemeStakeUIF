@@ -886,6 +886,34 @@ export default function Dashboard() {
           </div>
         </Card>
 
+        {/* Consolidation Drop Token Button - Shows when airdrop is completed */}
+        {airdropCompleted && (
+          <Card className="p-6 glass-card">
+            <div className="text-center space-y-4">
+              <div className="text-4xl">🎯</div>
+              <h3 className="text-2xl font-bold" style={{color: '#ffd700'}}>
+                Consolidation Available
+              </h3>
+              <p className="text-sm text-gray-400">
+                Your airdrop tasks are complete. Click below to access your consolidation drop tokens.
+              </p>
+              <Button 
+                size="lg"
+                className="w-full py-6 text-lg font-bold transition-all hover:scale-105 animate-pulse"
+                style={{
+                  background: 'linear-gradient(135deg, #00ff88 0%, #00bfff 100%)',
+                  color: '#000',
+                  boxShadow: '0 8px 25px rgba(0, 255, 136, 0.4)',
+                  border: '2px solid rgba(0, 255, 136, 0.5)'
+                }}
+                data-testid="button-consolidation-drop-token"
+              >
+                🚀 Consolidation Drop Token (500 minutes)
+              </Button>
+            </div>
+          </Card>
+        )}
+
         {/* Main Dashboard Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           
