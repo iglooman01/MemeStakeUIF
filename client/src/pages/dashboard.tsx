@@ -1272,6 +1272,22 @@ export default function Dashboard() {
                 </div>
                 <div className="text-sm text-muted-foreground">Total Rewards Earned</div>
               </div>
+              
+              {/* Airdrop Token */}
+              <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.2)'}}>
+                <div className="text-xl font-bold" style={{color: '#00ff88'}}>
+                  1,000 $MEMES
+                </div>
+                <div className="text-sm text-muted-foreground">Airdrop Token</div>
+              </div>
+              
+              {/* Airdrop Referral Token */}
+              <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)'}}>
+                <div className="text-xl font-bold" style={{color: '#ffd700'}}>
+                  2,000 $MEMES
+                </div>
+                <div className="text-sm text-muted-foreground">Airdrop Referral Token</div>
+              </div>
             </div>
           </Card>
 
