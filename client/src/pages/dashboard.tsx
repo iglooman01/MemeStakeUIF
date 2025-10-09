@@ -1536,7 +1536,7 @@ export default function Dashboard() {
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="w-5 h-5 mt-0.5 flex-shrink-0" style={{color: '#00ff88'}} />
-                      <span>Refer friends and earn 100 $MEMES per referral</span>
+                      <span>3-level referral system (Level 1: 5%, Level 2: 3%, Level 3: 2%)</span>
                     </li>
                   </ul>
                   <div className="mt-4 p-3 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.3)'}}>
@@ -1614,7 +1614,7 @@ export default function Dashboard() {
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="w-5 h-5 mt-0.5 flex-shrink-0" style={{color: '#00bfff'}} />
-                      <span>Daily rewards auto-compound or claim anytime</span>
+                      <span>Claim rewards anytime</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="w-5 h-5 mt-0.5 flex-shrink-0" style={{color: '#00bfff'}} />
@@ -1626,7 +1626,13 @@ export default function Dashboard() {
                     <div className="text-xs text-gray-400">Stake 1M $MEMES → Earn ~10,000 $MEMES daily → 900,000 $MEMES in 90 days</div>
                   </div>
                   <div className="mt-3">
-                    <Button size="lg" className="w-full" style={{background: 'linear-gradient(135deg, #00bfff 0%, #0099cc 100%)', color: '#000'}} data-testid="button-goto-staking">
+                    <Button 
+                      size="lg" 
+                      className="w-full" 
+                      onClick={() => setLocation('/staking')}
+                      style={{background: 'linear-gradient(135deg, #00bfff 0%, #0099cc 100%)', color: '#000'}} 
+                      data-testid="button-goto-staking"
+                    >
                       Go to Staking Page →
                     </Button>
                   </div>
