@@ -399,7 +399,7 @@ export default function Dashboard() {
                   Claim Your MEMES Airdrop
                 </h2>
                 <p className="text-center text-gray-300 mb-6">
-                  Complete the verification steps below to claim your exclusive MEMES tokens from our decentralized airdrop direct in your wallet
+                  Complete the verification steps below to claim your exclusive MEMES tokens from our decentralized airdrop direct in your wallet and join our growing community.
                 </p>
 
                 {/* 1. Email Verification */}
@@ -533,7 +533,7 @@ export default function Dashboard() {
 
                 {/* 4. Token & Referral Details */}
                 <div className="p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)'}}>
-                  <h3 className="text-lg font-semibold mb-3" style={{color: '#ffd700'}}>4. Token & Referral Details</h3>
+                  <h3 className="text-lg font-semibold mb-3" style={{color: '#ffd700'}}>4. Token & Referal Details</h3>
                   
                   <div className="grid grid-cols-3 gap-3 mb-4">
                     <div className="text-center">
