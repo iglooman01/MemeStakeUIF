@@ -471,17 +471,6 @@ export default function Staking() {
                 </div>
               </div>
 
-              {/* Lifetime Earned */}
-              <div className="p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.2)'}}>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm text-muted-foreground">🏆 Lifetime Earned</span>
-                  <span className="text-xs" style={{color: '#00bfff'}}>Total</span>
-                </div>
-                <div className="text-2xl font-bold" style={{color: '#00bfff'}}>
-                  {lifetimeEarned.toLocaleString()} $MEMES
-                </div>
-              </div>
-
               {/* Gas Estimation for Claim */}
               <div className="p-3 rounded-lg text-xs" style={{background: 'rgba(255, 255, 255, 0.05)'}}>
                 <div className="flex justify-between mb-1">
