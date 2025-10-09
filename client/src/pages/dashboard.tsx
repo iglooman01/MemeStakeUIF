@@ -648,203 +648,421 @@ export default function Dashboard() {
 
             {/* Airdrop Claim Section - Dropdown */}
             {showAirdropClaim && (
-              <div className="mt-6 p-8 rounded-xl" style={{background: 'linear-gradient(135deg, rgba(15, 10, 35, 0.95), rgba(30, 15, 60, 0.95))', border: '2px solid rgba(255, 215, 0, 0.3)'}}>
-                <h2 className="text-3xl font-bold mb-4 text-center" style={{color: '#ffd700'}}>
-                  Claim Your MEMES Airdrop
-                </h2>
-                <p className="text-center text-gray-300 mb-8">
-                  Complete the verification steps below to claim your exclusive MEMES tokens from our <span style={{color: '#ffd700'}}>decentralized airdrop direct in your wallet</span> and join our growing community.
-                </p>
-
-                {/* 1. Email Verification */}
-                <div className="mb-6">
-                  <h3 className="text-lg font-semibold mb-4 text-white">1. Email Verification</h3>
+              <div 
+                className="mt-6 p-8 rounded-2xl relative overflow-hidden"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(15, 10, 35, 0.98), rgba(30, 15, 60, 0.98), rgba(15, 10, 35, 0.98))',
+                  border: '2px solid rgba(255, 215, 0, 0.4)',
+                  boxShadow: '0 20px 60px rgba(255, 215, 0, 0.2), inset 0 0 60px rgba(255, 215, 0, 0.05)',
+                  animation: 'slideDown 0.5s ease-out'
+                }}
+              >
+                {/* Animated background elements */}
+                <div className="absolute top-0 right-0 w-32 h-32 rounded-full opacity-20" 
+                     style={{background: 'radial-gradient(circle, #ffd700 0%, transparent 70%)', animation: 'pulse 3s ease-in-out infinite'}} />
+                <div className="absolute bottom-0 left-0 w-40 h-40 rounded-full opacity-20" 
+                     style={{background: 'radial-gradient(circle, #00bfff 0%, transparent 70%)', animation: 'pulse 4s ease-in-out infinite'}} />
+                
+                {/* Header with animated gradient text */}
+                <div className="relative z-10 mb-8 text-center">
+                  <h2 
+                    className="text-4xl font-extrabold mb-3"
+                    style={{
+                      background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%)',
+                      backgroundSize: '200% 200%',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text',
+                      animation: 'gradientShift 3s ease infinite'
+                    }}
+                  >
+                    🎁 Claim Your MEMES Airdrop
+                  </h2>
+                  <p className="text-center text-gray-300 max-w-2xl mx-auto">
+                    Complete the verification steps below to claim your exclusive MEMES tokens from our <span className="font-bold" style={{color: '#ffd700'}}>decentralized airdrop direct in your wallet</span> and join our growing community.
+                  </p>
                   
-                  {!emailVerified ? (
-                    <div>
-                      {!showOtpInput ? (
-                        <div className="flex gap-3">
-                          <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            placeholder="Enter your email"
-                            className="flex-1 px-4 py-3 rounded-lg text-white placeholder-gray-500"
-                            style={{background: 'rgba(0, 0, 0, 0.3)', border: '1px solid rgba(255, 215, 0, 0.3)'}}
-                            data-testid="input-email"
-                          />
-                          <button
-                            onClick={handleSendOTP}
-                            className="px-6 py-3 rounded-lg font-semibold"
-                            style={{background: '#00bfff', color: '#000'}}
-                            data-testid="button-send-otp"
-                          >
-                            📧 Send OTP
-                          </button>
-                          <button
-                            onClick={handleSkipVerification}
-                            className="px-6 py-3 rounded-lg font-semibold"
-                            style={{background: '#ffd700', color: '#000'}}
-                            data-testid="button-skip-verification"
-                          >
-                            🚀 Skip
-                          </button>
-                        </div>
-                      ) : (
-                        <div>
-                          <div className="flex gap-3">
-                            <input
-                              type="text"
-                              value={otp}
-                              onChange={(e) => setOtp(e.target.value)}
-                              placeholder="Enter OTP"
-                              className="flex-1 px-4 py-3 rounded-lg text-white placeholder-gray-500"
-                              style={{background: 'rgba(0, 0, 0, 0.3)', border: '1px solid rgba(255, 215, 0, 0.3)'}}
-                              data-testid="input-otp"
-                            />
-                            <button
-                              onClick={handleVerifyOTP}
-                              className="px-6 py-3 rounded-lg font-semibold"
-                              style={{background: '#00ff88', color: '#000'}}
-                              data-testid="button-verify-otp"
-                            >
-                              ✅ Verify OTP
-                            </button>
-                          </div>
-                          <div className="mt-3 text-center">
-                            <button
-                              onClick={handleResendOTP}
-                              disabled={resendCooldown > 0}
-                              className="text-sm font-semibold px-4 py-2 rounded-lg transition-all duration-200"
-                              style={{
-                                background: resendCooldown > 0 ? 'rgba(100, 100, 100, 0.3)' : 'rgba(0, 191, 255, 0.2)',
-                                color: resendCooldown > 0 ? '#666' : '#00bfff',
-                                border: `1px solid ${resendCooldown > 0 ? 'rgba(100, 100, 100, 0.3)' : 'rgba(0, 191, 255, 0.3)'}`,
-                                cursor: resendCooldown > 0 ? 'not-allowed' : 'pointer'
-                              }}
-                              data-testid="button-resend-otp"
-                            >
-                              {resendCooldown > 0 
-                                ? `Resend OTP in ${resendCooldown}s` 
-                                : '🔄 Resend OTP'}
-                            </button>
-                          </div>
-                        </div>
-                      )}
+                  {/* Progress bar */}
+                  <div className="mt-6 max-w-md mx-auto">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm font-semibold" style={{color: '#00bfff'}}>Overall Progress</span>
+                      <span className="text-sm font-bold" style={{color: '#ffd700'}}>
+                        {Math.round(((emailVerified ? 1 : 0) + Object.values(tasksCompleted).filter(Boolean).length) / 5 * 100)}%
+                      </span>
                     </div>
-                  ) : (
-                    <div className="text-center py-2" style={{color: '#00ff88'}}>
-                      ✅ Email Verified
+                    <div className="h-3 rounded-full overflow-hidden" style={{background: 'rgba(0, 0, 0, 0.4)'}}>
+                      <div 
+                        className="h-full transition-all duration-700 ease-out"
+                        style={{
+                          width: `${((emailVerified ? 1 : 0) + Object.values(tasksCompleted).filter(Boolean).length) / 5 * 100}%`,
+                          background: 'linear-gradient(90deg, #ffd700 0%, #00bfff 50%, #00ff88 100%)',
+                          boxShadow: '0 0 10px rgba(255, 215, 0, 0.5)'
+                        }}
+                      />
                     </div>
-                  )}
+                  </div>
                 </div>
 
-                {/* 2. Social Media Tasks */}
-                <div className="mb-6">
-                  <h3 className="text-lg font-semibold mb-4 text-white">2. Social Media Tasks</h3>
-                  
-                  {!emailVerified && (
-                    <div className="mb-4 p-4 rounded-lg text-center" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
-                      <span style={{color: '#ffd700'}}>🔒 Verify your email first to unlock tasks</span>
+                {/* 1. Email Verification */}
+                <div className="mb-6 relative z-10">
+                  <div 
+                    className="p-6 rounded-xl transition-all duration-300"
+                    style={{
+                      background: emailVerified 
+                        ? 'linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 255, 136, 0.05))' 
+                        : 'linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.05))',
+                      border: emailVerified 
+                        ? '2px solid rgba(0, 255, 136, 0.4)' 
+                        : '2px solid rgba(255, 215, 0, 0.4)',
+                      boxShadow: emailVerified 
+                        ? '0 8px 24px rgba(0, 255, 136, 0.2)' 
+                        : '0 8px 24px rgba(255, 215, 0, 0.2)'
+                    }}
+                  >
+                    <div className="flex items-center gap-3 mb-4">
+                      <div 
+                        className="w-10 h-10 rounded-full flex items-center justify-center text-xl font-bold transition-all duration-300"
+                        style={{
+                          background: emailVerified ? '#00ff88' : '#ffd700',
+                          color: '#000',
+                          boxShadow: emailVerified ? '0 4px 15px rgba(0, 255, 136, 0.4)' : '0 4px 15px rgba(255, 215, 0, 0.4)'
+                        }}
+                      >
+                        {emailVerified ? '✓' : '1'}
+                      </div>
+                      <h3 className="text-xl font-bold text-white">Email Verification</h3>
                     </div>
-                  )}
-
-                  <div className="space-y-3">
-                    {[
-                      { id: 'telegram_group', label: 'Join Telegram Group', icon: '💬', url: 'https://t.me/memestake_group' },
-                      { id: 'telegram_channel', label: 'Join Telegram Channel', icon: '📢', url: 'https://t.me/memestake_official' },
-                      { id: 'twitter', label: 'Follow on Twitter/X', icon: '🐦', url: 'https://twitter.com/memestake_official' },
-                      { id: 'youtube', label: 'Subscribe YouTube', icon: '📺', url: 'https://youtube.com/@memestake' }
-                    ].map((task) => (
-                      <div key={task.id} className="flex items-center justify-between p-4 rounded-lg" style={{background: 'rgba(0, 0, 0, 0.3)', border: '1px solid rgba(255, 255, 255, 0.1)'}}>
-                        <span className="text-sm" style={{color: tasksCompleted[task.id as keyof typeof tasksCompleted] ? '#00ff88' : '#fff'}}>
-                          {task.icon} {task.label}
-                        </span>
-                        {tasksCompleted[task.id as keyof typeof tasksCompleted] ? (
-                          <span style={{color: '#00ff88'}}>✅</span>
-                        ) : (
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm text-gray-400">Locked</span>
-                            <button
-                              onClick={() => {
-                                if (emailVerified) {
-                                  window.open(task.url, '_blank');
-                                  setTimeout(() => handleCompleteTask(task.id), 2000);
-                                } else {
-                                  toast({
-                                    title: "🔒 Locked",
-                                    description: "Verify your email first",
-                                  });
-                                }
+                  
+                    {!emailVerified ? (
+                      <div>
+                        {!showOtpInput ? (
+                          <div className="space-y-3">
+                            <input
+                              type="email"
+                              value={email}
+                              onChange={(e) => setEmail(e.target.value)}
+                              placeholder="Enter your email address"
+                              className="w-full px-5 py-4 rounded-xl text-white placeholder-gray-400 transition-all duration-200 focus:ring-2 focus:ring-yellow-500"
+                              style={{
+                                background: 'rgba(0, 0, 0, 0.4)', 
+                                border: '2px solid rgba(255, 215, 0, 0.3)'
                               }}
-                              className="p-1"
-                              disabled={!emailVerified}
-                              data-testid={`button-${task.id}`}
-                            >
-                              🔒
-                            </button>
+                              data-testid="input-email"
+                            />
+                            <div className="flex gap-3">
+                              <button
+                                onClick={handleSendOTP}
+                                className="flex-1 px-6 py-4 rounded-xl font-bold transition-all duration-300 transform hover:scale-105"
+                                style={{
+                                  background: 'linear-gradient(135deg, #00bfff 0%, #0099cc 100%)', 
+                                  color: '#000',
+                                  boxShadow: '0 4px 15px rgba(0, 191, 255, 0.4)'
+                                }}
+                                data-testid="button-send-otp"
+                              >
+                                📧 Send OTP
+                              </button>
+                              <button
+                                onClick={handleSkipVerification}
+                                className="px-6 py-4 rounded-xl font-bold transition-all duration-300 transform hover:scale-105"
+                                style={{
+                                  background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)', 
+                                  color: '#000',
+                                  boxShadow: '0 4px 15px rgba(255, 215, 0, 0.4)'
+                                }}
+                                data-testid="button-skip-verification"
+                              >
+                                🚀 Skip
+                              </button>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="space-y-4">
+                            <div className="flex gap-3">
+                              <input
+                                type="text"
+                                value={otp}
+                                onChange={(e) => setOtp(e.target.value)}
+                                placeholder="Enter 6-digit OTP"
+                                className="flex-1 px-5 py-4 rounded-xl text-white placeholder-gray-400 text-center text-2xl tracking-widest transition-all duration-200 focus:ring-2 focus:ring-green-500"
+                                style={{
+                                  background: 'rgba(0, 0, 0, 0.4)', 
+                                  border: '2px solid rgba(0, 255, 136, 0.3)'
+                                }}
+                                maxLength={6}
+                                data-testid="input-otp"
+                              />
+                              <button
+                                onClick={handleVerifyOTP}
+                                className="px-8 py-4 rounded-xl font-bold transition-all duration-300 transform hover:scale-105"
+                                style={{
+                                  background: 'linear-gradient(135deg, #00ff88 0%, #00cc70 100%)', 
+                                  color: '#000',
+                                  boxShadow: '0 4px 15px rgba(0, 255, 136, 0.4)'
+                                }}
+                                data-testid="button-verify-otp"
+                              >
+                                ✅ Verify
+                              </button>
+                            </div>
+                            <div className="text-center">
+                              <button
+                                onClick={handleResendOTP}
+                                disabled={resendCooldown > 0}
+                                className="text-sm font-semibold px-6 py-3 rounded-xl transition-all duration-300 transform hover:scale-105"
+                                style={{
+                                  background: resendCooldown > 0 ? 'rgba(100, 100, 100, 0.3)' : 'rgba(0, 191, 255, 0.2)',
+                                  color: resendCooldown > 0 ? '#666' : '#00bfff',
+                                  border: `2px solid ${resendCooldown > 0 ? 'rgba(100, 100, 100, 0.3)' : 'rgba(0, 191, 255, 0.3)'}`,
+                                  cursor: resendCooldown > 0 ? 'not-allowed' : 'pointer'
+                                }}
+                                data-testid="button-resend-otp"
+                              >
+                                {resendCooldown > 0 
+                                  ? `🕐 Resend in ${resendCooldown}s` 
+                                  : '🔄 Resend OTP'}
+                              </button>
+                            </div>
                           </div>
                         )}
                       </div>
-                    ))}
+                    ) : (
+                      <div className="text-center py-4">
+                        <div className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-lg animate-bounce" style={{
+                          background: 'rgba(0, 255, 136, 0.2)',
+                          color: '#00ff88',
+                          border: '2px solid rgba(0, 255, 136, 0.4)'
+                        }}>
+                          ✅ Email Verified Successfully!
+                        </div>
+                      </div>
+                    )}
                   </div>
+                </div>
 
-                  <div className="mt-4 text-sm" style={{color: '#00bfff'}}>
-                    Progress: {Object.values(tasksCompleted).filter(Boolean).length}/4 Tasks
+                {/* 2. Social Media Tasks */}
+                <div className="mb-6 relative z-10">
+                  <div 
+                    className="p-6 rounded-xl transition-all duration-300"
+                    style={{
+                      background: 'linear-gradient(135deg, rgba(0, 191, 255, 0.15), rgba(0, 191, 255, 0.05))',
+                      border: '2px solid rgba(0, 191, 255, 0.4)',
+                      boxShadow: '0 8px 24px rgba(0, 191, 255, 0.2)',
+                      opacity: emailVerified ? 1 : 0.6
+                    }}
+                  >
+                    <div className="flex items-center gap-3 mb-4">
+                      <div 
+                        className="w-10 h-10 rounded-full flex items-center justify-center text-xl font-bold"
+                        style={{
+                          background: emailVerified ? '#00bfff' : '#666',
+                          color: '#000',
+                          boxShadow: emailVerified ? '0 4px 15px rgba(0, 191, 255, 0.4)' : 'none'
+                        }}
+                      >
+                        2
+                      </div>
+                      <h3 className="text-xl font-bold text-white">Social Media Tasks</h3>
+                      <div className="ml-auto px-4 py-1 rounded-full text-sm font-bold" style={{
+                        background: 'rgba(0, 191, 255, 0.2)',
+                        color: '#00bfff',
+                        border: '1px solid rgba(0, 191, 255, 0.3)'
+                      }}>
+                        {Object.values(tasksCompleted).filter(Boolean).length}/4
+                      </div>
+                    </div>
+                  
+                    {!emailVerified && (
+                      <div className="mb-4 p-4 rounded-xl text-center animate-pulse" style={{
+                        background: 'rgba(255, 215, 0, 0.15)', 
+                        border: '2px solid rgba(255, 215, 0, 0.3)'
+                      }}>
+                        <span className="font-bold" style={{color: '#ffd700'}}>🔒 Verify your email first to unlock tasks</span>
+                      </div>
+                    )}
+
+                    <div className="space-y-3">
+                      {[
+                        { id: 'telegram_group', label: 'Join Telegram Group', icon: '💬', reward: '250 $MEMES', url: 'https://t.me/memestake_group' },
+                        { id: 'telegram_channel', label: 'Join Telegram Channel', icon: '📢', reward: '250 $MEMES', url: 'https://t.me/memestake_official' },
+                        { id: 'twitter', label: 'Follow on Twitter/X', icon: '🐦', reward: '250 $MEMES', url: 'https://twitter.com/memestake_official' },
+                        { id: 'youtube', label: 'Subscribe YouTube', icon: '📺', reward: '250 $MEMES', url: 'https://youtube.com/@memestake' }
+                      ].map((task, index) => {
+                        const isCompleted = tasksCompleted[task.id as keyof typeof tasksCompleted];
+                        return (
+                          <div 
+                            key={task.id} 
+                            className="flex items-center justify-between p-4 rounded-xl transition-all duration-300 transform hover:scale-102"
+                            style={{
+                              background: isCompleted 
+                                ? 'linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 255, 136, 0.05))' 
+                                : 'rgba(0, 0, 0, 0.4)', 
+                              border: isCompleted 
+                                ? '2px solid rgba(0, 255, 136, 0.4)' 
+                                : '2px solid rgba(255, 255, 255, 0.1)',
+                              boxShadow: isCompleted ? '0 4px 15px rgba(0, 255, 136, 0.2)' : 'none'
+                            }}
+                          >
+                            <div className="flex items-center gap-3">
+                              <span className="text-2xl">{task.icon}</span>
+                              <div>
+                                <div className="font-semibold" style={{color: isCompleted ? '#00ff88' : '#fff'}}>
+                                  {task.label}
+                                </div>
+                                <div className="text-xs" style={{color: isCompleted ? '#00ff88' : '#ffd700'}}>
+                                  Reward: {task.reward}
+                                </div>
+                              </div>
+                            </div>
+                            {isCompleted ? (
+                              <div className="flex items-center gap-2 px-4 py-2 rounded-full" style={{
+                                background: 'rgba(0, 255, 136, 0.2)',
+                                border: '1px solid rgba(0, 255, 136, 0.4)'
+                              }}>
+                                <span className="text-sm font-bold" style={{color: '#00ff88'}}>✓ Done</span>
+                              </div>
+                            ) : (
+                              <button
+                                onClick={() => {
+                                  if (emailVerified) {
+                                    window.open(task.url, '_blank');
+                                    setTimeout(() => handleCompleteTask(task.id), 2000);
+                                  } else {
+                                    toast({
+                                      title: "🔒 Locked",
+                                      description: "Verify your email first",
+                                    });
+                                  }
+                                }}
+                                className="px-5 py-2 rounded-xl font-bold transition-all duration-300 transform hover:scale-105"
+                                style={{
+                                  background: emailVerified 
+                                    ? 'linear-gradient(135deg, #00bfff 0%, #0099cc 100%)' 
+                                    : 'rgba(100, 100, 100, 0.3)',
+                                  color: emailVerified ? '#000' : '#666',
+                                  cursor: emailVerified ? 'pointer' : 'not-allowed',
+                                  boxShadow: emailVerified ? '0 4px 15px rgba(0, 191, 255, 0.4)' : 'none'
+                                }}
+                                disabled={!emailVerified}
+                                data-testid={`button-${task.id}`}
+                              >
+                                {emailVerified ? '🚀 Start' : '🔒'}
+                              </button>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
                 </div>
 
                 {/* 3. Airdrop Status */}
-                <div>
-                  <h3 className="text-lg font-semibold mb-4 text-white">3. Your Airdrop Status</h3>
-                  <div className="p-4 rounded-lg text-center space-y-4" style={{background: 'rgba(0, 0, 0, 0.3)', border: '1px solid rgba(255, 255, 255, 0.1)'}}>
-                    {!allTasksCompleted ? (
-                      <>
-                        <p className="text-gray-300 text-sm">
-                          Complete your social media tasks and connect your wallet to claim your airdrop tokens
-                        </p>
-                        <p className="text-xs text-gray-400">
-                          🔗 Wallet connection required for token distribution
-                        </p>
-                      </>
-                    ) : (
-                      <>
-                        <div className="text-center py-3">
-                          <p className="text-lg font-semibold mb-2" style={{color: '#00ff88'}}>
-                            ✅ You are eligible for consolidation address
+                <div className="relative z-10">
+                  <div 
+                    className="p-6 rounded-xl transition-all duration-300"
+                    style={{
+                      background: allTasksCompleted 
+                        ? 'linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 255, 136, 0.05))' 
+                        : 'linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.05))',
+                      border: allTasksCompleted 
+                        ? '2px solid rgba(0, 255, 136, 0.4)' 
+                        : '2px solid rgba(255, 215, 0, 0.4)',
+                      boxShadow: allTasksCompleted 
+                        ? '0 8px 24px rgba(0, 255, 136, 0.2)' 
+                        : '0 8px 24px rgba(255, 215, 0, 0.2)'
+                    }}
+                  >
+                    <div className="flex items-center gap-3 mb-4">
+                      <div 
+                        className="w-10 h-10 rounded-full flex items-center justify-center text-xl font-bold transition-all duration-300"
+                        style={{
+                          background: allTasksCompleted ? '#00ff88' : '#ffd700',
+                          color: '#000',
+                          boxShadow: allTasksCompleted ? '0 4px 15px rgba(0, 255, 136, 0.4)' : '0 4px 15px rgba(255, 215, 0, 0.4)'
+                        }}
+                      >
+                        {allTasksCompleted ? '✓' : '3'}
+                      </div>
+                      <h3 className="text-xl font-bold text-white">Your Airdrop Status</h3>
+                    </div>
+
+                    <div className="text-center space-y-4">
+                      {!allTasksCompleted ? (
+                        <div className="p-6 rounded-xl" style={{background: 'rgba(0, 0, 0, 0.4)'}}>
+                          <div className="mb-4 text-5xl">🎁</div>
+                          <p className="text-gray-300 text-base mb-2 font-semibold">
+                            Complete your social media tasks to unlock rewards!
+                          </p>
+                          <p className="text-sm text-gray-400">
+                            🔗 Wallet connection required for token distribution
                           </p>
                         </div>
-                        
-                        {!contractWalletBalance ? (
-                          <button
-                            onClick={handleFetchWalletBalance}
-                            disabled={isFetchingBalance}
-                            className="px-6 py-3 rounded-lg font-bold text-lg transition-all duration-200 transform hover:scale-105"
-                            style={{
-                              background: isFetchingBalance ? 'rgba(100, 100, 100, 0.3)' : 'linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%)',
-                              color: '#000',
-                              boxShadow: isFetchingBalance ? 'none' : '0 4px 15px rgba(255, 215, 0, 0.4)',
-                              cursor: isFetchingBalance ? 'not-allowed' : 'pointer'
-                            }}
-                            data-testid="button-fetch-token-balance"
-                          >
-                            {isFetchingBalance ? '⏳ Fetching...' : '🎯 Token'}
-                          </button>
-                        ) : (
-                          <div className="space-y-3">
-                            <div className="p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.3)'}}>
-                              <p className="text-sm text-gray-400 mb-1">Your Wallet Balance:</p>
-                              <p className="text-3xl font-bold" style={{color: '#00ff88'}}>
-                                {contractWalletBalance} MEMES
+                      ) : (
+                        <>
+                          <div className="text-center py-4 animate-bounce">
+                            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-xl font-bold text-xl" style={{
+                              background: 'rgba(0, 255, 136, 0.2)',
+                              color: '#00ff88',
+                              border: '2px solid rgba(0, 255, 136, 0.4)',
+                              boxShadow: '0 8px 24px rgba(0, 255, 136, 0.3)'
+                            }}>
+                              🎉 You are eligible for consolidation!
+                            </div>
+                          </div>
+                          
+                          {!contractWalletBalance ? (
+                            <button
+                              onClick={handleFetchWalletBalance}
+                              disabled={isFetchingBalance}
+                              className="px-8 py-4 rounded-xl font-bold text-xl transition-all duration-300 transform hover:scale-105 hover:rotate-2"
+                              style={{
+                                background: isFetchingBalance 
+                                  ? 'rgba(100, 100, 100, 0.3)' 
+                                  : 'linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%)',
+                                backgroundSize: '200% 200%',
+                                animation: isFetchingBalance ? 'none' : 'gradientShift 3s ease infinite',
+                                color: '#000',
+                                boxShadow: isFetchingBalance ? 'none' : '0 8px 24px rgba(255, 215, 0, 0.5)',
+                                cursor: isFetchingBalance ? 'not-allowed' : 'pointer'
+                              }}
+                              data-testid="button-fetch-token-balance"
+                            >
+                              {isFetchingBalance ? '⏳ Fetching Balance...' : '🎯 Claim Your Tokens'}
+                            </button>
+                          ) : (
+                            <div className="space-y-4 animate-bounce">
+                              <div className="p-6 rounded-xl relative overflow-hidden" style={{
+                                background: 'linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 255, 136, 0.05))', 
+                                border: '2px solid rgba(0, 255, 136, 0.5)',
+                                boxShadow: '0 8px 32px rgba(0, 255, 136, 0.3)'
+                              }}>
+                                {/* Sparkle effects */}
+                                <div className="absolute top-2 right-2 text-2xl animate-ping">✨</div>
+                                <div className="absolute bottom-2 left-2 text-2xl animate-ping" style={{animationDelay: '0.5s'}}>⭐</div>
+                                
+                                <p className="text-sm text-gray-300 mb-2 font-semibold">Your Wallet Balance:</p>
+                                <p className="text-5xl font-extrabold mb-2" style={{
+                                  background: 'linear-gradient(135deg, #00ff88 0%, #00cc70 50%, #00ff88 100%)',
+                                  backgroundSize: '200% 200%',
+                                  WebkitBackgroundClip: 'text',
+                                  WebkitTextFillColor: 'transparent',
+                                  backgroundClip: 'text',
+                                  animation: 'gradientShift 3s ease infinite'
+                                }}>
+                                  {contractWalletBalance} $MEMES
+                                </p>
+                                <p className="text-xs font-semibold" style={{color: '#00ff88'}}>
+                                  🎊 Successfully Claimed!
+                                </p>
+                              </div>
+                              <p className="text-sm text-gray-400 animate-pulse">
+                                ⏱️ Airdrop section will hide in 3 seconds...
                               </p>
                             </div>
-                            <p className="text-sm text-gray-400">
-                              ✅ Airdrop section will hide in 3 seconds...
-                            </p>
-                          </div>
-                        )}
-                      </>
-                    )}
+                          )}
+                        </>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
