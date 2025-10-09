@@ -8,7 +8,7 @@ import { apiRequest, queryClient } from "@/lib/queryClient";
 import memeStakeLogo from "@assets/ChatGPT Image Oct 9, 2025, 11_08_34 AM_1759988345567.png";
 import { CONTRACTS } from "@/config/contracts";
 import { Home, BookOpen, Coins, Copy, CheckCircle2, Users, TrendingUp, Shield, Rocket, Trophy, Zap, Lock } from "lucide-react";
-import { SiTelegram, SiTwitter } from "react-icons/si";
+import { SiTelegram, SiX } from "react-icons/si";
 import {
   Accordion,
   AccordionContent,
@@ -1638,7 +1638,7 @@ export default function Dashboard() {
               style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.3)'}}
               data-testid="link-twitter"
             >
-              <SiTwitter className="w-12 h-12 mx-auto mb-3" style={{color: '#00ff88'}} />
+              <SiX className="w-12 h-12 mx-auto mb-3" style={{color: '#00ff88'}} />
               <div className="font-bold mb-1" style={{color: '#00ff88'}}>Twitter/X</div>
               <div className="text-xs text-gray-400">Follow Updates</div>
             </a>
