@@ -15,6 +15,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { LiveJoinNotification } from "@/components/LiveJoinNotification";
 
 export default function Dashboard() {
   const [location, setLocation] = useLocation();
@@ -495,6 +496,9 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen text-foreground" style={{background: 'linear-gradient(135deg, #0a0e1a 0%, #1a1f2e 50%, #0f1421 100%)'}} data-testid="dashboard-page">
+      
+      {/* Live Join Notifications */}
+      <LiveJoinNotification />
       
       {/* Header */}
       <header className="sticky top-0 z-50 border-b border-border backdrop-blur-md" style={{background: 'rgba(15, 10, 35, 0.95)'}} data-testid="dashboard-header">
