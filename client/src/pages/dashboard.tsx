@@ -333,46 +333,7 @@ export default function Dashboard() {
                   <div className="text-sm text-muted-foreground">SECS</div>
                 </div>
               </div>
-
-              {/* Claim Airdrop Button */}
-              <div className="mt-6">
-                <a
-                  href="https://mems-ui-server-dashbaord.replit.app/dashboard"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block w-full"
-                  data-testid="link-claim-airdrop"
-                >
-                  <button
-                    className="w-full py-5 px-8 rounded-xl font-bold text-2xl transition-all duration-300 transform hover:scale-105 shadow-2xl relative overflow-hidden"
-                    style={{
-                      background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%)',
-                      color: '#000',
-                      boxShadow: '0 0 30px rgba(255, 215, 0, 0.6), 0 0 60px rgba(255, 215, 0, 0.4)',
-                      animation: 'pulse-glow 2s ease-in-out infinite'
-                    }}
-                    data-testid="button-claim-airdrop"
-                  >
-                    <span className="relative z-10 flex items-center justify-center">
-                      🎁 CLAIM YOUR AIRDROP NOW! 🚀
-                    </span>
-                  </button>
-                </a>
-              </div>
             </div>
-
-            <style>{`
-              @keyframes pulse-glow {
-                0%, 100% {
-                  box-shadow: 0 0 30px rgba(255, 215, 0, 0.6), 0 0 60px rgba(255, 215, 0, 0.4);
-                  transform: scale(1);
-                }
-                50% {
-                  box-shadow: 0 0 40px rgba(255, 215, 0, 0.8), 0 0 80px rgba(255, 215, 0, 0.6);
-                  transform: scale(1.02);
-                }
-              }
-            `}</style>
 
             {/* Claim Your Airdrop Now 1 Button */}
             <div className="mt-6">
