@@ -564,6 +564,19 @@ export default function Dashboard() {
 
             {/* Wallet Info & Disconnect */}
             <div className="flex items-center space-x-3">
+              {/* Telegram Link */}
+              <a
+                href="https://t.me/memestake_group"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center p-2 rounded-lg transition-all duration-300 hover:scale-110"
+                style={{background: 'rgba(0, 191, 255, 0.15)', border: '1px solid rgba(0, 191, 255, 0.4)'}}
+                title="Join our Telegram"
+                data-testid="header-telegram-link"
+              >
+                <SiTelegram className="w-5 h-5" style={{color: '#00bfff'}} />
+              </a>
+              
               {walletAddress && (
                 <div className="hidden sm:flex items-center space-x-2 px-3 py-2 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
                   <div className="text-xs text-gray-400">{walletType || 'Wallet'}</div>
