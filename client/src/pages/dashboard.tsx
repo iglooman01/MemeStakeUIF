@@ -1093,56 +1093,6 @@ export default function Dashboard() {
           </div>
         </Card>
 
-        {/* MemeStake Community */}
-        <Card className="p-6 glass-card">
-          <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value="community" style={{borderColor: 'rgba(0, 191, 255, 0.3)'}}>
-              <AccordionTrigger className="text-white hover:text-[#00bfff]">
-                <h3 className="text-xl font-bold" style={{color: '#00bfff'}}>MemeStake Community</h3>
-              </AccordionTrigger>
-              <AccordionContent className="text-gray-400 pt-4">
-                <div className="space-y-4">
-                  <p className="text-center mb-6">Join our vibrant community across multiple platforms!</p>
-                  
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <a href="https://t.me/memestake" target="_blank" rel="noopener noreferrer" className="p-4 rounded-lg flex items-center gap-3 hover:scale-105 transition-all" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
-                      <SiTelegram className="w-8 h-8" style={{color: '#00bfff'}} />
-                      <div>
-                        <div className="font-semibold text-white">Telegram Group</div>
-                        <div className="text-sm text-gray-500">Join the conversation</div>
-                      </div>
-                    </a>
-                    
-                    <a href="https://twitter.com/memestake" target="_blank" rel="noopener noreferrer" className="p-4 rounded-lg flex items-center gap-3 hover:scale-105 transition-all" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
-                      <SiX className="w-8 h-8" style={{color: '#00bfff'}} />
-                      <div>
-                        <div className="font-semibold text-white">Twitter/X</div>
-                        <div className="text-sm text-gray-500">Follow for updates</div>
-                      </div>
-                    </a>
-                    
-                    <a href="https://youtube.com/@memestake" target="_blank" rel="noopener noreferrer" className="p-4 rounded-lg flex items-center gap-3 hover:scale-105 transition-all" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
-                      <div className="text-3xl">📺</div>
-                      <div>
-                        <div className="font-semibold text-white">YouTube</div>
-                        <div className="text-sm text-gray-500">Tutorials & updates</div>
-                      </div>
-                    </a>
-                    
-                    <a href="https://medium.com/@memestake" target="_blank" rel="noopener noreferrer" className="p-4 rounded-lg flex items-center gap-3 hover:scale-105 transition-all" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
-                      <div className="text-3xl">📝</div>
-                      <div>
-                        <div className="font-semibold text-white">Medium</div>
-                        <div className="text-sm text-gray-500">Read our blog</div>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        </Card>
-
         {/* Roadmap */}
         <Card className="p-6 glass-card">
           <Accordion type="single" collapsible className="w-full">
@@ -1349,73 +1299,6 @@ export default function Dashboard() {
               </AccordionContent>
             </AccordionItem>
           </Accordion>
-        </Card>
-
-        {/* MemeStake Community Section */}
-        <Card className="p-8 glass-card" style={{background: 'linear-gradient(135deg, rgba(15, 10, 35, 0.95), rgba(30, 15, 60, 0.95))', border: '2px solid rgba(255, 215, 0, 0.3)'}}>
-          <h2 className="text-3xl font-bold text-center mb-2" style={{color: '#ffd700'}}>MemeStake Community</h2>
-          <p className="text-center text-gray-400 mb-8">Building the future of decentralized meme culture with innovation, transparency, and community-first principles.</p>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
-              <div className="text-3xl font-bold mb-1" style={{color: '#ffd700'}}>47,832</div>
-              <div className="text-xs text-gray-400">Total Live Holders</div>
-              <div className="text-xs text-cyan-400 mt-1">Growing every second</div>
-            </div>
-            <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
-              <div className="text-3xl font-bold mb-1" style={{color: '#00bfff'}}>47K+</div>
-              <div className="text-xs text-gray-400">Community Members</div>
-              <div className="text-xs text-cyan-400 mt-1">Active participants worldwide</div>
-            </div>
-            <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.3)'}}>
-              <div className="text-3xl font-bold mb-1" style={{color: '#00ff88'}}>47,832</div>
-              <div className="text-xs text-gray-400">MEMES Distributed</div>
-              <div className="text-xs text-cyan-400 mt-1">Rewarded to our community</div>
-            </div>
-            <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 105, 180, 0.1)', border: '1px solid rgba(255, 105, 180, 0.3)'}}>
-              <div className="text-3xl font-bold mb-1" style={{color: '#ff69b4'}}>24/7</div>
-              <div className="text-xs text-gray-400">Premium Support</div>
-              <div className="text-xs text-cyan-400 mt-1">Always here to help you succeed</div>
-            </div>
-          </div>
-
-          <div className="text-center">
-            <h3 className="text-xl font-bold mb-4" style={{color: '#ffd700'}}>Ready to Shape the Future?</h3>
-            <p className="text-gray-400 mb-6">Join thousands of innovators, creators, and meme enthusiasts building the next generation of decentralized culture.</p>
-            <a
-              href="https://t.me/memestake_group"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block"
-            >
-              <Button size="lg" style={{background: '#00bfff', color: '#000'}} data-testid="button-join-community">
-                Join Our Community
-              </Button>
-            </a>
-          </div>
-
-          <div className="mt-8 p-4 rounded-lg text-center" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
-            <p className="text-sm mb-3" style={{color: '#00bfff'}}>💡 Want to share your referral link to friends and relatives on social media?</p>
-            <p className="text-xs text-gray-400 mb-4">Just click the button below - it's easy for sharing and you earn rewards for every successful referral!</p>
-            <Button variant="outline" size="lg" style={{borderColor: '#00bfff', color: '#00bfff'}} data-testid="button-share-referral">
-              Share & Earn Rewards
-            </Button>
-          </div>
-
-          <div className="grid grid-cols-3 gap-4 mt-6 text-center text-sm">
-            <div className="p-2 rounded" style={{background: 'rgba(0, 255, 136, 0.1)'}}>
-              <Lock className="w-5 h-5 mx-auto mb-1" style={{color: '#00ff88'}} />
-              <div style={{color: '#00ff88'}}>🔒Secure</div>
-            </div>
-            <div className="p-2 rounded" style={{background: 'rgba(255, 215, 0, 0.1)'}}>
-              <Trophy className="w-5 h-5 mx-auto mb-1" style={{color: '#ffd700'}} />
-              <div style={{color: '#ffd700'}}>🌍Global</div>
-            </div>
-            <div className="p-2 rounded" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
-              <Zap className="w-5 h-5 mx-auto mb-1" style={{color: '#00bfff'}} />
-              <div style={{color: '#00bfff'}}>⚡Instant</div>
-            </div>
-          </div>
         </Card>
 
         {/* Roadmap */}
