@@ -670,7 +670,7 @@ export default function Dashboard() {
                 <span className="flex items-center justify-center gap-3 relative z-10">
                   <span className="text-3xl animate-bounce">🎁</span>
                   <span className="tracking-wider">
-                    {showAirdropClaim ? 'HIDE CLAIM FORM' : 'CLAIM YOUR AIRDROP NOW!'}
+                    CLAIM YOUR AIRDROP NOW!
                   </span>
                   <span 
                     className="text-2xl transition-transform duration-300"
