@@ -1240,67 +1240,75 @@ export default function Dashboard() {
         </Card>
 
         {/* FAQ Section */}
-        <Card className="p-8 glass-card">
-          <h3 className="text-2xl font-bold text-center mb-2" style={{color: '#ffd700'}}>Frequently Asked Questions</h3>
-          <p className="text-center text-gray-400 mb-8">Everything you need to know about MemeStake</p>
-          
+        <Card className="p-6 glass-card">
           <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value="item-1" style={{borderColor: 'rgba(255, 215, 0, 0.3)'}}>
-              <AccordionTrigger className="text-white hover:text-[#ffd700]">What is MemeStake?</AccordionTrigger>
-              <AccordionContent className="text-gray-400">
-                MemeStake is a decentralized airdrop and staking platform for the MEMES token. We deliver tokens direct in your wallet while building the strongest meme community in crypto.
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="item-2" style={{borderColor: 'rgba(255, 215, 0, 0.3)'}}>
-              <AccordionTrigger className="text-white hover:text-[#ffd700]">How do I earn rewards?</AccordionTrigger>
-              <AccordionContent className="text-gray-400">
-                You can earn rewards through airdrops by completing social tasks, staking your MEMES tokens for up to 250% APY, and referring friends through our 3-level referral program.
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="item-3" style={{borderColor: 'rgba(255, 215, 0, 0.3)'}}>
-              <AccordionTrigger className="text-white hover:text-[#ffd700]">Is my investment safe?</AccordionTrigger>
-              <AccordionContent className="text-gray-400">
-                Yes, our smart contracts are audited and deployed on BNB Chain. We use industry-standard security practices and transparent tokenomics to ensure the safety of your investment.
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="item-4" style={{borderColor: 'rgba(255, 215, 0, 0.3)'}}>
-              <AccordionTrigger className="text-white hover:text-[#ffd700]">When can I withdraw my tokens?</AccordionTrigger>
-              <AccordionContent className="text-gray-400">
-                Airdrop tokens are immediately claimable to your wallet. Staked tokens can be withdrawn after the lock period ends, with flexible options from 1 month to 1 year.
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="item-5" style={{borderColor: 'rgba(255, 215, 0, 0.3)'}}>
-              <AccordionTrigger className="text-white hover:text-[#ffd700]">What are the tokenomics?</AccordionTrigger>
-              <AccordionContent className="text-gray-400">
-                Total supply: 1B MEMES tokens. Distribution: 50% Public Sale & Airdrops, 30% Staking Rewards, 20% Team & Development, 10% Marketing & Partnerships. Fixed supply with no inflation.
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="item-6" style={{borderColor: 'rgba(255, 215, 0, 0.3)'}}>
-              <AccordionTrigger className="text-white hover:text-[#ffd700]">How does staking work?</AccordionTrigger>
-              <AccordionContent className="text-gray-400">
-                Stake your MEMES tokens for flexible periods (1 month to 1 year) and earn up to 250% APY. Rewards are distributed daily and can be claimed anytime. The longer you stake, the higher the APY.
+            <AccordionItem value="faq" style={{borderColor: 'rgba(255, 215, 0, 0.3)'}}>
+              <AccordionTrigger className="text-white hover:text-[#ffd700]">
+                <h3 className="text-xl font-bold" style={{color: '#ffd700'}}>Frequently Asked Questions</h3>
+              </AccordionTrigger>
+              <AccordionContent className="pt-4">
+                <p className="text-center text-gray-400 mb-6">Everything you need to know about MemeStake</p>
+                
+                <Accordion type="single" collapsible className="w-full">
+                  <AccordionItem value="item-1" style={{borderColor: 'rgba(255, 215, 0, 0.3)'}}>
+                    <AccordionTrigger className="text-white hover:text-[#ffd700]">What is MemeStake?</AccordionTrigger>
+                    <AccordionContent className="text-gray-400">
+                      MemeStake is a decentralized airdrop and staking platform for the MEMES token. We deliver tokens direct in your wallet while building the strongest meme community in crypto.
+                    </AccordionContent>
+                  </AccordionItem>
+                  
+                  <AccordionItem value="item-2" style={{borderColor: 'rgba(255, 215, 0, 0.3)'}}>
+                    <AccordionTrigger className="text-white hover:text-[#ffd700]">How do I earn rewards?</AccordionTrigger>
+                    <AccordionContent className="text-gray-400">
+                      You can earn rewards through airdrops by completing social tasks, staking your MEMES tokens for up to 250% APY, and referring friends through our 3-level referral program.
+                    </AccordionContent>
+                  </AccordionItem>
+                  
+                  <AccordionItem value="item-3" style={{borderColor: 'rgba(255, 215, 0, 0.3)'}}>
+                    <AccordionTrigger className="text-white hover:text-[#ffd700]">Is my investment safe?</AccordionTrigger>
+                    <AccordionContent className="text-gray-400">
+                      Yes, our smart contracts are audited and deployed on BNB Chain. We use industry-standard security practices and transparent tokenomics to ensure the safety of your investment.
+                    </AccordionContent>
+                  </AccordionItem>
+                  
+                  <AccordionItem value="item-4" style={{borderColor: 'rgba(255, 215, 0, 0.3)'}}>
+                    <AccordionTrigger className="text-white hover:text-[#ffd700]">When can I withdraw my tokens?</AccordionTrigger>
+                    <AccordionContent className="text-gray-400">
+                      Airdrop tokens are immediately claimable to your wallet. Staked tokens can be withdrawn after the lock period ends, with flexible options from 1 month to 1 year.
+                    </AccordionContent>
+                  </AccordionItem>
+                  
+                  <AccordionItem value="item-5" style={{borderColor: 'rgba(255, 215, 0, 0.3)'}}>
+                    <AccordionTrigger className="text-white hover:text-[#ffd700]">What are the tokenomics?</AccordionTrigger>
+                    <AccordionContent className="text-gray-400">
+                      Total supply: 1B MEMES tokens. Distribution: 50% Public Sale & Airdrops, 30% Staking Rewards, 20% Team & Development, 10% Marketing & Partnerships. Fixed supply with no inflation.
+                    </AccordionContent>
+                  </AccordionItem>
+                  
+                  <AccordionItem value="item-6" style={{borderColor: 'rgba(255, 215, 0, 0.3)'}}>
+                    <AccordionTrigger className="text-white hover:text-[#ffd700]">How does staking work?</AccordionTrigger>
+                    <AccordionContent className="text-gray-400">
+                      Stake your MEMES tokens for flexible periods (1 month to 1 year) and earn up to 250% APY. Rewards are distributed daily and can be claimed anytime. The longer you stake, the higher the APY.
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+
+                <div className="mt-8 p-6 rounded-xl text-center" style={{background: 'linear-gradient(135deg, rgba(0, 191, 255, 0.15), rgba(0, 191, 255, 0.05))', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
+                  <h4 className="text-lg font-bold mb-2" style={{color: '#00bfff'}}>💬 Still need help?</h4>
+                  <p className="text-sm text-gray-400 mb-4">Our community team is here to help you get started with MemeStake</p>
+                  <a
+                    href="https://t.me/memestake_group"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Button size="lg" style={{background: '#00bfff', color: '#000'}} data-testid="button-faq-telegram">
+                      💬 Join Telegram Group
+                    </Button>
+                  </a>
+                </div>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
-
-          <div className="mt-8 p-6 rounded-xl text-center" style={{background: 'linear-gradient(135deg, rgba(0, 191, 255, 0.15), rgba(0, 191, 255, 0.05))', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
-            <h4 className="text-lg font-bold mb-2" style={{color: '#00bfff'}}>💬 Still need help?</h4>
-            <p className="text-sm text-gray-400 mb-4">Our community team is here to help you get started with MemeStake</p>
-            <a
-              href="https://t.me/memestake_group"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Button size="lg" style={{background: '#00bfff', color: '#000'}} data-testid="button-faq-telegram">
-                💬 Join Telegram Group
-              </Button>
-            </a>
-          </div>
         </Card>
 
         {/* About MemeStake */}
