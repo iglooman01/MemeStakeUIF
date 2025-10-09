@@ -108,12 +108,17 @@ This is a full-stack web application built with React and Express.js for "MemeSt
 ## Web3 Integration
 - **Wallet Support**: MetaMask, Trust Wallet, SafePal
 - **Network**: Binance Smart Chain (BSC / BEP-20)
+- **Smart Contracts**:
+  - **MEMES Token**: 0xBaF3c31BfA0ee3990A43b5cD4C0D4C7E0cFE5AcF
+  - **MEMES Presale**: 0x4534a6d5bF5834fa890DD1650CFB354699a07083
 - **Features**: 
   - Wallet connection with network auto-switch
   - Connected wallet display with address truncation
   - Disconnect functionality with session cleanup
   - Automatic redirect to dashboard on connection
-- **Configuration**: Client-side Web3 integration in `client/src/config/web3Config.ts`
+- **Configuration**: 
+  - Web3 wallet connection: `client/src/config/web3Config.ts`
+  - Contract addresses & ABIs: `client/src/config/contracts.ts`
 
 ## TypeScript and Tooling
 - **TypeScript**: Strict configuration with path mapping
