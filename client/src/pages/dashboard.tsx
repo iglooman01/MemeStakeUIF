@@ -505,12 +505,12 @@ export default function Dashboard() {
               <img 
                 src={memeStakeLogo} 
                 alt="MemeStake Logo" 
-                className="w-10 h-10 rounded-lg cursor-pointer"
-                style={{filter: 'drop-shadow(0 4px 15px rgba(255, 215, 0, 0.2))'}}
+                className="w-14 h-14 rounded-lg cursor-pointer transition-transform hover:scale-105"
+                style={{filter: 'drop-shadow(0 4px 20px rgba(255, 215, 0, 0.4))'}}
                 onClick={() => setLocation('/')}
                 data-testid="logo-memestake"
               />
-              <span className="text-lg font-bold text-white hidden sm:block">MemeStake</span>
+              <span className="text-xl font-bold hidden sm:block" style={{color: '#ffd700'}}>MemeStake</span>
             </div>
             
             {/* Navigation Menu */}
