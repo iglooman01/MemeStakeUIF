@@ -394,84 +394,84 @@ export default function Dashboard() {
 
             {/* Airdrop Claim Section - Dropdown */}
             {showAirdropClaim && (
-              <div className="mt-6 p-6 rounded-xl" style={{background: 'linear-gradient(135deg, rgba(15, 10, 35, 0.95), rgba(30, 15, 60, 0.95))', border: '2px solid rgba(255, 215, 0, 0.2)'}}>
-                <h2 className="text-2xl font-bold mb-4 text-center" style={{color: '#ffd700'}}>
+              <div className="mt-6 p-8 rounded-xl" style={{background: 'rgb(64, 64, 64)', border: 'none'}}>
+                <h2 className="text-3xl font-bold mb-4 text-center text-white">
                   Claim Your MEMES Airdrop
                 </h2>
-                <p className="text-center text-gray-300 mb-6">
-                  Complete the verification steps below to claim your exclusive MEMES tokens from our decentralized airdrop direct in your wallet and join our growing community.
+                <p className="text-center text-gray-300 mb-8">
+                  Complete the verification steps below to claim your exclusive MEMES tokens from our <span style={{color: '#f59e0b'}}>decentralized airdrop direct in your wallet</span> and join our growing community.
                 </p>
 
                 {/* 1. Email Verification */}
-                <div className="mb-6 p-4 rounded-lg" style={{background: 'rgba(0, 0, 0, 0.3)', border: '1px solid rgba(255, 255, 255, 0.1)'}}>
-                  <h3 className="text-lg font-semibold mb-3" style={{color: '#00bfff'}}>1. Email Verification</h3>
+                <div className="mb-6">
+                  <h3 className="text-lg font-semibold mb-4 text-white">1. Email Verification</h3>
                   
                   {!emailVerified ? (
-                    <div className="space-y-3">
+                    <div>
                       {!showOtpInput ? (
-                        <>
+                        <div className="flex gap-3">
                           <input
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="Enter your email"
-                            className="w-full px-4 py-2 rounded-lg bg-black/40 border border-white/10 text-white"
+                            className="flex-1 px-4 py-3 rounded-lg text-white placeholder-gray-500"
+                            style={{background: 'rgb(45, 45, 45)', border: '1px solid rgb(80, 80, 80)'}}
                             data-testid="input-email"
                           />
-                          <div className="flex gap-2">
-                            <Button
-                              onClick={handleSendOTP}
-                              className="flex-1"
-                              style={{background: '#00bfff', color: '#000'}}
-                              data-testid="button-send-otp"
-                            >
-                              📧 Send OTP
-                            </Button>
-                            <Button
-                              onClick={handleSkipVerification}
-                              variant="outline"
-                              className="flex-1"
-                              data-testid="button-skip-verification"
-                            >
-                              🚀 Skip
-                            </Button>
-                          </div>
-                        </>
+                          <button
+                            onClick={handleSendOTP}
+                            className="px-6 py-3 rounded-lg font-semibold"
+                            style={{background: '#f59e0b', color: '#000'}}
+                            data-testid="button-send-otp"
+                          >
+                            📧 Send OTP
+                          </button>
+                          <button
+                            onClick={handleSkipVerification}
+                            className="px-6 py-3 rounded-lg font-semibold"
+                            style={{background: '#f59e0b', color: '#000'}}
+                            data-testid="button-skip-verification"
+                          >
+                            🚀 Skip
+                          </button>
+                        </div>
                       ) : (
-                        <>
+                        <div className="flex gap-3">
                           <input
                             type="text"
                             value={otp}
                             onChange={(e) => setOtp(e.target.value)}
                             placeholder="Enter OTP"
-                            className="w-full px-4 py-2 rounded-lg bg-black/40 border border-white/10 text-white"
+                            className="flex-1 px-4 py-3 rounded-lg text-white placeholder-gray-500"
+                            style={{background: 'rgb(45, 45, 45)', border: '1px solid rgb(80, 80, 80)'}}
                             data-testid="input-otp"
                           />
-                          <Button
+                          <button
                             onClick={handleVerifyOTP}
-                            className="w-full"
-                            style={{background: '#00ff88', color: '#000'}}
+                            className="px-6 py-3 rounded-lg font-semibold"
+                            style={{background: '#f59e0b', color: '#000'}}
                             data-testid="button-verify-otp"
                           >
                             ✅ Verify OTP
-                          </Button>
-                        </>
+                          </button>
+                        </div>
                       )}
                     </div>
                   ) : (
-                    <div className="text-center py-2" style={{color: '#00ff88'}}>
+                    <div className="text-center py-2 text-green-400">
                       ✅ Email Verified
                     </div>
                   )}
                 </div>
 
                 {/* 2. Social Media Tasks */}
-                <div className="mb-6 p-4 rounded-lg" style={{background: 'rgba(0, 0, 0, 0.3)', border: '1px solid rgba(255, 255, 255, 0.1)'}}>
-                  <h3 className="text-lg font-semibold mb-3" style={{color: '#00bfff'}}>2. Social Media Tasks</h3>
+                <div className="mb-6">
+                  <h3 className="text-lg font-semibold mb-4 text-white">2. Social Media Tasks</h3>
                   
                   {!emailVerified && (
-                    <div className="text-center py-2 text-gray-400 text-sm mb-3">
-                      🔒 Verify your email first to unlock tasks
+                    <div className="mb-4 p-4 rounded-lg text-center" style={{background: 'rgba(245, 158, 11, 0.2)', border: '1px solid rgba(245, 158, 11, 0.3)'}}>
+                      <span style={{color: '#f59e0b'}}>🔒 Verify your email first to unlock tasks</span>
                     </div>
                   )}
 
@@ -482,46 +482,48 @@ export default function Dashboard() {
                       { id: 'twitter', label: 'Follow on Twitter/X', icon: '🐦', url: 'https://twitter.com/memestake_official' },
                       { id: 'youtube', label: 'Subscribe YouTube', icon: '📺', url: 'https://youtube.com/@memestake' }
                     ].map((task) => (
-                      <div key={task.id} className="flex items-center justify-between p-3 rounded-lg" style={{background: 'rgba(0, 0, 0, 0.2)'}}>
-                        <span className="text-sm" style={{color: tasksCompleted[task.id as keyof typeof tasksCompleted] ? '#00ff88' : '#fff'}}>
+                      <div key={task.id} className="flex items-center justify-between p-4 rounded-lg" style={{background: 'rgb(45, 45, 45)', border: '1px solid rgb(80, 80, 80)'}}>
+                        <span className="text-sm" style={{color: tasksCompleted[task.id as keyof typeof tasksCompleted] ? '#10b981' : 'rgb(156, 163, 175)'}}>
                           {task.icon} {task.label}
                         </span>
                         {tasksCompleted[task.id as keyof typeof tasksCompleted] ? (
-                          <span style={{color: '#00ff88'}}>✅</span>
+                          <span style={{color: '#10b981'}}>✅</span>
                         ) : (
-                          <button
-                            onClick={() => {
-                              if (emailVerified) {
-                                window.open(task.url, '_blank');
-                                setTimeout(() => handleCompleteTask(task.id), 2000);
-                              } else {
-                                toast({
-                                  title: "🔒 Locked",
-                                  description: "Verify your email first",
-                                });
-                              }
-                            }}
-                            className="px-3 py-1 rounded text-xs font-semibold"
-                            style={{background: emailVerified ? '#00bfff' : '#666', color: '#000'}}
-                            disabled={!emailVerified}
-                            data-testid={`button-${task.id}`}
-                          >
-                            {emailVerified ? 'Visit' : '🔒'}
-                          </button>
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm text-gray-400">Locked</span>
+                            <button
+                              onClick={() => {
+                                if (emailVerified) {
+                                  window.open(task.url, '_blank');
+                                  setTimeout(() => handleCompleteTask(task.id), 2000);
+                                } else {
+                                  toast({
+                                    title: "🔒 Locked",
+                                    description: "Verify your email first",
+                                  });
+                                }
+                              }}
+                              className="p-1"
+                              disabled={!emailVerified}
+                              data-testid={`button-${task.id}`}
+                            >
+                              🔒
+                            </button>
+                          </div>
                         )}
                       </div>
                     ))}
                   </div>
 
-                  <div className="mt-3 text-center text-sm" style={{color: '#00bfff'}}>
+                  <div className="mt-4 text-sm text-gray-400">
                     Progress: {Object.values(tasksCompleted).filter(Boolean).length}/4 Tasks
                   </div>
                 </div>
 
                 {/* 3. Airdrop Status */}
-                <div className="mb-6 p-4 rounded-lg" style={{background: 'rgba(0, 0, 0, 0.3)', border: '1px solid rgba(255, 255, 255, 0.1)'}}>
-                  <h3 className="text-lg font-semibold mb-3" style={{color: '#00bfff'}}>3. Your Airdrop Status</h3>
-                  <div className="text-center space-y-2">
+                <div className="mb-6">
+                  <h3 className="text-lg font-semibold mb-4 text-white">3. Your Airdrop Status</h3>
+                  <div className="p-4 rounded-lg text-center space-y-2" style={{background: 'rgb(45, 45, 45)', border: '1px solid rgb(80, 80, 80)'}}>
                     <p className="text-gray-300 text-sm">
                       Complete your social media tasks and connect your wallet to claim your airdrop tokens
                     </p>
@@ -532,25 +534,25 @@ export default function Dashboard() {
                 </div>
 
                 {/* 4. Token & Referral Details */}
-                <div className="p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)'}}>
-                  <h3 className="text-lg font-semibold mb-3" style={{color: '#ffd700'}}>4. Token & Referal Details</h3>
+                <div>
+                  <h3 className="text-lg font-semibold mb-4 text-white">4. Token & Referal Details</h3>
                   
-                  <div className="grid grid-cols-3 gap-3 mb-4">
-                    <div className="text-center">
-                      <div className="text-2xl font-bold" style={{color: '#ffd700'}}>{referralCount}</div>
-                      <div className="text-xs text-gray-400">Your Referrals</div>
+                  <div className="grid grid-cols-3 gap-4 mb-4">
+                    <div className="text-center p-3 rounded-lg" style={{background: 'rgb(45, 45, 45)', border: '1px solid rgb(80, 80, 80)'}}>
+                      <div className="text-xs text-gray-400 mb-1">Your Referrals:</div>
+                      <div className="text-2xl font-bold text-white">{referralCount}</div>
                     </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold" style={{color: '#00bfff'}}>{referralTokens}</div>
-                      <div className="text-xs text-gray-400">Referral Tokens</div>
+                    <div className="text-center p-3 rounded-lg" style={{background: 'rgb(45, 45, 45)', border: '1px solid rgb(80, 80, 80)'}}>
+                      <div className="text-xs text-gray-400 mb-1">Your Referral Tokens:</div>
+                      <div className="text-2xl font-bold text-white">{referralTokens}</div>
                     </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold" style={{color: '#00ff88'}}>{airdropTokens}</div>
-                      <div className="text-xs text-gray-400">Airdrop Tokens</div>
+                    <div className="text-center p-3 rounded-lg" style={{background: 'rgb(45, 45, 45)', border: '1px solid rgb(80, 80, 80)'}}>
+                      <div className="text-xs text-gray-400 mb-1">Airdrop Tokens:</div>
+                      <div className="text-2xl font-bold text-white">{airdropTokens}</div>
                     </div>
                   </div>
 
-                  <p className="text-xs text-gray-400 text-center mb-3">
+                  <p className="text-xs text-gray-400 text-center mb-4">
                     Referral tokens will be claimed slot by slot after tokens launching
                   </p>
 
@@ -561,16 +563,18 @@ export default function Dashboard() {
                         type="text"
                         value={referralLink}
                         readOnly
-                        className="flex-1 px-3 py-2 rounded bg-black/40 border border-white/10 text-gray-300 text-sm font-mono"
+                        className="flex-1 px-4 py-3 rounded-lg text-gray-300 text-sm font-mono"
+                        style={{background: 'rgb(45, 45, 45)', border: '1px solid rgb(80, 80, 80)'}}
                         data-testid="input-airdrop-referral-link"
                       />
-                      <Button
+                      <button
                         onClick={copyReferralLink}
-                        style={{background: '#ffd700', color: '#000'}}
+                        className="px-6 py-3 rounded-lg font-semibold"
+                        style={{background: '#f59e0b', color: '#000'}}
                         data-testid="button-copy-airdrop-referral"
                       >
                         Copy
-                      </Button>
+                      </button>
                     </div>
                   </div>
                 </div>
