@@ -1403,6 +1403,83 @@ export default function Dashboard() {
           </div>
         </Card>
 
+        {/* Referral Team/Network - 3 Levels */}
+        <Card className="p-6 glass-card">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold">👥 My Referral Network</h3>
+            <div className="text-xs px-3 py-1 rounded-full" style={{background: 'rgba(255, 215, 0, 0.2)', color: '#ffd700'}}>
+              3-Level System
+            </div>
+          </div>
+          
+          <div className="space-y-3">
+            {/* Level 1 - Direct Referrals */}
+            <div className="p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)'}}>
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{background: '#ffd700', color: '#000'}}>
+                    <span className="text-sm font-bold">1</span>
+                  </div>
+                  <span className="text-sm font-semibold">Level 1 - Direct</span>
+                </div>
+                <span className="text-xs px-2 py-1 rounded" style={{background: 'rgba(255, 215, 0, 0.2)', color: '#ffd700'}}>5% Rewards</span>
+              </div>
+              <div className="text-2xl font-bold" style={{color: '#ffd700'}}>
+                12 Members
+              </div>
+              <div className="text-xs text-muted-foreground mt-1">Direct referrals from your link</div>
+            </div>
+
+            {/* Level 2 Referrals */}
+            <div className="p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.2)'}}>
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{background: '#00bfff', color: '#000'}}>
+                    <span className="text-sm font-bold">2</span>
+                  </div>
+                  <span className="text-sm font-semibold">Level 2</span>
+                </div>
+                <span className="text-xs px-2 py-1 rounded" style={{background: 'rgba(0, 191, 255, 0.2)', color: '#00bfff'}}>3% Rewards</span>
+              </div>
+              <div className="text-2xl font-bold" style={{color: '#00bfff'}}>
+                28 Members
+              </div>
+              <div className="text-xs text-muted-foreground mt-1">Referrals from Level 1 members</div>
+            </div>
+
+            {/* Level 3 Referrals */}
+            <div className="p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.2)'}}>
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{background: '#00ff88', color: '#000'}}>
+                    <span className="text-sm font-bold">3</span>
+                  </div>
+                  <span className="text-sm font-semibold">Level 3</span>
+                </div>
+                <span className="text-xs px-2 py-1 rounded" style={{background: 'rgba(0, 255, 136, 0.2)', color: '#00ff88'}}>2% Rewards</span>
+              </div>
+              <div className="text-2xl font-bold" style={{color: '#00ff88'}}>
+                45 Members
+              </div>
+              <div className="text-xs text-muted-foreground mt-1">Referrals from Level 2 members</div>
+            </div>
+
+            {/* Total Network Summary */}
+            <div className="p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)'}}>
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="text-sm text-muted-foreground mb-1">Total Network Size</div>
+                  <div className="text-3xl font-bold" style={{color: '#ffd700'}}>85</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-sm text-muted-foreground mb-1">Network Earnings</div>
+                  <div className="text-xl font-bold" style={{color: '#00ff88'}}>3,250 $MEMES</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Card>
+
         {/* How It Works - Process Steps */}
         <Card className="p-8 glass-card" style={{background: 'linear-gradient(135deg, rgba(0, 191, 255, 0.1), rgba(0, 191, 255, 0.05))', border: '2px solid rgba(0, 191, 255, 0.3)'}}>
           <Accordion type="single" collapsible className="w-full">
