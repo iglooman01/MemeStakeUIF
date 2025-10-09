@@ -7,7 +7,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import memeStakeLogo from "@assets/ChatGPT Image Oct 9, 2025, 11_08_34 AM_1759988345567.png";
 import { CONTRACTS } from "@/config/contracts";
-import { Home, BookOpen, Coins, Copy, CheckCircle2, Users, TrendingUp, Shield, Rocket, Trophy, Zap, Lock } from "lucide-react";
+import { Home, BookOpen, Coins, Copy, CheckCircle2, Users, TrendingUp, Shield, Rocket, Trophy, Zap, Lock, Gift, AlertTriangle } from "lucide-react";
 import { SiTelegram, SiX } from "react-icons/si";
 import {
   Accordion,
@@ -1093,10 +1093,277 @@ export default function Dashboard() {
           </div>
         </Card>
 
+        {/* 3-Level Referral Program */}
+        <Card className="p-6 glass-card">
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="referral" style={{borderColor: 'rgba(255, 215, 0, 0.3)'}}>
+              <AccordionTrigger className="text-white hover:text-[#ffd700]">
+                <h3 className="text-xl font-bold" style={{color: '#ffd700'}}>🎁 3-Level Referral Program</h3>
+              </AccordionTrigger>
+              <AccordionContent className="text-gray-400 pt-4">
+                <div className="space-y-4">
+                  <p className="text-center mb-6">Earn passive income by referring friends to MemeStake!</p>
+                  
+                  <div className="grid md:grid-cols-3 gap-4">
+                    <div className="p-4 rounded-lg text-center" style={{background: 'rgba(0, 255, 136, 0.1)', border: '2px solid rgba(0, 255, 136, 0.3)'}}>
+                      <div className="text-3xl font-bold mb-2" style={{color: '#00ff88'}}>5%</div>
+                      <div className="text-sm font-semibold mb-1" style={{color: '#00ff88'}}>Level 1 (Direct)</div>
+                      <div className="text-xs text-gray-500">Your direct referrals</div>
+                    </div>
+                    
+                    <div className="p-4 rounded-lg text-center" style={{background: 'rgba(0, 191, 255, 0.1)', border: '2px solid rgba(0, 191, 255, 0.3)'}}>
+                      <div className="text-3xl font-bold mb-2" style={{color: '#00bfff'}}>3%</div>
+                      <div className="text-sm font-semibold mb-1" style={{color: '#00bfff'}}>Level 2</div>
+                      <div className="text-xs text-gray-500">Referrals of your referrals</div>
+                    </div>
+                    
+                    <div className="p-4 rounded-lg text-center" style={{background: 'rgba(255, 215, 0, 0.1)', border: '2px solid rgba(255, 215, 0, 0.3)'}}>
+                      <div className="text-3xl font-bold mb-2" style={{color: '#ffd700'}}>2%</div>
+                      <div className="text-sm font-semibold mb-1" style={{color: '#ffd700'}}>Level 3</div>
+                      <div className="text-xs text-gray-500">Third level referrals</div>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-6 p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
+                    <div className="flex items-center gap-2 mb-2">
+                      <Gift className="w-5 h-5" style={{color: '#ffd700'}} />
+                      <span className="font-bold" style={{color: '#ffd700'}}>Referral Pool: 5 Billion $MEMES (10% of total supply)</span>
+                    </div>
+                    <p className="text-sm text-gray-400">Earn rewards from both token purchases AND staking rewards of your referrals!</p>
+                  </div>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </Card>
+
+        {/* MemeStake Community */}
+        <Card className="p-6 glass-card">
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="community" style={{borderColor: 'rgba(0, 191, 255, 0.3)'}}>
+              <AccordionTrigger className="text-white hover:text-[#00bfff]">
+                <h3 className="text-xl font-bold" style={{color: '#00bfff'}}>MemeStake Community</h3>
+              </AccordionTrigger>
+              <AccordionContent className="text-gray-400 pt-4">
+                <div className="space-y-4">
+                  <p className="text-center mb-6">Join our vibrant community across multiple platforms!</p>
+                  
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <a href="https://t.me/memestake" target="_blank" rel="noopener noreferrer" className="p-4 rounded-lg flex items-center gap-3 hover:scale-105 transition-all" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
+                      <SiTelegram className="w-8 h-8" style={{color: '#00bfff'}} />
+                      <div>
+                        <div className="font-semibold text-white">Telegram Group</div>
+                        <div className="text-sm text-gray-500">Join the conversation</div>
+                      </div>
+                    </a>
+                    
+                    <a href="https://twitter.com/memestake" target="_blank" rel="noopener noreferrer" className="p-4 rounded-lg flex items-center gap-3 hover:scale-105 transition-all" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
+                      <SiX className="w-8 h-8" style={{color: '#00bfff'}} />
+                      <div>
+                        <div className="font-semibold text-white">Twitter/X</div>
+                        <div className="text-sm text-gray-500">Follow for updates</div>
+                      </div>
+                    </a>
+                    
+                    <a href="https://youtube.com/@memestake" target="_blank" rel="noopener noreferrer" className="p-4 rounded-lg flex items-center gap-3 hover:scale-105 transition-all" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
+                      <div className="text-3xl">📺</div>
+                      <div>
+                        <div className="font-semibold text-white">YouTube</div>
+                        <div className="text-sm text-gray-500">Tutorials & updates</div>
+                      </div>
+                    </a>
+                    
+                    <a href="https://medium.com/@memestake" target="_blank" rel="noopener noreferrer" className="p-4 rounded-lg flex items-center gap-3 hover:scale-105 transition-all" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
+                      <div className="text-3xl">📝</div>
+                      <div>
+                        <div className="font-semibold text-white">Medium</div>
+                        <div className="text-sm text-gray-500">Read our blog</div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </Card>
+
+        {/* Complete Platform Details */}
+        <Card className="p-6 glass-card">
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="details" style={{borderColor: 'rgba(255, 215, 0, 0.3)'}}>
+              <AccordionTrigger className="text-white hover:text-[#ffd700]">
+                <h3 className="text-xl font-bold" style={{color: '#ffd700'}}>💎 Complete Platform Details</h3>
+              </AccordionTrigger>
+              <AccordionContent className="text-gray-400 pt-4">
+                <div className="space-y-6">
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.3)'}}>
+                      <div className="text-sm text-gray-500 mb-1">Total Supply</div>
+                      <div className="text-2xl font-bold" style={{color: '#00ff88'}}>50,000,000,000 $MEMES</div>
+                    </div>
+                    
+                    <div className="p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
+                      <div className="text-sm text-gray-500 mb-1">Token Price</div>
+                      <div className="text-2xl font-bold" style={{color: '#ffd700'}}>$0.0001 per $MEMES</div>
+                    </div>
+                    
+                    <div className="p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
+                      <div className="text-sm text-gray-500 mb-1">Public Sale</div>
+                      <div className="text-2xl font-bold" style={{color: '#00bfff'}}>25B Tokens (50%)</div>
+                    </div>
+                    
+                    <div className="p-4 rounded-lg" style={{background: 'rgba(255, 105, 180, 0.1)', border: '1px solid rgba(255, 105, 180, 0.3)'}}>
+                      <div className="text-sm text-gray-500 mb-1">Raise Target</div>
+                      <div className="text-2xl font-bold" style={{color: '#ff69b4'}}>$2,500,000</div>
+                    </div>
+                  </div>
+                  
+                  <div className="p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
+                    <h4 className="font-bold mb-3" style={{color: '#00bfff'}}>Token Distribution:</h4>
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-center">
+                        <span>Public Sale</span>
+                        <span className="font-bold" style={{color: '#ffd700'}}>25B (50%)</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span>Staking Rewards</span>
+                        <span className="font-bold" style={{color: '#ffd700'}}>10B (20%)</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span>Referral Pool</span>
+                        <span className="font-bold" style={{color: '#ffd700'}}>5B (10%)</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span>Team & Development</span>
+                        <span className="font-bold" style={{color: '#ffd700'}}>10B (20%)</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </Card>
+
+        {/* Roadmap */}
+        <Card className="p-6 glass-card">
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="roadmap" style={{borderColor: 'rgba(0, 191, 255, 0.3)'}}>
+              <AccordionTrigger className="text-white hover:text-[#00bfff]">
+                <h3 className="text-xl font-bold" style={{color: '#00bfff'}}>🗺️ Roadmap</h3>
+              </AccordionTrigger>
+              <AccordionContent className="text-gray-400 pt-4">
+                <div className="space-y-4">
+                  <div className="p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.3)'}}>
+                    <div className="flex items-center gap-2 mb-2">
+                      <CheckCircle2 className="w-5 h-5" style={{color: '#00ff88'}} />
+                      <span className="font-bold" style={{color: '#00ff88'}}>Phase 1: Launch (Completed)</span>
+                    </div>
+                    <ul className="ml-7 space-y-1 text-sm">
+                      <li>✓ Smart contract deployment on BSC</li>
+                      <li>✓ Website and dashboard launch</li>
+                      <li>✓ Airdrop program initiation</li>
+                    </ul>
+                  </div>
+                  
+                  <div className="p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-5 h-5 rounded-full" style={{background: '#ffd700'}}></div>
+                      <span className="font-bold" style={{color: '#ffd700'}}>Phase 2: Token Sale (Current)</span>
+                    </div>
+                    <ul className="ml-7 space-y-1 text-sm">
+                      <li>• Public token sale</li>
+                      <li>• Referral program launch</li>
+                      <li>• Community building</li>
+                    </ul>
+                  </div>
+                  
+                  <div className="p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-5 h-5 rounded-full border-2" style={{borderColor: '#00bfff'}}></div>
+                      <span className="font-bold" style={{color: '#00bfff'}}>Phase 3: Staking Launch</span>
+                    </div>
+                    <ul className="ml-7 space-y-1 text-sm">
+                      <li>• Staking platform activation</li>
+                      <li>• 350% APY rewards begin</li>
+                      <li>• Exchange listings</li>
+                    </ul>
+                  </div>
+                  
+                  <div className="p-4 rounded-lg" style={{background: 'rgba(255, 105, 180, 0.1)', border: '1px solid rgba(255, 105, 180, 0.3)'}}>
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-5 h-5 rounded-full border-2" style={{borderColor: '#ff69b4'}}></div>
+                      <span className="font-bold" style={{color: '#ff69b4'}}>Phase 4: Expansion</span>
+                    </div>
+                    <ul className="ml-7 space-y-1 text-sm">
+                      <li>• NFT marketplace</li>
+                      <li>• DAO governance</li>
+                      <li>• Cross-chain bridges</li>
+                    </ul>
+                  </div>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </Card>
+
+        {/* Staking Features */}
+        <Card className="p-6 glass-card">
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="staking" style={{borderColor: 'rgba(0, 255, 136, 0.3)'}}>
+              <AccordionTrigger className="text-white hover:text-[#00ff88]">
+                <h3 className="text-xl font-bold" style={{color: '#00ff88'}}>Staking Features</h3>
+              </AccordionTrigger>
+              <AccordionContent className="text-gray-400 pt-4">
+                <div className="space-y-4">
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.3)'}}>
+                      <Zap className="w-8 h-8 mb-2" style={{color: '#00ff88'}} />
+                      <div className="font-bold mb-1" style={{color: '#00ff88'}}>350% APY</div>
+                      <div className="text-sm">1% daily rewards on staked tokens</div>
+                    </div>
+                    
+                    <div className="p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
+                      <Lock className="w-8 h-8 mb-2" style={{color: '#00bfff'}} />
+                      <div className="font-bold mb-1" style={{color: '#00bfff'}}>50-Day Lock</div>
+                      <div className="text-sm">Minimum staking period for penalty-free unstake</div>
+                    </div>
+                    
+                    <div className="p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
+                      <TrendingUp className="w-8 h-8 mb-2" style={{color: '#ffd700'}} />
+                      <div className="font-bold mb-1" style={{color: '#ffd700'}}>Compound Rewards</div>
+                      <div className="text-sm">Automatically compound your earnings</div>
+                    </div>
+                    
+                    <div className="p-4 rounded-lg" style={{background: 'rgba(255, 105, 180, 0.1)', border: '1px solid rgba(255, 105, 180, 0.3)'}}>
+                      <Gift className="w-8 h-8 mb-2" style={{color: '#ff69b4'}} />
+                      <div className="font-bold mb-1" style={{color: '#ff69b4'}}>Instant Launch</div>
+                      <div className="text-sm">Starts immediately after airdrop completion</div>
+                    </div>
+                  </div>
+                  
+                  <div className="p-4 rounded-lg" style={{background: 'rgba(255, 0, 0, 0.1)', border: '1px solid rgba(255, 0, 0, 0.3)'}}>
+                    <div className="flex items-center gap-2 mb-2">
+                      <AlertTriangle className="w-5 h-5" style={{color: '#ff0000'}} />
+                      <span className="font-bold" style={{color: '#ff0000'}}>Early Unstake Penalty</span>
+                    </div>
+                    <p className="text-sm">If you unstake before 50 days, all earned rewards will be deducted from your principal amount.</p>
+                  </div>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </Card>
+
         {/* How It Works - Process Steps */}
         <Card className="p-8 glass-card" style={{background: 'linear-gradient(135deg, rgba(0, 191, 255, 0.1), rgba(0, 191, 255, 0.05))', border: '2px solid rgba(0, 191, 255, 0.3)'}}>
-          <h2 className="text-3xl font-bold text-center mb-2" style={{color: '#00bfff'}}>🚀 How It Works</h2>
-          <p className="text-center text-gray-400 mb-8">Follow these simple steps to maximize your rewards</p>
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="how-it-works" style={{borderColor: 'rgba(0, 191, 255, 0.3)'}}>
+              <AccordionTrigger className="text-white hover:text-[#00bfff]">
+                <h2 className="text-3xl font-bold text-center" style={{color: '#00bfff'}}>🚀 How It Works</h2>
+              </AccordionTrigger>
+              <AccordionContent className="pt-4">
+                <p className="text-center text-gray-400 mb-8">Follow these simple steps to maximize your rewards</p>
           
           <Accordion type="single" collapsible className="w-full" defaultValue="item-1">
             <AccordionItem value="item-1" style={{borderColor: 'rgba(0, 191, 255, 0.3)'}}>
@@ -1229,6 +1496,9 @@ export default function Dashboard() {
             <div className="text-sm font-bold mb-2" style={{color: '#00bfff'}}>🎯 Complete All 3 Steps to Maximize Your Earnings!</div>
             <div className="text-xs text-gray-400">Airdrop + Purchase + Staking = Maximum Profit Potential</div>
           </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </Card>
 
         {/* 🎁 3-Level Referral Program Section */}
