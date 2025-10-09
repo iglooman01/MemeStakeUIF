@@ -434,6 +434,34 @@ export default function Home() {
     }
   };
 
+  // Demo mode handler
+  const handleDemoMode = () => {
+    const demoAddress = '0xDemo1234567890abcdefDemo1234567890abcdef';
+    
+    // Store demo wallet info
+    localStorage.setItem('walletConnected', 'true');
+    localStorage.setItem('walletAddress', demoAddress);
+    localStorage.setItem('walletType', 'Demo Mode');
+    
+    // Update state
+    setWalletConnected(true);
+    setWalletAddress(demoAddress);
+    setConnectedWalletType('Demo Mode');
+    
+    setWalletModalOpen(false);
+    
+    // Show success message
+    toast({
+      title: "🎮 Demo Mode Activated!",
+      description: "Testing with demo wallet. Redirecting to dashboard...",
+    });
+    
+    // Redirect to dashboard
+    setTimeout(() => {
+      setLocation('/dashboard');
+    }, 1000);
+  };
+
   // Wallet connection functions
   const handleWalletSelect = async (walletName: string) => {
     setSelectedWallet(walletName);
@@ -1503,6 +1531,28 @@ export default function Home() {
                   )}
                 </button>
               ))}
+            </div>
+
+            {/* Demo Mode Button */}
+            <div className="mb-4">
+              <button
+                onClick={handleDemoMode}
+                disabled={isConnecting}
+                className="w-full p-4 rounded-xl border transition-all duration-200 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{
+                  background: 'rgba(0, 255, 136, 0.1)',
+                  border: '1px solid rgba(0, 255, 136, 0.3)',
+                }}
+                data-testid="button-demo-mode"
+              >
+                <div className="flex items-center justify-center space-x-2">
+                  <span className="text-2xl">🎮</span>
+                  <span className="font-medium" style={{color: '#00ff88'}}>
+                    Skip & Use Demo Mode
+                  </span>
+                </div>
+                <p className="text-xs text-gray-400 mt-1">Test the app without connecting a wallet</p>
+              </button>
             </div>
 
             {/* Footer */}
