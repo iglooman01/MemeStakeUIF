@@ -1701,36 +1701,55 @@ export default function Dashboard() {
 
         {/* About MemeStake */}
         <Card className="p-8 glass-card">
-          <h2 className="text-3xl font-bold text-center mb-8" style={{color: '#ffd700'}}>About MemeStake</h2>
+          <h2 className="text-3xl font-bold text-center mb-2" style={{color: '#ffd700'}}>About MemeStake</h2>
+          <p className="text-center text-gray-400 mb-8">Learn more about our platform and mission</p>
           
-          <div className="mb-8">
-            <h3 className="text-xl font-bold mb-3" style={{color: '#00bfff'}}>🚀 Our Mission</h3>
-            <p className="text-gray-400">
-              MemeStake is revolutionizing the meme coin ecosystem by combining decentralized airdrops with innovative staking mechanisms. We deliver tokens direct in your wallet while building the strongest meme community in crypto.
-            </p>
-          </div>
+          <Accordion type="single" collapsible className="w-full" defaultValue="item-1">
+            <AccordionItem value="item-1" style={{borderColor: 'rgba(0, 191, 255, 0.3)'}}>
+              <AccordionTrigger className="text-white hover:text-[#00bfff]">
+                <div className="flex items-center gap-3">
+                  <div className="text-2xl">🚀</div>
+                  <span className="text-lg font-semibold">Our Mission</span>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="text-gray-400 pt-4">
+                <div className="pl-11">
+                  <p>
+                    MemeStake is revolutionizing the meme coin ecosystem by combining decentralized airdrops with innovative staking mechanisms. We deliver tokens direct in your wallet while building the strongest meme community in crypto.
+                  </p>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
 
-          <div>
-            <h3 className="text-xl font-bold mb-3" style={{color: '#00ff88'}}>💎 Why Choose Us?</h3>
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 text-gray-400">
-                <CheckCircle2 className="w-5 h-5" style={{color: '#00ff88'}} />
-                <span>True decentralized rewards system</span>
-              </div>
-              <div className="flex items-center gap-2 text-gray-400">
-                <CheckCircle2 className="w-5 h-5" style={{color: '#00ff88'}} />
-                <span>Community-driven governance</span>
-              </div>
-              <div className="flex items-center gap-2 text-gray-400">
-                <CheckCircle2 className="w-5 h-5" style={{color: '#00ff88'}} />
-                <span>High-yield staking opportunities</span>
-              </div>
-              <div className="flex items-center gap-2 text-gray-400">
-                <CheckCircle2 className="w-5 h-5" style={{color: '#00ff88'}} />
-                <span>Transparent tokenomics</span>
-              </div>
-            </div>
-          </div>
+            <AccordionItem value="item-2" style={{borderColor: 'rgba(0, 255, 136, 0.3)'}}>
+              <AccordionTrigger className="text-white hover:text-[#00ff88]">
+                <div className="flex items-center gap-3">
+                  <div className="text-2xl">💎</div>
+                  <span className="text-lg font-semibold">Why Choose Us?</span>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="text-gray-400 pt-4">
+                <div className="pl-11 space-y-2">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-5 h-5" style={{color: '#00ff88'}} />
+                    <span>True decentralized rewards system</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-5 h-5" style={{color: '#00ff88'}} />
+                    <span>Community-driven governance</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-5 h-5" style={{color: '#00ff88'}} />
+                    <span>High-yield staking opportunities</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-5 h-5" style={{color: '#00ff88'}} />
+                    <span>Transparent tokenomics</span>
+                  </div>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </Card>
 
         {/* Join Our Community */}
