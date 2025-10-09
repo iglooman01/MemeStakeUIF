@@ -3,6 +3,8 @@ import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 import memeStakeLogo from "@assets/6269020538709674998_1759926006311.jpg";
 
 export default function Dashboard() {
@@ -25,21 +27,45 @@ export default function Dashboard() {
   
   // Airdrop claim section state
   const [showAirdropClaim, setShowAirdropClaim] = useState(false);
-  const [emailVerified, setEmailVerified] = useState(false);
   const [email, setEmail] = useState('');
   const [otp, setOtp] = useState('');
   const [showOtpInput, setShowOtpInput] = useState(false);
-  const [tasksCompleted, setTasksCompleted] = useState({
-    telegram_group: false,
-    telegram_channel: false,
-    twitter: false,
-    youtube: false
-  });
-  const [airdropTokens, setAirdropTokens] = useState(0);
-  const [referralCount, setReferralCount] = useState(1);
-  const [referralTokens, setReferralTokens] = useState(0);
   
   const { toast } = useToast();
+
+  // Initialize airdrop participant mutation
+  const initAirdropMutation = useMutation({
+    mutationFn: async (data: { walletAddress: string; referralCode?: string }) => {
+      const res = await apiRequest('POST', '/api/airdrop/init', data);
+      return await res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/airdrop/status', walletAddress] });
+    }
+  });
+
+  // Fetch airdrop status
+  const { data: airdropData, refetch: refetchAirdrop } = useQuery<{
+    participant: any;
+    referralCount: number;
+    referralLink: string;
+  }>({
+    queryKey: ['/api/airdrop/status', walletAddress],
+    enabled: !!walletAddress,
+    refetchInterval: 5000, // Refetch every 5 seconds
+  });
+
+  const participant = airdropData?.participant;
+  const emailVerified = participant?.emailVerified || false;
+  const tasksCompleted = {
+    telegram_group: participant?.telegramGroupCompleted || false,
+    telegram_channel: participant?.telegramChannelCompleted || false,
+    twitter: participant?.twitterCompleted || false,
+    youtube: participant?.youtubeCompleted || false
+  };
+  const airdropTokens = participant?.airdropTokens || 0;
+  const referralCount = airdropData?.referralCount || 0;
+  const referralTokens = participant?.referralTokens || 0;
 
   // Earnings data
   const stakingEarnings = 28475;
@@ -51,9 +77,8 @@ export default function Dashboard() {
   const TOKEN_PRICE = 0.0001; // $0.0001 per token
   const MIN_PURCHASE_USD = 50;
 
-  const referralLink = walletAddress 
-    ? `https://memestake.app/ref/${walletAddress}`
-    : 'https://memestake.app/ref/';
+  const referralLink = airdropData?.referralLink || 
+    (walletAddress ? `${window.location.origin}/dashboard?ref=${participant?.referralCode || ''}` : '');
 
   // Auto-apply referral code from URL
   useEffect(() => {
@@ -65,6 +90,16 @@ export default function Dashboard() {
     }
   }, []);
 
+  // Initialize airdrop participant when wallet is connected
+  useEffect(() => {
+    if (walletAddress && !initAirdropMutation.isPending) {
+      initAirdropMutation.mutate({ 
+        walletAddress, 
+        referralCode: referralCode || undefined 
+      });
+    }
+  }, [walletAddress]);
+
   const copyReferralLink = () => {
     navigator.clipboard.writeText(referralLink);
     toast({
@@ -72,6 +107,94 @@ export default function Dashboard() {
       description: "Referral link copied to clipboard",
     });
   };
+
+  // Send OTP mutation
+  const sendOtpMutation = useMutation({
+    mutationFn: async (data: { email: string; walletAddress: string }) => {
+      const res = await apiRequest('POST', '/api/airdrop/send-otp', data);
+      return await res.json();
+    },
+    onSuccess: () => {
+      setShowOtpInput(true);
+      toast({
+        title: "📧 OTP Sent!",
+        description: `Verification code sent to ${email}. Check console for OTP (dev mode)`,
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "❌ Failed to Send OTP",
+        description: error.message || "Please try again",
+        variant: "destructive",
+      });
+    }
+  });
+
+  // Verify OTP mutation
+  const verifyOtpMutation = useMutation({
+    mutationFn: async (data: { email: string; otp: string; walletAddress: string }) => {
+      const res = await apiRequest('POST', '/api/airdrop/verify-otp', data);
+      return await res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/airdrop/status', walletAddress] });
+      toast({
+        title: "✅ Email Verified!",
+        description: "You can now complete social tasks",
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "❌ Verification Failed",
+        description: error.message || "Invalid OTP",
+        variant: "destructive",
+      });
+    }
+  });
+
+  // Skip verification mutation
+  const skipVerificationMutation = useMutation({
+    mutationFn: async (walletAddress: string) => {
+      const res = await apiRequest('POST', '/api/airdrop/skip-verification', { walletAddress });
+      return await res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/airdrop/status', walletAddress] });
+      toast({
+        title: "⏭️ Skipped",
+        description: "Email verification skipped",
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "❌ Failed",
+        description: error.message || "Please try again",
+        variant: "destructive",
+      });
+    }
+  });
+
+  // Complete task mutation
+  const completeTaskMutation = useMutation({
+    mutationFn: async (data: { walletAddress: string; taskId: string }) => {
+      const res = await apiRequest('POST', '/api/airdrop/complete-task', data);
+      return await res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/airdrop/status', walletAddress] });
+      toast({
+        title: "✅ Task Completed!",
+        description: "You earned 250 MEMES tokens",
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "❌ Failed",
+        description: error.message || "Please try again",
+        variant: "destructive",
+      });
+    }
+  });
 
   // Airdrop claim handlers
   const handleSendOTP = async () => {
@@ -83,12 +206,7 @@ export default function Dashboard() {
       return;
     }
     
-    // Simulate OTP sending
-    setShowOtpInput(true);
-    toast({
-      title: "📧 OTP Sent!",
-      description: `Verification code sent to ${email}`,
-    });
+    sendOtpMutation.mutate({ email, walletAddress });
   };
 
   const handleVerifyOTP = () => {
@@ -100,19 +218,11 @@ export default function Dashboard() {
       return;
     }
     
-    setEmailVerified(true);
-    toast({
-      title: "✅ Email Verified!",
-      description: "You can now complete social tasks",
-    });
+    verifyOtpMutation.mutate({ email, otp, walletAddress });
   };
 
   const handleSkipVerification = () => {
-    setEmailVerified(true);
-    toast({
-      title: "⏭️ Skipped",
-      description: "Email verification skipped",
-    });
+    skipVerificationMutation.mutate(walletAddress);
   };
 
   const handleCompleteTask = (taskName: string) => {
@@ -124,16 +234,7 @@ export default function Dashboard() {
       return;
     }
 
-    setTasksCompleted(prev => ({ ...prev, [taskName]: true }));
-    
-    // Calculate airdrop tokens based on completed tasks
-    const completedCount = Object.values({ ...tasksCompleted, [taskName]: true }).filter(Boolean).length;
-    setAirdropTokens(completedCount * 250); // 250 tokens per task
-    
-    toast({
-      title: "✅ Task Completed!",
-      description: "You earned 250 MEMES tokens",
-    });
+    completeTaskMutation.mutate({ walletAddress, taskId: taskName });
   };
 
   // Calculate conversions
