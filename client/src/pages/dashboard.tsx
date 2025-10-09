@@ -583,7 +583,7 @@ export default function Dashboard() {
                 </div>
 
                 {/* 3. Airdrop Status */}
-                <div className="mb-6">
+                <div>
                   <h3 className="text-lg font-semibold mb-4 text-white">3. Your Airdrop Status</h3>
                   <div className="p-4 rounded-lg text-center space-y-2" style={{background: 'rgba(0, 0, 0, 0.3)', border: '1px solid rgba(255, 255, 255, 0.1)'}}>
                     <p className="text-gray-300 text-sm">
@@ -592,52 +592,6 @@ export default function Dashboard() {
                     <p className="text-xs text-gray-400">
                       🔗 Wallet connection required for token distribution
                     </p>
-                  </div>
-                </div>
-
-                {/* 4. Token & Referral Details */}
-                <div>
-                  <h3 className="text-lg font-semibold mb-4 text-white">4. Token & Referal Details</h3>
-                  
-                  <div className="grid grid-cols-3 gap-4 mb-4">
-                    <div className="text-center p-3 rounded-lg" style={{background: 'rgba(0, 0, 0, 0.3)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
-                      <div className="text-xs text-gray-400 mb-1">Your Referrals:</div>
-                      <div className="text-2xl font-bold" style={{color: '#ffd700'}}>{referralCount}</div>
-                    </div>
-                    <div className="text-center p-3 rounded-lg" style={{background: 'rgba(0, 0, 0, 0.3)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
-                      <div className="text-xs text-gray-400 mb-1">Your Referral Tokens:</div>
-                      <div className="text-2xl font-bold" style={{color: '#00bfff'}}>{referralTokens}</div>
-                    </div>
-                    <div className="text-center p-3 rounded-lg" style={{background: 'rgba(0, 0, 0, 0.3)', border: '1px solid rgba(0, 255, 136, 0.3)'}}>
-                      <div className="text-xs text-gray-400 mb-1">Airdrop Tokens:</div>
-                      <div className="text-2xl font-bold" style={{color: '#00ff88'}}>{airdropTokens}</div>
-                    </div>
-                  </div>
-
-                  <p className="text-xs text-gray-400 text-center mb-4">
-                    Referral tokens will be claimed slot by slot after tokens launching
-                  </p>
-
-                  <div className="space-y-2">
-                    <label className="text-sm text-gray-400">Your Referral Link:</label>
-                    <div className="flex gap-2">
-                      <input
-                        type="text"
-                        value={referralLink}
-                        readOnly
-                        className="flex-1 px-4 py-3 rounded-lg text-gray-300 text-sm font-mono"
-                        style={{background: 'rgba(0, 0, 0, 0.3)', border: '1px solid rgba(255, 215, 0, 0.3)'}}
-                        data-testid="input-airdrop-referral-link"
-                      />
-                      <button
-                        onClick={copyReferralLink}
-                        className="px-6 py-3 rounded-lg font-semibold"
-                        style={{background: '#ffd700', color: '#000'}}
-                        data-testid="button-copy-airdrop-referral"
-                      >
-                        Copy
-                      </button>
-                    </div>
                   </div>
                 </div>
               </div>
