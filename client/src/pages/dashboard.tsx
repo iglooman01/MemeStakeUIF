@@ -1058,7 +1058,7 @@ export default function Dashboard() {
                                   backgroundClip: 'text',
                                   animation: 'gradientShift 3s ease infinite'
                                 }}>
-                                  {contractWalletBalance} $MEMES
+                                  1000 MEMES
                                 </p>
                                 <p className="text-xs font-semibold" style={{color: '#00ff88'}}>
                                   🎊 Successfully Claimed!
