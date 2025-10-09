@@ -471,17 +471,6 @@ export default function Staking() {
                 </div>
               </div>
 
-              {/* Gas Estimation for Claim */}
-              <div className="p-3 rounded-lg text-xs" style={{background: 'rgba(255, 255, 255, 0.05)'}}>
-                <div className="flex justify-between mb-1">
-                  <span className="text-muted-foreground">Gas Fee (Claim):</span>
-                  <span className="font-semibold" style={{color: '#00bfff'}}>~{estimatedGas} BNB</span>
-                </div>
-                <div className="text-muted-foreground">
-                  Batching available for multiple claims to save gas
-                </div>
-              </div>
-
               {/* Claim Button */}
               <Button 
                 onClick={handleClaimRewards}
