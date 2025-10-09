@@ -11,6 +11,7 @@ import { FaTwitter, FaTelegram, FaMedium, FaYoutube } from "react-icons/fa";
 import { connectWallet, supportedWallets } from "../config/web3Config";
 import memeStakeLogo from "@assets/ChatGPT Image Oct 9, 2025, 11_08_34 AM_1759988345567.png";
 import heroBackground from "@assets/6284998693224123196_1759928362887.jpg";
+import { LiveJoinNotification } from "@/components/LiveJoinNotification";
 
 const i18n = {
   en: { 
@@ -644,6 +645,9 @@ export default function Home() {
 
   return (
     <div className="bg-background text-foreground">
+      {/* Live Join Notifications */}
+      <LiveJoinNotification />
+      
       {/* Header */}
       <header className="sticky top-0 backdrop-blur-md border-b z-30" style={{background: 'rgba(15, 20, 35, 0.95)', borderColor: 'rgba(255, 215, 0, 0.15)', backdropFilter: 'blur(20px)'}} data-testid="header-navigation">
         <nav className="container py-4">
