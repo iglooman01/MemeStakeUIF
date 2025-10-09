@@ -1048,7 +1048,8 @@ export default function Dashboard() {
                                 <div className="absolute top-2 right-2 text-2xl animate-ping">✨</div>
                                 <div className="absolute bottom-2 left-2 text-2xl animate-ping" style={{animationDelay: '0.5s'}}>⭐</div>
                                 
-                                <p className="text-sm text-gray-300 mb-2 font-semibold">Your Wallet Balance:</p>
+                                <div className="mb-4 text-4xl">🎉</div>
+                                <p className="text-lg text-gray-300 mb-2 font-semibold">Your airdrop token is</p>
                                 <p className="text-5xl font-extrabold mb-2" style={{
                                   background: 'linear-gradient(135deg, #00ff88 0%, #00cc70 50%, #00ff88 100%)',
                                   backgroundSize: '200% 200%',
