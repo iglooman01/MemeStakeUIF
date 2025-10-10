@@ -101,8 +101,7 @@ export default function Dashboard() {
   const TOKEN_PRICE = 0.0001; // $0.0001 per token
   const MIN_PURCHASE_USD = 50;
 
-  const referralLink = airdropData?.referralLink || 
-    (walletAddress ? `${window.location.origin}/dashboard?ref=${participant?.referralCode || ''}` : '');
+  const referralLink = walletAddress ? `${window.location.origin}/dashboard?ref=${walletAddress}` : '';
 
   // Auto-apply referral code from URL
   useEffect(() => {
