@@ -7,7 +7,7 @@ This is a full-stack web application built with React and Express.js for "MemeSt
 - **Token Price**: $0.0001 per $MEMES
 - **Public Sale**: 25 Billion tokens (50% of supply)
 - **Raise Target**: $2,500,000
-- **Network**: Binance Smart Chain (BSC / BEP-20)
+- **Network**: Binance Smart Chain Testnet (BSC Testnet / BEP-20) - Chain ID: 97 (for testing)
 - **Purchase Limits**: Minimum $50, No maximum limit
 - **Example**: $100 = 1,000,000 $MEMES tokens
 
@@ -107,12 +107,15 @@ This is a full-stack web application built with React and Express.js for "MemeSt
 
 ## Web3 Integration
 - **Wallet Support**: MetaMask, Trust Wallet, SafePal
-- **Network**: Binance Smart Chain (BSC / BEP-20)
-- **Smart Contracts**:
+- **Network**: Binance Smart Chain Testnet (BSC Testnet / BEP-20) - Chain ID: 97
+- **RPC URL**: https://data-seed-prebsc-1-s1.binance.org:8545/
+- **Explorer**: https://testnet.bscscan.com/
+- **Smart Contracts** (Testnet - for testing):
   - **MEMES Token**: 0xBaF3c31BfA0ee3990A43b5cD4C0D4C7E0cFE5AcF
   - **MEMES Presale**: 0x4534a6d5bF5834fa890DD1650CFB354699a07083
+  - Note: Deploy new contracts on BSC Testnet for proper testing
 - **Features**: 
-  - Wallet connection with network auto-switch
+  - Wallet connection with network auto-switch to BSC Testnet
   - Connected wallet display with address truncation
   - Disconnect functionality with session cleanup
   - Automatic redirect to dashboard on connection

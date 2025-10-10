@@ -1,14 +1,14 @@
-// BSC Network Configuration for wallet connections
+// BSC Testnet Configuration for wallet connections (for testing)
 export const BSC_NETWORK = {
-  chainId: '0x38', // 56 in decimal  
-  chainName: 'BNB Smart Chain',
+  chainId: '0x61', // 97 in decimal (BSC Testnet)
+  chainName: 'BNB Smart Chain Testnet',
   nativeCurrency: {
     name: 'BNB',
-    symbol: 'BNB', 
+    symbol: 'tBNB', 
     decimals: 18,
   },
-  rpcUrls: ['https://bsc-dataseed.binance.org/'],
-  blockExplorerUrls: ['https://bscscan.com/'],
+  rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/'],
+  blockExplorerUrls: ['https://testnet.bscscan.com/'],
 }
 
 // Wallet connection interface
