@@ -1201,34 +1201,6 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Referral Code */}
-            {showReferralInput && (
-              <div>
-                <input
-                  type="text"
-                  value={referralCode}
-                  onChange={(e) => setReferralCode(e.target.value)}
-                  placeholder="Referral code (optional)"
-                  className="w-full px-3 py-2 rounded-lg bg-black/30 border border-white/10 text-white text-sm"
-                  data-testid="input-referral-code"
-                />
-                {referralCode && (
-                  <div className="text-xs mt-1" style={{color: '#00ff88'}}>
-                    ✅ {referralCode.slice(0, 6)}...{referralCode.slice(-4)}
-                  </div>
-                )}
-              </div>
-            )}
-            {!showReferralInput && (
-              <button
-                onClick={() => setShowReferralInput(true)}
-                className="text-xs text-gray-500 hover:text-gray-300"
-                data-testid="button-toggle-referral"
-              >
-                + Add referral code
-              </button>
-            )}
-
             {/* Buy Button */}
             <Button 
               onClick={handleBuyTokens}
@@ -1859,37 +1831,6 @@ export default function Dashboard() {
                 <span className="text-sm text-muted-foreground">Estimated Gas Fee</span>
                 <span className="font-bold" style={{color: '#00bfff'}}>~0.0015 BNB</span>
               </div>
-
-              {/* Referral Distribution */}
-              {referralCode && (
-                <div className="p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.2)'}}>
-                  <div className="text-sm font-semibold mb-2" style={{color: '#00ff88'}}>
-                    🎁 Referral Distribution
-                  </div>
-                  <div className="space-y-2 text-xs">
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Level 1 (5%):</span>
-                      <span className="font-semibold text-white">{(tokensToGet * 0.05).toLocaleString()} $MEMES</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Level 2 (3%):</span>
-                      <span className="font-semibold text-white">{(tokensToGet * 0.03).toLocaleString()} $MEMES</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Level 3 (2%):</span>
-                      <span className="font-semibold text-white">{(tokensToGet * 0.02).toLocaleString()} $MEMES</span>
-                    </div>
-                    <div className="pt-2 border-t border-white/10">
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Referrer Code:</span>
-                        <span className="font-mono text-xs" style={{color: '#00ff88'}}>
-                          {referralCode.slice(0, 6)}...{referralCode.slice(-4)}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
 
               {/* Action Buttons */}
               <div className="grid grid-cols-2 gap-3 mt-6">
