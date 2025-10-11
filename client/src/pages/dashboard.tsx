@@ -28,7 +28,8 @@ export default function Dashboard() {
   const [walletType, setWalletType] = useState<string>('');
   const [sponsorAddress, setSponsorAddress] = useState<string>('');
   const [buyAmount, setBuyAmount] = useState<string>('');
-  const [inputMode, setInputMode] = useState<'usd' | 'token'>('usd');
+  const [paymentMethod, setPaymentMethod] = useState<'bnb' | 'usdt'>('bnb');
+  const [estimatedTokens, setEstimatedTokens] = useState<number>(0);
   const [referralCode, setReferralCode] = useState<string>('');
   const [showReferralInput, setShowReferralInput] = useState(false);
   const [showBuyPreview, setShowBuyPreview] = useState(false);
@@ -375,13 +376,11 @@ export default function Dashboard() {
   const calculateTokensFromUSD = (usd: number) => usd / TOKEN_PRICE;
   const calculateUSDFromTokens = (tokens: number) => tokens * TOKEN_PRICE;
 
-  const tokensToGet = inputMode === 'usd' 
-    ? calculateTokensFromUSD(parseFloat(buyAmount) || 0)
-    : parseFloat(buyAmount) || 0;
+  const tokensToGet = estimatedTokens;
 
-  const usdAmount = inputMode === 'usd'
-    ? parseFloat(buyAmount) || 0
-    : calculateUSDFromTokens(parseFloat(buyAmount) || 0);
+  const usdAmount = paymentMethod === 'bnb'
+    ? calculateUSDFromTokens(estimatedTokens)
+    : calculateUSDFromTokens(estimatedTokens);
 
   const handleBuyTokens = () => {
     if (usdAmount < MIN_PURCHASE_USD) {
@@ -440,6 +439,52 @@ export default function Dashboard() {
       setWalletType(storedWalletType);
     }
   }, []);
+
+  // Calculate estimated MEMES tokens based on payment method and amount
+  useEffect(() => {
+    const calculateEstimatedTokens = async () => {
+      if (!buyAmount || parseFloat(buyAmount) <= 0) {
+        setEstimatedTokens(0);
+        return;
+      }
+
+      const amount = parseFloat(buyAmount);
+
+      if (paymentMethod === 'usdt') {
+        try {
+          // Create public client for reading contract
+          const publicClient = createPublicClient({
+            chain: bscTestnet,
+            transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
+          });
+
+          // Convert amount to wei (assuming 18 decimals for USDT)
+          const amountInWei = BigInt(Math.floor(amount * 1e18));
+
+          // Call calculateMemesTokens from contract
+          const memesTokens = await publicClient.readContract({
+            address: CONTRACTS.MEMES_PRESALE.address as `0x${string}`,
+            abi: CONTRACTS.MEMES_PRESALE.abi,
+            functionName: 'calculateMemesTokens',
+            args: [CONTRACTS.USDT_TOKEN.address as `0x${string}`, amountInWei]
+          });
+
+          // Convert from wei to tokens (assuming 18 decimals)
+          const tokensEstimated = Number(memesTokens) / 1e18;
+          setEstimatedTokens(tokensEstimated);
+        } catch (error) {
+          console.error('Error calculating MEMES tokens:', error);
+          // Fallback to simple calculation if contract call fails
+          setEstimatedTokens(amount / TOKEN_PRICE);
+        }
+      } else {
+        // For BNB, use simple calculation
+        setEstimatedTokens(amount / TOKEN_PRICE);
+      }
+    };
+
+    calculateEstimatedTokens();
+  }, [buyAmount, paymentMethod]);
 
   // Fetch sponsor address from contract
   useEffect(() => {
@@ -1225,21 +1270,21 @@ export default function Dashboard() {
             {/* Amount Input */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-gray-400">Amount</span>
+                <span className="text-sm text-gray-400">Payment Method</span>
                 <div className="flex space-x-1">
                   <button
-                    onClick={() => setInputMode('usd')}
-                    className={`px-3 py-1 rounded text-xs font-bold ${inputMode === 'usd' ? 'text-black' : 'text-gray-500'}`}
-                    style={{background: inputMode === 'usd' ? '#ffd700' : 'rgba(255, 255, 255, 0.1)'}}
-                    data-testid="toggle-usd"
+                    onClick={() => setPaymentMethod('bnb')}
+                    className={`px-3 py-1 rounded text-xs font-bold ${paymentMethod === 'bnb' ? 'text-black' : 'text-gray-500'}`}
+                    style={{background: paymentMethod === 'bnb' ? '#ffd700' : 'rgba(255, 255, 255, 0.1)'}}
+                    data-testid="toggle-bnb"
                   >
                     BNB
                   </button>
                   <button
-                    onClick={() => setInputMode('token')}
-                    className={`px-3 py-1 rounded text-xs font-bold ${inputMode === 'token' ? 'text-black' : 'text-gray-500'}`}
-                    style={{background: inputMode === 'token' ? '#ffd700' : 'rgba(255, 255, 255, 0.1)'}}
-                    data-testid="toggle-token"
+                    onClick={() => setPaymentMethod('usdt')}
+                    className={`px-3 py-1 rounded text-xs font-bold ${paymentMethod === 'usdt' ? 'text-black' : 'text-gray-500'}`}
+                    style={{background: paymentMethod === 'usdt' ? '#ffd700' : 'rgba(255, 255, 255, 0.1)'}}
+                    data-testid="toggle-usdt"
                   >
                     USDT(BEP20)
                   </button>
@@ -1255,13 +1300,13 @@ export default function Dashboard() {
                   }
                 }}
                 min="0"
-                placeholder={inputMode === 'usd' ? '0.1' : '50'}
+                placeholder={paymentMethod === 'bnb' ? '0.1' : '50'}
                 className="w-full px-4 py-3 rounded-lg text-lg font-bold text-white"
                 style={{background: 'rgba(0, 0, 0, 0.4)', border: '1px solid rgba(255, 215, 0, 0.3)'}}
                 data-testid="input-buy-amount"
               />
               <div className="flex justify-between mt-1 text-xs text-gray-500">
-                <span>Min: {inputMode === 'usd' ? '0.1 BNB' : '50 USDT'}</span>
+                <span>Min: {paymentMethod === 'bnb' ? '0.1 BNB' : '50 USDT'}</span>
                 <span>No Max</span>
               </div>
               {buyAmount && parseFloat(buyAmount) > 0 && usdAmount < MIN_PURCHASE_USD && (
