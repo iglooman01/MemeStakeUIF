@@ -26,6 +26,17 @@ export const CONTRACTS = {
     ]
   },
 
+  // USDT Token (BEP-20)
+  USDT_TOKEN: {
+    address: '0xa865e7988e121bac5c8eadb179a6cfe4e92f152e',
+    abi: [
+      { "inputs": [ { "internalType": "address", "name": "spender", "type": "address" }, { "internalType": "uint256", "name": "value", "type": "uint256" } ], "name": "approve", "outputs": [ { "internalType": "bool", "name": "", "type": "bool" } ], "stateMutability": "nonpayable", "type": "function" },
+      { "inputs": [ { "internalType": "address", "name": "account", "type": "address" } ], "name": "balanceOf", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" },
+      { "inputs": [], "name": "decimals", "outputs": [ { "internalType": "uint8", "name": "", "type": "uint8" } ], "stateMutability": "view", "type": "function" },
+      { "inputs": [ { "internalType": "address", "name": "owner", "type": "address" }, { "internalType": "address", "name": "spender", "type": "address" } ], "name": "allowance", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }
+    ]
+  },
+
   // Presale Contract
   MEMES_PRESALE: {
     address: '0x4534a6d5bF5834fa890DD1650CFB354699a07083',
@@ -44,6 +55,16 @@ export const CONTRACTS = {
         "outputs": [{ "internalType": "address", "name": "", "type": "address" }], 
         "stateMutability": "view", 
         "type": "function" 
+      },
+      {
+        "inputs": [
+          { "internalType": "address", "name": "tokenAddress", "type": "address" },
+          { "internalType": "uint256", "name": "amount", "type": "uint256" }
+        ],
+        "name": "calculateMemesTokens",
+        "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+        "stateMutability": "view",
+        "type": "function"
       },
       // Constructor and Events
       { "inputs": [ { "internalType": "address", "name": "_memesToken", "type": "address" }, { "internalType": "address[]", "name": "acceptedTokens", "type": "address[]" }, { "internalType": "uint256[]", "name": "tokenPrices", "type": "uint256[]" }, { "internalType": "bool[]", "name": "isOldToken", "type": "bool[]" }, { "internalType": "address", "name": "_paymentReceiver", "type": "address" } ], "stateMutability": "nonpayable", "type": "constructor" }, 

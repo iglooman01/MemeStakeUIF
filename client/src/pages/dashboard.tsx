@@ -488,8 +488,7 @@ export default function Dashboard() {
             address: CONTRACTS.MEMES_PRESALE.address as `0x${string}`,
             abi: CONTRACTS.MEMES_PRESALE.abi,
             functionName: 'defaultReferrer'
-          });
-
+          });          
           if (defaultRef && defaultRef !== ZERO_ADDRESS) {
             setSponsorAddress(defaultRef as string);
             return;
