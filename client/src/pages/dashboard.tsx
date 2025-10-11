@@ -1198,7 +1198,7 @@ export default function Dashboard() {
                 </div>
                 <div className="flex items-center justify-center p-3 rounded bg-black/30 border border-white/10">
                   <span className="font-mono text-sm font-bold" style={{color: '#00bfff'}}>
-                    {sponsorAddress.slice(0, 6)}...{sponsorAddress.slice(-4)}
+                    {sponsorAddress ? `${sponsorAddress.slice(0, 6)}...${sponsorAddress.slice(-4)}` : 'Loading...'}
                   </span>
                 </div>
               </div>
