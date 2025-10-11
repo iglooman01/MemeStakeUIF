@@ -28,6 +28,11 @@ This is a full-stack web application built with React and Express.js for "MemeSt
   - Level 3: 2%
 - **Referral Pool**: 5 Billion $MEMES (10% of total supply)
 - **Referral Benefits**: Apply to both token purchases and staking rewards
+- **Sponsor Wallet Logic**: Automatic sponsor detection with priority:
+  1. Check `MEMES_Presale.referrerOf[connectedWallet]` on smart contract
+  2. If not found, check URL query parameter `?ref={walletAddress}`
+  3. If not found, use `MEMES_Presale.defaultReferrer` from contract
+  - Uses viem library for contract interactions on BSC Testnet
 
 # User Preferences
 
