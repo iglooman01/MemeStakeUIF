@@ -446,6 +446,8 @@ export default function Dashboard() {
     const fetchSponsorAddress = async () => {
       if (!walletAddress) return;
 
+      const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
+
       try {
         // Create public client for reading contract
         const publicClient = createPublicClient({
@@ -453,20 +455,22 @@ export default function Dashboard() {
           transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
         });
 
-        // 1. Check referrerOf[connectedWallet]
-        const referrer = await publicClient.readContract({
-          address: CONTRACTS.MEMES_PRESALE.address as `0x${string}`,
-          abi: CONTRACTS.MEMES_PRESALE.abi,
-          functionName: 'referrerOf',
-          args: [walletAddress as `0x${string}`]
-        });
+        // 1. Check referrerOf[connectedWallet] from contract
+        try {
+          const referrer = await publicClient.readContract({
+            address: CONTRACTS.MEMES_PRESALE.address as `0x${string}`,
+            abi: CONTRACTS.MEMES_PRESALE.abi,
+            functionName: 'referrerOf',
+            args: [walletAddress as `0x${string}`]
+          });
 
-        const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
-        
-        // If referrer is found and not zero address, use it
-        if (referrer && referrer !== ZERO_ADDRESS) {
-          setSponsorAddress(referrer as string);
-          return;
+          // If referrer is found and not zero address, use it
+          if (referrer && referrer !== ZERO_ADDRESS) {
+            setSponsorAddress(referrer as string);
+            return;
+          }
+        } catch (err) {
+          console.error('Error reading referrerOf:', err);
         }
 
         // 2. Check URL ref parameter
@@ -479,19 +483,27 @@ export default function Dashboard() {
         }
 
         // 3. Get defaultReferrer from contract
-        const defaultRef = await publicClient.readContract({
-          address: CONTRACTS.MEMES_PRESALE.address as `0x${string}`,
-          abi: CONTRACTS.MEMES_PRESALE.abi,
-          functionName: 'defaultReferrer'
-        });
+        try {
+          const defaultRef = await publicClient.readContract({
+            address: CONTRACTS.MEMES_PRESALE.address as `0x${string}`,
+            abi: CONTRACTS.MEMES_PRESALE.abi,
+            functionName: 'defaultReferrer'
+          });
 
-        if (defaultRef) {
-          setSponsorAddress(defaultRef as string);
+          if (defaultRef && defaultRef !== ZERO_ADDRESS) {
+            setSponsorAddress(defaultRef as string);
+            return;
+          }
+        } catch (err) {
+          console.error('Error reading defaultReferrer:', err);
         }
+
+        // 4. Final fallback - use a demo sponsor address
+        setSponsorAddress('0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb');
       } catch (error) {
         console.error('Error fetching sponsor address:', error);
-        // Fallback to a default address if contract calls fail
-        setSponsorAddress('0x0000000000000000000000000000000000000000');
+        // Fallback to a demo address
+        setSponsorAddress('0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb');
       }
     };
 
