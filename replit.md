@@ -33,6 +33,11 @@ This is a full-stack web application built with React and Express.js for "MemeSt
   2. If not found, check URL query parameter `?ref={walletAddress}`
   3. If not found, use `MEMES_Presale.defaultReferrer` from contract
   - Uses viem library for contract interactions on BSC Testnet
+- **Token Purchase Methods**: 
+  - BNB: Direct calculation based on token price ($0.0001)
+  - USDT(BEP20): Real-time estimation via `calculateMemesTokens` contract function
+  - Contract automatically calculates optimal MEMES tokens for USDT payments
+  - USDT Token Address: 0xa865e7988e121bac5c8eadb179a6cfe4e92f152e
 
 # User Preferences
 
