@@ -7,6 +7,8 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import memeStakeLogo from "@assets/ChatGPT Image Oct 9, 2025, 11_08_34 AM_1759988345567.png";
 import { CONTRACTS } from "@/config/contracts";
+import { createPublicClient, http } from "viem";
+import { bscTestnet } from "viem/chains";
 import { Home, BookOpen, Coins, Copy, CheckCircle2, Users, TrendingUp, Shield, Rocket, Trophy, Zap, Lock, Gift, AlertTriangle } from "lucide-react";
 import { SiTelegram, SiX } from "react-icons/si";
 import {
@@ -24,7 +26,7 @@ export default function Dashboard() {
   const [stakingRewards, setStakingRewards] = useState(28475);
   const [walletAddress, setWalletAddress] = useState<string>('');
   const [walletType, setWalletType] = useState<string>('');
-  const [sponsorAddress] = useState<string>('0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb');
+  const [sponsorAddress, setSponsorAddress] = useState<string>('');
   const [buyAmount, setBuyAmount] = useState<string>('');
   const [inputMode, setInputMode] = useState<'usd' | 'token'>('usd');
   const [referralCode, setReferralCode] = useState<string>('');
@@ -438,6 +440,63 @@ export default function Dashboard() {
       setWalletType(storedWalletType);
     }
   }, []);
+
+  // Fetch sponsor address from contract
+  useEffect(() => {
+    const fetchSponsorAddress = async () => {
+      if (!walletAddress) return;
+
+      try {
+        // Create public client for reading contract
+        const publicClient = createPublicClient({
+          chain: bscTestnet,
+          transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
+        });
+
+        // 1. Check referrerOf[connectedWallet]
+        const referrer = await publicClient.readContract({
+          address: CONTRACTS.MEMES_PRESALE.address as `0x${string}`,
+          abi: CONTRACTS.MEMES_PRESALE.abi,
+          functionName: 'referrerOf',
+          args: [walletAddress as `0x${string}`]
+        });
+
+        const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
+        
+        // If referrer is found and not zero address, use it
+        if (referrer && referrer !== ZERO_ADDRESS) {
+          setSponsorAddress(referrer as string);
+          return;
+        }
+
+        // 2. Check URL ref parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const refParam = urlParams.get('ref');
+        
+        if (refParam && refParam !== ZERO_ADDRESS) {
+          setSponsorAddress(refParam);
+          return;
+        }
+
+        // 3. Get defaultReferrer from contract
+        const defaultRef = await publicClient.readContract({
+          address: CONTRACTS.MEMES_PRESALE.address as `0x${string}`,
+          abi: CONTRACTS.MEMES_PRESALE.abi,
+          functionName: 'defaultReferrer'
+        });
+
+        if (defaultRef) {
+          setSponsorAddress(defaultRef as string);
+        }
+      } catch (error) {
+        console.error('Error fetching sponsor address:', error);
+        // Fallback to a default address if contract calls fail
+        setSponsorAddress('0x0000000000000000000000000000000000000000');
+      }
+    };
+
+    fetchSponsorAddress();
+  }, [walletAddress]);
 
   // Handle disconnect wallet
   const handleDisconnectWallet = () => {
