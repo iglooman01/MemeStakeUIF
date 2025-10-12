@@ -4,6 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import memeStakeLogo from "@assets/ChatGPT Image Oct 9, 2025, 11_08_34 AM_1759988345567.png";
+import { createPublicClient, http } from 'viem';
+import { bscTestnet } from 'viem/chains';
+import { CONTRACTS } from '@/config/contracts';
 
 export default function Staking() {
   const [location, setLocation] = useLocation();
@@ -20,6 +23,7 @@ export default function Staking() {
   const [isApproved, setIsApproved] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [estimatedGas, setEstimatedGas] = useState('0.0012');
+  const [isLoadingData, setIsLoadingData] = useState(false);
   const { toast } = useToast();
 
   const APY = 365;
@@ -40,6 +44,94 @@ export default function Staking() {
       setWalletAddress(storedAddress);
     }
   }, []);
+
+  // Fetch real blockchain data
+  const fetchStakingData = async () => {
+    if (!walletAddress) return;
+
+    try {
+      setIsLoadingData(true);
+
+      const publicClient = createPublicClient({
+        chain: bscTestnet,
+        transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
+      });
+
+      // 1. Fetch staked amount using getActiveStakesWithId
+      try {
+        const activeStakes = await publicClient.readContract({
+          address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
+          abi: CONTRACTS.MEMES_STAKE.abi,
+          functionName: 'getActiveStakesWithId',
+          args: [walletAddress as `0x${string}`]
+        }) as any[];
+
+        // Loop through array and sum up all staked amounts
+        let totalStaked = 0;
+        for (const stake of activeStakes) {
+          totalStaked += Number(stake.stakedAmount) / 1e18;
+        }
+        
+        setStakedAmount(totalStaked);
+      } catch (error) {
+        console.error('Error fetching staked amount:', error);
+        setStakedAmount(0);
+      }
+
+      // 2. Fetch user's MEMES token balance
+      try {
+        const balance = await publicClient.readContract({
+          address: CONTRACTS.MEMES_TOKEN.address as `0x${string}`,
+          abi: CONTRACTS.MEMES_TOKEN.abi,
+          functionName: 'balanceOf',
+          args: [walletAddress as `0x${string}`]
+        }) as bigint;
+
+        setTokenBalance(Number(balance) / 1e18);
+      } catch (error) {
+        console.error('Error fetching token balance:', error);
+        setTokenBalance(0);
+      }
+
+      // 3. Fetch claimable rewards (totalRewardsByreferral + getPendingRewards)
+      try {
+        const [referralRewards, pendingRewards] = await Promise.all([
+          publicClient.readContract({
+            address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
+            abi: CONTRACTS.MEMES_STAKE.abi,
+            functionName: 'getTotalRewardsByReferralLevel',
+            args: [walletAddress as `0x${string}`]
+          }) as Promise<any>,
+          publicClient.readContract({
+            address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
+            abi: CONTRACTS.MEMES_STAKE.abi,
+            functionName: 'getPendingRewards',
+            args: [walletAddress as `0x${string}`]
+          }) as Promise<bigint>
+        ]);
+
+        const totalReferralRewards = Number(referralRewards.totalRewardsByreferral || 0) / 1e18;
+        const totalPendingRewards = Number(pendingRewards) / 1e18;
+        const totalClaimable = totalReferralRewards + totalPendingRewards;
+
+        setClaimableRewards(totalClaimable);
+      } catch (error) {
+        console.error('Error fetching claimable rewards:', error);
+        setClaimableRewards(0);
+      }
+
+    } catch (error) {
+      console.error('Error fetching staking data:', error);
+    } finally {
+      setIsLoadingData(false);
+    }
+  };
+
+  useEffect(() => {
+    if (walletAddress) {
+      fetchStakingData();
+    }
+  }, [walletAddress]);
 
   const getDaysStaked = () => {
     const now = new Date();
