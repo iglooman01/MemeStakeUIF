@@ -1658,68 +1658,131 @@ export default function Dashboard() {
           </div>
         </Card>
 
-        {/* Buy MEMES Tokens Section - Simple & Direct */}
-        <Card className="p-5 glass-card" style={{border: '2px solid rgba(255, 215, 0, 0.4)'}}>
-          <h3 className="text-xl font-bold mb-4 text-center" style={{color: '#ffd700'}}>🛒 Buy $MEMES Tokens</h3>
+        {/* Buy MEMES Tokens Section - Enhanced Design */}
+        <Card className="p-8 relative overflow-hidden" style={{
+          background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(0, 191, 255, 0.1) 100%)',
+          border: '3px solid',
+          borderImage: 'linear-gradient(135deg, #ffd700, #00bfff) 1',
+          boxShadow: '0 20px 60px rgba(255, 215, 0, 0.3)'
+        }}>
+          {/* Animated Background Elements */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-yellow-400/10 to-transparent rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-cyan-400/10 to-transparent rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
           
-          <div className="space-y-4">
+          {/* Header */}
+          <div className="relative text-center mb-8">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4" style={{
+              background: 'linear-gradient(135deg, #ffd700, #ffed4e)',
+              boxShadow: '0 10px 30px rgba(255, 215, 0, 0.5)'
+            }}>
+              <span className="text-3xl">🛒</span>
+            </div>
+            <h3 className="text-3xl font-black mb-2" style={{
+              background: 'linear-gradient(135deg, #ffd700, #ffed4e)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text'
+            }}>Buy $MEMES Tokens</h3>
+            <p className="text-sm text-gray-400">Secure your tokens at $0.0001 each • Limited Time Offer</p>
+          </div>
+          
+          <div className="relative space-y-6">
+            {/* Payment Method Toggle */}
+            <div>
+              <label className="text-sm font-semibold mb-3 block" style={{color: '#ffd700'}}>Select Payment Method</label>
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  onClick={() => setPaymentMethod('bnb')}
+                  className={`p-4 rounded-xl font-bold transition-all duration-300 ${paymentMethod === 'bnb' ? 'scale-105' : ''}`}
+                  style={{
+                    background: paymentMethod === 'bnb' 
+                      ? 'linear-gradient(135deg, #ffd700, #ffed4e)' 
+                      : 'rgba(255, 255, 255, 0.05)',
+                    border: `2px solid ${paymentMethod === 'bnb' ? '#ffd700' : 'rgba(255, 255, 255, 0.1)'}`,
+                    color: paymentMethod === 'bnb' ? '#000' : '#888',
+                    boxShadow: paymentMethod === 'bnb' ? '0 8px 20px rgba(255, 215, 0, 0.4)' : 'none'
+                  }}
+                  data-testid="toggle-bnb"
+                >
+                  <div className="text-2xl mb-1">💎</div>
+                  <div className="text-sm">BNB</div>
+                </button>
+                <button
+                  onClick={() => setPaymentMethod('usdt')}
+                  className={`p-4 rounded-xl font-bold transition-all duration-300 ${paymentMethod === 'usdt' ? 'scale-105' : ''}`}
+                  style={{
+                    background: paymentMethod === 'usdt' 
+                      ? 'linear-gradient(135deg, #00bfff, #00d4ff)' 
+                      : 'rgba(255, 255, 255, 0.05)',
+                    border: `2px solid ${paymentMethod === 'usdt' ? '#00bfff' : 'rgba(255, 255, 255, 0.1)'}`,
+                    color: paymentMethod === 'usdt' ? '#000' : '#888',
+                    boxShadow: paymentMethod === 'usdt' ? '0 8px 20px rgba(0, 191, 255, 0.4)' : 'none'
+                  }}
+                  data-testid="toggle-usdt"
+                >
+                  <div className="text-2xl mb-1">💵</div>
+                  <div className="text-sm">USDT</div>
+                </button>
+              </div>
+            </div>
+
             {/* Amount Input */}
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-gray-400">Payment Method</span>
-                <div className="flex space-x-1">
-                  <button
-                    onClick={() => setPaymentMethod('bnb')}
-                    className={`px-3 py-1 rounded text-xs font-bold ${paymentMethod === 'bnb' ? 'text-black' : 'text-gray-500'}`}
-                    style={{background: paymentMethod === 'bnb' ? '#ffd700' : 'rgba(255, 255, 255, 0.1)'}}
-                    data-testid="toggle-bnb"
-                  >
-                    BNB
-                  </button>
-                  <button
-                    onClick={() => setPaymentMethod('usdt')}
-                    className={`px-3 py-1 rounded text-xs font-bold ${paymentMethod === 'usdt' ? 'text-black' : 'text-gray-500'}`}
-                    style={{background: paymentMethod === 'usdt' ? '#ffd700' : 'rgba(255, 255, 255, 0.1)'}}
-                    data-testid="toggle-usdt"
-                  >
-                    USDT(BEP20)
-                  </button>
+              <label className="text-sm font-semibold mb-3 block" style={{color: '#ffd700'}}>Enter Amount ({paymentMethod.toUpperCase()})</label>
+              <div className="relative">
+                <input
+                  type="number"
+                  value={buyAmount}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (value === '' || parseFloat(value) >= 0) {
+                      setBuyAmount(value);
+                    }
+                  }}
+                  min="0"
+                  placeholder={paymentMethod === 'bnb' ? '0.1' : '50'}
+                  className="w-full px-6 py-5 rounded-xl text-2xl font-bold text-white transition-all duration-300 focus:scale-[1.02]"
+                  style={{
+                    background: 'rgba(0, 0, 0, 0.6)',
+                    border: '2px solid rgba(255, 215, 0, 0.5)',
+                    outline: 'none',
+                    boxShadow: '0 8px 20px rgba(0, 0, 0, 0.3)'
+                  }}
+                  data-testid="input-buy-amount"
+                />
+                <div className="absolute right-6 top-1/2 -translate-y-1/2 text-2xl font-bold" style={{color: '#ffd700'}}>
+                  {paymentMethod === 'bnb' ? '💎' : '💵'}
                 </div>
               </div>
-              <input
-                type="number"
-                value={buyAmount}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  if (value === '' || parseFloat(value) >= 0) {
-                    setBuyAmount(value);
-                  }
-                }}
-                min="0"
-                placeholder={paymentMethod === 'bnb' ? '0.1' : '50'}
-                className="w-full px-4 py-3 rounded-lg text-lg font-bold text-white"
-                style={{background: 'rgba(0, 0, 0, 0.4)', border: '1px solid rgba(255, 215, 0, 0.3)'}}
-                data-testid="input-buy-amount"
-              />
-              <div className="flex justify-between mt-1 text-xs text-gray-500">
-                <span>Min: {paymentMethod === 'bnb' ? '0.1 BNB' : '50 USDT'}</span>
-                <span>No Max</span>
+              <div className="flex justify-between mt-2 text-xs">
+                <span className="text-gray-400">Min: {paymentMethod === 'bnb' ? '0.1 BNB' : '50 USDT'}</span>
+                <span className="text-gray-400">No Maximum Limit</span>
               </div>
               {buyAmount && parseFloat(buyAmount) > 0 && usdAmount < MIN_PURCHASE_USD && (
-                <div className="mt-2 p-2 rounded text-xs font-semibold text-center" style={{background: 'rgba(255, 0, 0, 0.1)', border: '1px solid rgba(255, 0, 0, 0.3)', color: '#ff6b6b'}}>
-                  ⚠️ Minimum purchase is $50
+                <div className="mt-3 p-3 rounded-lg text-sm font-bold text-center animate-pulse" style={{
+                  background: 'rgba(255, 87, 87, 0.2)',
+                  border: '2px solid rgba(255, 87, 87, 0.5)',
+                  color: '#ff5757'
+                }}>
+                  ⚠️ Minimum purchase is $50 USD
                 </div>
               )}
             </div>
 
-            {/* You Get */}
-            <div className="p-3 rounded-lg text-center" style={{background: 'rgba(0, 191, 255, 0.15)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
-              <div className="text-xs text-gray-400 mb-1">You Get</div>
-              <div className="text-2xl font-bold" style={{color: '#00bfff'}}>
-                {tokensToGet.toLocaleString()} $MEMES
+            {/* You Get Display */}
+            <div className="p-6 rounded-xl text-center relative overflow-hidden" style={{
+              background: 'linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 191, 255, 0.15))',
+              border: '2px solid rgba(0, 255, 136, 0.4)',
+              boxShadow: '0 8px 20px rgba(0, 255, 136, 0.2)'
+            }}>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-shimmer"></div>
+              <div className="text-xs font-semibold mb-2" style={{color: '#00ff88'}}>YOU WILL RECEIVE</div>
+              <div className="text-4xl font-black mb-2" style={{color: '#00ff88'}}>
+                {tokensToGet.toLocaleString()}
               </div>
-              <div className="text-xs text-gray-500 mt-1">
-                ${usdAmount.toFixed(2)} @ $0.0001/token
+              <div className="text-xl font-bold mb-2" style={{color: '#ffd700'}}>$MEMES</div>
+              <div className="text-xs text-gray-400">
+                ≈ ${usdAmount.toFixed(2)} USD @ $0.0001/token
               </div>
             </div>
 
@@ -1727,16 +1790,47 @@ export default function Dashboard() {
             <Button 
               onClick={handleBuyTokens}
               disabled={!buyAmount || parseFloat(buyAmount) <= 0 || usdAmount < MIN_PURCHASE_USD || isPurchasing}
-              className="w-full py-5 text-base font-bold"
-              style={{background: 'linear-gradient(135deg, #ffd700, #ffed4e)', color: '#000'}}
+              className="w-full py-7 text-xl font-black rounded-xl transition-all duration-300 hover:scale-105 disabled:hover:scale-100"
+              style={{
+                background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%)',
+                backgroundSize: '200% auto',
+                color: '#000',
+                boxShadow: '0 12px 30px rgba(255, 215, 0, 0.5)',
+                textShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+                animation: 'gradientShift 3s ease infinite'
+              }}
               data-testid="button-buy-tokens"
             >
               {isPurchasing ? (
-                <span className="flex items-center justify-center gap-2">
-                  <span className="animate-spin">⏳</span> Processing...
+                <span className="flex items-center justify-center gap-3">
+                  <span className="animate-spin text-2xl">⏳</span> 
+                  <span>Processing Transaction...</span>
                 </span>
-              ) : tokensToGet > 0 ? `Buy Now - $${usdAmount.toFixed(2)}` : 'Enter Amount'}
+              ) : tokensToGet > 0 ? (
+                <span className="flex items-center justify-center gap-3">
+                  <span>🚀 BUY NOW</span>
+                  <span className="px-3 py-1 rounded-lg bg-black/30 text-sm font-bold">
+                    ${usdAmount.toFixed(2)}
+                  </span>
+                </span>
+              ) : 'Enter Amount to Continue'}
             </Button>
+
+            {/* Trust Indicators */}
+            <div className="flex items-center justify-center gap-6 pt-4 border-t border-white/10">
+              <div className="text-center">
+                <div className="text-xs text-gray-400 mb-1">🔒 Secure</div>
+                <div className="text-xs font-bold" style={{color: '#00ff88'}}>256-bit SSL</div>
+              </div>
+              <div className="text-center">
+                <div className="text-xs text-gray-400 mb-1">⚡ Instant</div>
+                <div className="text-xs font-bold" style={{color: '#00bfff'}}>Delivery</div>
+              </div>
+              <div className="text-center">
+                <div className="text-xs text-gray-400 mb-1">✓ Verified</div>
+                <div className="text-xs font-bold" style={{color: '#ffd700'}}>Contract</div>
+              </div>
+            </div>
           </div>
         </Card>
 
