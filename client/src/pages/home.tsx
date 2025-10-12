@@ -597,10 +597,15 @@ export default function Home() {
 
   // Staking launch notification
   const handleStakingClick = () => {
-    toast({
-      title: "🚀 Staking Program Coming Soon!",
-      description: "Staking will launch immediately after the airdrop ends. 365% APY (1% daily) rewards await!",
-    });
+    if (!walletConnected) {
+      toast({
+        title: "⚠️ Connect Wallet First",
+        description: "Please connect your wallet to access the staking page.",
+        variant: "destructive"
+      });
+      return;
+    }
+    window.location.href = '/staking';
   };
 
   const walletOptions = supportedWallets;
