@@ -68,8 +68,30 @@ export default function Dashboard() {
   const [level2StakingRewards, setLevel2StakingRewards] = useState(0);
   const [level3AirdropRewards, setLevel3AirdropRewards] = useState(0);
   const [level3StakingRewards, setLevel3StakingRewards] = useState(0);
+  const [bnbPrice, setBnbPrice] = useState(600); // Default BNB price in USD
   
   const { toast } = useToast();
+
+  // Fetch BNB price in USD
+  useEffect(() => {
+    const fetchBnbPrice = async () => {
+      try {
+        const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=binancecoin&vs_currencies=usd');
+        const data = await response.json();
+        if (data.binancecoin?.usd) {
+          setBnbPrice(data.binancecoin.usd);
+        }
+      } catch (error) {
+        console.error('Error fetching BNB price:', error);
+        // Keep default price of 600 USD
+      }
+    };
+
+    fetchBnbPrice();
+    // Refresh price every 5 minutes
+    const interval = setInterval(fetchBnbPrice, 5 * 60 * 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Initialize airdrop participant mutation
   const initAirdropMutation = useMutation({
@@ -390,15 +412,18 @@ export default function Dashboard() {
 
   const tokensToGet = estimatedTokens;
 
+  // Calculate actual USD amount based on payment method
   const usdAmount = paymentMethod === 'bnb'
-    ? calculateUSDFromTokens(estimatedTokens)
-    : calculateUSDFromTokens(estimatedTokens);
+    ? (parseFloat(buyAmount) || 0) * bnbPrice
+    : parseFloat(buyAmount) || 0;
 
   const handleBuyTokens = () => {
     if (usdAmount < MIN_PURCHASE_USD) {
       toast({
         title: "❌ Minimum Purchase Required",
-        description: `Minimum purchase is $${MIN_PURCHASE_USD}`,
+        description: paymentMethod === 'bnb' 
+          ? `Minimum purchase is $${MIN_PURCHASE_USD}. You entered ${parseFloat(buyAmount || '0').toFixed(4)} BNB (~$${usdAmount.toFixed(2)})`
+          : `Minimum purchase is $${MIN_PURCHASE_USD}. You entered $${usdAmount.toFixed(2)}`,
         variant: "destructive"
       });
       return;
@@ -803,13 +828,14 @@ export default function Dashboard() {
           setEstimatedTokens(amount / TOKEN_PRICE);
         }
       } else {
-        // For BNB, use simple calculation
-        setEstimatedTokens(amount / TOKEN_PRICE);
+        // For BNB, convert to USD first then calculate tokens
+        const usdValue = amount * bnbPrice;
+        setEstimatedTokens(usdValue / TOKEN_PRICE);
       }
     };
 
     calculateEstimatedTokens();
-  }, [buyAmount, paymentMethod]);
+  }, [buyAmount, paymentMethod, bnbPrice]);
 
   // Fetch sponsor address from contract
   useEffect(() => {
