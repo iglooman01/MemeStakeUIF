@@ -2085,7 +2085,21 @@ export default function Dashboard() {
         {/* About MemeStake */}
         <Card className="p-8 glass-card">
           <h2 className="text-3xl font-bold text-center mb-2" style={{color: '#ffd700'}}>About MemeStake</h2>
-          <p className="text-center text-gray-400 mb-8">Learn more about our platform and mission</p>
+          <p className="text-center text-gray-400 mb-4">Learn more about our platform and mission</p>
+          
+          <div className="text-center mb-8">
+            <Button
+              onClick={() => setLocation('/whitepaper')}
+              style={{
+                background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)',
+                color: '#000',
+                fontWeight: 'bold'
+              }}
+              data-testid="button-view-whitepaper"
+            >
+              📄 Read Our Whitepaper
+            </Button>
+          </div>
           
           <Accordion type="single" collapsible className="w-full" defaultValue="item-1">
             <AccordionItem value="item-1" style={{borderColor: 'rgba(0, 191, 255, 0.3)'}}>

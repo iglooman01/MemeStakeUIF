@@ -8,6 +8,7 @@ import Dashboard from "@/pages/dashboard";
 import Staking from "@/pages/staking";
 import Airdrop from "@/pages/airdrop";
 import IncomeHistory from "@/pages/income-history";
+import Whitepaper from "@/pages/whitepaper";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -18,6 +19,7 @@ function Router() {
       <Route path="/staking" component={Staking} />
       <Route path="/airdrop" component={Airdrop} />
       <Route path="/income-history" component={IncomeHistory} />
+      <Route path="/whitepaper" component={Whitepaper} />
       <Route component={NotFound} />
     </Switch>
   );

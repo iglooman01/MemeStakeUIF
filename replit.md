@@ -82,6 +82,13 @@ This is a full-stack web application built with React and Express.js for "MemeSt
 - **Shared Code**: Common schemas and types in `/shared` directory
 - **Component Organization**: UI components in `/components/ui` with shadcn/ui structure
 - **Asset Management**: Attached assets directory for static files
+- **Pages**: 
+  - `/` - Home page with airdrop information
+  - `/dashboard` - User dashboard with token purchase and wallet management
+  - `/staking` - Staking interface with rewards tracking
+  - `/airdrop` - Airdrop claiming interface
+  - `/whitepaper` - Comprehensive whitepaper detailing platform vision, architecture, and roadmap
+  - `/income-history` - Income history tracking
 
 ## Database Design
 - **Database**: PostgreSQL via Neon serverless

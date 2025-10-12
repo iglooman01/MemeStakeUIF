@@ -685,7 +685,7 @@ export default function Home() {
             {/* Desktop Navigation - Multiple Links */}
             <div className="hidden md:flex items-center justify-center flex-1 space-x-8" data-testid="desktop-nav">
               <a href="#about" className="nav-link text-gray-300 hover:text-white transition-all duration-200" style={{fontFamily: 'Inter, sans-serif', fontWeight: '500'}} data-testid="link-about">{t.about}</a>
-              <a href="#whitepaper" className="nav-link text-gray-300 hover:text-white transition-all duration-200" style={{fontFamily: 'Inter, sans-serif', fontWeight: '500'}} data-testid="link-whitepaper">{t.whitepaper}</a>
+              <a href="/whitepaper" className="nav-link text-gray-300 hover:text-white transition-all duration-200" style={{fontFamily: 'Inter, sans-serif', fontWeight: '500'}} data-testid="link-whitepaper">{t.whitepaper}</a>
               <a href="#roadmap" className="nav-link text-gray-300 hover:text-white transition-all duration-200" style={{fontFamily: 'Inter, sans-serif', fontWeight: '500'}} data-testid="link-roadmap">Roadmap</a>
             </div>
 
