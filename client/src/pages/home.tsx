@@ -457,10 +457,8 @@ export default function Home() {
       description: "Testing with demo wallet. Redirecting to dashboard...",
     });
     
-    // Redirect to dashboard
-    setTimeout(() => {
-      setLocation('/dashboard');
-    }, 1000);
+    // Redirect to dashboard immediately
+    setLocation('/dashboard');
   };
 
   // Wallet connection functions
@@ -503,11 +501,9 @@ export default function Home() {
           description: `Connected with ${walletName}. Redirecting to dashboard...`,
         });
         
-        // Redirect to dashboard after successful connection
-        setTimeout(() => {
-          setIsConnecting(false);
-          setLocation('/dashboard');
-        }, 1000);
+        // Redirect to dashboard immediately after successful connection
+        setIsConnecting(false);
+        setLocation('/dashboard');
       } else {
         // Handle specific errors
         let errorTitle = "❌ Connection Failed";

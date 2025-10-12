@@ -92,21 +92,32 @@ export const connectWallet = async (walletType: string): Promise<{ success: bool
       return { success: false, error: 'No accounts found' };
     }
 
-    // Switch to BSC network
+    // Check current network first
+    let currentChainId;
     try {
-      await ethereum.request({
-        method: 'wallet_switchEthereumChain',
-        params: [{ chainId: BSC_NETWORK.chainId }],
-      });
-    } catch (switchError: any) {
-      // If the chain hasn't been added to the wallet, add it
-      if (switchError.code === 4902) {
+      currentChainId = await ethereum.request({ method: 'eth_chainId' });
+    } catch (error) {
+      currentChainId = null;
+    }
+
+    // Only switch network if not already on BSC Testnet
+    if (currentChainId !== BSC_NETWORK.chainId) {
+      try {
         await ethereum.request({
-          method: 'wallet_addEthereumChain',
-          params: [BSC_NETWORK],
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: BSC_NETWORK.chainId }],
         });
-      } else {
-        throw switchError;
+      } catch (switchError: any) {
+        // If the chain hasn't been added to the wallet, add it
+        if (switchError.code === 4902) {
+          await ethereum.request({
+            method: 'wallet_addEthereumChain',
+            params: [BSC_NETWORK],
+          });
+        } else {
+          // User rejected the request or other error - continue anyway
+          console.warn('Network switch error:', switchError);
+        }
       }
     }
 
