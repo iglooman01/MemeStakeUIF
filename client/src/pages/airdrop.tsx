@@ -289,7 +289,7 @@ export default function Airdrop() {
           )}
           <div className="space-y-3">
             <Button
-              onClick={() => completeTask('telegram-group', 'Join Telegram Group', 'https://t.me/memestake_group')}
+              onClick={() => completeTask('telegram-group', 'Join Telegram Group', 'https://t.me/memestakegroup')}
               className="w-full justify-between"
               variant="outline"
               disabled={!isEmailVerified}
@@ -299,7 +299,7 @@ export default function Airdrop() {
               <span>{completedTasks.includes('telegram-group') ? '✅' : isEmailVerified ? '🔗' : '🔒'}</span>
             </Button>
             <Button
-              onClick={() => completeTask('telegram-channel', 'Join Telegram Channel', 'https://t.me/memestake_official')}
+              onClick={() => completeTask('telegram-channel', 'Join Telegram Channel', 'https://t.me/memstakeofficial')}
               className="w-full justify-between"
               variant="outline"
               disabled={!isEmailVerified}
@@ -528,7 +528,7 @@ export default function Airdrop() {
           
           <div className="grid md:grid-cols-3 gap-4">
             <a
-              href="https://t.me/memestake_group"
+              href="https://t.me/memestakegroup"
               target="_blank"
               rel="noopener noreferrer"
               className="p-4 rounded-lg text-center transition-all hover:scale-105"
@@ -540,7 +540,7 @@ export default function Airdrop() {
             </a>
             
             <a
-              href="https://t.me/memestake_official"
+              href="https://t.me/memstakeofficial"
               target="_blank"
               rel="noopener noreferrer"
               className="p-4 rounded-lg text-center transition-all hover:scale-105"

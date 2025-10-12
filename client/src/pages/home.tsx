@@ -726,7 +726,7 @@ export default function Home() {
 
               {/* Telegram Link */}
               <a
-                href="https://t.me/memestake_group"
+                href="https://t.me/memestakegroup"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 h-8 w-8 border rounded-md flex items-center justify-center transition-all hover:scale-110"
@@ -1217,7 +1217,7 @@ export default function Home() {
                   Our community team is here to help you get started
                 </p>
                 <Button asChild data-testid="button-contact-support">
-                  <a href="https://t.me/memestake_official" target="_blank" rel="noopener noreferrer">💬 Contact Support</a>
+                  <a href="https://t.me/memstakeofficial" target="_blank" rel="noopener noreferrer">💬 Contact Support</a>
                 </Button>
               </Card>
               
@@ -1679,7 +1679,7 @@ export default function Home() {
 
               {/* Telegram Button */}
               <a
-                href="https://t.me/memestake"
+                href="https://t.me/memestakegroup"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center space-x-3 w-full py-4 rounded-xl font-semibold text-lg transition-all duration-200 hover:scale-105"

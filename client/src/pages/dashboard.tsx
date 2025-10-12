@@ -892,7 +892,7 @@ export default function Dashboard() {
               </button>
               
               <a
-                href="https://t.me/memestake_group"
+                href="https://t.me/memestakegroup"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center space-x-2 text-sm font-medium text-white transition-colors hover:text-[#00bfff] px-3 py-1.5 rounded-lg"
@@ -908,7 +908,7 @@ export default function Dashboard() {
             <div className="flex items-center space-x-3">
               {/* Telegram Link */}
               <a
-                href="https://t.me/memestake_group"
+                href="https://t.me/memestakegroup"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center p-2 rounded-lg transition-all duration-300 hover:scale-110"
@@ -1362,8 +1362,8 @@ export default function Dashboard() {
 
                     <div className="space-y-3">
                       {[
-                        { id: 'telegram_group', label: 'Join Telegram Group', icon: '💬', reward: '250 $MEMES', url: 'https://t.me/memestake_group' },
-                        { id: 'telegram_channel', label: 'Join Telegram Channel', icon: '📢', reward: '250 $MEMES', url: 'https://t.me/memestake_official' },
+                        { id: 'telegram_group', label: 'Join Telegram Group', icon: '💬', reward: '250 $MEMES', url: 'https://t.me/memestakegroup' },
+                        { id: 'telegram_channel', label: 'Join Telegram Channel', icon: '📢', reward: '250 $MEMES', url: 'https://t.me/memstakeofficial' },
                         { id: 'twitter', label: 'Follow on Twitter/X', icon: '🐦', reward: '250 $MEMES', url: 'https://twitter.com/memestake_official' },
                         { id: 'youtube', label: 'Subscribe YouTube', icon: '📺', reward: '250 $MEMES', url: 'https://youtube.com/@memestake' }
                       ].map((task, index) => {
@@ -2037,7 +2037,7 @@ export default function Dashboard() {
                   <h4 className="text-lg font-bold mb-2" style={{color: '#00bfff'}}>💬 Still need help?</h4>
                   <p className="text-sm text-gray-400 mb-4">Our community team is here to help you get started with MemeStake</p>
                   <a
-                    href="https://t.me/memestake_group"
+                    href="https://t.me/memestakegroup"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -2111,7 +2111,7 @@ export default function Dashboard() {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <a
-              href="https://t.me/memestake_group"
+              href="https://t.me/memestakegroup"
               target="_blank"
               rel="noopener noreferrer"
               className="p-6 rounded-xl transition-all hover:scale-105"
@@ -2124,7 +2124,7 @@ export default function Dashboard() {
             </a>
 
             <a
-              href="https://t.me/memestake_official"
+              href="https://t.me/memstakeofficial"
               target="_blank"
               rel="noopener noreferrer"
               className="p-6 rounded-xl transition-all hover:scale-105"
