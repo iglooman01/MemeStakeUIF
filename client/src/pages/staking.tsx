@@ -219,6 +219,17 @@ export default function Staking() {
       return;
     }
 
+    // Minimum stake: $50 worth of MEMES tokens (500,000 MEMES at $0.0001 per token)
+    const MINIMUM_STAKE = 500000;
+    if (parseFloat(stakeAmount) < MINIMUM_STAKE) {
+      toast({
+        title: "❌ Minimum Stake Required",
+        description: `Minimum stake is ${MINIMUM_STAKE.toLocaleString()} $MEMES tokens ($50 worth)`,
+        variant: "destructive"
+      });
+      return;
+    }
+
     if (parseFloat(stakeAmount) > tokenBalance) {
       toast({
         title: "❌ Insufficient Balance",
@@ -485,7 +496,7 @@ export default function Staking() {
             {activeTab === 'stake' ? (
               <div className="space-y-4">
                 {/* Approval Section */}
-                {!isApproved && (
+                {/*{!isApproved && (
                   <div className="p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)'}}>
                     <p className="text-sm text-gray-300 mb-3">
                       First, approve the smart contract to manage your tokens
@@ -500,10 +511,10 @@ export default function Staking() {
                       {isProcessing ? '⏳ Approving...' : '✅ Approve Contract'}
                     </Button>
                   </div>
-                )}
+                )*/}
 
                 {/* Stake Input */}
-                {isApproved && (
+                {//isApproved && (
                   <>
                     <div>
                       <label className="text-sm text-muted-foreground mb-2 block">Amount to Stake</label>
@@ -525,6 +536,7 @@ export default function Staking() {
                           MAX
                         </button>
                       </div>
+                      <p className="text-xs text-gray-400 mt-2">Minimum stake: 500,000 $MEMES ($50 worth)</p>
                     </div>
 
                     <Button 
@@ -537,7 +549,9 @@ export default function Staking() {
                       {isProcessing ? '⏳ Staking...' : '💎 Stake Tokens'}
                     </Button>
                   </>
-                )}
+                //)
+                
+                }
               </div>
             ) : (
               <div className="space-y-4">
