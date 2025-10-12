@@ -123,6 +123,7 @@ This is a full-stack web application built with React and Express.js for "MemeSt
 - **Smart Contracts** (Testnet - for testing):
   - **MEMES Token**: 0xBaF3c31BfA0ee3990A43b5cD4C0D4C7E0cFE5AcF
   - **MEMES Presale**: 0x4534a6d5bF5834fa890DD1650CFB354699a07083
+  - **MEMES Stake**: 0x09EB3f7E23ae0c6987bFd1757cB814E6dC95dbFB
   - Note: Deploy new contracts on BSC Testnet for proper testing
 - **Features**: 
   - Wallet connection with network auto-switch to BSC Testnet
