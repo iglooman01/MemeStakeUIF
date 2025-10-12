@@ -23,6 +23,8 @@ export default function Staking() {
   const [lifetimeEarned, setLifetimeEarned] = useState(28475);
   const [isApproved, setIsApproved] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isUnstaking, setIsUnstaking] = useState(false);
+  const [isClaiming, setIsClaiming] = useState(false);
   const [estimatedGas, setEstimatedGas] = useState('0.0012');
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [activeStakes, setActiveStakes] = useState<any[]>([]);
@@ -189,7 +191,7 @@ export default function Staking() {
     }
 
     try {
-      setIsProcessing(true);
+      setIsUnstaking(true);
 
       // Check if ethereum provider is available
       if (typeof window.ethereum === 'undefined') {
@@ -226,7 +228,7 @@ export default function Staking() {
       // Refresh data after withdrawal
       await fetchStakingData();
 
-      setIsProcessing(false);
+      setIsUnstaking(false);
       
       toast({
         title: "🎉 Withdrawal Successful!",
@@ -234,7 +236,7 @@ export default function Staking() {
       });
     } catch (error: any) {
       console.error('Error withdrawing capital:', error);
-      setIsProcessing(false);
+      setIsUnstaking(false);
       
       toast({
         title: "❌ Withdrawal Failed",
@@ -469,7 +471,7 @@ export default function Staking() {
     }
 
     try {
-      setIsProcessing(true);
+      setIsClaiming(true);
 
       // Check if ethereum provider is available
       if (typeof window.ethereum === 'undefined') {
@@ -519,7 +521,7 @@ export default function Staking() {
       // Refresh data after claim
       await fetchStakingData();
 
-      setIsProcessing(false);
+      setIsClaiming(false);
       
       toast({
         title: "🎉 Rewards Claimed!",
@@ -527,7 +529,7 @@ export default function Staking() {
       });
     } catch (error: any) {
       console.error('Error claiming rewards:', error);
-      setIsProcessing(false);
+      setIsClaiming(false);
       
       toast({
         title: "❌ Claim Failed",
@@ -768,7 +770,7 @@ export default function Staking() {
                               <td className="py-3 px-2 text-center">
                                 <button
                                   onClick={() => handleWithdrawCapital(stakeId)}
-                                  disabled={isProcessing}
+                                  disabled={isUnstaking}
                                   className="px-3 py-1 rounded text-xs font-semibold transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
                                   style={{
                                     background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)',
@@ -776,7 +778,7 @@ export default function Staking() {
                                   }}
                                   data-testid={`button-unstake-${stakeId}`}
                                 >
-                                  🔓 Unstake
+                                  {isUnstaking ? '⏳ Unstaking...' : '🔓 Unstake'}
                                 </button>
                               </td>
                               <td className="py-3 px-2 text-center">
@@ -836,12 +838,12 @@ export default function Staking() {
               {/* Claim Button */}
               <Button 
                 onClick={handleClaimRewards}
-                disabled={isProcessing || claimableRewards <= 0}
+                disabled={isClaiming || claimableRewards <= 0}
                 className="w-full"
                 style={{background: 'linear-gradient(135deg, #00ff88 0%, #00cc70 100%)', color: '#000'}}
                 data-testid="button-claim-rewards"
               >
-                {isProcessing ? '⏳ Claiming...' : `🎁 Claim ${claimableRewards.toLocaleString()} $MEMES`}
+                {isClaiming ? '⏳ Claiming...' : `🎁 Claim ${claimableRewards.toLocaleString()} $MEMES`}
               </Button>
             </div>
           </Card>
