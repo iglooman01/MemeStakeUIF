@@ -60,6 +60,7 @@ export default function Dashboard() {
   const [totalStakedAmount, setTotalStakedAmount] = useState(0);
   const [isLoadingStakes, setIsLoadingStakes] = useState(false);
   const [pendingStakingRewards, setPendingStakingRewards] = useState(0);
+  const [accruedToday, setAccruedToday] = useState(0);
   const [referralEarnings, setReferralEarnings] = useState(0);
   const [level1AirdropRewards, setLevel1AirdropRewards] = useState(0);
   const [level1StakingRewards, setLevel1StakingRewards] = useState(0);
@@ -874,6 +875,23 @@ export default function Dashboard() {
         }
         
         setTotalStakedAmount(totalStaked);
+
+        // Calculate Accrued Today: 1% of active stakes whose lastClaim is < 24 hours
+        const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+        const twentyFourHoursAgo = currentTime - (24 * 60 * 60);
+        let todayAccrued = 0;
+        
+        for (const stake of userStakes) {
+          if (!stake.capitalWithdrawn) {
+            const lastClaimTime = Number(stake.lastClaim);
+            // If lastClaim is within the last 24 hours
+            if (lastClaimTime >= twentyFourHoursAgo) {
+              todayAccrued += (Number(stake.stakedAmount) / 1e18) * 0.01; // 1% of stake
+            }
+          }
+        }
+        
+        setAccruedToday(todayAccrued);
       } catch (stakeError) {
         console.error('Error fetching staked amount:', stakeError);
         setTotalStakedAmount(0);
@@ -1872,6 +1890,16 @@ export default function Dashboard() {
               <div className="flex justify-between items-center">
                 <span className="text-muted-foreground">Daily Rewards:</span>
                 <span className="font-bold" style={{color: '#00bfff'}}>+1,000 MEME (1%)</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-muted-foreground">Accrued Today:</span>
+                <span className="font-bold" style={{color: '#00ff88'}}>
+                  {isLoadingBalances ? (
+                    <span className="animate-pulse">Loading...</span>
+                  ) : (
+                    `${accruedToday.toLocaleString()} $MEMES`
+                  )}
+                </span>
               </div>
               
               <Button 
