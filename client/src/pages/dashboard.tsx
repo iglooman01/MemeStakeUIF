@@ -591,7 +591,7 @@ export default function Dashboard() {
     }
   };
 
-  const handleClaimEarnings = () => {
+  const handleClaimEarnings = async () => {
     if (claimableAmount <= 0) {
       toast({
         title: "❌ No Earnings",
@@ -601,15 +601,93 @@ export default function Dashboard() {
       return;
     }
 
-    setIsClaiming(true);
-    setTimeout(() => {
-      setTokenBalance(prev => prev + claimableAmount);
-      setIsClaiming(false);
+    if (!walletAddress) {
       toast({
-        title: "🎉 Earnings Claimed!",
+        title: "❌ Wallet Not Connected",
+        description: "Please connect your wallet first",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    try {
+      setIsClaiming(true);
+
+      // Get wallet client based on wallet type
+      let walletClient;
+      if (walletType === 'metamask' && window.ethereum) {
+        walletClient = createWalletClient({
+          account: walletAddress as `0x${string}`,
+          chain: bscTestnet,
+          transport: custom(window.ethereum)
+        });
+      } else if (walletType === 'trust' && (window as any).trustwallet) {
+        walletClient = createWalletClient({
+          account: walletAddress as `0x${string}`,
+          chain: bscTestnet,
+          transport: custom((window as any).trustwallet)
+        });
+      } else if (walletType === 'safepal' && (window as any).safepalProvider) {
+        walletClient = createWalletClient({
+          account: walletAddress as `0x${string}`,
+          chain: bscTestnet,
+          transport: custom((window as any).safepalProvider)
+        });
+      } else {
+        throw new Error('Wallet not available');
+      }
+
+      // Call claimRewards function from staking contract
+      const hash = await walletClient.writeContract({
+        address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
+        abi: CONTRACTS.MEMES_STAKE.abi,
+        functionName: 'claimRewards',
+        args: []
+      });
+
+      toast({
+        title: "⏳ Transaction Submitted",
+        description: "Claiming your rewards...",
+      });
+
+      // Wait for transaction confirmation
+      const publicClient = createPublicClient({
+        chain: bscTestnet,
+        transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
+      });
+
+      await publicClient.waitForTransactionReceipt({ hash });
+
+      toast({
+        title: "🎉 Rewards Claimed!",
         description: `Successfully claimed ${claimableAmount.toLocaleString()} $MEMES to your wallet`,
       });
-    }, 2000);
+
+      // Refresh balances after successful claim
+      setTimeout(() => {
+        fetchBalances();
+      }, 2000);
+
+    } catch (error: any) {
+      console.error('Claim error:', error);
+      
+      let errorMessage = error.message || 'Failed to claim rewards';
+      
+      // Handle specific error codes
+      if (error.code === 4001) {
+        errorMessage = 'Transaction rejected by user';
+      } else if (error.message?.includes('insufficient funds')) {
+        errorMessage = 'Insufficient BNB for gas fees';
+      }
+      
+      toast({
+        title: "❌ Claim Failed",
+        description: errorMessage,
+        variant: "destructive"
+      });
+    } finally {
+      setIsClaiming(false);
+    }
   };
 
   // Load wallet address and type from localStorage
@@ -1947,7 +2025,7 @@ export default function Dashboard() {
             </div>
 
             {/* Total Summary */}
-            <div className="p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)'}}>
+            {/*<div className="p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)'}}>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <div className="text-sm text-muted-foreground mb-1">Total Airdrop Earning</div>
@@ -1970,7 +2048,7 @@ export default function Dashboard() {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </Card>
 
