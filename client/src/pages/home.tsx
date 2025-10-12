@@ -480,9 +480,23 @@ export default function Home() {
       return;
     }
 
+    // Set timeout to prevent indefinite hanging
+    const connectionTimeout = setTimeout(() => {
+      setIsConnecting(false);
+      setSelectedWallet('');
+      toast({
+        title: "⏱️ Connection Timeout",
+        description: "Wallet connection took too long. Please try again and approve the request quickly.",
+        variant: "destructive"
+      });
+    }, 30000); // 30 second timeout
+
     try {
       // Connect to the selected wallet
       const result = await connectWallet(wallet.connector);
+      
+      // Clear timeout if connection completes
+      clearTimeout(connectionTimeout);
       
       if (result.success && result.address) {
         // Store wallet info
@@ -527,6 +541,9 @@ export default function Home() {
         setIsConnecting(false);
       }
     } catch (error: any) {
+      // Clear timeout on error
+      clearTimeout(connectionTimeout);
+      
       console.error('Wallet connection error:', error);
       
       let errorTitle = "❌ Connection Error";
@@ -1490,6 +1507,17 @@ export default function Home() {
                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-t-2 mx-auto mb-3" style={{borderColor: '#ffd700'}}></div>
                     <p className="text-white font-medium">Connecting...</p>
                     <p className="text-gray-400 text-sm mt-1">Check your wallet extension</p>
+                    <button
+                      onClick={() => {
+                        setIsConnecting(false);
+                        setSelectedWallet('');
+                      }}
+                      className="mt-4 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                      style={{background: 'rgba(255, 215, 0, 0.2)', color: '#ffd700', border: '1px solid rgba(255, 215, 0, 0.3)'}}
+                      data-testid="button-cancel-connection"
+                    >
+                      Cancel
+                    </button>
                   </div>
                 </div>
               )}
