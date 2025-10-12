@@ -675,7 +675,7 @@ export default function Home() {
         <nav className="container py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <div className="flex items-center space-x-2" data-testid="logo-brand">
+            <div className="flex items-center space-x-2 cursor-pointer" data-testid="logo-brand" onClick={() => window.location.href = '/'}>
               <img 
                 src={memeStakeLogo} 
                 alt="MemeStake Logo" 
