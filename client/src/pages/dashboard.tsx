@@ -456,11 +456,13 @@ export default function Dashboard() {
           description: `Transaction submitted. Hash: ${hash.slice(0, 10)}...`,
         });
 
-        // Wait a bit then show success modal
+        // Wait a bit then show success modal and refresh balances
         setTimeout(() => {
           setIsPurchasing(false);
           setShowSuccessModal(true);
           setBuyAmount('');
+          // Refresh balance data after purchase
+          fetchBalances();
         }, 2000);
 
       } else {
@@ -535,11 +537,13 @@ export default function Dashboard() {
           description: `Transaction submitted. Hash: ${hash.slice(0, 10)}...`,
         });
 
-        // Wait a bit then show success modal
+        // Wait a bit then show success modal and refresh balances
         setTimeout(() => {
           setIsPurchasing(false);
           setShowSuccessModal(true);
           setBuyAmount('');
+          // Refresh balance data after purchase
+          fetchBalances();
         }, 2000);
       }
 
@@ -712,52 +716,52 @@ export default function Dashboard() {
   }, [walletAddress]);
 
   // Fetch real token balance and referral rewards
-  useEffect(() => {
-    const fetchBalances = async () => {
-      if (!walletAddress) return;
+  const fetchBalances = async () => {
+    if (!walletAddress) return;
 
-      setIsLoadingBalances(true);
+    setIsLoadingBalances(true);
 
-      try {
-        // Create public client for reading contract
-        const publicClient = createPublicClient({
-          chain: bscTestnet,
-          transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
-        });
+    try {
+      // Create public client for reading contract
+      const publicClient = createPublicClient({
+        chain: bscTestnet,
+        transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
+      });
 
-        // Fetch MEME token balance
-        const balance = await publicClient.readContract({
-          address: CONTRACTS.MEMES_TOKEN.address as `0x${string}`,
-          abi: CONTRACTS.MEMES_TOKEN.abi,
-          functionName: 'balanceOf',
-          args: [walletAddress as `0x${string}`]
+      // Fetch MEME token balance
+      const balance = await publicClient.readContract({
+        address: CONTRACTS.MEMES_TOKEN.address as `0x${string}`,
+        abi: CONTRACTS.MEMES_TOKEN.abi,
+        functionName: 'balanceOf',
+        args: [walletAddress as `0x${string}`]
+      }) as bigint;
+
+      // Convert from wei to tokens (assuming 18 decimals)
+      const balanceInTokens = Number(balance) / 1e18;
+      setTokenBalance(balanceInTokens);
+
+      // Fetch referral rewards from all 3 levels
+      let totalRewards = 0;
+      for (let level = 0; level < 3; level++) {
+        const reward = await publicClient.readContract({
+          address: CONTRACTS.MEMES_PRESALE.address as `0x${string}`,
+          abi: CONTRACTS.MEMES_PRESALE.abi,
+          functionName: 'referralRewardByLevel',
+          args: [walletAddress as `0x${string}`, BigInt(level)]
         }) as bigint;
 
-        // Convert from wei to tokens (assuming 18 decimals)
-        const balanceInTokens = Number(balance) / 1e18;
-        setTokenBalance(balanceInTokens);
-
-        // Fetch referral rewards from all 3 levels
-        let totalRewards = 0;
-        for (let level = 0; level < 3; level++) {
-          const reward = await publicClient.readContract({
-            address: CONTRACTS.MEMES_PRESALE.address as `0x${string}`,
-            abi: CONTRACTS.MEMES_PRESALE.abi,
-            functionName: 'referralRewardByLevel',
-            args: [walletAddress as `0x${string}`, BigInt(level)]
-          }) as bigint;
-
-          totalRewards += Number(reward) / 1e18;
-        }
-
-        setStakingRewards(totalRewards);
-      } catch (error) {
-        console.error('Error fetching balances:', error);
-      } finally {
-        setIsLoadingBalances(false);
+        totalRewards += Number(reward) / 1e18;
       }
-    };
 
+      setStakingRewards(totalRewards);
+    } catch (error) {
+      console.error('Error fetching balances:', error);
+    } finally {
+      setIsLoadingBalances(false);
+    }
+  };
+
+  useEffect(() => {
     fetchBalances();
   }, [walletAddress]);
 
