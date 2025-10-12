@@ -303,16 +303,82 @@ export default function Staking() {
       return;
     }
 
-    setIsProcessing(true);
-    setTimeout(() => {
-      setTokenBalance(prev => prev + claimableRewards);
-      setClaimableRewards(0);
+    if (!walletAddress) {
+      toast({
+        title: "❌ Wallet Not Connected",
+        description: "Please connect your wallet to claim rewards",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    try {
+      setIsProcessing(true);
+
+      // Check if ethereum provider is available
+      if (typeof window.ethereum === 'undefined') {
+        throw new Error('MetaMask or compatible wallet not found');
+      }
+
+      // Request account access
+      const accounts = await window.ethereum.request({ 
+        method: 'eth_requestAccounts' 
+      });
+
+      // Prepare the contract call
+      const contractAddress = CONTRACTS.MEMES_STAKE.address;
+      const claimRewardsData = CONTRACTS.MEMES_STAKE.abi.find(
+        (item: any) => item.name === 'claimRewards' && item.type === 'function'
+      );
+
+      if (!claimRewardsData) {
+        throw new Error('claimRewards function not found in ABI');
+      }
+
+      // Encode function call
+      const iface = {
+        encodeFunctionData: () => {
+          return '0x372500ab'; // claimRewards() function signature
+        }
+      };
+
+      // Send transaction
+      const txHash = await window.ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [{
+          from: accounts[0],
+          to: contractAddress,
+          data: iface.encodeFunctionData(),
+        }],
+      });
+
+      toast({
+        title: "⏳ Transaction Submitted",
+        description: "Claiming your rewards...",
+      });
+
+      // Wait for transaction confirmation (optional - could use receipt)
+      await new Promise(resolve => setTimeout(resolve, 3000));
+
+      // Refresh data after claim
+      await fetchStakingData();
+
       setIsProcessing(false);
+      
       toast({
         title: "🎉 Rewards Claimed!",
-        description: `Successfully claimed ${claimableRewards.toLocaleString()} $MEMES tokens`,
+        description: `Successfully claimed your rewards! TX: ${txHash.slice(0, 10)}...`,
       });
-    }, 2000);
+    } catch (error: any) {
+      console.error('Error claiming rewards:', error);
+      setIsProcessing(false);
+      
+      toast({
+        title: "❌ Claim Failed",
+        description: error.message || "Failed to claim rewards. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
   const daysStaked = getDaysStaked();
