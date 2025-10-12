@@ -476,6 +476,20 @@ export default function Dashboard() {
           transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
         });
 
+        // Check USDT balance first
+        const usdtBalance = await publicClient.readContract({
+          address: CONTRACTS.USDT_TOKEN.address as `0x${string}`,
+          abi: CONTRACTS.USDT_TOKEN.abi,
+          functionName: 'balanceOf',
+          args: [walletAddress as `0x${string}`]
+        }) as bigint;
+
+        // Verify sufficient USDT balance
+        if (usdtBalance < usdtAmountInWei) {
+          const balanceInUsdt = Number(usdtBalance) / 1e18;
+          throw new Error(`Insufficient USDT balance. You have ${balanceInUsdt.toFixed(2)} USDT but need ${usdtAmount.toFixed(2)} USDT`);
+        }
+
         // Check allowance
         const allowance = await publicClient.readContract({
           address: CONTRACTS.USDT_TOKEN.address as `0x${string}`,
