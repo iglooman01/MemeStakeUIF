@@ -7,7 +7,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import memeStakeLogo from "@assets/ChatGPT Image Oct 9, 2025, 11_08_34 AM_1759988345567.png";
 import { CONTRACTS } from "@/config/contracts";
-import { createPublicClient, http } from "viem";
+import { createPublicClient, createWalletClient, http, custom, parseEther, parseUnits } from "viem";
 import { bscTestnet } from "viem/chains";
 import { Home, BookOpen, Coins, Copy, CheckCircle2, Users, TrendingUp, Shield, Rocket, Trophy, Zap, Lock, Gift, AlertTriangle } from "lucide-react";
 import { SiTelegram, SiX } from "react-icons/si";
@@ -35,8 +35,9 @@ export default function Dashboard() {
   const [showBuyPreview, setShowBuyPreview] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [purchasedTokens, setPurchasedTokens] = useState(0);
-  const [txHash] = useState('0x1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b');
+  const [txHash, setTxHash] = useState('');
   const [isClaiming, setIsClaiming] = useState(false);
+  const [isPurchasing, setIsPurchasing] = useState(false);
   
   // Airdrop claim section state
   const [showAirdropClaim, setShowAirdropClaim] = useState(false);
@@ -395,16 +396,171 @@ export default function Dashboard() {
     setShowBuyPreview(true);
   };
 
-  const confirmPurchase = () => {
+  const confirmPurchase = async () => {
+    if (!walletAddress) {
+      toast({
+        title: "❌ No Wallet Connected",
+        description: "Please connect your wallet first",
+        variant: "destructive"
+      });
+      return;
+    }
+
     setShowBuyPreview(false);
-    setPurchasedTokens(tokensToGet);
-    
-    // Simulate transaction
-    setTimeout(() => {
-      setTokenBalance(prev => prev + tokensToGet);
-      setShowSuccessModal(true);
-      setBuyAmount('');
-    }, 2000);
+    setIsPurchasing(true);
+
+    try {
+      // Check if ethereum is available
+      if (!window.ethereum) {
+        throw new Error('No wallet found. Please install MetaMask or another Web3 wallet.');
+      }
+
+      // Create wallet client
+      const walletClient = createWalletClient({
+        chain: bscTestnet,
+        transport: custom(window.ethereum)
+      });
+
+      const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
+      
+      if (paymentMethod === 'bnb') {
+        // BNB Payment Flow
+        toast({
+          title: "⏳ Processing BNB Payment",
+          description: "Please confirm the transaction in your wallet..."
+        });
+
+        const bnbAmount = parseFloat(buyAmount);
+        const bnbValueInWei = parseEther(bnbAmount.toString());
+
+        // Call buy function with BNB
+        const hash = await walletClient.writeContract({
+          address: CONTRACTS.MEMES_PRESALE.address as `0x${string}`,
+          abi: CONTRACTS.MEMES_PRESALE.abi,
+          functionName: 'buy',
+          args: [
+            ZERO_ADDRESS as `0x${string}`, // tokenToPay = 0x0 for BNB
+            BigInt(0), // tokenAmount = 0 for BNB
+            sponsorAddress as `0x${string}` // referrer
+          ],
+          value: bnbValueInWei,
+          account: walletAddress as `0x${string}`
+        });
+
+        setTxHash(hash);
+        setPurchasedTokens(tokensToGet);
+
+        toast({
+          title: "✅ Purchase Successful!",
+          description: `Transaction submitted. Hash: ${hash.slice(0, 10)}...`,
+        });
+
+        // Wait a bit then show success modal
+        setTimeout(() => {
+          setIsPurchasing(false);
+          setShowSuccessModal(true);
+          setBuyAmount('');
+        }, 2000);
+
+      } else {
+        // USDT Payment Flow
+        const usdtAmount = parseFloat(buyAmount);
+        const usdtAmountInWei = parseUnits(usdtAmount.toString(), 18); // Assuming 18 decimals
+
+        // Create public client for reading
+        const publicClient = createPublicClient({
+          chain: bscTestnet,
+          transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
+        });
+
+        // Check allowance
+        const allowance = await publicClient.readContract({
+          address: CONTRACTS.USDT_TOKEN.address as `0x${string}`,
+          abi: CONTRACTS.USDT_TOKEN.abi,
+          functionName: 'allowance',
+          args: [walletAddress as `0x${string}`, CONTRACTS.MEMES_PRESALE.address as `0x${string}`]
+        }) as bigint;
+
+        // If allowance is insufficient, approve first
+        if (allowance < usdtAmountInWei) {
+          toast({
+            title: "⏳ Approval Required",
+            description: "Please approve USDT spending in your wallet..."
+          });
+
+          const approveHash = await walletClient.writeContract({
+            address: CONTRACTS.USDT_TOKEN.address as `0x${string}`,
+            abi: CONTRACTS.USDT_TOKEN.abi,
+            functionName: 'approve',
+            args: [
+              CONTRACTS.MEMES_PRESALE.address as `0x${string}`,
+              usdtAmountInWei
+            ],
+            account: walletAddress as `0x${string}`
+          });
+
+          toast({
+            title: "✅ Approval Confirmed",
+            description: "USDT approved. Now processing purchase..."
+          });
+
+          // Wait for approval transaction
+          await new Promise(resolve => setTimeout(resolve, 3000));
+        }
+
+        // Now execute buy with USDT
+        toast({
+          title: "⏳ Processing USDT Payment",
+          description: "Please confirm the purchase transaction..."
+        });
+
+        const hash = await walletClient.writeContract({
+          address: CONTRACTS.MEMES_PRESALE.address as `0x${string}`,
+          abi: CONTRACTS.MEMES_PRESALE.abi,
+          functionName: 'buy',
+          args: [
+            CONTRACTS.USDT_TOKEN.address as `0x${string}`, // tokenToPay = USDT address
+            usdtAmountInWei, // tokenAmount in wei
+            sponsorAddress as `0x${string}` // referrer
+          ],
+          account: walletAddress as `0x${string}`
+        });
+
+        setTxHash(hash);
+        setPurchasedTokens(tokensToGet);
+
+        toast({
+          title: "✅ Purchase Successful!",
+          description: `Transaction submitted. Hash: ${hash.slice(0, 10)}...`,
+        });
+
+        // Wait a bit then show success modal
+        setTimeout(() => {
+          setIsPurchasing(false);
+          setShowSuccessModal(true);
+          setBuyAmount('');
+        }, 2000);
+      }
+
+    } catch (error: any) {
+      console.error('Purchase error:', error);
+      setIsPurchasing(false);
+      
+      let errorMessage = error.message || 'Failed to complete purchase';
+      
+      // Handle specific error codes
+      if (error.code === 4001) {
+        errorMessage = 'Transaction rejected by user';
+      } else if (error.message?.includes('insufficient funds')) {
+        errorMessage = 'Insufficient funds for transaction';
+      }
+      
+      toast({
+        title: "❌ Purchase Failed",
+        description: errorMessage,
+        variant: "destructive"
+      });
+    }
   };
 
   const handleClaimEarnings = () => {
@@ -1330,12 +1486,16 @@ export default function Dashboard() {
             {/* Buy Button */}
             <Button 
               onClick={handleBuyTokens}
-              disabled={!buyAmount || parseFloat(buyAmount) <= 0 || usdAmount < MIN_PURCHASE_USD}
+              disabled={!buyAmount || parseFloat(buyAmount) <= 0 || usdAmount < MIN_PURCHASE_USD || isPurchasing}
               className="w-full py-5 text-base font-bold"
               style={{background: 'linear-gradient(135deg, #ffd700, #ffed4e)', color: '#000'}}
               data-testid="button-buy-tokens"
             >
-              {tokensToGet > 0 ? `Buy Now - $${usdAmount.toFixed(2)}` : 'Enter Amount'}
+              {isPurchasing ? (
+                <span className="flex items-center justify-center gap-2">
+                  <span className="animate-spin">⏳</span> Processing...
+                </span>
+              ) : tokensToGet > 0 ? `Buy Now - $${usdAmount.toFixed(2)}` : 'Enter Amount'}
             </Button>
           </div>
         </Card>

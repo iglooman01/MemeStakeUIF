@@ -66,6 +66,18 @@ export const CONTRACTS = {
         "stateMutability": "view",
         "type": "function"
       },
+      // Write Functions
+      {
+        "inputs": [
+          { "internalType": "address", "name": "tokenToPay", "type": "address" },
+          { "internalType": "uint256", "name": "tokenAmount", "type": "uint256" },
+          { "internalType": "address", "name": "_referrer", "type": "address" }
+        ],
+        "name": "buy",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+      },
       // Constructor and Events
       { "inputs": [ { "internalType": "address", "name": "_memesToken", "type": "address" }, { "internalType": "address[]", "name": "acceptedTokens", "type": "address[]" }, { "internalType": "uint256[]", "name": "tokenPrices", "type": "uint256[]" }, { "internalType": "bool[]", "name": "isOldToken", "type": "bool[]" }, { "internalType": "address", "name": "_paymentReceiver", "type": "address" } ], "stateMutability": "nonpayable", "type": "constructor" }, 
       { "anonymous": false, "inputs": [ { "indexed": true, "internalType": "address", "name": "blackListed", "type": "address" }, { "indexed": false, "internalType": "bool", "name": "value", "type": "bool" } ], "name": "Blacklist", "type": "event" }, 
