@@ -239,18 +239,116 @@ export default function Staking() {
       return;
     }
 
-    setIsProcessing(true);
-    setTimeout(() => {
-      const amount = parseFloat(stakeAmount);
-      setStakedAmount(prev => prev + amount);
-      setTokenBalance(prev => prev - amount);
+    if (!walletAddress) {
+      toast({
+        title: "❌ Wallet Not Connected",
+        description: "Please connect your wallet to stake",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    try {
+      setIsProcessing(true);
+
+      // Check if ethereum provider is available
+      if (typeof window.ethereum === 'undefined') {
+        throw new Error('MetaMask or compatible wallet not found');
+      }
+
+      const accounts = await window.ethereum.request({ 
+        method: 'eth_requestAccounts' 
+      });
+
+      const amountInWei = (BigInt(parseFloat(stakeAmount)) * BigInt(10 ** 18)).toString(16);
+      
+      // Step 1: Check current allowance
+      const allowanceData = '0xdd62ed3e' + // allowance(address,address) function signature
+        accounts[0].slice(2).padStart(64, '0') + // owner address
+        CONTRACTS.MEMES_STAKE.address.slice(2).padStart(64, '0'); // spender address
+
+      const allowanceResult = await window.ethereum.request({
+        method: 'eth_call',
+        params: [{
+          to: CONTRACTS.MEMES_TOKEN.address,
+          data: allowanceData
+        }, 'latest']
+      });
+
+      const currentAllowance = BigInt(allowanceResult);
+      const requiredAmount = BigInt(parseFloat(stakeAmount)) * BigInt(10 ** 18);
+
+      // Step 2: If allowance is insufficient, approve first
+      if (currentAllowance < requiredAmount) {
+        toast({
+          title: "⏳ Approval Required",
+          description: "Please approve the staking contract to spend your tokens",
+        });
+
+        // Approve with uint256 max for future transactions
+        const approvalData = '0x095ea7b3' + // approve(address,uint256) function signature
+          CONTRACTS.MEMES_STAKE.address.slice(2).padStart(64, '0') + // spender
+          'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'; // max uint256
+
+        const approveTxHash = await window.ethereum.request({
+          method: 'eth_sendTransaction',
+          params: [{
+            from: accounts[0],
+            to: CONTRACTS.MEMES_TOKEN.address,
+            data: approvalData,
+          }],
+        });
+
+        toast({
+          title: "✅ Approval Submitted",
+          description: "Waiting for approval confirmation...",
+        });
+
+        // Wait for approval confirmation
+        await new Promise(resolve => setTimeout(resolve, 3000));
+      }
+
+      // Step 3: Execute stake function
+      const stakeData = '0xa694fc3a' + // stake(uint256) function signature
+        amountInWei.padStart(64, '0'); // amount
+
+      const stakeTxHash = await window.ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [{
+          from: accounts[0],
+          to: CONTRACTS.MEMES_STAKE.address,
+          data: stakeData,
+        }],
+      });
+
+      toast({
+        title: "⏳ Staking Transaction Submitted",
+        description: "Processing your stake...",
+      });
+
+      // Wait for transaction confirmation
+      await new Promise(resolve => setTimeout(resolve, 3000));
+
+      // Refresh staking data
+      await fetchStakingData();
+
       setStakeAmount('');
       setIsProcessing(false);
+
       toast({
         title: "🎉 Staking Successful!",
-        description: `Successfully staked ${amount.toLocaleString()} $MEMES tokens`,
+        description: `Successfully staked ${parseFloat(stakeAmount).toLocaleString()} $MEMES tokens! TX: ${stakeTxHash.slice(0, 10)}...`,
       });
-    }, 2500);
+    } catch (error: any) {
+      console.error('Error staking:', error);
+      setIsProcessing(false);
+      
+      toast({
+        title: "❌ Staking Failed",
+        description: error.message || "Failed to stake tokens. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
   const handleUnstake = async (isEarlyUnstake: boolean = false) => {
