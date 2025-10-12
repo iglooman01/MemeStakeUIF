@@ -22,6 +22,11 @@ This is a full-stack web application built with React and Express.js for "MemeSt
   - Real-time rewards tracking (daily, claimable, lifetime)
   - Claim rewards functionality with batching support
   - Early unstake warning with penalty calculation
+- **Dashboard Staking Overview**: 
+  - Real-time display of total staked amount from blockchain
+  - Uses `getUserStakes()` contract function to fetch all stakes
+  - Automatically sums active stakes (excludes withdrawn capital)
+  - Auto-refreshes on wallet connection and after purchases
 - **Referral System**: 3-level structure
   - Level 1 (Direct): 5%
   - Level 2: 3%

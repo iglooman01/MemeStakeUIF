@@ -57,6 +57,8 @@ export default function Dashboard() {
   const [isClaimingAirdrop, setIsClaimingAirdrop] = useState(false);
   const [isFetchingBalance, setIsFetchingBalance] = useState(false);
   const [contractWalletBalance, setContractWalletBalance] = useState<string>('');
+  const [totalStakedAmount, setTotalStakedAmount] = useState(0);
+  const [isLoadingStakes, setIsLoadingStakes] = useState(false);
   
   const { toast } = useToast();
 
@@ -768,6 +770,29 @@ export default function Dashboard() {
       }
 
       setStakingRewards(totalRewards);
+
+      // Fetch total staked amount from staking contract
+      try {
+        const userStakes = await publicClient.readContract({
+          address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
+          abi: CONTRACTS.MEMES_STAKE.abi,
+          functionName: 'getUserStakes',
+          args: [walletAddress as `0x${string}`]
+        }) as any[];
+
+        // Sum up all active stakes (where capitalWithdrawn is false)
+        let totalStaked = 0;
+        for (const stake of userStakes) {
+          if (!stake.capitalWithdrawn) {
+            totalStaked += Number(stake.stakedAmount) / 1e18;
+          }
+        }
+        
+        setTotalStakedAmount(totalStaked);
+      } catch (stakeError) {
+        console.error('Error fetching staked amount:', stakeError);
+        setTotalStakedAmount(0);
+      }
     } catch (error) {
       console.error('Error fetching balances:', error);
     } finally {
@@ -1639,7 +1664,13 @@ export default function Dashboard() {
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-muted-foreground">Staked Amount:</span>
-                <span className="font-bold" style={{color: '#ffd700'}}>100,000 MEME</span>
+                <span className="font-bold" style={{color: '#ffd700'}}>
+                  {isLoadingBalances ? (
+                    <span className="animate-pulse">Loading...</span>
+                  ) : (
+                    `${totalStakedAmount.toLocaleString()} $MEMES`
+                  )}
+                </span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-muted-foreground">Lock Period:</span>
