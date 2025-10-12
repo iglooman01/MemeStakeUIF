@@ -426,6 +426,34 @@ export default function Dashboard() {
         throw new Error('No wallet found. Please install MetaMask or another Web3 wallet.');
       }
 
+      // Create public client for checking balances
+      const publicClient = createPublicClient({
+        chain: bscTestnet,
+        transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
+      });
+
+      // Check if Presale contract has enough MEMES tokens
+      const presaleMemesBalance = await publicClient.readContract({
+        address: CONTRACTS.MEMES_TOKEN.address as `0x${string}`,
+        abi: CONTRACTS.MEMES_TOKEN.abi,
+        functionName: 'balanceOf',
+        args: [CONTRACTS.MEMES_PRESALE.address as `0x${string}`]
+      }) as bigint;
+
+      const presaleMemesBalanceInTokens = Number(presaleMemesBalance) / 1e18;
+
+      // Check if presale contract has enough tokens for this purchase
+      if (presaleMemesBalanceInTokens < estimatedTokens) {
+        setIsPurchasing(false);
+        setShowBuyPreview(false);
+        toast({
+          title: "❌ Insufficient Presale Tokens",
+          description: `Presale contract only has ${presaleMemesBalanceInTokens.toLocaleString()} MEMES tokens available. You're trying to buy ${estimatedTokens.toLocaleString()} tokens.`,
+          variant: "destructive"
+        });
+        return;
+      }
+
       // Create wallet client
       const walletClient = createWalletClient({
         chain: bscTestnet,
@@ -479,12 +507,6 @@ export default function Dashboard() {
         // USDT Payment Flow
         const usdtAmount = parseFloat(buyAmount);
         const usdtAmountInWei = parseUnits(usdtAmount.toString(), 18); // Assuming 18 decimals
-
-        // Create public client for reading
-        const publicClient = createPublicClient({
-          chain: bscTestnet,
-          transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
-        });
 
         // Check USDT balance first
         const usdtBalance = await publicClient.readContract({
