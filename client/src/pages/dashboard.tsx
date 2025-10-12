@@ -947,6 +947,9 @@ export default function Dashboard() {
 
       // Fetch total staked amount from staking contract
       try {
+        console.log('Fetching stakes for wallet:', walletAddress);
+        console.log('Staking contract address:', CONTRACTS.MEMES_STAKE.address);
+        
         const userStakes = await publicClient.readContract({
           address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
           abi: CONTRACTS.MEMES_STAKE.abi,
@@ -954,14 +957,21 @@ export default function Dashboard() {
           args: [walletAddress as `0x${string}`]
         }) as any[];
 
+        console.log('User stakes received:', userStakes);
+        console.log('Number of stakes:', userStakes?.length || 0);
+
         // Sum up all active stakes (where capitalWithdrawn is false)
         let totalStaked = 0;
         for (const stake of userStakes) {
+          console.log('Stake:', stake);
           if (!stake.capitalWithdrawn) {
-            totalStaked += Number(stake.stakedAmount) / 1e18;
+            const stakeAmount = Number(stake.stakedAmount) / 1e18;
+            console.log('Active stake amount:', stakeAmount);
+            totalStaked += stakeAmount;
           }
         }
         
+        console.log('Total staked amount:', totalStaked);
         setTotalStakedAmount(totalStaked);
 
         // Calculate Accrued Today: 1% of active stakes whose lastClaim is < 24 hours
@@ -979,10 +989,12 @@ export default function Dashboard() {
           }
         }
         
+        console.log('Accrued today:', todayAccrued);
         setAccruedToday(todayAccrued);
       } catch (stakeError) {
         console.error('Error fetching staked amount:', stakeError);
         setTotalStakedAmount(0);
+        setAccruedToday(0);
       }
 
       // Fetch pending staking rewards
