@@ -1876,21 +1876,25 @@ export default function Dashboard() {
                 <div className="text-sm text-muted-foreground">Total Rewards Earned</div>
               </div>
               
-              {/* Airdrop Token */}
-              {/*<div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.2)'}}>
+              {/* Your Airdrop Token */}
+              <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.2)'}}>
                 <div className="text-xl font-bold" style={{color: '#00ff88'}}>
-                  1,000 $MEMES
+                  {airdropTokens.toLocaleString()} $MEMES
                 </div>
-                <div className="text-sm text-muted-foreground">Airdrop Token</div>
+                <div className="text-sm text-muted-foreground">Your Airdrop Token</div>
               </div>
               
               {/* Airdrop Referral Token */}
-              {/*<div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)'}}>
+              <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)'}}>
                 <div className="text-xl font-bold" style={{color: '#ffd700'}}>
-                  2,000 $MEMES
+                  {isLoadingBalances ? (
+                    <span className="animate-pulse">Loading...</span>
+                  ) : (
+                    `${(level1AirdropRewards + level2AirdropRewards + level3AirdropRewards).toLocaleString()} $MEMES`
+                  )}
                 </div>
                 <div className="text-sm text-muted-foreground">Airdrop Referral Token</div>
-              </div>*/}
+              </div>
             </div>
           </Card>
 
