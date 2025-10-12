@@ -25,19 +25,13 @@ export default function Staking() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [estimatedGas, setEstimatedGas] = useState('0.0012');
   const [isLoadingData, setIsLoadingData] = useState(false);
+  const [activeStakes, setActiveStakes] = useState<any[]>([]);
   const { toast } = useToast();
 
   const APY = 365;
   const DAILY_RATE = 1;
   const PENALTY_FREE_DAYS = 90;
   const PENALTY_PERCENTAGE = 20;
-
-  // Sample staking records
-  const stakingRecords = [
-    { id: 1, dateStaked: '2024-01-12', amount: 50000, daysStaked: 240, status: 'active' },
-    { id: 2, dateStaked: '2024-03-01', amount: 20000, daysStaked: 60, status: 'active' },
-    { id: 3, dateStaked: '2023-12-20', amount: 30000, daysStaked: 365, status: 'active' },
-  ];
 
   useEffect(() => {
     const storedAddress = localStorage.getItem('walletAddress');
@@ -141,6 +135,21 @@ export default function Staking() {
         setClaimableRewards(0);
       }
 
+      // 5. Fetch active stakes using getActiveStakesWithId
+      try {
+        const activeStakesData = await publicClient.readContract({
+          address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
+          abi: CONTRACTS.MEMES_STAKE.abi,
+          functionName: 'getActiveStakesWithId',
+          args: [walletAddress as `0x${string}`]
+        }) as any[];
+
+        setActiveStakes(activeStakesData);
+      } catch (error) {
+        console.error('Error fetching active stakes:', error);
+        setActiveStakes([]);
+      }
+
     } catch (error) {
       console.error('Error fetching staking data:', error);
     } finally {
@@ -169,32 +178,70 @@ export default function Staking() {
     }
   };
 
-  const handleUnstakeRecord = (record: any) => {
-    const penaltyInfo = getPenaltyInfo(record.daysStaked);
-    let finalAmount = record.amount;
-    
-    if (penaltyInfo.hasPenalty) {
-      const penaltyAmount = record.amount * (PENALTY_PERCENTAGE / 100);
-      finalAmount = record.amount - penaltyAmount;
-      
+  const handleWithdrawCapital = async (stakeId: number) => {
+    if (!walletAddress) {
       toast({
-        title: "⚠️ Penalty Applied",
-        description: `${PENALTY_PERCENTAGE}% penalty (${penaltyAmount.toLocaleString()} $MEMES) deducted. You will receive ${finalAmount.toLocaleString()} $MEMES.`,
+        title: "❌ Wallet Not Connected",
+        description: "Please connect your wallet to unstake",
         variant: "destructive"
       });
+      return;
     }
 
-    setIsProcessing(true);
-    setTimeout(() => {
-      setTokenBalance(prev => prev + finalAmount);
-      setStakedAmount(prev => prev - record.amount);
+    try {
+      setIsProcessing(true);
+
+      // Check if ethereum provider is available
+      if (typeof window.ethereum === 'undefined') {
+        throw new Error('MetaMask or compatible wallet not found');
+      }
+
+      // Request account access
+      const accounts = await window.ethereum.request({ 
+        method: 'eth_requestAccounts' 
+      });
+
+      // Prepare the withdrawCapital contract call
+      const stakeIdHex = stakeId.toString(16).padStart(64, '0');
+      const withdrawData = '0x4e71d92d' + stakeIdHex; // withdrawCapital(uint256) function signature
+
+      // Send transaction
+      const txHash = await window.ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [{
+          from: accounts[0],
+          to: CONTRACTS.MEMES_STAKE.address,
+          data: withdrawData,
+        }],
+      });
+
+      toast({
+        title: "⏳ Transaction Submitted",
+        description: "Withdrawing your capital...",
+      });
+
+      // Wait for transaction confirmation
+      await new Promise(resolve => setTimeout(resolve, 3000));
+
+      // Refresh data after withdrawal
+      await fetchStakingData();
+
       setIsProcessing(false);
       
       toast({
-        title: "✅ Unstake Successful!",
-        description: `${finalAmount.toLocaleString()} $MEMES transferred to your wallet`,
+        title: "🎉 Withdrawal Successful!",
+        description: `Successfully withdrew capital! TX: ${txHash.slice(0, 10)}...`,
       });
-    }, 2000);
+    } catch (error: any) {
+      console.error('Error withdrawing capital:', error);
+      setIsProcessing(false);
+      
+      toast({
+        title: "❌ Withdrawal Failed",
+        description: error.message || "Failed to withdraw capital. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
   const handleApprove = async () => {
@@ -678,56 +725,76 @@ export default function Staking() {
                       </tr>
                     </thead>
                     <tbody>
-                      {stakingRecords.map((record) => {
-                        const penaltyInfo = getPenaltyInfo(record.daysStaked);
-                        return (
-                          <tr 
-                            key={record.id} 
-                            className="border-b border-white/5 hover:bg-white/5 transition-colors"
-                            data-testid={`stake-record-${record.id}`}
-                          >
-                            <td className="py-3 px-2 text-gray-400">{record.id}</td>
-                            <td className="py-3 px-2">{record.dateStaked}</td>
-                            <td className="py-3 px-2 text-right font-bold" style={{color: '#ffd700'}}>
-                              {record.amount.toLocaleString()} MEME
-                            </td>
-                            <td className="py-3 px-2 text-center font-semibold" style={{color: '#00bfff'}}>
-                              {record.daysStaked} days
-                            </td>
-                            <td className="py-3 px-2 text-center">
-                              <span style={{color: penaltyInfo.color, fontSize: '11px'}}>
-                                {penaltyInfo.text}
-                              </span>
-                            </td>
-                            <td className="py-3 px-2 text-center">
-                              <button
-                                onClick={() => handleUnstakeRecord(record)}
-                                disabled={isProcessing || record.status !== 'active'}
-                                className="px-3 py-1 rounded text-xs font-semibold transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-                                style={{
-                                  background: record.status === 'active' ? 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)' : 'rgba(100, 100, 100, 0.3)',
-                                  color: record.status === 'active' ? '#000' : '#666'
-                                }}
-                                data-testid={`button-unstake-${record.id}`}
-                              >
-                                🔓 Unstake
-                              </button>
-                            </td>
-                            <td className="py-3 px-2 text-center">
-                              <span 
-                                className="px-2 py-1 rounded text-xs font-semibold"
-                                style={{
-                                  background: record.status === 'active' ? 'rgba(0, 255, 136, 0.2)' : 'rgba(100, 100, 100, 0.2)',
-                                  color: record.status === 'active' ? '#00ff88' : '#888',
-                                  border: `1px solid ${record.status === 'active' ? 'rgba(0, 255, 136, 0.3)' : 'rgba(100, 100, 100, 0.3)'}`
-                                }}
-                              >
-                                {record.status === 'active' ? 'Active' : 'Completed'}
-                              </span>
-                            </td>
-                          </tr>
-                        );
-                      })}
+                      {isLoadingData ? (
+                        <tr>
+                          <td colSpan={7} className="py-8 text-center text-gray-400">
+                            Loading active stakes...
+                          </td>
+                        </tr>
+                      ) : activeStakes.length === 0 ? (
+                        <tr>
+                          <td colSpan={7} className="py-8 text-center text-gray-400">
+                            No active stakes found
+                          </td>
+                        </tr>
+                      ) : (
+                        activeStakes.map((stake) => {
+                          const stakeId = Number(stake.stakeId);
+                          const stakedAmount = Number(stake.stakedAmount) / 1e18;
+                          const startTime = Number(stake.startTime);
+                          const dateStaked = new Date(startTime * 1000).toLocaleDateString();
+                          const daysStaked = Math.floor((Date.now() / 1000 - startTime) / (24 * 60 * 60));
+                          const penaltyInfo = getPenaltyInfo(daysStaked);
+                          
+                          return (
+                            <tr 
+                              key={stakeId} 
+                              className="border-b border-white/5 hover:bg-white/5 transition-colors"
+                              data-testid={`stake-record-${stakeId}`}
+                            >
+                              <td className="py-3 px-2 text-gray-400">{stakeId}</td>
+                              <td className="py-3 px-2">{dateStaked}</td>
+                              <td className="py-3 px-2 text-right font-bold" style={{color: '#ffd700'}}>
+                                {stakedAmount.toLocaleString()} MEME
+                              </td>
+                              <td className="py-3 px-2 text-center font-semibold" style={{color: '#00bfff'}}>
+                                {daysStaked} days
+                              </td>
+                              <td className="py-3 px-2 text-center">
+                                <span style={{color: penaltyInfo.color, fontSize: '11px'}}>
+                                  {penaltyInfo.text}
+                                </span>
+                              </td>
+                              <td className="py-3 px-2 text-center">
+                                <button
+                                  onClick={() => handleWithdrawCapital(stakeId)}
+                                  disabled={isProcessing}
+                                  className="px-3 py-1 rounded text-xs font-semibold transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                                  style={{
+                                    background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)',
+                                    color: '#000'
+                                  }}
+                                  data-testid={`button-unstake-${stakeId}`}
+                                >
+                                  🔓 Unstake
+                                </button>
+                              </td>
+                              <td className="py-3 px-2 text-center">
+                                <span 
+                                  className="px-2 py-1 rounded text-xs font-semibold"
+                                  style={{
+                                    background: 'rgba(0, 255, 136, 0.2)',
+                                    color: '#00ff88',
+                                    border: '1px solid rgba(0, 255, 136, 0.3)'
+                                  }}
+                                >
+                                  Active
+                                </span>
+                              </td>
+                            </tr>
+                          );
+                        })
+                      )}
                     </tbody>
                   </table>
                 </div>
