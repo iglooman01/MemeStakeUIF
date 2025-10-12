@@ -1889,15 +1889,11 @@ export default function Dashboard() {
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-muted-foreground">Daily Rewards:</span>
-                <span className="font-bold" style={{color: '#00bfff'}}>+1,000 MEME (1%)</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">Accrued Today:</span>
-                <span className="font-bold" style={{color: '#00ff88'}}>
+                <span className="font-bold" style={{color: '#00bfff'}}>
                   {isLoadingBalances ? (
                     <span className="animate-pulse">Loading...</span>
                   ) : (
-                    `${accruedToday.toLocaleString()} $MEMES`
+                    `${accruedToday.toLocaleString()} $MEMES (1%)`
                   )}
                 </span>
               </div>
