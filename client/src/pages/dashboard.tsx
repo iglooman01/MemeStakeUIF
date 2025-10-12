@@ -703,6 +703,46 @@ export default function Dashboard() {
     }
   }, []);
 
+  // Listen for wallet account changes
+  useEffect(() => {
+    if (!window.ethereum) return;
+
+    const handleAccountsChanged = (accounts: string[]) => {
+      if (accounts.length === 0) {
+        // User disconnected wallet
+        handleDisconnectWallet();
+      } else if (accounts[0] !== walletAddress) {
+        // User switched to a different account
+        const newAddress = accounts[0];
+        setWalletAddress(newAddress);
+        localStorage.setItem('walletAddress', newAddress);
+        
+        toast({
+          title: "🔄 Wallet Changed",
+          description: `Switched to ${newAddress.slice(0, 6)}...${newAddress.slice(-4)}`,
+        });
+        
+        // Refresh all data for new wallet
+        fetchBalances();
+      }
+    };
+
+    const handleChainChanged = () => {
+      // Reload the page when chain changes
+      window.location.reload();
+    };
+
+    window.ethereum.on('accountsChanged', handleAccountsChanged);
+    window.ethereum.on('chainChanged', handleChainChanged);
+
+    return () => {
+      if (window.ethereum.removeListener) {
+        window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
+        window.ethereum.removeListener('chainChanged', handleChainChanged);
+      }
+    };
+  }, [walletAddress]);
+
   // Calculate estimated MEMES tokens based on payment method and amount
   useEffect(() => {
     const calculateEstimatedTokens = async () => {
