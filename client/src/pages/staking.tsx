@@ -228,6 +228,9 @@ export default function Staking() {
       // Refresh data after withdrawal
       await fetchStakingData();
 
+      // Trigger dashboard refresh
+      localStorage.setItem('dashboardRefresh', Date.now().toString());
+
       setIsUnstaking(false);
       
       toast({
@@ -380,6 +383,9 @@ export default function Staking() {
 
       // Refresh staking data
       await fetchStakingData();
+
+      // Trigger dashboard refresh
+      localStorage.setItem('dashboardRefresh', Date.now().toString());
 
       setStakeAmount('');
       setIsProcessing(false);

@@ -968,6 +968,31 @@ export default function Dashboard() {
     fetchBalances();
   }, [walletAddress]);
 
+  // Listen for visibility change and check for refresh flag
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (!document.hidden && walletAddress) {
+        const refreshFlag = localStorage.getItem('dashboardRefresh');
+        if (refreshFlag) {
+          const lastRefresh = parseInt(refreshFlag);
+          const now = Date.now();
+          // Only refresh if the flag is recent (within last 10 seconds)
+          if (now - lastRefresh < 10000) {
+            fetchBalances();
+            localStorage.removeItem('dashboardRefresh');
+          }
+        }
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    // Also check when component mounts/updates
+    handleVisibilityChange();
+
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+  }, [walletAddress]);
+
   // Handle disconnect wallet
   const handleDisconnectWallet = () => {
     localStorage.removeItem('walletConnected');
