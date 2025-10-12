@@ -1381,13 +1381,18 @@ export default function Home() {
                   Get the complete 32-page whitepaper with detailed technical specifications, economic models, and strategic vision.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Button asChild size="lg" data-testid="button-download-whitepaper">
-                    <a href="#" className="inline-flex items-center">
-                      📄 Download PDF
-                    </a>
+                  <Button 
+                    size="lg" 
+                    data-testid="button-download-whitepaper"
+                    onClick={() => {
+                      // Open whitepaper page in new tab for PDF generation
+                      window.open('/whitepaper', '_blank');
+                    }}
+                  >
+                    📄 Download PDF
                   </Button>
                   <Button asChild variant="outline" size="lg" data-testid="button-view-online">
-                    <a href="#" className="inline-flex items-center">
+                    <a href="/whitepaper" className="inline-flex items-center">
                       🌐 View Online
                     </a>
                   </Button>
