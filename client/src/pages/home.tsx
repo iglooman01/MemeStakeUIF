@@ -796,7 +796,7 @@ export default function Home() {
       {/* Airdrop Notification Banner */}
       <div className="w-full py-2 px-4 text-center" style={{background: '#000000', borderBottom: '1px solid rgba(255, 215, 0, 0.2)'}} data-testid="airdrop-notification">
         <p className="text-xs sm:text-sm text-white/80">
-          🎁 <span style={{color: '#ffd700'}}>Limited Airdrop:</span> Connect your wallet now to claim free MEME tokens • <span style={{color: '#ffd700'}}>Join 47K+ holders</span> • Staking rewards 365% APY (1% daily)
+          🎁 <span style={{color: '#ffd700'}}>Limited Airdrop:</span> Connect your wallet now to claim free MEME tokens • Staking rewards 365% APY (1% daily)
         </p>
       </div>
 
