@@ -18,6 +18,7 @@ export default function Staking() {
   const [stakedAmount, setStakedAmount] = useState(100000);
   const [stakingStartDate] = useState(new Date(Date.now() - 25 * 24 * 60 * 60 * 1000)); // 25 days ago
   const [rewardsToday, setRewardsToday] = useState(1000);
+  const [accruedToday, setAccruedToday] = useState(0);
   const [claimableRewards, setClaimableRewards] = useState(25000);
   const [lifetimeEarned, setLifetimeEarned] = useState(28475);
   const [isApproved, setIsApproved] = useState(false);
@@ -57,25 +58,45 @@ export default function Staking() {
         transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
       });
 
-      // 1. Fetch staked amount using getActiveStakesWithId
+      // 1. Fetch staked amount using getUserStakes to access lastClaim
       try {
-        const activeStakes = await publicClient.readContract({
+        const userStakes = await publicClient.readContract({
           address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
           abi: CONTRACTS.MEMES_STAKE.abi,
-          functionName: 'getActiveStakesWithId',
+          functionName: 'getUserStakes',
           args: [walletAddress as `0x${string}`]
         }) as any[];
 
-        // Loop through array and sum up all staked amounts
+        // Loop through array and sum up all active staked amounts
         let totalStaked = 0;
-        for (const stake of activeStakes) {
-          totalStaked += Number(stake.stakedAmount) / 1e18;
+        for (const stake of userStakes) {
+          if (!stake.capitalWithdrawn) {
+            totalStaked += Number(stake.stakedAmount) / 1e18;
+          }
         }
         
         setStakedAmount(totalStaked);
+
+        // Calculate Accrued Today: 1% of active stakes whose lastClaim is < 24 hours
+        const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+        const twentyFourHoursAgo = currentTime - (24 * 60 * 60);
+        let todayAccrued = 0;
+        
+        for (const stake of userStakes) {
+          if (!stake.capitalWithdrawn) {
+            const lastClaimTime = Number(stake.lastClaim);
+            // If lastClaim is within the last 24 hours
+            if (lastClaimTime >= twentyFourHoursAgo) {
+              todayAccrued += (Number(stake.stakedAmount) / 1e18) * 0.01; // 1% of stake
+            }
+          }
+        }
+        
+        setAccruedToday(todayAccrued);
       } catch (error) {
         console.error('Error fetching staked amount:', error);
         setStakedAmount(0);
+        setAccruedToday(0);
       }
 
       // 2. Fetch user's MEMES token balance
@@ -548,7 +569,11 @@ export default function Staking() {
                   <span className="text-xs" style={{color: '#ffd700'}}>1% Daily</span>
                 </div>
                 <div className="text-2xl font-bold" style={{color: '#ffd700'}}>
-                  {rewardsToday.toLocaleString()} $MEMES
+                  {isLoadingData ? (
+                    <span className="animate-pulse">Loading...</span>
+                  ) : (
+                    `${accruedToday.toLocaleString()} $MEMES`
+                  )}
                 </div>
               </div>
 
