@@ -103,21 +103,19 @@ export default function Staking() {
         transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
       });
 
-      // 1. Fetch staked amount using getUserStakes to access lastClaim
+      // 1. Fetch staked amount using getActiveStakesWithId to access lastClaim
       try {
-        const userStakes = await publicClient.readContract({
+        const activeStakes = await publicClient.readContract({
           address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
           abi: CONTRACTS.MEMES_STAKE.abi,
-          functionName: 'getUserStakes',
+          functionName: 'getActiveStakesWithId',
           args: [walletAddress as `0x${string}`]
         }) as any[];
 
         // Loop through array and sum up all active staked amounts
         let totalStaked = 0;
-        for (const stake of userStakes) {
-          if (!stake.capitalWithdrawn) {
-            totalStaked += Number(stake.stakedAmount) / 1e18;
-          }
+        for (const stake of activeStakes) {
+          totalStaked += Number(stake.stakedAmount) / 1e18;
         }
         
         setStakedAmount(totalStaked);
@@ -125,16 +123,18 @@ export default function Staking() {
         // Calculate Accrued Today: 1% of active stakes whose lastClaim is < 24 hours
         const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
         const twentyFourHoursAgo = currentTime - (24 * 60 * 60);
+        
         let todayAccrued = 0;
         
-        for (const stake of userStakes) {
-          if (!stake.capitalWithdrawn) {
-            const lastClaimTime = Number(stake.lastClaim);
+        for (const stake of activeStakes) {
+          //if (!stake.capitalWithdrawn) {
+            const lastClaimTime = Number(stake.lastClaimTime);
+          console.log('twentyFourHoursAgo & lastClaimTime', twentyFourHoursAgo , lastClaimTime);
             // If lastClaim is within the last 24 hours
             if (lastClaimTime >= twentyFourHoursAgo) {
               todayAccrued += (Number(stake.stakedAmount) / 1e18) * 0.01; // 1% of stake
             }
-          }
+         // }
         }
         
         setAccruedToday(todayAccrued);

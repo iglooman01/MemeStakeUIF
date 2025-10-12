@@ -69,8 +69,12 @@ export default function Dashboard() {
   const [level3AirdropRewards, setLevel3AirdropRewards] = useState(0);
   const [level3StakingRewards, setLevel3StakingRewards] = useState(0);
   const [bnbPrice, setBnbPrice] = useState(600); // Default BNB price in USD
+  const [currentChainId, setCurrentChainId] = useState<string | null>(null);
+  const [isCheckingNetwork, setIsCheckingNetwork] = useState(false);
   
   const { toast } = useToast();
+  
+  const BSC_TESTNET_CHAIN_ID = '0x61'; // 97 in decimal
 
   // Fetch BNB price in USD
   useEffect(() => {
@@ -738,6 +742,107 @@ export default function Dashboard() {
     }
   };
 
+  // Check current network and update state
+  const checkCurrentNetwork = async () => {
+    if (!window.ethereum) return;
+    
+    try {
+      const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+      setCurrentChainId(chainId);
+      return chainId;
+    } catch (error) {
+      console.error('Error checking network:', error);
+      return null;
+    }
+  };
+
+  // Switch to BSC Testnet with better error handling
+  const switchToBscTestnet = async () => {
+    if (!window.ethereum) {
+      toast({
+        title: "❌ No Wallet Found",
+        description: "Please install MetaMask or another Web3 wallet",
+        variant: "destructive"
+      });
+      return false;
+    }
+
+    setIsCheckingNetwork(true);
+
+    try {
+      // First try to switch
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: BSC_TESTNET_CHAIN_ID }],
+      });
+      
+      setCurrentChainId(BSC_TESTNET_CHAIN_ID);
+      toast({
+        title: "✅ Network Switched",
+        description: "Successfully switched to BSC Testnet",
+      });
+      
+      setIsCheckingNetwork(false);
+      return true;
+    } catch (switchError: any) {
+      // If the chain hasn't been added to the wallet, add it
+      if (switchError.code === 4902) {
+        try {
+          await window.ethereum.request({
+            method: 'wallet_addEthereumChain',
+            params: [{
+              chainId: BSC_TESTNET_CHAIN_ID,
+              chainName: 'BNB Smart Chain Testnet',
+              nativeCurrency: {
+                name: 'BNB',
+                symbol: 'tBNB',
+                decimals: 18,
+              },
+              rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/'],
+              blockExplorerUrls: ['https://testnet.bscscan.com/'],
+            }],
+          });
+          
+          setCurrentChainId(BSC_TESTNET_CHAIN_ID);
+          toast({
+            title: "✅ Network Added",
+            description: "BSC Testnet added and switched successfully",
+          });
+          
+          setIsCheckingNetwork(false);
+          return true;
+        } catch (addError) {
+          console.error('Error adding network:', addError);
+          toast({
+            title: "❌ Network Setup Failed",
+            description: "Could not add BSC Testnet. Please add it manually in your wallet settings.",
+            variant: "destructive"
+          });
+          setIsCheckingNetwork(false);
+          return false;
+        }
+      } else if (switchError.code === 4001) {
+        // User rejected the request
+        toast({
+          title: "❌ Request Rejected",
+          description: "You need to switch to BSC Testnet to use this app",
+          variant: "destructive"
+        });
+        setIsCheckingNetwork(false);
+        return false;
+      } else {
+        console.error('Network switch error:', switchError);
+        toast({
+          title: "⚠️ Network Switch Issue",
+          description: "Please manually switch to BSC Testnet in your wallet",
+          variant: "destructive"
+        });
+        setIsCheckingNetwork(false);
+        return false;
+      }
+    }
+  };
+
   // Load wallet address and type from localStorage
   useEffect(() => {
     const storedAddress = localStorage.getItem('walletAddress');
@@ -749,6 +854,21 @@ export default function Dashboard() {
       setWalletType(storedWalletType);
     }
   }, []);
+
+  // Check network on load and periodically
+  useEffect(() => {
+    if (!walletAddress || !window.ethereum) return;
+
+    // Initial check
+    checkCurrentNetwork();
+
+    // Check every 3 seconds for mobile wallet issues
+    const interval = setInterval(() => {
+      checkCurrentNetwork();
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [walletAddress]);
 
   // Listen for wallet account changes
   useEffect(() => {
@@ -1226,6 +1346,26 @@ export default function Dashboard() {
                       {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
                     </div>
                   </div>
+                  
+                  {/* Network Warning */}
+                  {currentChainId && currentChainId !== BSC_TESTNET_CHAIN_ID && (
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={switchToBscTestnet}
+                      disabled={isCheckingNetwork}
+                      className="text-xs sm:text-sm animate-pulse"
+                      style={{
+                        borderColor: 'rgba(255, 0, 0, 0.5)', 
+                        color: '#ff4444',
+                        background: 'rgba(255, 0, 0, 0.1)'
+                      }}
+                      data-testid="button-switch-network"
+                    >
+                      {isCheckingNetwork ? '⏳ Switching...' : '⚠️ Wrong Network'}
+                    </Button>
+                  )}
+                  
                   <Button 
                     variant="outline" 
                     size="sm"
@@ -1254,6 +1394,39 @@ export default function Dashboard() {
       </header>
 
       <div className="max-w-6xl mx-auto px-6 py-8 space-y-6">
+        
+        {/* Wrong Network Warning Banner */}
+        {walletAddress && currentChainId && currentChainId !== BSC_TESTNET_CHAIN_ID && (
+          <Card className="p-6 border-2 animate-pulse" style={{
+            borderColor: 'rgba(255, 0, 0, 0.5)',
+            background: 'rgba(255, 0, 0, 0.1)'
+          }}>
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <AlertTriangle className="w-8 h-8" style={{color: '#ff4444'}} />
+                <div>
+                  <h3 className="font-bold text-lg" style={{color: '#ff4444'}}>Wrong Network Detected</h3>
+                  <p className="text-sm text-muted-foreground">
+                    You're connected to chain ID: {parseInt(currentChainId, 16)}. 
+                    Please switch to BSC Testnet (Chain ID: 97) to use this app.
+                  </p>
+                </div>
+              </div>
+              <Button 
+                onClick={switchToBscTestnet}
+                disabled={isCheckingNetwork}
+                className="whitespace-nowrap"
+                style={{
+                  background: '#ff4444',
+                  color: '#fff'
+                }}
+                data-testid="button-switch-network-banner"
+              >
+                {isCheckingNetwork ? '⏳ Switching Network...' : '🔄 Switch to BSC Testnet'}
+              </Button>
+            </div>
+          </Card>
+        )}
         
         {/* Welcome & Airdrop Timer */}
         <Card className="p-6 glass-card">
