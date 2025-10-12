@@ -22,8 +22,9 @@ import { LiveJoinNotification } from "@/components/LiveJoinNotification";
 export default function Dashboard() {
   const [location, setLocation] = useLocation();
   const [airdropTime, setAirdropTime] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-  const [tokenBalance, setTokenBalance] = useState(125000);
-  const [stakingRewards, setStakingRewards] = useState(28475);
+  const [tokenBalance, setTokenBalance] = useState(0);
+  const [stakingRewards, setStakingRewards] = useState(0);
+  const [isLoadingBalances, setIsLoadingBalances] = useState(false);
   const [walletAddress, setWalletAddress] = useState<string>('');
   const [walletType, setWalletType] = useState<string>('');
   const [sponsorAddress, setSponsorAddress] = useState<string>('');
@@ -708,6 +709,56 @@ export default function Dashboard() {
     };
 
     fetchSponsorAddress();
+  }, [walletAddress]);
+
+  // Fetch real token balance and referral rewards
+  useEffect(() => {
+    const fetchBalances = async () => {
+      if (!walletAddress) return;
+
+      setIsLoadingBalances(true);
+
+      try {
+        // Create public client for reading contract
+        const publicClient = createPublicClient({
+          chain: bscTestnet,
+          transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
+        });
+
+        // Fetch MEME token balance
+        const balance = await publicClient.readContract({
+          address: CONTRACTS.MEMES_TOKEN.address as `0x${string}`,
+          abi: CONTRACTS.MEMES_TOKEN.abi,
+          functionName: 'balanceOf',
+          args: [walletAddress as `0x${string}`]
+        }) as bigint;
+
+        // Convert from wei to tokens (assuming 18 decimals)
+        const balanceInTokens = Number(balance) / 1e18;
+        setTokenBalance(balanceInTokens);
+
+        // Fetch referral rewards from all 3 levels
+        let totalRewards = 0;
+        for (let level = 0; level < 3; level++) {
+          const reward = await publicClient.readContract({
+            address: CONTRACTS.MEMES_PRESALE.address as `0x${string}`,
+            abi: CONTRACTS.MEMES_PRESALE.abi,
+            functionName: 'referralRewardByLevel',
+            args: [walletAddress as `0x${string}`, BigInt(level)]
+          }) as bigint;
+
+          totalRewards += Number(reward) / 1e18;
+        }
+
+        setStakingRewards(totalRewards);
+      } catch (error) {
+        console.error('Error fetching balances:', error);
+      } finally {
+        setIsLoadingBalances(false);
+      }
+    };
+
+    fetchBalances();
   }, [walletAddress]);
 
   // Handle disconnect wallet
@@ -1522,20 +1573,28 @@ export default function Dashboard() {
               
               <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)'}}>
                 <div className="text-2xl font-bold" style={{color: '#ffd700'}}>
-                  {tokenBalance.toLocaleString()} MEME
+                  {isLoadingBalances ? (
+                    <span className="animate-pulse">Loading...</span>
+                  ) : (
+                    `${tokenBalance.toLocaleString()} MEME`
+                  )}
                 </div>
                 <div className="text-sm text-muted-foreground">Token Balance</div>
               </div>
               
               <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
                 <div className="text-xl font-bold" style={{color: '#00bfff'}}>
-                  {stakingRewards.toLocaleString()} $MEMES
+                  {isLoadingBalances ? (
+                    <span className="animate-pulse">Loading...</span>
+                  ) : (
+                    `${stakingRewards.toLocaleString()} $MEMES`
+                  )}
                 </div>
                 <div className="text-sm text-muted-foreground">Total Rewards Earned</div>
               </div>
               
               {/* Airdrop Token */}
-              <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.2)'}}>
+              {/*<div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.2)'}}>
                 <div className="text-xl font-bold" style={{color: '#00ff88'}}>
                   1,000 $MEMES
                 </div>
@@ -1543,12 +1602,12 @@ export default function Dashboard() {
               </div>
               
               {/* Airdrop Referral Token */}
-              <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)'}}>
+              {/*<div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)'}}>
                 <div className="text-xl font-bold" style={{color: '#ffd700'}}>
                   2,000 $MEMES
                 </div>
                 <div className="text-sm text-muted-foreground">Airdrop Referral Token</div>
-              </div>
+              </div>*/}
             </div>
           </Card>
 
