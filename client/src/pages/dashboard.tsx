@@ -59,6 +59,14 @@ export default function Dashboard() {
   const [contractWalletBalance, setContractWalletBalance] = useState<string>('');
   const [totalStakedAmount, setTotalStakedAmount] = useState(0);
   const [isLoadingStakes, setIsLoadingStakes] = useState(false);
+  const [pendingStakingRewards, setPendingStakingRewards] = useState(0);
+  const [referralEarnings, setReferralEarnings] = useState(0);
+  const [level1AirdropRewards, setLevel1AirdropRewards] = useState(0);
+  const [level1StakingRewards, setLevel1StakingRewards] = useState(0);
+  const [level2AirdropRewards, setLevel2AirdropRewards] = useState(0);
+  const [level2StakingRewards, setLevel2StakingRewards] = useState(0);
+  const [level3AirdropRewards, setLevel3AirdropRewards] = useState(0);
+  const [level3StakingRewards, setLevel3StakingRewards] = useState(0);
   
   const { toast } = useToast();
 
@@ -99,9 +107,8 @@ export default function Dashboard() {
   // Check if all tasks are completed
   const allTasksCompleted = emailVerified && Object.values(tasksCompleted).every(Boolean);
 
-  // Earnings data
-  const stakingEarnings = 28475;
-  const referralEarnings = 345000;
+  // Earnings data - calculated from state
+  const stakingEarnings = pendingStakingRewards;
   const totalEarnings = stakingEarnings + referralEarnings;
   const claimableAmount = totalEarnings;
 
@@ -792,6 +799,67 @@ export default function Dashboard() {
       } catch (stakeError) {
         console.error('Error fetching staked amount:', stakeError);
         setTotalStakedAmount(0);
+      }
+
+      // Fetch pending staking rewards
+      try {
+        const pendingRewards = await publicClient.readContract({
+          address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
+          abi: CONTRACTS.MEMES_STAKE.abi,
+          functionName: 'getPendingRewards',
+          args: [walletAddress as `0x${string}`]
+        }) as bigint;
+
+        setPendingStakingRewards(Number(pendingRewards) / 1e18);
+      } catch (rewardsError) {
+        console.error('Error fetching pending rewards:', rewardsError);
+        setPendingStakingRewards(0);
+      }
+
+      // Fetch referral rewards by level
+      try {
+        const referralRewards = await publicClient.readContract({
+          address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
+          abi: CONTRACTS.MEMES_STAKE.abi,
+          functionName: 'getTotalRewardsByReferralLevel',
+          args: [walletAddress as `0x${string}`]
+        }) as any;
+
+        const level1 = Number(referralRewards.level1Total || 0) / 1e18;
+        const level2 = Number(referralRewards.level2Total || 0) / 1e18;
+        const level3 = Number(referralRewards.level3Total || 0) / 1e18;
+        const total = Number(referralRewards.totalRewardsByreferral || 0) / 1e18;
+
+        setLevel1AirdropRewards(level1);
+        setLevel2AirdropRewards(level2);
+        setLevel3AirdropRewards(level3);
+        setReferralEarnings(total);
+      } catch (refError) {
+        console.error('Error fetching referral rewards:', refError);
+        setReferralEarnings(0);
+      }
+
+      // Fetch staked amounts by referral level
+      try {
+        const stakedByLevel = await publicClient.readContract({
+          address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
+          abi: CONTRACTS.MEMES_STAKE.abi,
+          functionName: 'getTotalStakedByReferralLevel',
+          args: [walletAddress as `0x${string}`]
+        }) as any;
+
+        const level1Staked = Number(stakedByLevel.level1Total || 0) / 1e18;
+        const level2Staked = Number(stakedByLevel.level2Total || 0) / 1e18;
+        const level3Staked = Number(stakedByLevel.level3Total || 0) / 1e18;
+
+        setLevel1StakingRewards(level1Staked);
+        setLevel2StakingRewards(level2Staked);
+        setLevel3StakingRewards(level3Staked);
+      } catch (stakedError) {
+        console.error('Error fetching staked by referral level:', stakedError);
+        setLevel1StakingRewards(0);
+        setLevel2StakingRewards(0);
+        setLevel3StakingRewards(0);
       }
     } catch (error) {
       console.error('Error fetching balances:', error);
@@ -1787,11 +1855,23 @@ export default function Dashboard() {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <div className="text-xs text-muted-foreground mb-1">Airdrop Token</div>
-                  <div className="text-xl font-bold" style={{color: '#ffd700'}}>500 $MEMES</div>
+                  <div className="text-xl font-bold" style={{color: '#ffd700'}}>
+                    {isLoadingBalances ? (
+                      <span className="animate-pulse">Loading...</span>
+                    ) : (
+                      `${level1AirdropRewards.toLocaleString()} $MEMES`
+                    )}
+                  </div>
                 </div>
                 <div>
                   <div className="text-xs text-muted-foreground mb-1">Staking Token</div>
-                  <div className="text-xl font-bold" style={{color: '#ffd700'}}>1,200 $MEMES</div>
+                  <div className="text-xl font-bold" style={{color: '#ffd700'}}>
+                    {isLoadingBalances ? (
+                      <span className="animate-pulse">Loading...</span>
+                    ) : (
+                      `${level1StakingRewards.toLocaleString()} $MEMES`
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -1810,11 +1890,23 @@ export default function Dashboard() {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <div className="text-xs text-muted-foreground mb-1">Airdrop Token</div>
-                  <div className="text-xl font-bold" style={{color: '#00bfff'}}>300 $MEMES</div>
+                  <div className="text-xl font-bold" style={{color: '#00bfff'}}>
+                    {isLoadingBalances ? (
+                      <span className="animate-pulse">Loading...</span>
+                    ) : (
+                      `${level2AirdropRewards.toLocaleString()} $MEMES`
+                    )}
+                  </div>
                 </div>
                 <div>
                   <div className="text-xs text-muted-foreground mb-1">Staking Token</div>
-                  <div className="text-xl font-bold" style={{color: '#00bfff'}}>840 $MEMES</div>
+                  <div className="text-xl font-bold" style={{color: '#00bfff'}}>
+                    {isLoadingBalances ? (
+                      <span className="animate-pulse">Loading...</span>
+                    ) : (
+                      `${level2StakingRewards.toLocaleString()} $MEMES`
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -1833,11 +1925,23 @@ export default function Dashboard() {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <div className="text-xs text-muted-foreground mb-1">Airdrop Token</div>
-                  <div className="text-xl font-bold" style={{color: '#00ff88'}}>200 $MEMES</div>
+                  <div className="text-xl font-bold" style={{color: '#00ff88'}}>
+                    {isLoadingBalances ? (
+                      <span className="animate-pulse">Loading...</span>
+                    ) : (
+                      `${level3AirdropRewards.toLocaleString()} $MEMES`
+                    )}
+                  </div>
                 </div>
                 <div>
                   <div className="text-xs text-muted-foreground mb-1">Staking Token</div>
-                  <div className="text-xl font-bold" style={{color: '#00ff88'}}>450 $MEMES</div>
+                  <div className="text-xl font-bold" style={{color: '#00ff88'}}>
+                    {isLoadingBalances ? (
+                      <span className="animate-pulse">Loading...</span>
+                    ) : (
+                      `${level3StakingRewards.toLocaleString()} $MEMES`
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -1847,11 +1951,23 @@ export default function Dashboard() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <div className="text-sm text-muted-foreground mb-1">Total Airdrop Earning</div>
-                  <div className="text-2xl font-bold" style={{color: '#ffd700'}}>1,000 $MEMES</div>
+                  <div className="text-2xl font-bold" style={{color: '#ffd700'}}>
+                    {isLoadingBalances ? (
+                      <span className="animate-pulse">Loading...</span>
+                    ) : (
+                      `${(level1AirdropRewards + level2AirdropRewards + level3AirdropRewards).toLocaleString()} $MEMES`
+                    )}
+                  </div>
                 </div>
                 <div>
                   <div className="text-sm text-muted-foreground mb-1">Total Staking Earning</div>
-                  <div className="text-2xl font-bold" style={{color: '#00ff88'}}>2,490 $MEMES</div>
+                  <div className="text-2xl font-bold" style={{color: '#00ff88'}}>
+                    {isLoadingBalances ? (
+                      <span className="animate-pulse">Loading...</span>
+                    ) : (
+                      `${(level1StakingRewards + level2StakingRewards + level3StakingRewards).toLocaleString()} $MEMES`
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
