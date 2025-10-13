@@ -1882,10 +1882,10 @@ export default function Dashboard() {
           </div>
         </Card>
 
-        {/* Buy MEMES Tokens Section - Clean & Attractive */}
-        <Card className="p-6 glass-card" style={{border: '2px solid #ffd700', boxShadow: '0 4px 20px rgba(255, 215, 0, 0.2)'}}>
-          <div className="text-center mb-6">
-            <h3 className="text-2xl font-bold mb-2" style={{color: '#ffd700'}}>🛒 Buy $MEMES Tokens</h3>
+        {/* Buy MEMES Tokens Section - Compact */}
+        <Card className="p-3 sm:p-4 glass-card" style={{border: '2px solid #ffd700', boxShadow: '0 4px 20px rgba(255, 215, 0, 0.2)'}}>
+          <div className="text-center mb-3 sm:mb-4">
+            <h3 className="text-lg sm:text-xl font-bold mb-2" style={{color: '#ffd700'}}>🛒 Buy $MEMES Tokens</h3>
             
             {/* Live Price Display */}
             <div className="flex items-center justify-center gap-4 mt-4">
@@ -2179,28 +2179,28 @@ export default function Dashboard() {
             </div>
           </Card>
 
-          {/* Staking Overview - Redesigned */}
+          {/* Staking Overview - Compact */}
           <Card className="p-0 overflow-hidden relative" style={{
             background: 'linear-gradient(135deg, rgba(0, 191, 255, 0.1) 0%, rgba(0, 255, 136, 0.1) 100%)',
             border: '1px solid rgba(0, 191, 255, 0.3)'
           }}>
-            {/* Header with gradient */}
-            <div className="p-6 pb-4 relative" style={{
+            {/* Header - Compact */}
+            <div className="p-3 pb-2 relative" style={{
               background: 'linear-gradient(135deg, rgba(0, 191, 255, 0.15) 0%, rgba(0, 255, 136, 0.15) 100%)'
             }}>
               <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{
                     background: 'linear-gradient(135deg, #00bfff 0%, #00ff88 100%)',
                     boxShadow: '0 4px 15px rgba(0, 191, 255, 0.4)'
                   }}>
-                    <span className="text-xl">📈</span>
+                    <span className="text-base">📈</span>
                   </div>
-                  <h3 className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-green-400 bg-clip-text text-transparent">
+                  <h3 className="text-base sm:text-lg font-bold bg-gradient-to-r from-cyan-400 to-green-400 bg-clip-text text-transparent">
                     Staking Overview
                   </h3>
                 </div>
-                <div className="px-3 py-1 rounded-full" style={{
+                <div className="px-2 py-0.5 rounded-full" style={{
                   background: 'linear-gradient(135deg, #00ff88 0%, #00cc70 100%)',
                   boxShadow: '0 4px 15px rgba(0, 255, 136, 0.3)'
                 }}>
@@ -2421,115 +2421,115 @@ export default function Dashboard() {
           </div>
         </Card>
 
-        {/* My Airdrop/Staking Earning - 3 Levels */}
-        <Card className="p-6 glass-card">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold">👥 My Airdrop/Staking Earning</h3>
-            <div className="text-xs px-3 py-1 rounded-full" style={{background: 'rgba(255, 215, 0, 0.2)', color: '#ffd700'}}>
-              3-Level System
+        {/* My Airdrop/Staking Earning - Compact */}
+        <Card className="p-3 sm:p-4 glass-card">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-base font-semibold">👥 3-Level Rewards</h3>
+            <div className="text-xs px-2 py-0.5 rounded-full" style={{background: 'rgba(255, 215, 0, 0.2)', color: '#ffd700'}}>
+              Airdrop + Staking
             </div>
           </div>
           
-          <div className="space-y-3">
-            {/* Level 1 - Direct */}
-            <div className="p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)'}}>
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{background: '#ffd700', color: '#000'}}>
-                    <span className="text-sm font-bold">1</span>
+          <div className="space-y-2">
+            {/* Level 1 - Direct - Compact */}
+            <div className="p-2.5 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)'}}>
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-1.5">
+                  <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{background: '#ffd700', color: '#000'}}>
+                    <span className="text-xs font-bold">1</span>
                   </div>
-                  <span className="text-sm font-semibold">Level 1 - Direct</span>
+                  <span className="text-xs font-semibold">Level 1</span>
                 </div>
-                <span className="text-xs px-2 py-1 rounded" style={{background: 'rgba(255, 215, 0, 0.2)', color: '#ffd700'}}>5% Rewards</span>
+                <span className="text-xs px-1.5 py-0.5 rounded" style={{background: 'rgba(255, 215, 0, 0.2)', color: '#ffd700'}}>5%</span>
               </div>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <div className="text-xs text-muted-foreground mb-1">Airdrop Token</div>
-                  <div className="text-xl font-bold" style={{color: '#ffd700'}}>
+                  <div className="text-xs text-muted-foreground mb-0.5">Airdrop</div>
+                  <div className="text-sm font-bold" style={{color: '#ffd700'}}>
                     {isLoadingBalances ? (
-                      <span className="animate-pulse">Loading...</span>
+                      <span className="animate-pulse text-xs">...</span>
                     ) : (
-                      `${level1AirdropRewards.toLocaleString()} $MEMES`
+                      `${level1AirdropRewards.toLocaleString()}`
                     )}
                   </div>
                 </div>
                 <div>
-                  <div className="text-xs text-muted-foreground mb-1">Staking Token</div>
-                  <div className="text-xl font-bold" style={{color: '#ffd700'}}>
+                  <div className="text-xs text-muted-foreground mb-0.5">Staking</div>
+                  <div className="text-sm font-bold" style={{color: '#ffd700'}}>
                     {isLoadingBalances ? (
-                      <span className="animate-pulse">Loading...</span>
+                      <span className="animate-pulse text-xs">...</span>
                     ) : (
-                      `${level1StakingRewards.toLocaleString()} $MEMES`
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Level 2 */}
-            <div className="p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.2)'}}>
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{background: '#00bfff', color: '#000'}}>
-                    <span className="text-sm font-bold">2</span>
-                  </div>
-                  <span className="text-sm font-semibold">Level 2</span>
-                </div>
-                <span className="text-xs px-2 py-1 rounded" style={{background: 'rgba(0, 191, 255, 0.2)', color: '#00bfff'}}>3% Rewards</span>
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <div className="text-xs text-muted-foreground mb-1">Airdrop Token</div>
-                  <div className="text-xl font-bold" style={{color: '#00bfff'}}>
-                    {isLoadingBalances ? (
-                      <span className="animate-pulse">Loading...</span>
-                    ) : (
-                      `${level2AirdropRewards.toLocaleString()} $MEMES`
-                    )}
-                  </div>
-                </div>
-                <div>
-                  <div className="text-xs text-muted-foreground mb-1">Staking Token</div>
-                  <div className="text-xl font-bold" style={{color: '#00bfff'}}>
-                    {isLoadingBalances ? (
-                      <span className="animate-pulse">Loading...</span>
-                    ) : (
-                      `${level2StakingRewards.toLocaleString()} $MEMES`
+                      `${level1StakingRewards.toLocaleString()}`
                     )}
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Level 3 */}
-            <div className="p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.2)'}}>
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{background: '#00ff88', color: '#000'}}>
-                    <span className="text-sm font-bold">3</span>
+            {/* Level 2 - Compact */}
+            <div className="p-2.5 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.2)'}}>
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-1.5">
+                  <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{background: '#00bfff', color: '#000'}}>
+                    <span className="text-xs font-bold">2</span>
                   </div>
-                  <span className="text-sm font-semibold">Level 3</span>
+                  <span className="text-xs font-semibold">Level 2</span>
                 </div>
-                <span className="text-xs px-2 py-1 rounded" style={{background: 'rgba(0, 255, 136, 0.2)', color: '#00ff88'}}>2% Rewards</span>
+                <span className="text-xs px-1.5 py-0.5 rounded" style={{background: 'rgba(0, 191, 255, 0.2)', color: '#00bfff'}}>3%</span>
               </div>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <div className="text-xs text-muted-foreground mb-1">Airdrop Token</div>
-                  <div className="text-xl font-bold" style={{color: '#00ff88'}}>
+                  <div className="text-xs text-muted-foreground mb-0.5">Airdrop</div>
+                  <div className="text-sm font-bold" style={{color: '#00bfff'}}>
                     {isLoadingBalances ? (
-                      <span className="animate-pulse">Loading...</span>
+                      <span className="animate-pulse text-xs">...</span>
                     ) : (
-                      `${level3AirdropRewards.toLocaleString()} $MEMES`
+                      `${level2AirdropRewards.toLocaleString()}`
                     )}
                   </div>
                 </div>
                 <div>
-                  <div className="text-xs text-muted-foreground mb-1">Staking Token</div>
-                  <div className="text-xl font-bold" style={{color: '#00ff88'}}>
+                  <div className="text-xs text-muted-foreground mb-0.5">Staking</div>
+                  <div className="text-sm font-bold" style={{color: '#00bfff'}}>
                     {isLoadingBalances ? (
-                      <span className="animate-pulse">Loading...</span>
+                      <span className="animate-pulse text-xs">...</span>
                     ) : (
-                      `${level3StakingRewards.toLocaleString()} $MEMES`
+                      `${level2StakingRewards.toLocaleString()}`
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Level 3 - Compact */}
+            <div className="p-2.5 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.2)'}}>
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-1.5">
+                  <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{background: '#00ff88', color: '#000'}}>
+                    <span className="text-xs font-bold">3</span>
+                  </div>
+                  <span className="text-xs font-semibold">Level 3</span>
+                </div>
+                <span className="text-xs px-1.5 py-0.5 rounded" style={{background: 'rgba(0, 255, 136, 0.2)', color: '#00ff88'}}>2%</span>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <div className="text-xs text-muted-foreground mb-0.5">Airdrop</div>
+                  <div className="text-sm font-bold" style={{color: '#00ff88'}}>
+                    {isLoadingBalances ? (
+                      <span className="animate-pulse text-xs">...</span>
+                    ) : (
+                      `${level3AirdropRewards.toLocaleString()}`
+                    )}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-xs text-muted-foreground mb-0.5">Staking</div>
+                  <div className="text-sm font-bold" style={{color: '#00ff88'}}>
+                    {isLoadingBalances ? (
+                      <span className="animate-pulse text-xs">...</span>
+                    ) : (
+                      `${level3StakingRewards.toLocaleString()}`
                     )}
                   </div>
                 </div>
@@ -2564,11 +2564,11 @@ export default function Dashboard() {
           </div>
         </Card>
 
-        {/* How It Works - Process Steps */}
-        <Card className="p-8 glass-card" style={{background: 'linear-gradient(135deg, rgba(0, 191, 255, 0.1), rgba(0, 191, 255, 0.05))', border: '2px solid rgba(0, 191, 255, 0.3)'}}>
+        {/* How It Works - Compact */}
+        <Card className="p-3 sm:p-4 glass-card" style={{background: 'linear-gradient(135deg, rgba(0, 191, 255, 0.1), rgba(0, 191, 255, 0.05))', border: '2px solid rgba(0, 191, 255, 0.3)'}}>
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="how-it-works" style={{borderColor: 'rgba(0, 191, 255, 0.3)'}}>
-              <AccordionTrigger className="text-white hover:text-[#00bfff]">
+              <AccordionTrigger className="text-white hover:text-[#00bfff] text-sm">
                 <h2 className="text-3xl font-bold text-center" style={{color: '#00bfff'}}>🚀 How It Works</h2>
               </AccordionTrigger>
               <AccordionContent className="pt-4">
@@ -2716,12 +2716,12 @@ export default function Dashboard() {
           </Accordion>
         </Card>
 
-        {/* FAQ Section */}
-        <Card className="p-6 glass-card">
+        {/* FAQ Section - Compact */}
+        <Card className="p-3 sm:p-4 glass-card">
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="faq" style={{borderColor: 'rgba(255, 215, 0, 0.3)'}}>
-              <AccordionTrigger className="text-white hover:text-[#ffd700]">
-                <h3 className="text-xl font-bold" style={{color: '#ffd700'}}>Frequently Asked Questions</h3>
+              <AccordionTrigger className="text-white hover:text-[#ffd700] text-sm">
+                <h3 className="text-base sm:text-lg font-bold" style={{color: '#ffd700'}}>Frequently Asked Questions</h3>
               </AccordionTrigger>
               <AccordionContent className="pt-4">
                 <p className="text-center text-gray-400 mb-6">Everything you need to know about memes</p>
@@ -2788,10 +2788,10 @@ export default function Dashboard() {
           </Accordion>
         </Card>
 
-        {/* About memes */}
-        <Card className="p-8 glass-card">
-          <h2 className="text-3xl font-bold text-center mb-2" style={{color: '#ffd700'}}>About memes</h2>
-          <p className="text-center text-gray-400 mb-4">Learn more about our platform and mission</p>
+        {/* About memes - Compact */}
+        <Card className="p-3 sm:p-4 glass-card">
+          <h2 className="text-lg sm:text-xl font-bold text-center mb-2" style={{color: '#ffd700'}}>About memes</h2>
+          <p className="text-center text-gray-400 mb-3 text-xs sm:text-sm">Learn more about our platform</p>
           
           <div className="text-center mb-8">
             <Button
@@ -2855,49 +2855,49 @@ export default function Dashboard() {
           </Accordion>
         </Card>
 
-        {/* Join Our Community */}
-        <Card className="p-8 glass-card text-center" style={{background: 'linear-gradient(135deg, rgba(15, 10, 35, 0.95), rgba(30, 15, 60, 0.95))', border: '2px solid rgba(0, 191, 255, 0.3)'}}>
-          <h2 className="text-3xl font-bold mb-4" style={{color: '#00bfff'}}>Join Our Community</h2>
-          <p className="text-gray-400 mb-8">Connect with 47,000+ members in our vibrant community! Get real-time updates, share strategies, and never miss an opportunity.</p>
+        {/* Join Our Community - Compact */}
+        <Card className="p-3 sm:p-4 glass-card text-center" style={{background: 'linear-gradient(135deg, rgba(15, 10, 35, 0.95), rgba(30, 15, 60, 0.95))', border: '2px solid rgba(0, 191, 255, 0.3)'}}>
+          <h2 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3" style={{color: '#00bfff'}}>Join Our Community</h2>
+          <p className="text-gray-400 mb-3 sm:mb-4 text-xs sm:text-sm">47,000+ members • Real-time updates</p>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-3">
             <a
               href="https://t.me/memestakegroup"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-6 rounded-xl transition-all hover:scale-105"
+              className="p-3 sm:p-4 rounded-xl transition-all hover:scale-105"
               style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}
               data-testid="link-telegram-group"
             >
-              <SiTelegram className="w-12 h-12 mx-auto mb-3" style={{color: '#00bfff'}} />
-              <div className="font-bold mb-1" style={{color: '#00bfff'}}>Telegram Group</div>
-              <div className="text-xs text-gray-400">Chat & Discussion</div>
+              <SiTelegram className="w-8 h-8 mx-auto mb-2" style={{color: '#00bfff'}} />
+              <div className="font-bold mb-1 text-sm" style={{color: '#00bfff'}}>Telegram</div>
+              <div className="text-xs text-gray-400">Chat</div>
             </a>
 
             <a
               href="https://t.me/memstakeofficial"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-6 rounded-xl transition-all hover:scale-105"
+              className="p-3 sm:p-4 rounded-xl transition-all hover:scale-105"
               style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}
               data-testid="link-telegram-official"
             >
-              <SiTelegram className="w-12 h-12 mx-auto mb-3" style={{color: '#ffd700'}} />
-              <div className="font-bold mb-1" style={{color: '#ffd700'}}>Official Channel</div>
-              <div className="text-xs text-gray-400">News & Updates</div>
+              <SiTelegram className="w-8 h-8 mx-auto mb-2" style={{color: '#ffd700'}} />
+              <div className="font-bold mb-1 text-sm" style={{color: '#ffd700'}}>Official</div>
+              <div className="text-xs text-gray-400">News</div>
             </a>
 
             <a
               href="https://twitter.com/memestake_official"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-6 rounded-xl transition-all hover:scale-105"
+              className="p-3 sm:p-4 rounded-xl transition-all hover:scale-105"
               style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.3)'}}
               data-testid="link-twitter"
             >
-              <SiX className="w-12 h-12 mx-auto mb-3" style={{color: '#00ff88'}} />
-              <div className="font-bold mb-1" style={{color: '#00ff88'}}>Twitter/X</div>
-              <div className="text-xs text-gray-400">Follow Updates</div>
+              <SiX className="w-8 h-8 mx-auto mb-2" style={{color: '#00ff88'}} />
+              <div className="font-bold mb-1 text-sm" style={{color: '#00ff88'}}>Twitter/X</div>
+              <div className="text-xs text-gray-400">Follow</div>
             </a>
           </div>
         </Card>
