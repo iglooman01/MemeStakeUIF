@@ -1430,7 +1430,7 @@ export default function Dashboard() {
         <Card className="p-3 sm:p-4 glass-card">
           <div className="text-center">
             <h1 className="text-lg sm:text-xl font-bold mb-2" style={{color: '#ffd700'}}>
-              🎉 Welcome to memes Dashboard
+              🎉 Welcome to MEMES STAKE Dashboard
             </h1>
             
             {/* Airdrop Countdown - Compact */}

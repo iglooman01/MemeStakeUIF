@@ -231,10 +231,10 @@ export default function Airdrop() {
   };
 
   const shareReferral = () => {
-    const shareText = `Join me on memes and claim your free MEMES tokens! 🚀\n\n${referralLink}`;
+    const shareText = `Join me on MEMES STAKE and claim your free MEMES tokens! 🚀\n\n${referralLink}`;
     if (navigator.share) {
       navigator.share({
-        title: 'memes Airdrop',
+        title: 'MEMES STAKE Airdrop',
         text: shareText,
       });
     } else {
@@ -308,7 +308,7 @@ export default function Airdrop() {
             </div>
           </div>
           <p className="mt-6 text-muted-foreground">
-            🚀 memes DECENTRALIZED AIRDROP is LIVE! Complete social tasks to claim exclusive MEMES tokens DIRECT IN YOUR WALLET
+            🚀 MEMES STAKE DECENTRALIZED AIRDROP is LIVE! Complete social tasks to claim exclusive MEMES tokens DIRECT IN YOUR WALLET
           </p>
         </Card>
 

@@ -781,18 +781,6 @@ export default function Home() {
                 </SelectContent>
               </Select>
 
-              {/* Theme Toggle */}
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={toggleTheme}
-                className="p-2 h-8 w-8 border"
-                style={{background: 'rgba(255, 255, 255, 0.05)', borderColor: 'rgba(255, 215, 0, 0.2)', color: 'white'}}
-                data-testid="button-theme-toggle"
-              >
-                {theme === 'dark' ? '☀️' : '🌙'}
-              </Button>
-
               {/* Telegram Link */}
               <a
                 href="https://t.me/memestakegroup"
