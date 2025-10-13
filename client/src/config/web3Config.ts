@@ -54,16 +54,39 @@ export const connectWallet = async (walletType: string): Promise<{ success: bool
       return { success: false, error: 'No Web3 wallet detected. Please install MetaMask, Trust Wallet, or SafePal.' };
     }
     
+    // Log wallet detection for debugging
+    console.log('Detected wallet providers:', {
+      hasEthereum: !!window.ethereum,
+      isTronLink: window.ethereum?.isTronLink,
+      isMetaMask: window.ethereum?.isMetaMask,
+      isTrust: window.ethereum?.isTrust,
+      providers: window.ethereum?.providers?.map((p: any) => ({
+        isMetaMask: p.isMetaMask,
+        isTronLink: p.isTronLink,
+        isTrust: p.isTrust
+      }))
+    });
+    
+    // If only TronLink is detected, show error
+    if (window.ethereum.isTronLink && !window.ethereum.providers) {
+      return { success: false, error: 'TronLink is not compatible with BSC Testnet. Please install MetaMask, Trust Wallet, or SafePal extension.' };
+    }
+    
     // Handle different wallet types
     switch (walletType.toLowerCase()) {
       case 'metamask':
         // For MetaMask, check if there are multiple providers
         if (window.ethereum.providers && window.ethereum.providers.length > 0) {
-          // Find MetaMask provider
+          // Find MetaMask provider (exclude TronLink)
           const metamaskProvider = window.ethereum.providers.find((p: any) => p.isMetaMask && !p.isTronLink);
-          ethereum = metamaskProvider || window.ethereum.providers[0];
-        } else {
+          if (!metamaskProvider) {
+            return { success: false, error: 'MetaMask not found. Please install MetaMask extension.' };
+          }
+          ethereum = metamaskProvider;
+        } else if (window.ethereum.isMetaMask && !window.ethereum.isTronLink) {
           ethereum = window.ethereum;
+        } else {
+          return { success: false, error: 'MetaMask not detected. Please install MetaMask extension.' };
         }
         break;
         
