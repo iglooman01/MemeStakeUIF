@@ -1099,20 +1099,40 @@ export default function Dashboard() {
       const balanceInTokens = Number(balance) / 1e18;
       setTokenBalance(balanceInTokens);
 
-      // Fetch referral rewards from all 3 levels
-      let totalRewards = 0;
-      for (let level = 0; level < 3; level++) {
-        const reward = await publicClient.readContract({
-          address: CONTRACTS.MEMES_PRESALE.address as `0x${string}`,
-          abi: CONTRACTS.MEMES_PRESALE.abi,
-          functionName: 'referralRewardByLevel',
-          args: [walletAddress as `0x${string}`, BigInt(level)]
-        }) as bigint;
+      // Fetch referral rewards from staking contract using getTotalRewardsByReferralLevel
+      try {
+        const rewardsByLevel = await publicClient.readContract({
+          address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
+          abi: CONTRACTS.MEMES_STAKE.abi,
+          functionName: 'getTotalRewardsByReferralLevel',
+          args: [walletAddress as `0x${string}`]
+        }) as any[];
 
-        totalRewards += Number(reward) / 1e18;
+        console.log('Rewards by referral level raw response:', rewardsByLevel);
+
+        // Contract returns tuple: [totalRewardsByreferral, level1Total, level2Total, level3Total]
+        // Access by index
+        const totalRewards = Number(rewardsByLevel[0] || 0) / 1e18;
+        const level1Rewards = Number(rewardsByLevel[1] || 0) / 1e18;
+        const level2Rewards = Number(rewardsByLevel[2] || 0) / 1e18;
+        const level3Rewards = Number(rewardsByLevel[3] || 0) / 1e18;
+
+        console.log('Total referral rewards:', totalRewards);
+        console.log('Level 1 rewards:', level1Rewards);
+        console.log('Level 2 rewards:', level2Rewards);
+        console.log('Level 3 rewards:', level3Rewards);
+
+        setStakingRewards(totalRewards);
+        setLevel1AirdropRewards(level1Rewards);
+        setLevel2AirdropRewards(level2Rewards);
+        setLevel3AirdropRewards(level3Rewards);
+      } catch (rewardsError) {
+        console.error('Error fetching referral rewards:', rewardsError);
+        setStakingRewards(0);
+        setLevel1AirdropRewards(0);
+        setLevel2AirdropRewards(0);
+        setLevel3AirdropRewards(0);
       }
-
-      setStakingRewards(totalRewards);
 
       // Fetch total staked amount and pending rewards from staking contract
       try {
