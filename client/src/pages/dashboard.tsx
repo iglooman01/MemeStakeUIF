@@ -1059,55 +1059,53 @@ export default function Dashboard() {
 
       setStakingRewards(totalRewards);
 
-      // Fetch total staked amount from staking contract
+      // Fetch total staked amount and pending rewards from staking contract
       try {
         console.log('Fetching stakes for wallet:', walletAddress);
         console.log('Staking contract address:', CONTRACTS.MEMES_STAKE.address);
         
-        const userStakes = await publicClient.readContract({
+        // Use getActiveStakesWithId to get active stakes
+        const activeStakes = await publicClient.readContract({
           address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
           abi: CONTRACTS.MEMES_STAKE.abi,
-          functionName: 'getUserStakes',
+          functionName: 'getActiveStakesWithId',
           args: [walletAddress as `0x${string}`]
         }) as any[];
 
-        console.log('User stakes received:', userStakes);
-        console.log('Number of stakes:', userStakes?.length || 0);
+        console.log('Active stakes received:', activeStakes);
+        console.log('Number of active stakes:', activeStakes?.length || 0);
 
-        // Sum up all active stakes (where capitalWithdrawn is false)
+        // Sum up all active stake amounts
         let totalStaked = 0;
-        for (const stake of userStakes) {
-          console.log('Stake:', stake);
-          if (!stake.capitalWithdrawn) {
-            const stakeAmount = Number(stake.stakedAmount) / 1e18;
-            console.log('Active stake amount:', stakeAmount);
-            totalStaked += stakeAmount;
-          }
+        for (const stakeWithId of activeStakes) {
+          const stakeAmount = Number(stakeWithId.details.amount) / 1e18;
+          console.log('Active stake amount:', stakeAmount);
+          totalStaked += stakeAmount;
         }
         
         console.log('Total staked amount:', totalStaked);
         setTotalStakedAmount(totalStaked);
 
-        // Calculate Accrued Today: 1% of active stakes whose lastClaim is < 24 hours
-        const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
-        const twentyFourHoursAgo = currentTime - (24 * 60 * 60);
-        let todayAccrued = 0;
-        
-        for (const stake of userStakes) {
-          if (!stake.capitalWithdrawn) {
-            const lastClaimTime = Number(stake.lastClaim);
-            // If lastClaim is within the last 24 hours
-            if (lastClaimTime >= twentyFourHoursAgo) {
-              todayAccrued += (Number(stake.stakedAmount) / 1e18) * 0.01; // 1% of stake
-            }
-          }
-        }
-        
+        // Use getPendingRewards to get claimable rewards
+        const pendingRewards = await publicClient.readContract({
+          address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
+          abi: CONTRACTS.MEMES_STAKE.abi,
+          functionName: 'getPendingRewards',
+          args: [walletAddress as `0x${string}`]
+        }) as bigint;
+
+        const claimableAmount = Number(pendingRewards) / 1e18;
+        console.log('Pending/Claimable rewards:', claimableAmount);
+        setPendingStakingRewards(claimableAmount);
+
+        // Calculate Accrued Today: 1% of total staked (daily rate)
+        const todayAccrued = totalStaked * 0.01; // 1% daily APY
         console.log('Accrued today:', todayAccrued);
         setAccruedToday(todayAccrued);
       } catch (stakeError) {
         console.error('Error fetching staked amount:', stakeError);
         setTotalStakedAmount(0);
+        setPendingStakingRewards(0);
         setAccruedToday(0);
       }
 

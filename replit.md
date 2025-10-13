@@ -24,9 +24,11 @@ This is a full-stack web application built with React and Express.js for "MemeSt
   - Early unstake warning with penalty calculation
 - **Dashboard Staking Overview**: 
   - Real-time display of total staked amount from blockchain
-  - Uses `getUserStakes()` contract function to fetch all stakes
-  - Automatically sums active stakes (excludes withdrawn capital)
+  - Uses `getActiveStakesWithId()` contract function to fetch active stakes only
+  - Uses `getPendingRewards()` contract function for claimable rewards
+  - Automatically sums active stake amounts from contract response
   - Auto-refreshes on wallet connection and after purchases
+  - Daily accrued rewards calculated as 1% of total staked amount
 - **Referral System**: 3-level structure
   - Level 1 (Direct): 5%
   - Level 2: 3%
@@ -84,6 +86,15 @@ This is a full-stack web application built with React and Express.js for "MemeSt
   - Smart contract data fetching protected by address validation
   - Balance fetching skips gracefully if wallet is invalid
   - Sponsor address lookup validates before API calls
+
+## Staking Data Integration (Latest)
+- **Smart Contract Functions**: Updated dashboard to use optimized contract functions
+  - `getActiveStakesWithId()`: Fetches only active stakes with stake IDs
+  - `getPendingRewards()`: Gets accurate claimable rewards directly from contract
+  - Eliminates need to filter withdrawn stakes client-side
+  - More efficient and accurate than previous `getUserStakes()` implementation
+- **Performance**: Reduced data processing by fetching only active stakes
+- **Accuracy**: Pending rewards come directly from contract calculations
 
 # System Architecture
 
