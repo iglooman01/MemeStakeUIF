@@ -256,8 +256,8 @@ export default function Airdrop() {
         <div className="max-w-6xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <img src={memeStakeLogo} alt="memes" className="w-10 h-10 rounded-full" data-testid="logo" />
-              <span className="text-xl font-bold" style={{color: '#ffd700'}} data-testid="brand-name">memes</span>
+              <img src={memeStakeLogo} alt="MEMES STAKE Logo" className="w-10 h-10 rounded-full" data-testid="logo" />
+              <span className="text-xl font-bold" style={{color: '#ffd700'}} data-testid="brand-name">MEMES STAKE</span>
             </div>
             <nav className="hidden md:flex space-x-6">
               <button onClick={() => setLocation('/')} className="hover:text-primary transition-colors" data-testid="nav-home">Home</button>

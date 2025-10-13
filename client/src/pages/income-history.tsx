@@ -1,8 +1,4 @@
-Text:
-MEMES STAKE – make it bold and in a gold color.
-
-Logo:
-Use the official logo and place it in the appropriate location where it fits well with the overall design. Make sure it's clearly visible and complements the gold text.import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -317,14 +313,17 @@ export default function IncomeHistory() {
       <header className="border-b border-border" style={{background: 'rgba(15, 10, 35, 0.8)'}} data-testid="income-history-header">
         <div className="max-w-6xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-3">
               <img 
                 src={memeStakeLogo} 
-                alt="memes Logo" 
+                alt="MEMES STAKE Logo" 
                 className="w-12 h-12 rounded-lg"
-                style={{filter: 'drop-shadow(0 4px 15px rgba(255, 215, 0, 0.2))'}}
+                style={{filter: 'drop-shadow(0 4px 15px rgba(255, 215, 0, 0.3))'}}
               />
-              <span className="text-xl font-bold text-white">Income History</span>
+              <div className="flex flex-col">
+                <span className="text-xl font-bold" style={{color: '#ffd700'}}>MEMES STAKE</span>
+                <span className="text-sm text-gray-400">Income History</span>
+              </div>
             </div>
             
             <div className="flex items-center space-x-3">

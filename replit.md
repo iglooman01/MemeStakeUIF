@@ -54,7 +54,18 @@ This is a full-stack web application built with React and Express.js for "MemeSt
 
 # Recent Changes (October 2025)
 
-## Accrued Today Calculation Sync (Latest)
+## Branding Update (Latest)
+- **Brand Name**: Updated from "memes" to **"MEMES STAKE"** across all pages
+  - Bold gold (#ffd700) text styling for maximum visibility
+  - Updated all page headers: Home, Dashboard, Staking, Income History, Airdrop
+  - Logo alt text updated to "MEMES STAKE Logo" for accessibility
+  - Enhanced logo drop-shadow for better visual presence (0.3 opacity)
+- **Design Consistency**: 
+  - Stacking layout for larger headers (logo + brand name + subtitle)
+  - Uniform branding experience across all user touchpoints
+  - Maintains official logo placement with gold color scheme
+
+## Accrued Today Calculation Sync
 - **Unified Logic**: "Today's Rewards" on dashboard now matches "Accrued Today" on staking page
   - Both use identical calculation: checks if lastClaimTime + 24 hours <= currentTime
   - Only counts stakes where 24 hours have passed since last claim

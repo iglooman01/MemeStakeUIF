@@ -680,14 +680,17 @@ export default function Staking() {
       <header className="border-b border-border" style={{background: 'rgba(15, 10, 35, 0.8)'}} data-testid="staking-header">
         <div className="max-w-6xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-3">
               <img 
                 src={memeStakeLogo} 
-                alt="memes Logo" 
+                alt="MEMES STAKE Logo" 
                 className="w-12 h-12 rounded-lg"
-                style={{filter: 'drop-shadow(0 4px 15px rgba(255, 215, 0, 0.2))'}}
+                style={{filter: 'drop-shadow(0 4px 15px rgba(255, 215, 0, 0.3))'}}
               />
-              <span className="text-xl font-bold text-white">Staking Portal</span>
+              <div className="flex flex-col">
+                <span className="text-xl font-bold" style={{color: '#ffd700'}}>MEMES STAKE</span>
+                <span className="text-sm text-gray-400">Staking Portal</span>
+              </div>
             </div>
             
             <div className="flex items-center space-x-3">

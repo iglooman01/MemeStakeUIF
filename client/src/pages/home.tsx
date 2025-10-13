@@ -742,13 +742,13 @@ export default function Home() {
             <div className="flex items-center space-x-2 cursor-pointer" data-testid="logo-brand" onClick={() => window.location.href = '/'}>
               <img 
                 src={memeStakeLogo} 
-                alt="memes Logo" 
+                alt="MEMES STAKE Logo" 
                 className="w-16 h-16 rounded-lg shadow-lg"
                 style={{
-                  filter: 'drop-shadow(0 4px 15px rgba(255, 215, 0, 0.2))'
+                  filter: 'drop-shadow(0 4px 15px rgba(255, 215, 0, 0.3))'
                 }}
               />
-              <span className="text-xl font-bold" style={{fontFamily: 'Space Grotesk, Inter, sans-serif', fontWeight: '700', color: '#ffd700'}}>memes</span>
+              <span className="text-xl font-bold" style={{fontFamily: 'Space Grotesk, Inter, sans-serif', fontWeight: '700', color: '#ffd700'}}>MEMES STAKE</span>
             </div>
 
             {/* Desktop Navigation - Multiple Links */}

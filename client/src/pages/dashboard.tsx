@@ -1316,13 +1316,13 @@ export default function Dashboard() {
             <div className="flex items-center gap-2">
               <img 
                 src={memeStakeLogo} 
-                alt="memes Logo" 
+                alt="MEMES STAKE Logo" 
                 className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg cursor-pointer transition-transform hover:scale-105"
                 style={{filter: 'drop-shadow(0 4px 20px rgba(255, 215, 0, 0.4))'}}
                 onClick={() => setLocation('/')}
                 data-testid="logo-memestake"
               />
-              <span className="text-lg sm:text-xl font-bold hidden sm:block" style={{color: '#ffd700'}}>memes</span>
+              <span className="text-lg sm:text-xl font-bold hidden sm:block" style={{color: '#ffd700'}}>MEMES STAKE</span>
             </div>
             
             {/* Navigation Menu */}
