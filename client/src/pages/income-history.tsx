@@ -1,4 +1,8 @@
-import { useState, useEffect } from "react";
+Text:
+MEMES STAKE – make it bold and in a gold color.
+
+Logo:
+Use the official logo and place it in the appropriate location where it fits well with the overall design. Make sure it's clearly visible and complements the gold text.import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -119,7 +123,7 @@ export default function IncomeHistory() {
         // Get current block number
         const currentBlock = await publicClient.getBlockNumber();
         console.log('Current block:', currentBlock);
-        const fromBlock = currentBlock - BigInt(10000); // Last ~10000 blocks
+        const fromBlock = currentBlock - BigInt(10); // Last ~10000 blocks
         console.log('Fetching from block:', fromBlock, 'to latest');
 
         // 1. Fetch Staked events (filtered by connected wallet)
