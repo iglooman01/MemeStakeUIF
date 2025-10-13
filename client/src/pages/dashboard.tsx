@@ -62,6 +62,7 @@ export default function Dashboard() {
   const [pendingStakingRewards, setPendingStakingRewards] = useState(0);
   const [accruedToday, setAccruedToday] = useState(0);
   const [referralEarnings, setReferralEarnings] = useState(0);
+  const [presaleReferralRewards, setPresaleReferralRewards] = useState(0); // From MEMES_PRESALE contract
   const [level1AirdropRewards, setLevel1AirdropRewards] = useState(0);
   const [level1StakingRewards, setLevel1StakingRewards] = useState(0);
   const [level2AirdropRewards, setLevel2AirdropRewards] = useState(0);
@@ -1098,6 +1099,27 @@ export default function Dashboard() {
       // Convert from wei to tokens (assuming 18 decimals)
       const balanceInTokens = Number(balance) / 1e18;
       setTokenBalance(balanceInTokens);
+
+      // Fetch referral rewards from MEMES_PRESALE contract using referralRewardByLevel (levels 0-2)
+      try {
+        let totalPresaleRewards = 0;
+        for (let level = 0; level < 3; level++) {
+          const reward = await publicClient.readContract({
+            address: CONTRACTS.MEMES_PRESALE.address as `0x${string}`,
+            abi: CONTRACTS.MEMES_PRESALE.abi,
+            functionName: 'referralRewardByLevel',
+            args: [walletAddress as `0x${string}`, BigInt(level)]
+          }) as bigint;
+
+          totalPresaleRewards += Number(reward) / 1e18;
+        }
+        
+        console.log('Total presale referral rewards (levels 0-2):', totalPresaleRewards);
+        setPresaleReferralRewards(totalPresaleRewards);
+      } catch (presaleError) {
+        console.error('Error fetching presale referral rewards:', presaleError);
+        setPresaleReferralRewards(0);
+      }
 
       // Fetch referral rewards from staking contract using getTotalRewardsByReferralLevel
       try {
@@ -2253,7 +2275,7 @@ export default function Dashboard() {
                       {isLoadingBalances ? (
                         <span className="animate-pulse text-sm">...</span>
                       ) : (
-                        `${(level1AirdropRewards + level2AirdropRewards + level3AirdropRewards).toLocaleString()} $MEMES`
+                        `${presaleReferralRewards.toLocaleString()} $MEMES`
                       )}
                     </div>
                   </div>
