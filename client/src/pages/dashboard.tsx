@@ -76,6 +76,14 @@ export default function Dashboard() {
   
   const BSC_TESTNET_CHAIN_ID = '0x61'; // 97 in decimal
 
+  // Helper function to validate Ethereum address
+  const isValidEthereumAddress = (address: string): boolean => {
+    if (!address) return false;
+    // Check if it's a valid hex address (0x followed by 40 hex characters)
+    const ethereumAddressRegex = /^0x[a-fA-F0-9]{40}$/;
+    return ethereumAddressRegex.test(address);
+  };
+
   // Fetch BNB price in USD
   useEffect(() => {
     const fetchBnbPrice = async () => {
@@ -847,11 +855,31 @@ export default function Dashboard() {
   useEffect(() => {
     const storedAddress = localStorage.getItem('walletAddress');
     const storedWalletType = localStorage.getItem('walletType');
-    if (storedAddress) {
+    
+    // Validate stored wallet address
+    if (storedAddress && isValidEthereumAddress(storedAddress)) {
       setWalletAddress(storedAddress);
-    }
-    if (storedWalletType) {
-      setWalletType(storedWalletType);
+      if (storedWalletType) {
+        setWalletType(storedWalletType);
+      }
+    } else if (storedAddress && !isValidEthereumAddress(storedAddress)) {
+      // Clear invalid wallet data
+      console.warn('Invalid wallet address found in localStorage, clearing...');
+      localStorage.removeItem('walletAddress');
+      localStorage.removeItem('walletType');
+      localStorage.removeItem('walletConnected');
+      sessionStorage.removeItem('walletSession');
+      
+      toast({
+        title: "⚠️ Invalid Wallet Detected",
+        description: "Please reconnect your wallet to continue",
+        variant: "destructive"
+      });
+      
+      // Redirect to home page
+      setTimeout(() => {
+        setLocation('/');
+      }, 2000);
     }
   }, []);
 
@@ -919,7 +947,10 @@ export default function Dashboard() {
   // Fetch sponsor address from contract
   useEffect(() => {
     const fetchSponsorAddress = async () => {
-      if (!walletAddress) return;
+      if (!walletAddress || !isValidEthereumAddress(walletAddress)) {
+        console.warn('Invalid wallet address, skipping sponsor fetch');
+        return;
+      }
 
       const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 
@@ -986,7 +1017,11 @@ export default function Dashboard() {
 
   // Fetch real token balance and referral rewards
   const fetchBalances = async () => {
-    if (!walletAddress) return;
+    if (!walletAddress || !isValidEthereumAddress(walletAddress)) {
+      console.warn('Invalid wallet address, skipping balance fetch');
+      setIsLoadingBalances(false);
+      return;
+    }
 
     setIsLoadingBalances(true);
 
