@@ -465,6 +465,12 @@ export default function Home() {
     }, 30000); // 30 second timeout
 
     try {
+      // Show notification to user about popup
+      toast({
+        title: "🦊 MetaMask Popup Opening",
+        description: "Please check for the MetaMask popup and click 'Connect' to approve",
+      });
+      
       // Connect to the selected wallet
       const result = await connectWallet(wallet.connector);
       
@@ -616,10 +622,13 @@ export default function Home() {
       // Handle user rejection (error code 4001)
       if (error.code === 4001) {
         errorTitle = "🚫 Connection Rejected";
-        errorDescription = "You rejected the wallet connection. Please try again and click 'Approve' in your wallet popup.";
+        errorDescription = `You clicked "Cancel" or "Reject" in the ${walletName} popup. Please try again and click "Connect" or "Next" to approve the connection.`;
       } else if (error.code === -32002) {
         errorTitle = "⏳ Request Already Pending";
-        errorDescription = "A wallet connection request is already open. Please check your wallet extension popup.";
+        errorDescription = "A wallet connection request is already open. Please check for the MetaMask popup window (it might be behind other windows) and approve it.";
+      } else if (error.code === -32603) {
+        errorTitle = "⚠️ MetaMask Locked";
+        errorDescription = "Please unlock your MetaMask wallet first, then try connecting again.";
       } else if (!window.ethereum) {
         errorTitle = "⚠️ No Wallet Detected";
         errorDescription = "Please install MetaMask, Trust Wallet, or SafePal browser extension to connect.";
