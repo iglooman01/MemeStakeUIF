@@ -1197,12 +1197,19 @@ export default function Dashboard() {
           functionName: 'getTotalRewardsByReferralLevel',
           args: [walletAddress as `0x${string}`]
         }) as any;
-console.log("referralRewards : ",referralRewards);
         
-        const level1 = Number(referralRewards.level1Total || 0) / 1e18;
-        const level2 = Number(referralRewards.level2Total || 0) / 1e18;
-        const level3 = Number(referralRewards.level3Total || 0) / 1e18;
-        const total = Number(referralRewards.totalRewardsByreferral || 0) / 1e18;
+        console.log("Referral rewards response:", referralRewards);
+        
+        // The function returns an array: [totalRewardsByreferral, level1Total, level2Total, level3Total]
+        const total = Number(referralRewards[0] || 0) / 1e18;
+        const level1 = Number(referralRewards[1] || 0) / 1e18;
+        const level2 = Number(referralRewards[2] || 0) / 1e18;
+        const level3 = Number(referralRewards[3] || 0) / 1e18;
+
+        console.log('Total Referral Rewards:', total);
+        console.log('Level 1 Rewards:', level1);
+        console.log('Level 2 Rewards:', level2);
+        console.log('Level 3 Rewards:', level3);
 
         setLevel1AirdropRewards(level1);
         setLevel2AirdropRewards(level2);
@@ -1222,9 +1229,16 @@ console.log("referralRewards : ",referralRewards);
           args: [walletAddress as `0x${string}`]
         }) as any;
 
-        const level1Staked = Number(stakedByLevel.level1Total || 0) / 1e18;
-        const level2Staked = Number(stakedByLevel.level2Total || 0) / 1e18;
-        const level3Staked = Number(stakedByLevel.level3Total || 0) / 1e18;
+        console.log('Staked by referral level response:', stakedByLevel);
+
+        // The function returns an array: [level1Total, level2Total, level3Total]
+        const level1Staked = Number(stakedByLevel[0] || 0) / 1e18;
+        const level2Staked = Number(stakedByLevel[1] || 0) / 1e18;
+        const level3Staked = Number(stakedByLevel[2] || 0) / 1e18;
+
+        console.log('Level 1 Staked:', level1Staked);
+        console.log('Level 2 Staked:', level2Staked);
+        console.log('Level 3 Staked:', level3Staked);
 
         setLevel1StakingRewards(level1Staked);
         setLevel2StakingRewards(level2Staked);
