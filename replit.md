@@ -54,6 +54,13 @@ This is a full-stack web application built with React and Express.js for "MemeSt
 
 # Recent Changes (October 2025)
 
+## Accrued Today Calculation Sync (Latest)
+- **Unified Logic**: "Today's Rewards" on dashboard now matches "Accrued Today" on staking page
+  - Both use identical calculation: checks if lastClaimTime + 24 hours <= currentTime
+  - Only counts stakes where 24 hours have passed since last claim
+  - Calculates 1% of eligible stakes for accurate daily rewards
+- **Prevents Double Counting**: Excludes recently claimed stakes from "accrued today" display
+
 ## Dashboard Optimization & Mobile Responsiveness
 - **Compact Layout**: Complete redesign for mobile-first, space-efficient interface
   - Reduced header padding from py-3 to py-2

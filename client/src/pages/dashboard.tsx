@@ -1197,8 +1197,21 @@ export default function Dashboard() {
         console.log('Pending/Claimable rewards:', claimableAmount);
         setPendingStakingRewards(claimableAmount);
 
-        // Calculate Accrued Today: 1% of total staked (daily rate)
-        const todayAccrued = totalStaked * 0.01; // 1% daily APY
+        // Calculate Accrued Today: 1% of active stakes whose lastClaim is < 24 hours
+        const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+        
+        let todayAccrued = 0;
+        
+        for (const stake of activeStakes) {
+          if (stake.details && stake.details.isActive) {
+            const lastClaimTime = Number(stake.details.lastClaimTime);
+            // If lastClaim is within the last 24 hours
+            if (lastClaimTime + (24 * 60 * 60) <= currentTime) {
+              todayAccrued += (Number(stake.details.amount) / 1e18) * 0.01; // 1% of stake
+            }
+          }
+        }
+        
         console.log('Accrued today:', todayAccrued);
         setAccruedToday(todayAccrued);
       } catch (stakeError) {
@@ -2529,9 +2542,9 @@ export default function Dashboard() {
         {/* My Airdrop/Staking Earning - Compact */}
         <Card className="p-3 sm:p-4 glass-card">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-base font-semibold">👥 3-Level Rewards</h3>
+            <h3 className="text-base font-semibold">👥 3-Level Referrals</h3>
             <div className="text-xs px-2 py-0.5 rounded-full" style={{background: 'rgba(255, 215, 0, 0.2)', color: '#ffd700'}}>
-              Airdrop + Staking
+              Staking
             </div>
           </div>
           
@@ -2549,7 +2562,7 @@ export default function Dashboard() {
               </div>
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <div className="text-xs text-muted-foreground mb-0.5">Airdrop</div>
+                  <div className="text-xs text-muted-foreground mb-0.5">Referral Rewards</div>
                   <div className="text-sm font-bold" style={{color: '#ffd700'}}>
                     {isLoadingBalances ? (
                       <span className="animate-pulse text-xs">...</span>
@@ -2559,7 +2572,7 @@ export default function Dashboard() {
                   </div>
                 </div>
                 <div>
-                  <div className="text-xs text-muted-foreground mb-0.5">Staking</div>
+                  <div className="text-xs text-muted-foreground mb-0.5">Referral Staking</div>
                   <div className="text-sm font-bold" style={{color: '#ffd700'}}>
                     {isLoadingBalances ? (
                       <span className="animate-pulse text-xs">...</span>
@@ -2584,7 +2597,7 @@ export default function Dashboard() {
               </div>
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <div className="text-xs text-muted-foreground mb-0.5">Airdrop</div>
+                  <div className="text-xs text-muted-foreground mb-0.5">Referral Rewards</div>
                   <div className="text-sm font-bold" style={{color: '#00bfff'}}>
                     {isLoadingBalances ? (
                       <span className="animate-pulse text-xs">...</span>
@@ -2594,7 +2607,7 @@ export default function Dashboard() {
                   </div>
                 </div>
                 <div>
-                  <div className="text-xs text-muted-foreground mb-0.5">Staking</div>
+                  <div className="text-xs text-muted-foreground mb-0.5">Referral Staking</div>
                   <div className="text-sm font-bold" style={{color: '#00bfff'}}>
                     {isLoadingBalances ? (
                       <span className="animate-pulse text-xs">...</span>
@@ -2619,7 +2632,7 @@ export default function Dashboard() {
               </div>
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <div className="text-xs text-muted-foreground mb-0.5">Airdrop</div>
+                  <div className="text-xs text-muted-foreground mb-0.5">Referral Rewards</div>
                   <div className="text-sm font-bold" style={{color: '#00ff88'}}>
                     {isLoadingBalances ? (
                       <span className="animate-pulse text-xs">...</span>
@@ -2629,7 +2642,7 @@ export default function Dashboard() {
                   </div>
                 </div>
                 <div>
-                  <div className="text-xs text-muted-foreground mb-0.5">Staking</div>
+                  <div className="text-xs text-muted-foreground mb-0.5">Referral Staking</div>
                   <div className="text-sm font-bold" style={{color: '#00ff88'}}>
                     {isLoadingBalances ? (
                       <span className="animate-pulse text-xs">...</span>
