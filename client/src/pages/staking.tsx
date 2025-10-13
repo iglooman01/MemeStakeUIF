@@ -219,9 +219,14 @@ export default function Staking() {
           }) as Promise<bigint>
         ]);
 
-        const totalReferralRewards = Number(referralRewards.totalRewardsByreferral || 0) / 1e18;
+        // getTotalRewardsByReferralLevel returns an array: [totalRewardsByreferral, level1Total, level2Total, level3Total]
+        const totalReferralRewards = Number(referralRewards[0] || 0) / 1e18;
         const totalPendingRewards = Number(pendingRewards) / 1e18;
         const totalClaimable = totalReferralRewards + totalPendingRewards;
+
+        console.log('Referral rewards:', totalReferralRewards);
+        console.log('Pending rewards:', totalPendingRewards);
+        console.log('Total claimable:', totalClaimable);
 
         setClaimableRewards(totalClaimable);
       } catch (error) {
