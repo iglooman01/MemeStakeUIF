@@ -656,6 +656,25 @@ export default function Staking() {
         }
       };
 
+      // Fetch individual reward amounts for transaction records
+      const [referralRewardsData, pendingRewardsData] = await Promise.all([
+        publicClient.readContract({
+          address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
+          abi: CONTRACTS.MEMES_STAKE.abi,
+          functionName: 'getTotalRewardsByReferralLevel',
+          args: [walletAddress as `0x${string}`]
+        }) as Promise<any>,
+        publicClient.readContract({
+          address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
+          abi: CONTRACTS.MEMES_STAKE.abi,
+          functionName: 'getPendingRewards',
+          args: [walletAddress as `0x${string}`]
+        }) as Promise<bigint>
+      ]);
+
+      const stakingRewardsAmount = (Number(pendingRewardsData) / 1e18).toString();
+      const referralRewardsAmount = (Number(referralRewardsData[0] || 0) / 1e18).toString();
+
       // Send transaction
       const txHash = await window.ethereum.request({
         method: 'eth_sendTransaction',
@@ -671,8 +690,54 @@ export default function Staking() {
         description: "Claiming your rewards...",
       });
 
+      // Save TWO separate transaction records (staking rewards + referral rewards)
+      try {
+        // 1. Save Staking Rewards transaction
+        if (parseFloat(stakingRewardsAmount) > 0) {
+          await apiRequest('/api/transactions', 'POST', {
+            walletAddress: walletAddress,
+            transactionType: 'Claim Staking Rewards',
+            amount: stakingRewardsAmount,
+            tokenSymbol: 'MEMES',
+            transactionHash: txHash,
+            status: 'pending'
+          });
+        }
+
+        // 2. Save Referral Rewards transaction
+        if (parseFloat(referralRewardsAmount) > 0) {
+          await apiRequest('/api/transactions', 'POST', {
+            walletAddress: walletAddress,
+            transactionType: 'Claim Referral Rewards',
+            amount: referralRewardsAmount,
+            tokenSymbol: 'MEMES',
+            transactionHash: txHash + '-referral', // Add suffix to make hash unique
+            status: 'pending'
+          });
+        }
+        console.log('Claim transactions saved to database');
+      } catch (dbError) {
+        console.error('Error saving claim transactions:', dbError);
+      }
+
       // Wait for transaction confirmation (optional - could use receipt)
       await new Promise(resolve => setTimeout(resolve, 3000));
+
+      // Update transaction statuses to confirmed
+      try {
+        if (parseFloat(stakingRewardsAmount) > 0) {
+          await apiRequest(`/api/transactions/${txHash}/status`, 'PUT', {
+            status: 'confirmed'
+          });
+        }
+        if (parseFloat(referralRewardsAmount) > 0) {
+          await apiRequest(`/api/transactions/${txHash}-referral/status`, 'PUT', {
+            status: 'confirmed'
+          });
+        }
+      } catch (dbError) {
+        console.error('Error updating claim transaction statuses:', dbError);
+      }
 
       toast({
         title: "🎉 Rewards Claimed!",
