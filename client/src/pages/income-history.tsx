@@ -27,6 +27,7 @@ export default function IncomeHistory() {
   const [referralRewards, setReferralRewards] = useState(0);
   const [bonusRewards, setBonusRewards] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingTransactions, setIsLoadingTransactions] = useState(true);
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
   const [transactions, setTransactions] = useState<IncomeRecord[]>([]);
 
@@ -102,16 +103,23 @@ export default function IncomeHistory() {
   useEffect(() => {
     const fetchTransactions = async () => {
       if (!walletAddress) {
+        console.log('No wallet address found, skipping transaction fetch');
         setTransactions([]);
+        setIsLoadingTransactions(false);
         return;
       }
+
+      console.log('Fetching transactions for wallet:', walletAddress);
+      setIsLoadingTransactions(true);
 
       try {
         const allTransactions: IncomeRecord[] = [];
 
         // Get current block number
         const currentBlock = await publicClient.getBlockNumber();
+        console.log('Current block:', currentBlock);
         const fromBlock = currentBlock - BigInt(10000); // Last ~10000 blocks
+        console.log('Fetching from block:', fromBlock, 'to latest');
 
         // 1. Fetch Staked events
         const stakedLogs = await publicClient.getLogs({
@@ -130,6 +138,8 @@ export default function IncomeHistory() {
           fromBlock,
           toBlock: 'latest'
         });
+
+        console.log(`Found ${stakedLogs.length} Staked events`);
 
         for (const log of stakedLogs) {
           const block = await publicClient.getBlock({ blockNumber: log.blockNumber });
@@ -161,6 +171,8 @@ export default function IncomeHistory() {
           toBlock: 'latest'
         });
 
+        console.log(`Found ${rewardsClaimedLogs.length} RewardsClaimed events`);
+
         for (const log of rewardsClaimedLogs) {
           const block = await publicClient.getBlock({ blockNumber: log.blockNumber });
           const amount = Number(log.args.rewardsAmount) / 1e18;
@@ -190,6 +202,8 @@ export default function IncomeHistory() {
           fromBlock,
           toBlock: 'latest'
         });
+
+        console.log(`Found ${referralBonusLogs.length} ReferralBonusDistributed events`);
 
         for (const log of referralBonusLogs) {
           const block = await publicClient.getBlock({ blockNumber: log.blockNumber });
@@ -224,6 +238,8 @@ export default function IncomeHistory() {
           toBlock: 'latest'
         });
 
+        console.log(`Found ${capitalWithdrawnLogs.length} CapitalWithdrawn events`);
+
         for (const log of capitalWithdrawnLogs) {
           const block = await publicClient.getBlock({ blockNumber: log.blockNumber });
           const amount = Number(log.args.returnedCapital) / 1e18;
@@ -240,11 +256,14 @@ export default function IncomeHistory() {
 
         // Sort by date (most recent first)
         allTransactions.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        console.log(`Total transactions found: ${allTransactions.length}`);
         setTransactions(allTransactions);
 
       } catch (error) {
         console.error('Error fetching transactions:', error);
         setTransactions([]);
+      } finally {
+        setIsLoadingTransactions(false);
       }
     };
 
@@ -376,7 +395,29 @@ export default function IncomeHistory() {
                 </tr>
               </thead>
               <tbody>
-                {currentRecords.map((record) => (
+                {isLoadingTransactions ? (
+                  <tr>
+                    <td colSpan={5} className="py-12 text-center">
+                      <div className="flex flex-col items-center gap-3">
+                        <div className="animate-spin rounded-full h-10 w-10 border-b-2" style={{borderColor: '#ffd700'}}></div>
+                        <span className="text-sm text-muted-foreground">Loading transactions...</span>
+                      </div>
+                    </td>
+                  </tr>
+                ) : currentRecords.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} className="py-12 text-center">
+                      <div className="flex flex-col items-center gap-3">
+                        <span className="text-4xl">📭</span>
+                        <span className="text-lg font-semibold">No Transactions Found</span>
+                        <span className="text-sm text-muted-foreground">
+                          {!walletAddress ? 'Connect your wallet to view transaction history' : 'No transactions yet. Start staking to see your history here!'}
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                ) : (
+                  currentRecords.map((record) => (
                   <tr 
                     key={record.id} 
                     className="border-b border-white/5 hover:bg-white/5 transition-colors"
@@ -424,7 +465,8 @@ export default function IncomeHistory() {
                       )}
                     </td>
                   </tr>
-                ))}
+                ))
+                )}
               </tbody>
             </table>
           </div>
