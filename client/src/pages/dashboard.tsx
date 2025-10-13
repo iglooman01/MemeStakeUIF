@@ -665,17 +665,29 @@ export default function Dashboard() {
     try {
       setIsClaiming(true);
 
-      // Check if ethereum provider is available
-      if (!window.ethereum) {
-        throw new Error('Wallet not available. Please ensure your wallet is connected.');
+      // Get wallet client based on wallet type
+      let walletClient;
+      if (walletType === 'metamask' && window.ethereum) {
+        walletClient = createWalletClient({
+          account: walletAddress as `0x${string}`,
+          chain: bscTestnet,
+          transport: custom(window.ethereum)
+        });
+      } else if (walletType === 'trust' && (window as any).trustwallet) {
+        walletClient = createWalletClient({
+          account: walletAddress as `0x${string}`,
+          chain: bscTestnet,
+          transport: custom((window as any).trustwallet)
+        });
+      } else if (walletType === 'safepal' && (window as any).safepalProvider) {
+        walletClient = createWalletClient({
+          account: walletAddress as `0x${string}`,
+          chain: bscTestnet,
+          transport: custom((window as any).safepalProvider)
+        });
+      } else {
+        throw new Error('Wallet not available');
       }
-
-      // Create wallet client using window.ethereum (works for all wallets)
-      const walletClient = createWalletClient({
-        account: walletAddress as `0x${string}`,
-        chain: bscTestnet,
-        transport: custom(window.ethereum)
-      });
 
       // Call claimRewards function from staking contract
       const hash = await walletClient.writeContract({
@@ -831,55 +843,16 @@ export default function Dashboard() {
     }
   };
 
-  // Verify wallet connection using sessionStorage to track active sessions
-  // sessionStorage clears when tab closes, which aligns with wallet lock behavior
+  // Load wallet address and type from localStorage
   useEffect(() => {
-    const verifyConnection = async () => {
-      const activeSession = sessionStorage.getItem('walletSession');
-      const storedAddress = localStorage.getItem('walletAddress');
-      const storedWalletType = localStorage.getItem('walletType');
-      
-      if (activeSession !== 'active' || !storedAddress) {
-        // No active session - clear everything
-        localStorage.removeItem('walletConnected');
-        localStorage.removeItem('walletAddress');
-        localStorage.removeItem('walletType');
-        sessionStorage.removeItem('walletSession');
-        return;
-      }
-
-      // Verify MetaMask still has this account accessible
-      if (window.ethereum) {
-        try {
-          const accounts = await window.ethereum.request({ method: 'eth_accounts' });
-          
-          if (!accounts || accounts.length === 0) {
-            // No accounts accessible - clear session
-            localStorage.removeItem('walletConnected');
-            localStorage.removeItem('walletAddress');
-            localStorage.removeItem('walletType');
-            sessionStorage.removeItem('walletSession');
-            return;
-          }
-          
-          // Account accessible - restore wallet
-          setWalletAddress(storedAddress);
-          setWalletType(storedWalletType || '');
-          
-          // Also check and set the current network immediately
-          const chainId = await window.ethereum.request({ method: 'eth_chainId' });
-          setCurrentChainId(chainId);
-        } catch (error) {
-          // Error accessing accounts - clear session
-          localStorage.removeItem('walletConnected');
-          localStorage.removeItem('walletAddress');
-          localStorage.removeItem('walletType');
-          sessionStorage.removeItem('walletSession');
-        }
-      }
-    };
-
-    verifyConnection();
+    const storedAddress = localStorage.getItem('walletAddress');
+    const storedWalletType = localStorage.getItem('walletType');
+    if (storedAddress) {
+      setWalletAddress(storedAddress);
+    }
+    if (storedWalletType) {
+      setWalletType(storedWalletType);
+    }
   }, []);
 
   // Check network on load and periodically
@@ -894,73 +867,7 @@ export default function Dashboard() {
       checkCurrentNetwork();
     }, 3000);
 
-    // Listen for network changes
-    const handleChainChanged = (chainId: string) => {
-      console.log('Network changed to:', chainId);
-      setCurrentChainId(chainId);
-      
-      if (chainId !== BSC_TESTNET_CHAIN_ID) {
-        toast({
-          title: "⚠️ Network Changed",
-          description: `You switched to chain ID: ${parseInt(chainId, 16)}. Please switch back to BSC Testnet (97)`,
-          variant: "destructive"
-        });
-      } else {
-        toast({
-          title: "✅ Correct Network",
-          description: "You're now on BSC Testnet",
-        });
-      }
-    };
-
-    window.ethereum.on('chainChanged', handleChainChanged);
-
-    return () => {
-      clearInterval(interval);
-      if (window.ethereum.removeListener) {
-        window.ethereum.removeListener('chainChanged', handleChainChanged);
-      }
-    };
-  }, [walletAddress]);
-
-  // Listen for wallet account changes
-  useEffect(() => {
-    if (!window.ethereum) return;
-
-    const handleAccountsChanged = (accounts: string[]) => {
-      if (accounts.length === 0) {
-        // User disconnected wallet
-        handleDisconnectWallet();
-      } else if (accounts[0] !== walletAddress) {
-        // User switched to a different account
-        const newAddress = accounts[0];
-        setWalletAddress(newAddress);
-        localStorage.setItem('walletAddress', newAddress);
-        
-        toast({
-          title: "🔄 Wallet Changed",
-          description: `Switched to ${newAddress.slice(0, 6)}...${newAddress.slice(-4)}`,
-        });
-        
-        // Refresh all data for new wallet
-        fetchBalances();
-      }
-    };
-
-    const handleChainChanged = () => {
-      // Reload the page when chain changes
-      window.location.reload();
-    };
-
-    window.ethereum.on('accountsChanged', handleAccountsChanged);
-    window.ethereum.on('chainChanged', handleChainChanged);
-
-    return () => {
-      if (window.ethereum.removeListener) {
-        window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
-        window.ethereum.removeListener('chainChanged', handleChainChanged);
-      }
-    };
+    return () => clearInterval(interval);
   }, [walletAddress]);
 
   // Calculate estimated MEMES tokens based on payment method and amount
@@ -1001,14 +908,13 @@ export default function Dashboard() {
           setEstimatedTokens(amount / TOKEN_PRICE);
         }
       } else {
-        // For BNB, convert to USD first then calculate tokens
-        const usdValue = amount * bnbPrice;
-        setEstimatedTokens(usdValue / TOKEN_PRICE);
+        // For BNB, use simple calculation
+        setEstimatedTokens(amount / TOKEN_PRICE);
       }
     };
 
     calculateEstimatedTokens();
-  }, [buyAmount, paymentMethod, bnbPrice]);
+  }, [buyAmount, paymentMethod]);
 
   // Fetch sponsor address from contract
   useEffect(() => {
@@ -1042,7 +948,7 @@ export default function Dashboard() {
           console.error('Error reading referrerOf:', err);
         }
 
-        // 2. Check URL ref parameter
+        // 2. Check URL parameter ?ref={walletAddress}
         const urlParams = new URLSearchParams(window.location.search);
         const refParam = urlParams.get('ref');
         
@@ -1118,94 +1024,56 @@ export default function Dashboard() {
 
       setStakingRewards(totalRewards);
 
-      // Fetch total staked amount from staking contract using getActiveStakesWithId
+      // Fetch total staked amount from staking contract
       try {
-        const activeStakes = await publicClient.readContract({
+        console.log('Fetching stakes for wallet:', walletAddress);
+        console.log('Staking contract address:', CONTRACTS.MEMES_STAKE.address);
+        
+        const userStakes = await publicClient.readContract({
           address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
           abi: CONTRACTS.MEMES_STAKE.abi,
-          functionName: 'getActiveStakesWithId',
+          functionName: 'getUserStakes',
           args: [walletAddress as `0x${string}`]
         }) as any[];
-        
-        console.log('Dashboard - Active stakes:', activeStakes);
-        
-        // Sum up all active stakes - access amount from details object
+
+        console.log('User stakes received:', userStakes);
+        console.log('Number of stakes:', userStakes?.length || 0);
+
+        // Sum up all active stakes (where capitalWithdrawn is false)
         let totalStaked = 0;
-        for (const stake of activeStakes) {
-          if (stake.details && stake.details.isActive) {
-            totalStaked += Number(stake.details.amount) / 1e18;
+        for (const stake of userStakes) {
+          console.log('Stake:', stake);
+          if (!stake.capitalWithdrawn) {
+            const stakeAmount = Number(stake.stakedAmount) / 1e18;
+            console.log('Active stake amount:', stakeAmount);
+            totalStaked += stakeAmount;
           }
         }
         
-        console.log('Dashboard - Total staked:', totalStaked);
+        console.log('Total staked amount:', totalStaked);
         setTotalStakedAmount(totalStaked);
 
         // Calculate Accrued Today: 1% of active stakes whose lastClaim is < 24 hours
         const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
-        //const twentyFourHoursAgo = currentTime - (24 * 60 * 60);
+        const twentyFourHoursAgo = currentTime - (24 * 60 * 60);
         let todayAccrued = 0;
         
-        for (const stake of activeStakes) {
-          if (stake.details && stake.details.isActive) {
-            const lastClaimTime = Number(stake.details.lastClaimTime);
+        for (const stake of userStakes) {
+          if (!stake.capitalWithdrawn) {
+            const lastClaimTime = Number(stake.lastClaim);
             // If lastClaim is within the last 24 hours
-            if (lastClaimTime + (24 * 60 * 60) <= currentTime) {
-              todayAccrued += (Number(stake.details.amount) / 1e18) * 0.01; // 1% of stake
+            if (lastClaimTime >= twentyFourHoursAgo) {
+              todayAccrued += (Number(stake.stakedAmount) / 1e18) * 0.01; // 1% of stake
             }
           }
         }
         
+        console.log('Accrued today:', todayAccrued);
         setAccruedToday(todayAccrued);
       } catch (stakeError) {
         console.error('Error fetching staked amount:', stakeError);
         setTotalStakedAmount(0);
         setAccruedToday(0);
-      }
-
-      // Fetch pending staking rewards
-      try {
-        const pendingRewards = await publicClient.readContract({
-          address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
-          abi: CONTRACTS.MEMES_STAKE.abi,
-          functionName: 'getPendingRewards',
-          args: [walletAddress as `0x${string}`]
-        }) as bigint;
-  
-        setPendingStakingRewards(Number(pendingRewards) / 1e18);
-      } catch (rewardsError) {
-        console.error('Error fetching pending rewards:', rewardsError);
-        setPendingStakingRewards(0);
-      }
-
-      // Fetch referral rewards by level
-      try {
-        const referralRewards = await publicClient.readContract({
-          address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
-          abi: CONTRACTS.MEMES_STAKE.abi,
-          functionName: 'getTotalRewardsByReferralLevel',
-          args: [walletAddress as `0x${string}`]
-        }) as any;
-        
-        console.log("Referral rewards response:", referralRewards);
-        
-        // The function returns an array: [totalRewardsByreferral, level1Total, level2Total, level3Total]
-        const total = Number(referralRewards[0] || 0) / 1e18;
-        const level1 = Number(referralRewards[1] || 0) / 1e18;
-        const level2 = Number(referralRewards[2] || 0) / 1e18;
-        const level3 = Number(referralRewards[3] || 0) / 1e18;
-
-        console.log('Total Referral Rewards:', total);
-        console.log('Level 1 Rewards:', level1);
-        console.log('Level 2 Rewards:', level2);
-        console.log('Level 3 Rewards:', level3);
-
-        setLevel1AirdropRewards(level1);
-        setLevel2AirdropRewards(level2);
-        setLevel3AirdropRewards(level3);
-        setReferralEarnings(total);
-      } catch (refError) {
-        console.error('Error fetching referral rewards:', refError);
-        setReferralEarnings(0);
       }
 
       // Fetch staked amounts by referral level
@@ -1217,16 +1085,9 @@ export default function Dashboard() {
           args: [walletAddress as `0x${string}`]
         }) as any;
 
-        console.log('Staked by referral level response:', stakedByLevel);
-
-        // The function returns an array: [level1Total, level2Total, level3Total]
-        const level1Staked = Number(stakedByLevel[0] || 0) / 1e18;
-        const level2Staked = Number(stakedByLevel[1] || 0) / 1e18;
-        const level3Staked = Number(stakedByLevel[2] || 0) / 1e18;
-
-        console.log('Level 1 Staked:', level1Staked);
-        console.log('Level 2 Staked:', level2Staked);
-        console.log('Level 3 Staked:', level3Staked);
+        const level1Staked = Number(stakedByLevel.level1Total || 0) / 1e18;
+        const level2Staked = Number(stakedByLevel.level2Total || 0) / 1e18;
+        const level3Staked = Number(stakedByLevel.level3Total || 0) / 1e18;
 
         setLevel1StakingRewards(level1Staked);
         setLevel2StakingRewards(level2Staked);
@@ -1246,31 +1107,6 @@ export default function Dashboard() {
 
   useEffect(() => {
     fetchBalances();
-  }, [walletAddress]);
-
-  // Listen for visibility change and check for refresh flag
-  useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (!document.hidden && walletAddress) {
-        const refreshFlag = localStorage.getItem('dashboardRefresh');
-        if (refreshFlag) {
-          const lastRefresh = parseInt(refreshFlag);
-          const now = Date.now();
-          // Only refresh if the flag is recent (within last 10 seconds)
-          if (now - lastRefresh < 10000) {
-            fetchBalances();
-            localStorage.removeItem('dashboardRefresh');
-          }
-        }
-      }
-    };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    
-    // Also check when component mounts/updates
-    handleVisibilityChange();
-
-    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
   }, [walletAddress]);
 
   // Handle disconnect wallet
@@ -1421,26 +1257,6 @@ export default function Dashboard() {
                       {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
                     </div>
                   </div>
-                  
-                  {/* Network Warning */}
-                  {currentChainId && currentChainId !== BSC_TESTNET_CHAIN_ID && (
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={switchToBscTestnet}
-                      disabled={isCheckingNetwork}
-                      className="text-xs sm:text-sm animate-pulse"
-                      style={{
-                        borderColor: 'rgba(255, 0, 0, 0.5)', 
-                        color: '#ff4444',
-                        background: 'rgba(255, 0, 0, 0.1)'
-                      }}
-                      data-testid="button-switch-network"
-                    >
-                      {isCheckingNetwork ? '⏳ Switching...' : '⚠️ Wrong Network'}
-                    </Button>
-                  )}
-                  
                   <Button 
                     variant="outline" 
                     size="sm"
@@ -1470,6 +1286,47 @@ export default function Dashboard() {
 
       <div className="max-w-6xl mx-auto px-6 py-8 space-y-6">
         
+        {/* Welcome & Airdrop Timer */}
+        <Card className="p-6 glass-card">
+          <div className="text-center">
+            <h1 className="text-3xl font-bold mb-4" style={{color: '#ffd700'}}>
+              🎉 Welcome to Your MemeStake Dashboard!
+            </h1>
+            <p className="text-lg text-muted-foreground mb-6">
+              Your wallet is connected and ready for staking rewards
+            </p>
+            
+            {/* Airdrop Countdown */}
+            <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg p-4 mb-6 border border-primary/20">
+              <div className="flex items-center justify-center mb-2">
+                <span className="text-2xl mr-2">⏰</span>
+                <span className="text-lg font-semibold" style={{color: '#00bfff'}}>AIRDROP ENDS IN</span>
+              </div>
+              <div className="flex items-center justify-center space-x-6">
+                <div className="text-center">
+                  <div className="text-2xl font-bold" style={{color: '#ffd700'}}>{String(airdropTime.days).padStart(2, '0')}</div>
+                  <div className="text-sm text-muted-foreground">DAYS</div>
+                </div>
+                <div className="text-xl font-bold" style={{color: '#ffd700'}}>:</div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold" style={{color: '#ffd700'}}>{String(airdropTime.hours).padStart(2, '0')}</div>
+                  <div className="text-sm text-muted-foreground">HOURS</div>
+                </div>
+                <div className="text-xl font-bold" style={{color: '#ffd700'}}>:</div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold" style={{color: '#ffd700'}}>{String(airdropTime.minutes).padStart(2, '0')}</div>
+                  <div className="text-sm text-muted-foreground">MINUTES</div>
+                </div>
+                <div className="text-xl font-bold" style={{color: '#ffd700'}}>:</div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold" style={{color: '#ffd700'}}>{String(airdropTime.seconds).padStart(2, '0')}</div>
+                  <div className="text-sm text-muted-foreground">SECONDS</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Card>
+
         {/* Wrong Network Warning Banner */}
         {walletAddress && currentChainId && currentChainId !== BSC_TESTNET_CHAIN_ID && (
           <Card className="p-6 border-2 animate-pulse" style={{
@@ -1503,47 +1360,6 @@ export default function Dashboard() {
           </Card>
         )}
         
-        {/* Welcome & Airdrop Timer */}
-        <Card className="p-6 glass-card">
-          <div className="text-center">
-            <h1 className="text-3xl font-bold mb-4" style={{color: '#ffd700'}}>
-              🎉 Welcome to Your MemeStake Dashboard!
-            </h1>
-            <p className="text-lg text-muted-foreground mb-6">
-              Your wallet is connected and ready for staking rewards
-            </p>
-            
-            {/* Airdrop Countdown */}
-            <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg p-4 mb-6 border border-primary/20">
-              <div className="flex items-center justify-center mb-2">
-                <span className="text-2xl mr-2">⏰</span>
-                <span className="text-lg font-semibold" style={{color: '#00bfff'}}>AIRDROP ENDS IN</span>
-              </div>
-              <div className="flex items-center justify-center space-x-6">
-                <div className="text-center">
-                  <div className="text-2xl font-bold" style={{color: '#ffd700'}}>{String(airdropTime.days).padStart(2, '0')}</div>
-                  <div className="text-sm text-muted-foreground">DAYS</div>
-                </div>
-                <div className="text-xl font-bold" style={{color: '#ffd700'}}>:</div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold" style={{color: '#ffd700'}}>{String(airdropTime.hours).padStart(2, '0')}</div>
-                  <div className="text-sm text-muted-foreground">HOURS</div>
-                </div>
-                <div className="text-xl font-bold" style={{color: '#ffd700'}}>:</div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold" style={{color: '#ffd700'}}>{String(airdropTime.minutes).padStart(2, '0')}</div>
-                  <div className="text-sm text-muted-foreground">MINS</div>
-                </div>
-                <div className="text-xl font-bold" style={{color: '#ffd700'}}>:</div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold" style={{color: '#ffd700'}}>{String(airdropTime.seconds).padStart(2, '0')}</div>
-                  <div className="text-sm text-muted-foreground">SECS</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Card>
-
         <Card className="p-6 glass-card">
           <div className="text-center">
             {/* Claim Your Airdrop Now Button */}

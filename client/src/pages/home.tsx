@@ -783,7 +783,7 @@ export default function Home() {
             <div className="hidden md:flex items-center justify-center flex-1 space-x-8" data-testid="desktop-nav">
               <a href="#about" className="nav-link text-gray-300 hover:text-white transition-all duration-200" style={{fontFamily: 'Inter, sans-serif', fontWeight: '500'}} data-testid="link-about">{t.about}</a>
               <a href="/whitepaper" className="nav-link text-gray-300 hover:text-white transition-all duration-200" style={{fontFamily: 'Inter, sans-serif', fontWeight: '500'}} data-testid="link-whitepaper">{t.whitepaper}</a>
-              <a href="#roadmap" className="nav-link text-gray-300 hover:text-white transition-all duration-200" style={{fontFamily: 'Inter, sans-serif', fontWeight: '500'}} data-testid="link-tokenomics">Tokenomics</a>
+              <a href="#tokenomics" className="nav-link text-gray-300 hover:text-white transition-all duration-200" style={{fontFamily: 'Inter, sans-serif', fontWeight: '500'}} data-testid="link-tokenomics">Tokenomics</a>
             </div>
 
             {/* Right Side Controls */}
