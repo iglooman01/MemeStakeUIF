@@ -37,24 +37,46 @@ export default function Staking() {
 
   // Verify wallet connection using sessionStorage
   useEffect(() => {
-    const activeSession = sessionStorage.getItem('walletSession');
-    const storedAddress = localStorage.getItem('walletAddress');
-    
-    if (activeSession === 'active' && storedAddress) {
-      // Active session exists - restore wallet
-      setWalletAddress(storedAddress);
-    } else {
-      // No active session - clear and redirect to home
-      localStorage.removeItem('walletConnected');
-      localStorage.removeItem('walletAddress');
-      localStorage.removeItem('walletType');
-      sessionStorage.removeItem('walletSession');
-      toast({
-        title: "🔒 Session Expired",
-        description: "Please connect your wallet to continue",
-      });
-      setLocation('/');
-    }
+    const verifyAndCheckNetwork = async () => {
+      const activeSession = sessionStorage.getItem('walletSession');
+      const storedAddress = localStorage.getItem('walletAddress');
+      
+      if (activeSession === 'active' && storedAddress) {
+        // Active session exists - restore wallet
+        setWalletAddress(storedAddress);
+        
+        // Check network
+        if (window.ethereum) {
+          try {
+            const BSC_TESTNET_CHAIN_ID = '0x61';
+            const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+            
+            if (chainId !== BSC_TESTNET_CHAIN_ID) {
+              toast({
+                title: "⚠️ Wrong Network",
+                description: "Please switch to BSC Testnet to use staking",
+                variant: "destructive"
+              });
+            }
+          } catch (error) {
+            console.error('Network check error:', error);
+          }
+        }
+      } else {
+        // No active session - clear and redirect to home
+        localStorage.removeItem('walletConnected');
+        localStorage.removeItem('walletAddress');
+        localStorage.removeItem('walletType');
+        sessionStorage.removeItem('walletSession');
+        toast({
+          title: "🔒 Session Expired",
+          description: "Please connect your wallet to continue",
+        });
+        setLocation('/');
+      }
+    };
+
+    verifyAndCheckNetwork();
   }, []);
 
   // Listen for wallet account changes

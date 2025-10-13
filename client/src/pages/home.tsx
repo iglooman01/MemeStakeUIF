@@ -513,17 +513,107 @@ export default function Home() {
         
         setWalletModalOpen(false);
         
-        // Show success message
-        toast({
-          title: "✅ Wallet Connected!",
-          description: `Connected with ${walletName}. Redirecting to dashboard...`,
-        });
-        
-        // Brief delay to ensure state is saved, then redirect
-        setIsConnecting(false);
-        setTimeout(() => {
-          setLocation('/dashboard');
-        }, 300);
+        // Check network and prompt to switch if needed
+        try {
+          const BSC_TESTNET_CHAIN_ID = '0x61'; // 97 in hex
+          const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+          
+          if (chainId !== BSC_TESTNET_CHAIN_ID) {
+            // Wrong network - ask user to switch
+            toast({
+              title: "⚠️ Wrong Network",
+              description: "Please switch to BSC Testnet to continue",
+              variant: "destructive"
+            });
+            
+            try {
+              // Try to switch network
+              await window.ethereum.request({
+                method: 'wallet_switchEthereumChain',
+                params: [{ chainId: BSC_TESTNET_CHAIN_ID }],
+              });
+              
+              toast({
+                title: "✅ Network Switched",
+                description: "Successfully switched to BSC Testnet. Redirecting...",
+              });
+              
+              setIsConnecting(false);
+              setTimeout(() => {
+                setLocation('/dashboard');
+              }, 300);
+            } catch (switchError: any) {
+              // If network not added, add it
+              if (switchError.code === 4902) {
+                try {
+                  await window.ethereum.request({
+                    method: 'wallet_addEthereumChain',
+                    params: [{
+                      chainId: BSC_TESTNET_CHAIN_ID,
+                      chainName: 'BNB Smart Chain Testnet',
+                      nativeCurrency: {
+                        name: 'BNB',
+                        symbol: 'tBNB',
+                        decimals: 18,
+                      },
+                      rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/'],
+                      blockExplorerUrls: ['https://testnet.bscscan.com/'],
+                    }],
+                  });
+                  
+                  toast({
+                    title: "✅ Network Added",
+                    description: "BSC Testnet added successfully. Redirecting...",
+                  });
+                  
+                  setIsConnecting(false);
+                  setTimeout(() => {
+                    setLocation('/dashboard');
+                  }, 300);
+                } catch (addError) {
+                  toast({
+                    title: "❌ Network Setup Failed",
+                    description: "Please manually switch to BSC Testnet in your wallet",
+                    variant: "destructive"
+                  });
+                  setIsConnecting(false);
+                  setLocation('/dashboard'); // Still redirect, network warning will show there
+                }
+              } else {
+                // User rejected or other error
+                toast({
+                  title: "⚠️ Network Switch Required",
+                  description: "Please manually switch to BSC Testnet to use the app",
+                });
+                setIsConnecting(false);
+                setLocation('/dashboard'); // Still redirect, network warning will show there
+              }
+            }
+          } else {
+            // Correct network - proceed
+            toast({
+              title: "✅ Wallet Connected!",
+              description: `Connected with ${walletName}. Redirecting to dashboard...`,
+            });
+            
+            setIsConnecting(false);
+            setTimeout(() => {
+              setLocation('/dashboard');
+            }, 300);
+          }
+        } catch (networkError) {
+          console.error('Network check error:', networkError);
+          // Proceed anyway, network check will happen on dashboard
+          toast({
+            title: "✅ Wallet Connected!",
+            description: `Connected with ${walletName}. Redirecting to dashboard...`,
+          });
+          
+          setIsConnecting(false);
+          setTimeout(() => {
+            setLocation('/dashboard');
+          }, 300);
+        }
       } else {
         // Handle specific errors
         let errorTitle = "❌ Connection Failed";
