@@ -8,12 +8,13 @@ import { bscTestnet } from 'viem/chains';
 import { CONTRACTS } from '@/config/contracts';
 
 interface IncomeRecord {
-  id: number;
+  id: string;
   date: string;
-  type: 'staking' | 'referral' | 'bonus';
+  type: 'staking' | 'referral' | 'bonus' | 'capital_withdrawn';
   amount: number;
   status: 'claimed' | 'pending';
   txHash?: string;
+  eventType?: string;
 }
 
 export default function IncomeHistory() {
@@ -27,6 +28,7 @@ export default function IncomeHistory() {
   const [bonusRewards, setBonusRewards] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
+  const [transactions, setTransactions] = useState<IncomeRecord[]>([]);
 
   // Create public client for reading contract data
   const publicClient = createPublicClient({
@@ -96,35 +98,170 @@ export default function IncomeHistory() {
     fetchRewards();
   }, [walletAddress]);
 
-  // Sample income history data
-  const incomeHistory: IncomeRecord[] = [
-    { id: 1, date: '2025-10-03 08:30:00', type: 'staking', amount: 1000, status: 'claimed', txHash: '0x1a2b3c...' },
-    { id: 2, date: '2025-10-03 07:15:00', type: 'referral', amount: 50000, status: 'claimed', txHash: '0x4d5e6f...' },
-    { id: 3, date: '2025-10-02 18:45:00', type: 'staking', amount: 1000, status: 'claimed', txHash: '0x7g8h9i...' },
-    { id: 4, date: '2025-10-02 12:30:00', type: 'bonus', amount: 5000, status: 'claimed', txHash: '0xjk1l2m...' },
-    { id: 5, date: '2025-10-01 16:20:00', type: 'staking', amount: 1000, status: 'claimed', txHash: '0x3n4o5p...' },
-    { id: 6, date: '2025-10-01 09:00:00', type: 'referral', amount: 75000, status: 'claimed', txHash: '0x6q7r8s...' },
-    { id: 7, date: '2025-09-30 21:10:00', type: 'staking', amount: 1000, status: 'claimed', txHash: '0x9t0u1v...' },
-    { id: 8, date: '2025-09-30 14:55:00', type: 'referral', amount: 120000, status: 'claimed', txHash: '0xwx2y3z...' },
-    { id: 9, date: '2025-09-29 11:30:00', type: 'bonus', amount: 10000, status: 'claimed', txHash: '0x4a5b6c...' },
-    { id: 10, date: '2025-09-29 08:15:00', type: 'staking', amount: 1000, status: 'claimed', txHash: '0x7d8e9f...' },
-    { id: 11, date: '2025-09-28 19:45:00', type: 'referral', amount: 100000, status: 'claimed', txHash: '0xgh1i2j...' },
-    { id: 12, date: '2025-09-28 13:20:00', type: 'staking', amount: 1000, status: 'claimed', txHash: '0x3k4l5m...' },
-    { id: 13, date: '2025-09-27 16:00:00', type: 'staking', amount: 1000, status: 'pending' },
-    { id: 14, date: '2025-09-27 10:30:00', type: 'referral', amount: 25000, status: 'pending' },
-    { id: 15, date: '2025-09-26 14:15:00', type: 'staking', amount: 1000, status: 'pending' },
-  ];
+  // Fetch transaction events from stake contract
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      if (!walletAddress) {
+        setTransactions([]);
+        return;
+      }
 
-  const totalPages = Math.ceil(incomeHistory.length / itemsPerPage);
+      try {
+        const allTransactions: IncomeRecord[] = [];
+
+        // Get current block number
+        const currentBlock = await publicClient.getBlockNumber();
+        const fromBlock = currentBlock - BigInt(10000); // Last ~10000 blocks
+
+        // 1. Fetch Staked events
+        const stakedLogs = await publicClient.getLogs({
+          address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
+          event: {
+            type: 'event',
+            name: 'Staked',
+            inputs: [
+              { type: 'address', indexed: true, name: 'user' },
+              { type: 'uint256', indexed: false, name: 'stakeId' },
+              { type: 'uint256', indexed: false, name: 'amount' },
+              { type: 'uint256', indexed: false, name: 'startTime' }
+            ]
+          },
+          args: { user: walletAddress as `0x${string}` },
+          fromBlock,
+          toBlock: 'latest'
+        });
+
+        for (const log of stakedLogs) {
+          const block = await publicClient.getBlock({ blockNumber: log.blockNumber });
+          const amount = Number(log.args.amount) / 1e18;
+          allTransactions.push({
+            id: `${log.transactionHash}-${log.logIndex}`,
+            date: new Date(Number(block.timestamp) * 1000).toLocaleString(),
+            type: 'staking',
+            amount,
+            status: 'claimed',
+            txHash: log.transactionHash,
+            eventType: 'Staked'
+          });
+        }
+
+        // 2. Fetch RewardsClaimed events
+        const rewardsClaimedLogs = await publicClient.getLogs({
+          address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
+          event: {
+            type: 'event',
+            name: 'RewardsClaimed',
+            inputs: [
+              { type: 'address', indexed: true, name: 'user' },
+              { type: 'uint256', indexed: false, name: 'rewardsAmount' }
+            ]
+          },
+          args: { user: walletAddress as `0x${string}` },
+          fromBlock,
+          toBlock: 'latest'
+        });
+
+        for (const log of rewardsClaimedLogs) {
+          const block = await publicClient.getBlock({ blockNumber: log.blockNumber });
+          const amount = Number(log.args.rewardsAmount) / 1e18;
+          allTransactions.push({
+            id: `${log.transactionHash}-${log.logIndex}`,
+            date: new Date(Number(block.timestamp) * 1000).toLocaleString(),
+            type: 'staking',
+            amount,
+            status: 'claimed',
+            txHash: log.transactionHash,
+            eventType: 'RewardsClaimed'
+          });
+        }
+
+        // 3. Fetch ReferralBonusDistributed events
+        const referralBonusLogs = await publicClient.getLogs({
+          address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
+          event: {
+            type: 'event',
+            name: 'ReferralBonusDistributed',
+            inputs: [
+              { type: 'address', indexed: true, name: 'staker' },
+              { type: 'uint256', indexed: false, name: 'tokenAmount' }
+            ]
+          },
+          args: { staker: walletAddress as `0x${string}` },
+          fromBlock,
+          toBlock: 'latest'
+        });
+
+        for (const log of referralBonusLogs) {
+          const block = await publicClient.getBlock({ blockNumber: log.blockNumber });
+          const amount = Number(log.args.tokenAmount) / 1e18;
+          allTransactions.push({
+            id: `${log.transactionHash}-${log.logIndex}`,
+            date: new Date(Number(block.timestamp) * 1000).toLocaleString(),
+            type: 'referral',
+            amount,
+            status: 'claimed',
+            txHash: log.transactionHash,
+            eventType: 'ReferralBonus'
+          });
+        }
+
+        // 4. Fetch CapitalWithdrawn events
+        const capitalWithdrawnLogs = await publicClient.getLogs({
+          address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
+          event: {
+            type: 'event',
+            name: 'CapitalWithdrawn',
+            inputs: [
+              { type: 'address', indexed: true, name: 'user' },
+              { type: 'uint256', indexed: false, name: 'stakeId' },
+              { type: 'uint256', indexed: false, name: 'returnedCapital' },
+              { type: 'uint256', indexed: false, name: 'penaltyApplied' },
+              { type: 'bool', indexed: false, name: 'earlyWithdrawal' }
+            ]
+          },
+          args: { user: walletAddress as `0x${string}` },
+          fromBlock,
+          toBlock: 'latest'
+        });
+
+        for (const log of capitalWithdrawnLogs) {
+          const block = await publicClient.getBlock({ blockNumber: log.blockNumber });
+          const amount = Number(log.args.returnedCapital) / 1e18;
+          allTransactions.push({
+            id: `${log.transactionHash}-${log.logIndex}`,
+            date: new Date(Number(block.timestamp) * 1000).toLocaleString(),
+            type: 'capital_withdrawn',
+            amount,
+            status: 'claimed',
+            txHash: log.transactionHash,
+            eventType: 'CapitalWithdrawn'
+          });
+        }
+
+        // Sort by date (most recent first)
+        allTransactions.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        setTransactions(allTransactions);
+
+      } catch (error) {
+        console.error('Error fetching transactions:', error);
+        setTransactions([]);
+      }
+    };
+
+    fetchTransactions();
+  }, [walletAddress]);
+
+  const totalPages = Math.ceil(transactions.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentRecords = incomeHistory.slice(startIndex, endIndex);
+  const currentRecords = transactions.slice(startIndex, endIndex);
 
   const getTypeColor = (type: string) => {
     switch (type) {
       case 'staking': return '#00bfff';
       case 'referral': return '#ffd700';
       case 'bonus': return '#ff69b4';
+      case 'capital_withdrawn': return '#ff6b6b';
       default: return '#fff';
     }
   };
@@ -134,6 +271,7 @@ export default function IncomeHistory() {
       case 'staking': return '💎';
       case 'referral': return '🎁';
       case 'bonus': return '🎉';
+      case 'capital_withdrawn': return '💸';
       default: return '💰';
     }
   };
@@ -248,8 +386,8 @@ export default function IncomeHistory() {
                     <td className="py-4 px-4">
                       <div className="flex items-center space-x-2">
                         <span className="text-lg">{getTypeIcon(record.type)}</span>
-                        <span className="text-sm capitalize" style={{color: getTypeColor(record.type)}}>
-                          {record.type}
+                        <span className="text-sm" style={{color: getTypeColor(record.type)}}>
+                          {record.eventType || record.type}
                         </span>
                       </div>
                     </td>
@@ -294,7 +432,7 @@ export default function IncomeHistory() {
           {/* Pagination */}
           <div className="flex items-center justify-between mt-6 pt-4 border-t border-white/10">
             <div className="text-sm text-muted-foreground">
-              Showing {startIndex + 1}-{Math.min(endIndex, incomeHistory.length)} of {incomeHistory.length} records
+              Showing {startIndex + 1}-{Math.min(endIndex, transactions.length)} of {transactions.length} records
             </div>
             
             <div className="flex items-center space-x-2">
