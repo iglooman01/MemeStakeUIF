@@ -7,6 +7,7 @@ import memeStakeLogo from "@assets/ChatGPT Image Oct 9, 2025, 11_08_34 AM_175998
 import { createPublicClient, http } from 'viem';
 import { bscTestnet } from 'viem/chains';
 import { CONTRACTS } from '@/config/contracts';
+import { apiRequest } from '@/lib/queryClient';
 
 export default function Staking() {
   const [location, setLocation] = useLocation();
@@ -475,8 +476,32 @@ export default function Staking() {
         description: "Processing your stake...",
       });
 
+      // Save transaction to database
+      try {
+        await apiRequest('/api/transactions', 'POST', {
+          walletAddress: walletAddress,
+          transactionType: 'Stake',
+          amount: stakeAmount,
+          tokenSymbol: 'MEMES',
+          transactionHash: stakeTxHash,
+          status: 'pending'
+        });
+        console.log('Stake transaction saved to database');
+      } catch (dbError) {
+        console.error('Error saving stake transaction:', dbError);
+      }
+
       // Wait for transaction confirmation
       await new Promise(resolve => setTimeout(resolve, 3000));
+
+      // Update transaction status to confirmed
+      try {
+        await apiRequest(`/api/transactions/${stakeTxHash}/status`, 'PUT', {
+          status: 'confirmed'
+        });
+      } catch (dbError) {
+        console.error('Error updating transaction status:', dbError);
+      }
 
       // Refresh staking data
       await fetchStakingData();
