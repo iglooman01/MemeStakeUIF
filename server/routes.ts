@@ -245,6 +245,112 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Admin authentication
+  app.post("/api/admin/login", async (req, res) => {
+    try {
+      const { username, password } = req.body;
+      
+      const admin = await storage.getAdminByUsername(username);
+      if (!admin || admin.password !== password) {
+        return res.status(401).json({ error: "Invalid credentials" });
+      }
+
+      res.json({ success: true, admin: { id: admin.id, username: admin.username } });
+    } catch (error) {
+      console.error('Admin login error:', error);
+      res.status(500).json({ error: "Login failed" });
+    }
+  });
+
+  // News routes
+  app.get("/api/news", async (req, res) => {
+    try {
+      const news = await storage.getPublishedNews();
+      res.json(news);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch news" });
+    }
+  });
+
+  app.get("/api/admin/news", async (req, res) => {
+    try {
+      const news = await storage.getAllNews();
+      res.json(news);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch news" });
+    }
+  });
+
+  app.post("/api/admin/news", async (req, res) => {
+    try {
+      const newsData = req.body;
+      const news = await storage.createNews(newsData);
+      res.json(news);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to create news" });
+    }
+  });
+
+  app.put("/api/admin/news/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const updates = req.body;
+      const news = await storage.updateNews(id, updates);
+      if (!news) {
+        return res.status(404).json({ error: "News not found" });
+      }
+      res.json(news);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to update news" });
+    }
+  });
+
+  app.delete("/api/admin/news/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      await storage.deleteNews(id);
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to delete news" });
+    }
+  });
+
+  // Email subscription routes
+  app.post("/api/subscribe", async (req, res) => {
+    try {
+      const { email, walletAddress } = req.body;
+      
+      const existing = await storage.getSubscriptionByEmail(email);
+      if (existing) {
+        return res.status(400).json({ error: "Email already subscribed" });
+      }
+
+      const subscription = await storage.createSubscription({ email, walletAddress });
+      res.json(subscription);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to subscribe" });
+    }
+  });
+
+  app.post("/api/unsubscribe", async (req, res) => {
+    try {
+      const { email } = req.body;
+      await storage.unsubscribe(email);
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to unsubscribe" });
+    }
+  });
+
+  app.get("/api/admin/subscriptions", async (req, res) => {
+    try {
+      const subscriptions = await storage.getAllSubscriptions();
+      res.json(subscriptions);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch subscriptions" });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;

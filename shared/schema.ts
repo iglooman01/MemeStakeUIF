@@ -59,3 +59,57 @@ export const insertOtpVerificationSchema = createInsertSchema(otpVerifications).
 
 export type InsertOtpVerification = z.infer<typeof insertOtpVerificationSchema>;
 export type OtpVerification = typeof otpVerifications.$inferSelect;
+
+// Admin users table
+export const adminUsers = pgTable("admin_users", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  username: text("username").notNull().unique(),
+  password: text("password").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const insertAdminUserSchema = createInsertSchema(adminUsers).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertAdminUser = z.infer<typeof insertAdminUserSchema>;
+export type AdminUser = typeof adminUsers.$inferSelect;
+
+// News updates table
+export const newsUpdates = pgTable("news_updates", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  content: text("content").notNull(),
+  published: boolean("published").notNull().default(false),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+export const insertNewsUpdateSchema = createInsertSchema(newsUpdates).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type InsertNewsUpdate = z.infer<typeof insertNewsUpdateSchema>;
+export type NewsUpdate = typeof newsUpdates.$inferSelect;
+
+// Email subscriptions table
+export const emailSubscriptions = pgTable("email_subscriptions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  email: text("email").notNull().unique(),
+  walletAddress: text("wallet_address"),
+  subscribed: boolean("subscribed").notNull().default(true),
+  subscribedAt: timestamp("subscribed_at").notNull().defaultNow(),
+  unsubscribedAt: timestamp("unsubscribed_at"),
+});
+
+export const insertEmailSubscriptionSchema = createInsertSchema(emailSubscriptions).omit({
+  id: true,
+  subscribedAt: true,
+  unsubscribedAt: true,
+});
+
+export type InsertEmailSubscription = z.infer<typeof insertEmailSubscriptionSchema>;
+export type EmailSubscription = typeof emailSubscriptions.$inferSelect;

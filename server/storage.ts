@@ -4,7 +4,13 @@ import {
   type AirdropParticipant, 
   type InsertAirdropParticipant,
   type OtpVerification,
-  type InsertOtpVerification
+  type InsertOtpVerification,
+  type AdminUser,
+  type InsertAdminUser,
+  type NewsUpdate,
+  type InsertNewsUpdate,
+  type EmailSubscription,
+  type InsertEmailSubscription
 } from "@shared/schema";
 import { randomUUID } from "crypto";
 
@@ -27,17 +33,50 @@ export interface IStorage {
   createOtp(otp: InsertOtpVerification): Promise<OtpVerification>;
   getLatestOtp(email: string): Promise<OtpVerification | undefined>;
   markOtpVerified(id: string): Promise<void>;
+  
+  // Admin methods
+  getAdminByUsername(username: string): Promise<AdminUser | undefined>;
+  createAdmin(admin: InsertAdminUser): Promise<AdminUser>;
+  
+  // News methods
+  getAllNews(): Promise<NewsUpdate[]>;
+  getPublishedNews(): Promise<NewsUpdate[]>;
+  getNewsById(id: string): Promise<NewsUpdate | undefined>;
+  createNews(news: InsertNewsUpdate): Promise<NewsUpdate>;
+  updateNews(id: string, updates: Partial<NewsUpdate>): Promise<NewsUpdate | undefined>;
+  deleteNews(id: string): Promise<void>;
+  
+  // Email subscription methods
+  getAllSubscriptions(): Promise<EmailSubscription[]>;
+  getSubscriptionByEmail(email: string): Promise<EmailSubscription | undefined>;
+  createSubscription(subscription: InsertEmailSubscription): Promise<EmailSubscription>;
+  unsubscribe(email: string): Promise<void>;
 }
 
 export class MemStorage implements IStorage {
   private users: Map<string, User>;
   private airdropParticipants: Map<string, AirdropParticipant>;
   private otpVerifications: Map<string, OtpVerification>;
+  private adminUsers: Map<string, AdminUser>;
+  private newsUpdates: Map<string, NewsUpdate>;
+  private emailSubscriptions: Map<string, EmailSubscription>;
 
   constructor() {
     this.users = new Map();
     this.airdropParticipants = new Map();
     this.otpVerifications = new Map();
+    this.adminUsers = new Map();
+    this.newsUpdates = new Map();
+    this.emailSubscriptions = new Map();
+    
+    // Create default admin user
+    const defaultAdmin: AdminUser = {
+      id: randomUUID(),
+      username: "kbody",
+      password: "kbody@007",
+      createdAt: new Date(),
+    };
+    this.adminUsers.set(defaultAdmin.username, defaultAdmin);
   }
 
   async getUser(id: string): Promise<User | undefined> {
@@ -135,6 +174,111 @@ export class MemStorage implements IStorage {
     const otp = this.otpVerifications.get(id);
     if (otp) {
       this.otpVerifications.set(id, { ...otp, verified: true });
+    }
+  }
+
+  // Admin methods
+  async getAdminByUsername(username: string): Promise<AdminUser | undefined> {
+    return this.adminUsers.get(username);
+  }
+
+  async createAdmin(admin: InsertAdminUser): Promise<AdminUser> {
+    const id = randomUUID();
+    const now = new Date();
+    const newAdmin: AdminUser = {
+      id,
+      username: admin.username,
+      password: admin.password,
+      createdAt: now,
+    };
+    this.adminUsers.set(admin.username, newAdmin);
+    return newAdmin;
+  }
+
+  // News methods
+  async getAllNews(): Promise<NewsUpdate[]> {
+    return Array.from(this.newsUpdates.values()).sort(
+      (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
+    );
+  }
+
+  async getPublishedNews(): Promise<NewsUpdate[]> {
+    return Array.from(this.newsUpdates.values())
+      .filter((n) => n.published)
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  }
+
+  async getNewsById(id: string): Promise<NewsUpdate | undefined> {
+    return this.newsUpdates.get(id);
+  }
+
+  async createNews(news: InsertNewsUpdate): Promise<NewsUpdate> {
+    const id = randomUUID();
+    const now = new Date();
+    const newNews: NewsUpdate = {
+      id,
+      title: news.title,
+      content: news.content,
+      published: news.published ?? false,
+      createdAt: now,
+      updatedAt: now,
+    };
+    this.newsUpdates.set(id, newNews);
+    return newNews;
+  }
+
+  async updateNews(id: string, updates: Partial<NewsUpdate>): Promise<NewsUpdate | undefined> {
+    const news = this.newsUpdates.get(id);
+    if (!news) return undefined;
+    
+    const updated: NewsUpdate = {
+      ...news,
+      ...updates,
+      updatedAt: new Date(),
+    };
+    this.newsUpdates.set(id, updated);
+    return updated;
+  }
+
+  async deleteNews(id: string): Promise<void> {
+    this.newsUpdates.delete(id);
+  }
+
+  // Email subscription methods
+  async getAllSubscriptions(): Promise<EmailSubscription[]> {
+    return Array.from(this.emailSubscriptions.values()).sort(
+      (a, b) => b.subscribedAt.getTime() - a.subscribedAt.getTime()
+    );
+  }
+
+  async getSubscriptionByEmail(email: string): Promise<EmailSubscription | undefined> {
+    return this.emailSubscriptions.get(email.toLowerCase());
+  }
+
+  async createSubscription(subscription: InsertEmailSubscription): Promise<EmailSubscription> {
+    const id = randomUUID();
+    const now = new Date();
+    const newSubscription: EmailSubscription = {
+      id,
+      email: subscription.email.toLowerCase(),
+      walletAddress: subscription.walletAddress || null,
+      subscribed: subscription.subscribed ?? true,
+      subscribedAt: now,
+      unsubscribedAt: null,
+    };
+    this.emailSubscriptions.set(newSubscription.email, newSubscription);
+    return newSubscription;
+  }
+
+  async unsubscribe(email: string): Promise<void> {
+    const subscription = this.emailSubscriptions.get(email.toLowerCase());
+    if (subscription) {
+      const updated: EmailSubscription = {
+        ...subscription,
+        subscribed: false,
+        unsubscribedAt: new Date(),
+      };
+      this.emailSubscriptions.set(email.toLowerCase(), updated);
     }
   }
 }
