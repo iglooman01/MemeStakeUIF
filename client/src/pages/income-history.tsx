@@ -312,14 +312,32 @@ export default function IncomeHistory() {
       <header className="border-b border-border" style={{background: 'rgba(15, 10, 35, 0.8)'}} data-testid="income-history-header">
         <div className="max-w-6xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-3">
               <img 
                 src={memeStakeLogo} 
                 alt="memes Logo" 
                 className="w-12 h-12 rounded-lg"
                 style={{filter: 'drop-shadow(0 4px 15px rgba(255, 215, 0, 0.2))'}}
               />
-              <span className="text-xl font-bold text-white">Income History</span>
+              <div className="flex flex-col">
+                <span className="text-xl font-bold text-white">Income History</span>
+                {walletAddress && (
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="text-xs text-muted-foreground">Wallet:</span>
+                    <span 
+                      className="text-xs font-mono px-2 py-1 rounded"
+                      style={{
+                        background: 'rgba(255, 215, 0, 0.1)',
+                        color: '#ffd700',
+                        border: '1px solid rgba(255, 215, 0, 0.3)'
+                      }}
+                      data-testid="text-connected-wallet"
+                    >
+                      {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
+                    </span>
+                  </div>
+                )}
+              </div>
             </div>
             
             <Button 
