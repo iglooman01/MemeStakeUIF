@@ -644,15 +644,15 @@ export default function Staking() {
       // Wait for transaction confirmation (optional - could use receipt)
       await new Promise(resolve => setTimeout(resolve, 3000));
 
-      // Refresh data after claim
-      await fetchStakingData();
-
-      setIsClaiming(false);
-      
       toast({
         title: "🎉 Rewards Claimed!",
-        description: `Successfully claimed your rewards! TX: ${txHash.slice(0, 10)}...`,
+        description: `Successfully claimed your rewards! TX: ${txHash.slice(0, 10)}... Refreshing page...`,
       });
+
+      // Refresh the page to update all data
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
     } catch (error: any) {
       console.error('Error claiming rewards:', error);
       setIsClaiming(false);
