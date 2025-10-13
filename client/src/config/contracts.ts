@@ -1,5 +1,5 @@
 // Smart Contract Configuration
-// Contract addresses and ABIs for MemeStake platform
+// Contract addresses and ABIs for Memes Everywhere platform
 
 export const CONTRACTS = {
   // Token Contract

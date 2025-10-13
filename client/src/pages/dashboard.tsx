@@ -1176,13 +1176,13 @@ export default function Dashboard() {
             <div className="flex items-center space-x-3">
               <img 
                 src={memeStakeLogo} 
-                alt="MemeStake Logo" 
+                alt="Memes Everywhere Logo" 
                 className="w-14 h-14 rounded-lg cursor-pointer transition-transform hover:scale-105"
                 style={{filter: 'drop-shadow(0 4px 20px rgba(255, 215, 0, 0.4))'}}
                 onClick={() => setLocation('/')}
                 data-testid="logo-memestake"
               />
-              <span className="text-xl font-bold hidden sm:block" style={{color: '#ffd700'}}>MemeStake</span>
+              <span className="text-xl font-bold hidden sm:block" style={{color: '#ffd700'}}>Memes Everywhere</span>
             </div>
             
             {/* Navigation Menu */}
@@ -1290,7 +1290,7 @@ export default function Dashboard() {
         <Card className="p-6 glass-card">
           <div className="text-center">
             <h1 className="text-3xl font-bold mb-4" style={{color: '#ffd700'}}>
-              🎉 Welcome to Your MemeStake Dashboard!
+              🎉 Welcome to Your Memes Everywhere Dashboard!
             </h1>
             <p className="text-lg text-muted-foreground mb-6">
               Your wallet is connected and ready for staking rewards
@@ -2457,13 +2457,13 @@ export default function Dashboard() {
                 <h3 className="text-xl font-bold" style={{color: '#ffd700'}}>Frequently Asked Questions</h3>
               </AccordionTrigger>
               <AccordionContent className="pt-4">
-                <p className="text-center text-gray-400 mb-6">Everything you need to know about MemeStake</p>
+                <p className="text-center text-gray-400 mb-6">Everything you need to know about Memes Everywhere</p>
                 
                 <Accordion type="single" collapsible className="w-full">
                   <AccordionItem value="item-1" style={{borderColor: 'rgba(255, 215, 0, 0.3)'}}>
-                    <AccordionTrigger className="text-white hover:text-[#ffd700]">What is MemeStake?</AccordionTrigger>
+                    <AccordionTrigger className="text-white hover:text-[#ffd700]">What is Memes Everywhere?</AccordionTrigger>
                     <AccordionContent className="text-gray-400">
-                      MemeStake is a decentralized airdrop and staking platform for the MEMES token. We deliver tokens direct in your wallet while building the strongest meme community in crypto.
+                      Memes Everywhere is a decentralized airdrop and staking platform for the MEMES token. We deliver tokens direct in your wallet while building the strongest meme community in crypto.
                     </AccordionContent>
                   </AccordionItem>
                   
@@ -2505,7 +2505,7 @@ export default function Dashboard() {
 
                 <div className="mt-8 p-6 rounded-xl text-center" style={{background: 'linear-gradient(135deg, rgba(0, 191, 255, 0.15), rgba(0, 191, 255, 0.05))', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
                   <h4 className="text-lg font-bold mb-2" style={{color: '#00bfff'}}>💬 Still need help?</h4>
-                  <p className="text-sm text-gray-400 mb-4">Our community team is here to help you get started with MemeStake</p>
+                  <p className="text-sm text-gray-400 mb-4">Our community team is here to help you get started with Memes Everywhere</p>
                   <a
                     href="https://t.me/memestakegroup"
                     target="_blank"
@@ -2521,9 +2521,9 @@ export default function Dashboard() {
           </Accordion>
         </Card>
 
-        {/* About MemeStake */}
+        {/* About Memes Everywhere */}
         <Card className="p-8 glass-card">
-          <h2 className="text-3xl font-bold text-center mb-2" style={{color: '#ffd700'}}>About MemeStake</h2>
+          <h2 className="text-3xl font-bold text-center mb-2" style={{color: '#ffd700'}}>About Memes Everywhere</h2>
           <p className="text-center text-gray-400 mb-4">Learn more about our platform and mission</p>
           
           <div className="text-center mb-8">
@@ -2551,7 +2551,7 @@ export default function Dashboard() {
               <AccordionContent className="text-gray-400 pt-4">
                 <div className="pl-11">
                   <p>
-                    MemeStake is revolutionizing the meme coin ecosystem by combining decentralized airdrops with innovative staking mechanisms. We deliver tokens direct in your wallet while building the strongest meme community in crypto.
+                    Memes Everywhere is revolutionizing the meme coin ecosystem by combining decentralized airdrops with innovative staking mechanisms. We deliver tokens direct in your wallet while building the strongest meme community in crypto.
                   </p>
                 </div>
               </AccordionContent>

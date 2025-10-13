@@ -175,7 +175,7 @@ export default function Home() {
     {
       name: "Alex Chen",
       role: "DeFi Enthusiast", 
-      content: "MemeStake is the first meme token I actually trust. The transparent tokenomics and audited contracts give me confidence to stake long-term."
+      content: "Memes Everywhere is the first meme token I actually trust. The transparent tokenomics and audited contracts give me confidence to stake long-term."
     },
     {
       name: "Sarah Williams",
@@ -191,15 +191,15 @@ export default function Home() {
 
   const faqItems = [
     {
-      question: "What is MemeStake?",
-      answer: "MemeStake is a stake-to-earn meme token project with audited contracts, transparent tokenomics, and community rewards."
+      question: "What is Memes Everywhere?",
+      answer: "Memes Everywhere is a stake-to-earn meme token project with audited contracts, transparent tokenomics, and community rewards."
     },
     {
       question: "How does the public sale work?", 
       answer: "Public sale offers 25 billion $MEMES tokens at $0.0001 each. Minimum purchase is $50, no maximum limit. Sale runs alongside the airdrop campaign. Connect your BSC wallet to participate!"
     },
     {
-      question: "Why choose MemeStake over other meme coins?",
+      question: "Why choose Memes Everywhere over other meme coins?",
       answer: "Audited & public contracts, stake-to-earn mechanics (discourages dumping), real utility pools, and on-chain community rewards."
     },
     {
@@ -207,7 +207,7 @@ export default function Home() {
       answer: "Yes. The contracts are audited and the reports will be linked from our whitepaper and website once the final review is complete."
     },
     {
-      question: "What chain is MemeStake on?",
+      question: "What chain is Memes Everywhere on?",
       answer: "$MEMES token is on Binance Smart Chain (BSC / BEP-20) for low fees and fast transactions. Make sure your wallet is connected to BSC network before purchasing!"
     },
     {
@@ -363,7 +363,7 @@ export default function Home() {
     setFormErrors({});
     toast({
       title: "Subscribed successfully!",
-      description: "Welcome to the MemeStake community!",
+      description: "Welcome to the Memes Everywhere community!",
     });
     setNewsletterEmail('');
   };
@@ -770,13 +770,13 @@ export default function Home() {
             <div className="flex items-center space-x-2 cursor-pointer" data-testid="logo-brand" onClick={() => window.location.href = '/'}>
               <img 
                 src={memeStakeLogo} 
-                alt="MemeStake Logo" 
+                alt="Memes Everywhere Logo" 
                 className="w-16 h-16 rounded-lg shadow-lg"
                 style={{
                   filter: 'drop-shadow(0 4px 15px rgba(255, 215, 0, 0.2))'
                 }}
               />
-              <span className="text-xl font-bold" style={{fontFamily: 'Space Grotesk, Inter, sans-serif', fontWeight: '700', color: '#ffd700'}}>MemeStake</span>
+              <span className="text-xl font-bold" style={{fontFamily: 'Space Grotesk, Inter, sans-serif', fontWeight: '700', color: '#ffd700'}}>Memes Everywhere</span>
             </div>
 
             {/* Desktop Navigation - Multiple Links */}
@@ -1295,7 +1295,7 @@ export default function Home() {
           <div className="text-center mb-16">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 px-4" style={{color: '#ffd700', fontFamily: 'Space Grotesk, Inter, sans-serif'}}>Frequently Asked Questions</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Everything you need to know about MemeStake
+              Everything you need to know about Memes Everywhere
             </p>
           </div>
           
@@ -1369,13 +1369,13 @@ export default function Home() {
         <div className="container">
           <div className="grid lg:grid-cols-2 items-center gap-8 lg:gap-12 px-4">
             <div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">About MemeStake</h2>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">About Memes Everywhere</h2>
               <p className="text-base sm:text-lg text-muted-foreground mb-6">
                 We're building the future of meme tokens by combining viral culture with serious DeFi technology. 
                 Our mission is to create sustainable value for holders while maintaining the fun and community spirit that makes memes special.
               </p>
               <p className="text-sm sm:text-base text-muted-foreground mb-8">
-                Founded by experienced DeFi developers and meme enthusiasts, MemeStake represents a new generation 
+                Founded by experienced DeFi developers and meme enthusiasts, Memes Everywhere represents a new generation 
                 of projects that prioritize transparency, community rewards, and long-term sustainability.
               </p>
               <Button asChild data-testid="button-learn-about">
@@ -1386,8 +1386,8 @@ export default function Home() {
             <Card className="p-6" style={{background: 'white'}} data-testid="card-smart-contract">
               <h3 className="font-semibold mb-4 text-black">Smart Contract Preview</h3>
               <div className="rounded p-4 font-mono text-sm overflow-x-auto" style={{background: 'white', border: '1px solid #e5e7eb'}}>
-                <div className="text-green-600">// MemeStake Contract</div>
-                <div className="text-black">contract MemeStake {'{'}</div>
+                <div className="text-green-600">// Memes Everywhere Contract</div>
+                <div className="text-black">contract MemesEverywhere {'{'}</div>
                 <div className="text-black">&nbsp;&nbsp;uint256 public totalSupply = 50e9; // 50 Billion</div>
                 <div className="text-black">&nbsp;&nbsp;uint256 public stakingRewards; // 365% APY</div>
                 <div className="text-black">&nbsp;&nbsp;mapping(address =&gt; uint256) stakes;</div>
@@ -1408,7 +1408,7 @@ export default function Home() {
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Whitepaper</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Comprehensive documentation covering MemeStake's technology, tokenomics, and roadmap
+              Comprehensive documentation covering Memes Everywhere's technology, tokenomics, and roadmap
             </p>
           </div>
           
@@ -1566,7 +1566,7 @@ export default function Home() {
               <div className="flex items-center space-x-3">
                 <img 
                   src={memeStakeLogo} 
-                  alt="MemeStake Logo" 
+                  alt="Memes Everywhere Logo" 
                   className="w-8 h-8 rounded-lg"
                   style={{
                     filter: 'drop-shadow(0 2px 8px rgba(255, 215, 0, 0.1))'
@@ -1751,7 +1751,7 @@ export default function Home() {
             <div className="flex justify-center mb-6">
               <img 
                 src={memeStakeLogo} 
-                alt="MemeStake Logo" 
+                alt="Memes Everywhere Logo" 
                 className="w-20 h-20 rounded-2xl animate-pulse"
                 style={{
                   filter: 'drop-shadow(0 8px 20px rgba(255, 215, 0, 0.4))',
@@ -1768,7 +1768,7 @@ export default function Home() {
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text'
               }}>
-                🎉 Welcome to MemeStake!
+                🎉 Welcome to Memes Everywhere!
               </h2>
               <p className="text-lg text-gray-300 mb-4">
                 Your wallet is now connected
