@@ -849,8 +849,11 @@ export default function Dashboard() {
       const storedAddress = localStorage.getItem('walletAddress');
       const storedWalletType = localStorage.getItem('walletType');
       
+      console.log('🔍 Verifying wallet connection...', { storedAddress, hasEthereum: !!window.ethereum });
+      
       if (!storedAddress || !window.ethereum) {
         // No stored address or no wallet - clear everything
+        console.log('❌ No stored address or wallet provider - clearing localStorage');
         localStorage.removeItem('walletConnected');
         localStorage.removeItem('walletAddress');
         localStorage.removeItem('walletType');
@@ -863,10 +866,14 @@ export default function Dashboard() {
           method: 'eth_accounts' 
         });
 
+        console.log('📋 eth_accounts result:', accounts);
+
         if (accounts && accounts.length > 0) {
           // Wallet is unlocked and connected
           const currentAccount = accounts[0].toLowerCase();
           const storedAddressLower = storedAddress.toLowerCase();
+
+          console.log('✅ Wallet is unlocked:', { currentAccount, storedAddressLower });
 
           if (currentAccount === storedAddressLower) {
             // Same account - restore connection
@@ -880,6 +887,7 @@ export default function Dashboard() {
           }
         } else {
           // Wallet is locked or not connected - clear localStorage
+          console.log('🔒 Wallet is locked or no accounts - clearing state');
           localStorage.removeItem('walletConnected');
           localStorage.removeItem('walletAddress');
           localStorage.removeItem('walletType');
@@ -887,7 +895,7 @@ export default function Dashboard() {
           setWalletType('');
         }
       } catch (error) {
-        console.error('Error verifying wallet connection:', error);
+        console.error('❌ Error verifying wallet connection:', error);
         // Clear everything on error
         localStorage.removeItem('walletConnected');
         localStorage.removeItem('walletAddress');
