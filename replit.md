@@ -64,6 +64,15 @@ This is a full-stack web application built with React and Express.js for "MemeSt
     - Get transactions by type (Stake, Claim Staking Rewards, Claim Referral Rewards, Capital Withdraw)
     - Update transaction status by hash
   - **Storage Implementation**: Full CRUD operations in MemStorage and IStorage interface
+- **Auto-Save Integration**: All blockchain transactions automatically saved to database
+  - **Stake**: Saves transaction when tokens are staked
+  - **Claim Rewards**: Creates 2 separate entries (Staking Rewards + Referral Rewards)
+  - **Capital Withdraw**: Saves when user unstakes/withdraws capital
+  - **Status Updates**: Pending → Confirmed after transaction confirmation
+- **Income History Integration**: Income history page now displays transactions from database
+  - Fetches all transactions for connected wallet via `/api/transactions/:walletAddress`
+  - Real-time updates when new transactions occur
+  - Replaces previous blockchain event-based fetching
 
 ## Branding Update
 - **Brand Name**: Updated from "memes" to **"MEMES STAKE"** across all pages

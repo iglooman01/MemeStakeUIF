@@ -6,13 +6,14 @@ import memeStakeLogo from "@assets/ChatGPT Image Oct 9, 2025, 11_08_34 AM_175998
 import { createPublicClient, http } from 'viem';
 import { bscTestnet } from 'viem/chains';
 import { CONTRACTS } from '@/config/contracts';
+import { useQuery } from '@tanstack/react-query';
 
 interface IncomeRecord {
   id: string;
   date: string;
   type: 'staking' | 'referral' | 'bonus' | 'capital_withdrawn';
   amount: number;
-  status: 'claimed' | 'pending';
+  status: 'claimed' | 'pending' | 'confirmed';
   txHash?: string;
   eventType?: string;
 }
@@ -100,183 +101,60 @@ export default function IncomeHistory() {
     fetchRewards();
   }, [walletAddress]);
 
-  // Fetch transaction events from stake contract
+  // Fetch transactions from database
+  const { data: dbTransactions = [], isLoading: isLoadingDbTransactions } = useQuery<any[]>({
+    queryKey: ['/api/transactions', walletAddress],
+    enabled: !!walletAddress,
+  });
+
+  // Transform database transactions into IncomeRecord format
   useEffect(() => {
-    const fetchTransactions = async () => {
-      if (!walletAddress) {
-        console.log('No wallet address found, skipping transaction fetch');
-        setTransactions([]);
-        setIsLoadingTransactions(false);
-        return;
-      }
-
-      console.log('Fetching transactions for wallet:', walletAddress);
+    if (!walletAddress || isLoadingDbTransactions) {
+      setTransactions([]);
       setIsLoadingTransactions(true);
+      return;
+    }
 
-      try {
-        const allTransactions: IncomeRecord[] = [];
+    try {
+      const transformedTransactions: IncomeRecord[] = dbTransactions.map((tx) => {
+        // Map transaction type to IncomeRecord type
+        let type: 'staking' | 'referral' | 'bonus' | 'capital_withdrawn' = 'staking';
+        let eventType = tx.transactionType;
 
-        // Get current block number
-        const currentBlock = await publicClient.getBlockNumber();
-        console.log('Current block:', currentBlock);
-        const fromBlock = currentBlock - BigInt(10); // Last ~10000 blocks
-        console.log('Fetching from block:', fromBlock, 'to latest');
-
-        // 1. Fetch Staked events (filtered by connected wallet)
-        console.log('Fetching Staked events for wallet:', walletAddress);
-        const stakedLogs = await publicClient.getLogs({
-          address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
-          event: {
-            type: 'event',
-            name: 'Staked',
-            inputs: [
-              { type: 'address', indexed: true, name: 'user' },
-              { type: 'uint256', indexed: false, name: 'stakeId' },
-              { type: 'uint256', indexed: false, name: 'amount' },
-              { type: 'uint256', indexed: false, name: 'startTime' }
-            ]
-          },
-          args: { user: walletAddress as `0x${string}` },
-          fromBlock,
-          toBlock: 'latest'
-        });
-
-        console.log(`✓ Found ${stakedLogs.length} Staked events for ${walletAddress}`);
-
-        for (const log of stakedLogs) {
-          const block = await publicClient.getBlock({ blockNumber: log.blockNumber });
-          const amount = Number(log.args.amount) / 1e18;
-          allTransactions.push({
-            id: `${log.transactionHash}-${log.logIndex}`,
-            date: new Date(Number(block.timestamp) * 1000).toLocaleString(),
-            type: 'staking',
-            amount,
-            status: 'claimed',
-            txHash: log.transactionHash,
-            eventType: 'Staked'
-          });
+        if (tx.transactionType === 'Stake') {
+          type = 'capital_withdrawn'; // Stake is capital going out (negative)
+          eventType = 'Staked';
+        } else if (tx.transactionType === 'Claim Staking Rewards') {
+          type = 'staking';
+          eventType = 'Staking Rewards Claimed';
+        } else if (tx.transactionType === 'Claim Referral Rewards') {
+          type = 'referral';
+          eventType = 'Referral Rewards Claimed';
+        } else if (tx.transactionType === 'Capital Withdraw') {
+          type = 'capital_withdrawn';
+          eventType = 'Capital Withdrawn';
         }
 
-        // 2. Fetch RewardsClaimed events (filtered by connected wallet)
-        console.log('Fetching RewardsClaimed events for wallet:', walletAddress);
-        const rewardsClaimedLogs = await publicClient.getLogs({
-          address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
-          event: {
-            type: 'event',
-            name: 'RewardsClaimed',
-            inputs: [
-              { type: 'address', indexed: true, name: 'user' },
-              { type: 'uint256', indexed: false, name: 'rewardsAmount' }
-            ]
-          },
-          args: { user: walletAddress as `0x${string}` },
-          fromBlock,
-          toBlock: 'latest'
-        });
+        return {
+          id: tx.id,
+          date: new Date(tx.createdAt).toLocaleString(),
+          type,
+          amount: parseFloat(tx.amount),
+          status: tx.status === 'confirmed' ? 'claimed' : tx.status,
+          txHash: tx.transactionHash,
+          eventType
+        };
+      });
 
-        console.log(`✓ Found ${rewardsClaimedLogs.length} RewardsClaimed events for ${walletAddress}`);
+      setTransactions(transformedTransactions);
+      setIsLoadingTransactions(false);
+    } catch (error) {
+      console.error('Error transforming transactions:', error);
+      setTransactions([]);
+      setIsLoadingTransactions(false);
+    }
+  }, [dbTransactions, walletAddress, isLoadingDbTransactions]);
 
-        for (const log of rewardsClaimedLogs) {
-          const block = await publicClient.getBlock({ blockNumber: log.blockNumber });
-          const amount = Number(log.args.rewardsAmount) / 1e18;
-          allTransactions.push({
-            id: `${log.transactionHash}-${log.logIndex}`,
-            date: new Date(Number(block.timestamp) * 1000).toLocaleString(),
-            type: 'staking',
-            amount,
-            status: 'claimed',
-            txHash: log.transactionHash,
-            eventType: 'RewardsClaimed'
-          });
-        }
-
-        // 3. Fetch ReferralBonusDistributed events (filtered by connected wallet)
-        console.log('Fetching ReferralBonusDistributed events for wallet:', walletAddress);
-        const referralBonusLogs = await publicClient.getLogs({
-          address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
-          event: {
-            type: 'event',
-            name: 'ReferralBonusDistributed',
-            inputs: [
-              { type: 'address', indexed: true, name: 'staker' },
-              { type: 'uint256', indexed: false, name: 'tokenAmount' }
-            ]
-          },
-          args: { staker: walletAddress as `0x${string}` },
-          fromBlock,
-          toBlock: 'latest'
-        });
-
-        console.log(`✓ Found ${referralBonusLogs.length} ReferralBonusDistributed events for ${walletAddress}`);
-
-        for (const log of referralBonusLogs) {
-          const block = await publicClient.getBlock({ blockNumber: log.blockNumber });
-          const amount = Number(log.args.tokenAmount) / 1e18;
-          allTransactions.push({
-            id: `${log.transactionHash}-${log.logIndex}`,
-            date: new Date(Number(block.timestamp) * 1000).toLocaleString(),
-            type: 'referral',
-            amount,
-            status: 'claimed',
-            txHash: log.transactionHash,
-            eventType: 'ReferralBonus'
-          });
-        }
-
-        // 4. Fetch CapitalWithdrawn events (filtered by connected wallet)
-        console.log('Fetching CapitalWithdrawn events for wallet:', walletAddress);
-        const capitalWithdrawnLogs = await publicClient.getLogs({
-          address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
-          event: {
-            type: 'event',
-            name: 'CapitalWithdrawn',
-            inputs: [
-              { type: 'address', indexed: true, name: 'user' },
-              { type: 'uint256', indexed: false, name: 'stakeId' },
-              { type: 'uint256', indexed: false, name: 'returnedCapital' },
-              { type: 'uint256', indexed: false, name: 'penaltyApplied' },
-              { type: 'bool', indexed: false, name: 'earlyWithdrawal' }
-            ]
-          },
-          args: { user: walletAddress as `0x${string}` },
-          fromBlock,
-          toBlock: 'latest'
-        });
-
-        console.log(`✓ Found ${capitalWithdrawnLogs.length} CapitalWithdrawn events for ${walletAddress}`);
-
-        for (const log of capitalWithdrawnLogs) {
-          const block = await publicClient.getBlock({ blockNumber: log.blockNumber });
-          const amount = Number(log.args.returnedCapital) / 1e18;
-          allTransactions.push({
-            id: `${log.transactionHash}-${log.logIndex}`,
-            date: new Date(Number(block.timestamp) * 1000).toLocaleString(),
-            type: 'capital_withdrawn',
-            amount,
-            status: 'claimed',
-            txHash: log.transactionHash,
-            eventType: 'CapitalWithdrawn'
-          });
-        }
-
-        // Sort by date (most recent first)
-        allTransactions.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-        console.log(`\n=== TRANSACTION SUMMARY (Filtered by ${walletAddress}) ===`);
-        console.log(`Total transactions found: ${allTransactions.length}`);
-        console.log('Transaction types:', allTransactions.map(t => t.eventType).join(', ') || 'None');
-        console.log('====================================\n');
-        setTransactions(allTransactions);
-
-      } catch (error) {
-        console.error('Error fetching transactions:', error);
-        setTransactions([]);
-      } finally {
-        setIsLoadingTransactions(false);
-      }
-    };
-
-    fetchTransactions();
-  }, [walletAddress]);
 
   const totalPages = Math.ceil(transactions.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
