@@ -1171,11 +1171,19 @@ export default function Dashboard() {
           abi: CONTRACTS.MEMES_STAKE.abi,
           functionName: 'getTotalStakedByReferralLevel',
           args: [walletAddress as `0x${string}`]
-        }) as any;
+        }) as any[];
 
-        const level1Staked = Number(stakedByLevel.level1Total || 0) / 1e18;
-        const level2Staked = Number(stakedByLevel.level2Total || 0) / 1e18;
-        const level3Staked = Number(stakedByLevel.level3Total || 0) / 1e18;
+        console.log('Staked by referral level raw response:', stakedByLevel);
+
+        // Contract returns tuple: [level1Total, level2Total, level3Total]
+        // Access by index, not property name
+        const level1Staked = Number(stakedByLevel[0] || 0) / 1e18;
+        const level2Staked = Number(stakedByLevel[1] || 0) / 1e18;
+        const level3Staked = Number(stakedByLevel[2] || 0) / 1e18;
+
+        console.log('Level 1 staking rewards:', level1Staked);
+        console.log('Level 2 staking rewards:', level2Staked);
+        console.log('Level 3 staking rewards:', level3Staked);
 
         setLevel1StakingRewards(level1Staked);
         setLevel2StakingRewards(level2Staked);
