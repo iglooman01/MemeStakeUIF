@@ -2239,7 +2239,7 @@ export default function Dashboard() {
                       {isLoadingBalances ? (
                         <span className="animate-pulse text-xs">...</span>
                       ) : (
-                        `${stakingRewards.toLocaleString()}`
+                        `${pendingStakingRewards.toLocaleString()}`
                       )}
                     </div>
                   </div>
