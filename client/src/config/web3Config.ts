@@ -49,6 +49,19 @@ export const connectWallet = async (walletType: string): Promise<{ success: bool
   try {
     let ethereum = window.ethereum;
     
+    // Filter out TronLink (incompatible with BSC)
+    if (window.ethereum && (window.ethereum.isTronLink || window.ethereum.tronWeb)) {
+      // Check if there's another provider (like MetaMask)
+      if (!window.ethereum.providers || window.ethereum.providers.length === 0) {
+        return { success: false, error: 'TronLink detected but not compatible with BSC. Please install MetaMask, Trust Wallet, or SafePal.' };
+      }
+      // Use first non-TronLink provider
+      const nonTronProvider = window.ethereum.providers.find((p: any) => !p.isTronLink && !p.tronWeb);
+      if (nonTronProvider) {
+        ethereum = nonTronProvider;
+      }
+    }
+    
     // Handle different wallet types
     switch (walletType.toLowerCase()) {
       case 'metamask':
