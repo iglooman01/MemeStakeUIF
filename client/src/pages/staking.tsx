@@ -571,6 +571,34 @@ export default function Staking() {
     try {
       setIsClaiming(true);
 
+      // Check reward fund balance first
+      const publicClient = createPublicClient({
+        chain: bscTestnet,
+        transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
+      });
+
+      const rewardFundBalance = await publicClient.readContract({
+        address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
+        abi: CONTRACTS.MEMES_STAKE.abi,
+        functionName: 'rewardFund',
+        args: []
+      }) as bigint;
+
+      const rewardFundInTokens = Number(rewardFundBalance) / 1e18;
+      console.log('Reward fund balance:', rewardFundInTokens);
+      console.log('Claimable rewards:', claimableRewards);
+
+      // Check if contract has enough reward fund
+      if (rewardFundInTokens < claimableRewards) {
+        toast({
+          title: "❌ Insufficient Reward Fund",
+          description: `Contract reward fund (${rewardFundInTokens.toLocaleString()} MEMES) is less than your claimable rewards (${claimableRewards.toLocaleString()} MEMES). Please contact support.`,
+          variant: "destructive"
+        });
+        setIsClaiming(false);
+        return;
+      }
+
       // Check if ethereum provider is available
       if (typeof window.ethereum === 'undefined') {
         throw new Error('MetaMask or compatible wallet not found');

@@ -1182,7 +1182,7 @@ export default function Dashboard() {
           functionName: 'getPendingRewards',
           args: [walletAddress as `0x${string}`]
         }) as bigint;
-
+  
         setPendingStakingRewards(Number(pendingRewards) / 1e18);
       } catch (rewardsError) {
         console.error('Error fetching pending rewards:', rewardsError);
