@@ -351,6 +351,64 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Transaction routes
+  app.post("/api/transactions", async (req, res) => {
+    try {
+      const transactionData = req.body;
+      
+      // Validate required fields
+      if (!transactionData.walletAddress || !transactionData.transactionType || 
+          !transactionData.amount || !transactionData.transactionHash) {
+        return res.status(400).json({ error: "Missing required transaction fields" });
+      }
+      
+      const transaction = await storage.createTransaction(transactionData);
+      res.json(transaction);
+    } catch (error) {
+      console.error('Create transaction error:', error);
+      res.status(500).json({ error: "Failed to create transaction" });
+    }
+  });
+
+  app.get("/api/transactions/:walletAddress", async (req, res) => {
+    try {
+      const { walletAddress } = req.params;
+      const transactions = await storage.getTransactionsByWallet(walletAddress);
+      res.json(transactions);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch transactions" });
+    }
+  });
+
+  app.get("/api/transactions/:walletAddress/type/:type", async (req, res) => {
+    try {
+      const { walletAddress, type } = req.params;
+      const transactions = await storage.getTransactionsByType(walletAddress, type);
+      res.json(transactions);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch transactions by type" });
+    }
+  });
+
+  app.put("/api/transactions/:hash/status", async (req, res) => {
+    try {
+      const { hash } = req.params;
+      const { status } = req.body;
+      
+      if (!status) {
+        return res.status(400).json({ error: "Status is required" });
+      }
+      
+      const transaction = await storage.updateTransactionStatus(hash, status);
+      if (!transaction) {
+        return res.status(404).json({ error: "Transaction not found" });
+      }
+      res.json(transaction);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to update transaction status" });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;
