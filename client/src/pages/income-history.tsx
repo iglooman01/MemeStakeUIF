@@ -39,7 +39,8 @@ export default function IncomeHistory() {
 
   // Fetch wallet address on mount
   useEffect(() => {
-    const storedWallet = localStorage.getItem('connectedWallet');
+    const storedWallet = localStorage.getItem('walletAddress');
+    console.log('Income History - Loaded wallet address:', storedWallet);
     setWalletAddress(storedWallet);
   }, []);
 
