@@ -443,6 +443,7 @@ export default function Home() {
     localStorage.setItem('walletConnected', 'true');
     localStorage.setItem('walletAddress', demoAddress);
     localStorage.setItem('walletType', 'Demo Mode');
+    sessionStorage.setItem('walletSession', 'active'); // Mark active session
     
     // Update state
     setWalletConnected(true);
@@ -503,6 +504,7 @@ export default function Home() {
         localStorage.setItem('walletConnected', 'true');
         localStorage.setItem('walletAddress', result.address);
         localStorage.setItem('walletType', walletName);
+        sessionStorage.setItem('walletSession', 'active'); // Mark active session
         
         // Update state
         setWalletConnected(true);

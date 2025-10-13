@@ -843,69 +843,51 @@ export default function Dashboard() {
     }
   };
 
-  // Verify actual wallet connection on page load (don't trust localStorage)
+  // Verify wallet connection using sessionStorage to track active sessions
+  // sessionStorage clears when tab closes, which aligns with wallet lock behavior
   useEffect(() => {
-    const verifyWalletConnection = async () => {
+    const verifyConnection = async () => {
+      const activeSession = sessionStorage.getItem('walletSession');
       const storedAddress = localStorage.getItem('walletAddress');
       const storedWalletType = localStorage.getItem('walletType');
       
-      console.log('🔍 Verifying wallet connection...', { storedAddress, hasEthereum: !!window.ethereum });
-      
-      if (!storedAddress || !window.ethereum) {
-        // No stored address or no wallet - clear everything
-        console.log('❌ No stored address or wallet provider - clearing localStorage');
+      if (activeSession !== 'active' || !storedAddress) {
+        // No active session - clear everything
         localStorage.removeItem('walletConnected');
         localStorage.removeItem('walletAddress');
         localStorage.removeItem('walletType');
+        sessionStorage.removeItem('walletSession');
         return;
       }
 
-      try {
-        // Check if wallet is actually unlocked and connected
-        const accounts = await window.ethereum.request({ 
-          method: 'eth_accounts' 
-        });
-
-        console.log('📋 eth_accounts result:', accounts);
-
-        if (accounts && accounts.length > 0) {
-          // Wallet is unlocked and connected
-          const currentAccount = accounts[0].toLowerCase();
-          const storedAddressLower = storedAddress.toLowerCase();
-
-          console.log('✅ Wallet is unlocked:', { currentAccount, storedAddressLower });
-
-          if (currentAccount === storedAddressLower) {
-            // Same account - restore connection
-            setWalletAddress(storedAddress);
-            setWalletType(storedWalletType || '');
-          } else {
-            // Different account - update to current
-            setWalletAddress(accounts[0]);
-            localStorage.setItem('walletAddress', accounts[0]);
-            setWalletType(storedWalletType || '');
+      // Verify MetaMask still has this account accessible
+      if (window.ethereum) {
+        try {
+          const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+          
+          if (!accounts || accounts.length === 0) {
+            // No accounts accessible - clear session
+            localStorage.removeItem('walletConnected');
+            localStorage.removeItem('walletAddress');
+            localStorage.removeItem('walletType');
+            sessionStorage.removeItem('walletSession');
+            return;
           }
-        } else {
-          // Wallet is locked or not connected - clear localStorage
-          console.log('🔒 Wallet is locked or no accounts - clearing state');
+          
+          // Account accessible - restore wallet
+          setWalletAddress(storedAddress);
+          setWalletType(storedWalletType || '');
+        } catch (error) {
+          // Error accessing accounts - clear session
           localStorage.removeItem('walletConnected');
           localStorage.removeItem('walletAddress');
           localStorage.removeItem('walletType');
-          setWalletAddress('');
-          setWalletType('');
+          sessionStorage.removeItem('walletSession');
         }
-      } catch (error) {
-        console.error('❌ Error verifying wallet connection:', error);
-        // Clear everything on error
-        localStorage.removeItem('walletConnected');
-        localStorage.removeItem('walletAddress');
-        localStorage.removeItem('walletType');
-        setWalletAddress('');
-        setWalletType('');
       }
     };
 
-    verifyWalletConnection();
+    verifyConnection();
   }, []);
 
   // Check network on load and periodically

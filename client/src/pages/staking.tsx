@@ -35,56 +35,26 @@ export default function Staking() {
   const PENALTY_FREE_DAYS = 90;
   const PENALTY_PERCENTAGE = 20;
 
-  // Verify actual wallet connection on page load (don't trust localStorage)
+  // Verify wallet connection using sessionStorage
   useEffect(() => {
-    const verifyWalletConnection = async () => {
-      const storedAddress = localStorage.getItem('walletAddress');
-      
-      if (!storedAddress || !window.ethereum) {
-        localStorage.removeItem('walletConnected');
-        localStorage.removeItem('walletAddress');
-        localStorage.removeItem('walletType');
-        setLocation('/');
-        return;
-      }
-
-      try {
-        const accounts = await window.ethereum.request({ 
-          method: 'eth_accounts' 
-        });
-
-        if (accounts && accounts.length > 0) {
-          const currentAccount = accounts[0].toLowerCase();
-          const storedAddressLower = storedAddress.toLowerCase();
-
-          if (currentAccount === storedAddressLower) {
-            setWalletAddress(storedAddress);
-          } else {
-            setWalletAddress(accounts[0]);
-            localStorage.setItem('walletAddress', accounts[0]);
-          }
-        } else {
-          // Wallet is locked - clear and redirect
-          localStorage.removeItem('walletConnected');
-          localStorage.removeItem('walletAddress');
-          localStorage.removeItem('walletType');
-          toast({
-            title: "🔒 Wallet Locked",
-            description: "Please unlock your wallet to continue",
-            variant: "destructive"
-          });
-          setLocation('/');
-        }
-      } catch (error) {
-        console.error('Error verifying wallet connection:', error);
-        localStorage.removeItem('walletConnected');
-        localStorage.removeItem('walletAddress');
-        localStorage.removeItem('walletType');
-        setLocation('/');
-      }
-    };
-
-    verifyWalletConnection();
+    const activeSession = sessionStorage.getItem('walletSession');
+    const storedAddress = localStorage.getItem('walletAddress');
+    
+    if (activeSession === 'active' && storedAddress) {
+      // Active session exists - restore wallet
+      setWalletAddress(storedAddress);
+    } else {
+      // No active session - clear and redirect to home
+      localStorage.removeItem('walletConnected');
+      localStorage.removeItem('walletAddress');
+      localStorage.removeItem('walletType');
+      sessionStorage.removeItem('walletSession');
+      toast({
+        title: "🔒 Session Expired",
+        description: "Please connect your wallet to continue",
+      });
+      setLocation('/');
+    }
   }, []);
 
   // Listen for wallet account changes
