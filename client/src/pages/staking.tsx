@@ -659,13 +659,25 @@ export default function Staking() {
               <span className="text-xl font-bold text-white">Staking Portal</span>
             </div>
             
-            <Button 
-              variant="outline" 
-              onClick={() => setLocation('/dashboard')}
-              data-testid="button-back-dashboard"
-            >
-              ← Back to Dashboard
-            </Button>
+            <div className="flex items-center space-x-3">
+              {/* Wallet Address Display */}
+              {walletAddress && (
+                <div className="flex items-center space-x-2 px-3 py-2 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
+                  <div className="text-xs text-gray-400">Wallet</div>
+                  <div className="text-sm font-mono font-bold" style={{color: '#ffd700'}}>
+                    {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
+                  </div>
+                </div>
+              )}
+              
+              <Button 
+                variant="outline" 
+                onClick={() => setLocation('/dashboard')}
+                data-testid="button-back-dashboard"
+              >
+                ← Back to Dashboard
+              </Button>
+            </div>
           </div>
         </div>
       </header>

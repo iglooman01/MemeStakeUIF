@@ -278,9 +278,12 @@ export default function Airdrop() {
                 Connect Wallet
               </Button>
             ) : (
-              <Button variant="outline" style={{borderColor: '#ffd700', color: '#ffd700'}} data-testid="button-wallet">
-                {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
-              </Button>
+              <div className="flex items-center space-x-2 px-3 py-2 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
+                <div className="text-xs text-gray-400">Wallet</div>
+                <div className="text-sm font-mono font-bold" style={{color: '#ffd700'}}>
+                  {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
+                </div>
+              </div>
             )}
           </div>
         </div>
