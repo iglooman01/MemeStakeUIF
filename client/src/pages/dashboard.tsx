@@ -1138,25 +1138,32 @@ export default function Dashboard() {
           functionName: 'getActiveStakesWithId',
           args: [walletAddress as `0x${string}`]
         }) as any[];
-
-        // Sum up all active stakes
+        
+        console.log('Dashboard - Active stakes:', activeStakes);
+        
+        // Sum up all active stakes - access amount from details object
         let totalStaked = 0;
         for (const stake of activeStakes) {
-          totalStaked += Number(stake.stakedAmount) / 1e18;
+          if (stake.details && stake.details.isActive) {
+            totalStaked += Number(stake.details.amount) / 1e18;
+          }
         }
         
+        console.log('Dashboard - Total staked:', totalStaked);
         setTotalStakedAmount(totalStaked);
 
         // Calculate Accrued Today: 1% of active stakes whose lastClaim is < 24 hours
         const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
-        const twentyFourHoursAgo = currentTime - (24 * 60 * 60);
+        //const twentyFourHoursAgo = currentTime - (24 * 60 * 60);
         let todayAccrued = 0;
         
         for (const stake of activeStakes) {
-          const lastClaimTime = Number(stake.lastClaim);
-          // If lastClaim is within the last 24 hours
-          if (lastClaimTime >= twentyFourHoursAgo) {
-            todayAccrued += (Number(stake.stakedAmount) / 1e18) * 0.01; // 1% of stake
+          if (stake.details && stake.details.isActive) {
+            const lastClaimTime = Number(stake.details.lastClaimTime);
+            // If lastClaim is within the last 24 hours
+            if (lastClaimTime + (24 * 60 * 60) <= currentTime) {
+              todayAccrued += (Number(stake.details.amount) / 1e18) * 0.01; // 1% of stake
+            }
           }
         }
         
@@ -1190,7 +1197,8 @@ export default function Dashboard() {
           functionName: 'getTotalRewardsByReferralLevel',
           args: [walletAddress as `0x${string}`]
         }) as any;
-
+console.log("referralRewards : ",referralRewards);
+        
         const level1 = Number(referralRewards.level1Total || 0) / 1e18;
         const level2 = Number(referralRewards.level2Total || 0) / 1e18;
         const level3 = Number(referralRewards.level3Total || 0) / 1e18;

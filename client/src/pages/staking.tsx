@@ -142,6 +142,7 @@ export default function Staking() {
 
       // 1. Fetch staked amount using getActiveStakesWithId to access lastClaim
       try {
+        console.log('Fetching stakes for:', walletAddress);
         const activeStakes = await publicClient.readContract({
           address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
           abi: CONTRACTS.MEMES_STAKE.abi,
@@ -149,31 +150,36 @@ export default function Staking() {
           args: [walletAddress as `0x${string}`]
         }) as any[];
 
+        console.log('Active stakes response:', activeStakes);
+
         // Loop through array and sum up all active staked amounts
         let totalStaked = 0;
         for (const stake of activeStakes) {
-          totalStaked += Number(stake.stakedAmount) / 1e18;
+          // Access amount from details object and check if active
+          if (stake.details && stake.details.isActive) {
+            totalStaked += Number(stake.details.amount) / 1e18;
+          }
         }
         
+        console.log('Total staked amount:', totalStaked);
         setStakedAmount(totalStaked);
 
         // Calculate Accrued Today: 1% of active stakes whose lastClaim is < 24 hours
         const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
-        const twentyFourHoursAgo = currentTime - (24 * 60 * 60);
         
         let todayAccrued = 0;
         
         for (const stake of activeStakes) {
-          //if (!stake.capitalWithdrawn) {
-            const lastClaimTime = Number(stake.lastClaimTime);
-          console.log('twentyFourHoursAgo & lastClaimTime', twentyFourHoursAgo , lastClaimTime);
+          if (stake.details && stake.details.isActive) {
+            const lastClaimTime = Number(stake.details.lastClaimTime);
             // If lastClaim is within the last 24 hours
-            if (lastClaimTime >= twentyFourHoursAgo) {
-              todayAccrued += (Number(stake.stakedAmount) / 1e18) * 0.01; // 1% of stake
+            if (lastClaimTime + (24 * 60 * 60) <= currentTime) {
+              todayAccrued += (Number(stake.details.amount) / 1e18) * 0.01; // 1% of stake
             }
-         // }
+          }
         }
         
+        console.log('Accrued today:', todayAccrued);
         setAccruedToday(todayAccrued);
       } catch (error) {
         console.error('Error fetching staked amount:', error);
@@ -846,8 +852,8 @@ export default function Staking() {
                       ) : (
                         activeStakes.map((stake) => {
                           const stakeId = Number(stake.stakeId);
-                          const stakedAmount = Number(stake.stakedAmount) / 1e18;
-                          const startTime = Number(stake.startTime);
+                          const stakedAmount = Number(stake.details.amount) / 1e18;
+                          const startTime = Number(stake.details.startTime);
                           const dateStaked = new Date(startTime * 1000).toLocaleDateString();
                           const daysStaked = Math.floor((Date.now() / 1000 - startTime) / (24 * 60 * 60));
                           const penaltyInfo = getPenaltyInfo(daysStaked);
