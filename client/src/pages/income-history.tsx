@@ -121,7 +121,8 @@ export default function IncomeHistory() {
         const fromBlock = currentBlock - BigInt(10000); // Last ~10000 blocks
         console.log('Fetching from block:', fromBlock, 'to latest');
 
-        // 1. Fetch Staked events
+        // 1. Fetch Staked events (filtered by connected wallet)
+        console.log('Fetching Staked events for wallet:', walletAddress);
         const stakedLogs = await publicClient.getLogs({
           address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
           event: {
@@ -139,7 +140,7 @@ export default function IncomeHistory() {
           toBlock: 'latest'
         });
 
-        console.log(`Found ${stakedLogs.length} Staked events`);
+        console.log(`✓ Found ${stakedLogs.length} Staked events for ${walletAddress}`);
 
         for (const log of stakedLogs) {
           const block = await publicClient.getBlock({ blockNumber: log.blockNumber });
@@ -155,7 +156,8 @@ export default function IncomeHistory() {
           });
         }
 
-        // 2. Fetch RewardsClaimed events
+        // 2. Fetch RewardsClaimed events (filtered by connected wallet)
+        console.log('Fetching RewardsClaimed events for wallet:', walletAddress);
         const rewardsClaimedLogs = await publicClient.getLogs({
           address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
           event: {
@@ -171,7 +173,7 @@ export default function IncomeHistory() {
           toBlock: 'latest'
         });
 
-        console.log(`Found ${rewardsClaimedLogs.length} RewardsClaimed events`);
+        console.log(`✓ Found ${rewardsClaimedLogs.length} RewardsClaimed events for ${walletAddress}`);
 
         for (const log of rewardsClaimedLogs) {
           const block = await publicClient.getBlock({ blockNumber: log.blockNumber });
@@ -187,7 +189,8 @@ export default function IncomeHistory() {
           });
         }
 
-        // 3. Fetch ReferralBonusDistributed events
+        // 3. Fetch ReferralBonusDistributed events (filtered by connected wallet)
+        console.log('Fetching ReferralBonusDistributed events for wallet:', walletAddress);
         const referralBonusLogs = await publicClient.getLogs({
           address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
           event: {
@@ -203,7 +206,7 @@ export default function IncomeHistory() {
           toBlock: 'latest'
         });
 
-        console.log(`Found ${referralBonusLogs.length} ReferralBonusDistributed events`);
+        console.log(`✓ Found ${referralBonusLogs.length} ReferralBonusDistributed events for ${walletAddress}`);
 
         for (const log of referralBonusLogs) {
           const block = await publicClient.getBlock({ blockNumber: log.blockNumber });
@@ -219,7 +222,8 @@ export default function IncomeHistory() {
           });
         }
 
-        // 4. Fetch CapitalWithdrawn events
+        // 4. Fetch CapitalWithdrawn events (filtered by connected wallet)
+        console.log('Fetching CapitalWithdrawn events for wallet:', walletAddress);
         const capitalWithdrawnLogs = await publicClient.getLogs({
           address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
           event: {
@@ -238,7 +242,7 @@ export default function IncomeHistory() {
           toBlock: 'latest'
         });
 
-        console.log(`Found ${capitalWithdrawnLogs.length} CapitalWithdrawn events`);
+        console.log(`✓ Found ${capitalWithdrawnLogs.length} CapitalWithdrawn events for ${walletAddress}`);
 
         for (const log of capitalWithdrawnLogs) {
           const block = await publicClient.getBlock({ blockNumber: log.blockNumber });
@@ -256,7 +260,10 @@ export default function IncomeHistory() {
 
         // Sort by date (most recent first)
         allTransactions.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        console.log(`\n=== TRANSACTION SUMMARY (Filtered by ${walletAddress}) ===`);
         console.log(`Total transactions found: ${allTransactions.length}`);
+        console.log('Transaction types:', allTransactions.map(t => t.eventType).join(', ') || 'None');
+        console.log('====================================\n');
         setTransactions(allTransactions);
 
       } catch (error) {
