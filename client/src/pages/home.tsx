@@ -983,30 +983,85 @@ export default function Home() {
                 <a href="#faq">📄 Learn More</a>
               </Button>
             </div>
+
+            {/* Live Stats - Moved to Hero */}
+            <div className="mt-12">
+              <div className="flex items-center justify-center mb-4">
+                <div className="w-3 h-3 rounded-full mr-2" style={{background: '#00ff88', animation: 'pulse 1s infinite'}}></div>
+                <span className="text-sm font-medium" style={{color: '#ffd700'}}>🔴 LIVE DATA</span>
+              </div>
+              <div className="flex justify-center relative">
+                <div className="glass-card p-4 sm:p-6 rounded-xl sm:rounded-2xl border-2 relative overflow-hidden" 
+                     style={{
+                       background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(0, 191, 255, 0.1) 100%)',
+                       border: '2px solid rgba(255, 215, 0, 0.3)',
+                       boxShadow: '0 0 20px rgba(255, 215, 0, 0.2)'
+                     }}>
+                  <div className="text-center">
+                    <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2" 
+                         style={{color: '#ffd700'}}>
+                      {tokenHolders.toLocaleString()}
+                    </div>
+                    <div className="text-sm sm:text-base md:text-lg font-semibold text-white mb-1">🏆 Total Token Holders</div>
+                    <div className="text-xs sm:text-sm" style={{color: '#00ff88'}}>↗ Live Updates Every 5s</div>
+                  </div>
+                  
+                  {/* Flying Animation */}
+                  {flyingAnimation && (
+                    <div className="absolute inset-0 pointer-events-none">
+                      <div className="flying-number">
+                        +{newHoldersCount} 🚀
+                      </div>
+                      <div className="flying-sparkles">
+                        <span className="sparkle sparkle-1">✨</span>
+                        <span className="sparkle sparkle-2">💎</span>
+                        <span className="sparkle sparkle-3">⭐</span>
+                        <span className="sparkle sparkle-4">🎉</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Connect Wallet Section */}
-      <section className="py-16" style={{background: 'linear-gradient(180deg, #000000 0%, #0a0e1a 100%)'}} data-testid="section-airdrop">
-        <div className="container max-w-6xl mx-auto px-4">
+      <section className="py-16 relative overflow-hidden" style={{background: 'linear-gradient(135deg, #0a0015 0%, #1a0a2e 50%, #0a0015 100%)'}} data-testid="section-airdrop">
+        {/* Animated Background */}
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-500 rounded-full filter blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+        </div>
+        
+        <div className="container max-w-6xl mx-auto px-4 relative z-10">
           {/* Section Title */}
           <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4" style={{color: '#ffd700', fontFamily: 'Space Grotesk, Inter, sans-serif'}}>
-              Connect Wallet
+            <div className="inline-block mb-4">
+              <div className="flex items-center gap-2 px-4 py-2 rounded-full animate-pulse" style={{
+                background: 'linear-gradient(90deg, rgba(255,215,0,0.2), rgba(0,191,255,0.2), rgba(255,215,0,0.2))',
+                border: '1px solid rgba(255,215,0,0.3)'
+              }}>
+                <span className="text-2xl">🎁</span>
+                <span className="text-sm font-bold" style={{color: '#ffd700'}}>EXCLUSIVE AIRDROP</span>
+              </div>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-400 bg-clip-text text-transparent" style={{fontFamily: 'Space Grotesk, Inter, sans-serif'}}>
+              Connect Your Wallet & Get Airdrop
             </h2>
-            <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-              Connect your wallet to access exclusive airdrops and start earning rewards
+            <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+              Join thousands of holders and claim your share of <span className="font-bold" style={{color: '#ffd700'}}>1,000 $MEMES</span> tokens!
             </p>
           </div>
 
           <div className="text-center">
             <Card className="p-8 md:p-12 max-w-5xl mx-auto relative overflow-hidden" style={{
-              background: 'linear-gradient(135deg, rgba(15, 10, 35, 0.95) 0%, rgba(30, 15, 60, 0.95) 100%)',
-              border: '2px solid rgba(255, 215, 0, 0.2)',
-              boxShadow: '0 0 60px rgba(255, 215, 0, 0.15)'
+              background: 'linear-gradient(135deg, rgba(138,43,226,0.15) 0%, rgba(0,191,255,0.15) 50%, rgba(255,215,0,0.15) 100%)',
+              border: '2px solid rgba(255, 215, 0, 0.4)',
+              boxShadow: '0 0 80px rgba(255, 215, 0, 0.3), 0 0 40px rgba(0, 191, 255, 0.2), inset 0 0 60px rgba(255, 215, 0, 0.1)'
             }}>
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 via-blue-500/10 to-yellow-500/10"></div>
               <div className="relative z-10">
                 <div className="flex items-center justify-center gap-3 mb-6">
                   <div className="chip gold">🎁 AIRDROP</div>
@@ -1138,49 +1193,6 @@ export default function Home() {
                 </div>
               </div>
             </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Live Stats Banner */}
-      <section className="py-4 relative overflow-hidden" style={{background: '#000000'}} data-testid="section-live-stats">
-        <div className="container">
-          <div className="flex items-center justify-center mb-2">
-            <div className="w-3 h-3 rounded-full mr-2" style={{background: '#00ff88', animation: 'pulse 1s infinite'}}></div>
-            <span className="text-sm font-medium" style={{color: '#ffd700'}}>🔴 LIVE DATA</span>
-          </div>
-          {/* Live Token Holders Counter */}
-          <div className="flex justify-center relative">
-            <div className="glass-card p-4 sm:p-6 rounded-xl sm:rounded-2xl border-2 relative overflow-hidden" 
-                 style={{
-                   background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(0, 191, 255, 0.1) 100%)',
-                   border: '2px solid rgba(255, 215, 0, 0.3)',
-                   boxShadow: '0 0 20px rgba(255, 215, 0, 0.2)'
-                 }}>
-              <div className="text-center">
-                <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2" 
-                     style={{color: '#ffd700'}}>
-                  {tokenHolders.toLocaleString()}
-                </div>
-                <div className="text-sm sm:text-base md:text-lg font-semibold text-white mb-1">🏆 Total Token Holders</div>
-                <div className="text-xs sm:text-sm" style={{color: '#00ff88'}}>↗ Live Updates Every 5s</div>
-              </div>
-              
-              {/* Flying Animation */}
-              {flyingAnimation && (
-                <div className="absolute inset-0 pointer-events-none">
-                  <div className="flying-number">
-                    +{newHoldersCount} 🚀
-                  </div>
-                  <div className="flying-sparkles">
-                    <span className="sparkle sparkle-1">✨</span>
-                    <span className="sparkle sparkle-2">💎</span>
-                    <span className="sparkle sparkle-3">⭐</span>
-                    <span className="sparkle sparkle-4">🎉</span>
-                  </div>
-                </div>
-              )}
-            </div>
           </div>
         </div>
       </section>
