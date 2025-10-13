@@ -665,29 +665,17 @@ export default function Dashboard() {
     try {
       setIsClaiming(true);
 
-      // Get wallet client based on wallet type
-      let walletClient;
-      if (walletType === 'metamask' && window.ethereum) {
-        walletClient = createWalletClient({
-          account: walletAddress as `0x${string}`,
-          chain: bscTestnet,
-          transport: custom(window.ethereum)
-        });
-      } else if (walletType === 'trust' && (window as any).trustwallet) {
-        walletClient = createWalletClient({
-          account: walletAddress as `0x${string}`,
-          chain: bscTestnet,
-          transport: custom((window as any).trustwallet)
-        });
-      } else if (walletType === 'safepal' && (window as any).safepalProvider) {
-        walletClient = createWalletClient({
-          account: walletAddress as `0x${string}`,
-          chain: bscTestnet,
-          transport: custom((window as any).safepalProvider)
-        });
-      } else {
-        throw new Error('Wallet not available');
+      // Check if ethereum provider is available
+      if (!window.ethereum) {
+        throw new Error('Wallet not available. Please ensure your wallet is connected.');
       }
+
+      // Create wallet client using window.ethereum (works for all wallets)
+      const walletClient = createWalletClient({
+        account: walletAddress as `0x${string}`,
+        chain: bscTestnet,
+        transport: custom(window.ethereum)
+      });
 
       // Call claimRewards function from staking contract
       const hash = await walletClient.writeContract({
