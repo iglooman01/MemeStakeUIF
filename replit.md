@@ -96,6 +96,15 @@ This is a full-stack web application built with React and Express.js for "MemeSt
 - **Performance**: Reduced data processing by fetching only active stakes
 - **Accuracy**: Pending rewards come directly from contract calculations
 
+## Wallet Change Detection (Latest)
+- **Auto-Refresh on Wallet Switch**: Dashboard automatically updates when user switches wallet in MetaMask/TrustWallet
+  - Listens to `accountsChanged` event from wallet provider
+  - Updates wallet address in state and localStorage
+  - Invalidates all query caches for fresh data
+  - Shows toast notification with new wallet address
+  - Automatically refetches balances, stakes, and airdrop data
+  - Handles wallet disconnection gracefully
+
 # System Architecture
 
 ## Frontend Architecture

@@ -883,6 +883,61 @@ export default function Dashboard() {
     }
   }, []);
 
+  // Listen for wallet account changes
+  useEffect(() => {
+    if (!window.ethereum) return;
+
+    const handleAccountsChanged = async (accounts: string[]) => {
+      console.log('Wallet account changed:', accounts);
+      
+      if (accounts.length === 0) {
+        // User disconnected their wallet
+        console.log('No accounts connected');
+        handleDisconnectWallet();
+      } else {
+        const newAddress = accounts[0];
+        
+        // Validate the new address
+        if (isValidEthereumAddress(newAddress)) {
+          console.log('Switching to new wallet:', newAddress);
+          
+          // Update state and localStorage
+          setWalletAddress(newAddress);
+          localStorage.setItem('walletAddress', newAddress);
+          
+          // Invalidate airdrop queries to fetch fresh data
+          queryClient.invalidateQueries({ queryKey: ['/api/airdrop/status'] });
+          
+          // Show notification to user
+          toast({
+            title: "🔄 Wallet Changed",
+            description: `Switched to ${newAddress.slice(0, 6)}...${newAddress.slice(-4)}`,
+          });
+          
+          // Refresh all data for the new wallet
+          // The fetchBalances will be called automatically via the useEffect dependency
+        } else {
+          console.warn('Invalid wallet address received:', newAddress);
+          toast({
+            title: "⚠️ Invalid Wallet",
+            description: "The new wallet address is invalid",
+            variant: "destructive"
+          });
+        }
+      }
+    };
+
+    // Add event listener
+    window.ethereum.on('accountsChanged', handleAccountsChanged);
+
+    // Cleanup listener on unmount
+    return () => {
+      if (window.ethereum.removeListener) {
+        window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
+      }
+    };
+  }, []);
+
   // Check network on load and periodically
   useEffect(() => {
     if (!walletAddress || !window.ethereum) return;
