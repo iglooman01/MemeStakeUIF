@@ -10,7 +10,9 @@ import {
   type NewsUpdate,
   type InsertNewsUpdate,
   type EmailSubscription,
-  type InsertEmailSubscription
+  type InsertEmailSubscription,
+  type Transaction,
+  type InsertTransaction
 } from "@shared/schema";
 import { randomUUID } from "crypto";
 
@@ -51,6 +53,13 @@ export interface IStorage {
   getSubscriptionByEmail(email: string): Promise<EmailSubscription | undefined>;
   createSubscription(subscription: InsertEmailSubscription): Promise<EmailSubscription>;
   unsubscribe(email: string): Promise<void>;
+  
+  // Transaction methods
+  createTransaction(transaction: InsertTransaction): Promise<Transaction>;
+  getTransactionsByWallet(walletAddress: string): Promise<Transaction[]>;
+  getTransactionByHash(hash: string): Promise<Transaction | undefined>;
+  updateTransactionStatus(hash: string, status: string): Promise<Transaction | undefined>;
+  getTransactionsByType(walletAddress: string, type: string): Promise<Transaction[]>;
 }
 
 export class MemStorage implements IStorage {
@@ -60,6 +69,7 @@ export class MemStorage implements IStorage {
   private adminUsers: Map<string, AdminUser>;
   private newsUpdates: Map<string, NewsUpdate>;
   private emailSubscriptions: Map<string, EmailSubscription>;
+  private transactions: Map<string, Transaction>;
 
   constructor() {
     this.users = new Map();
@@ -68,6 +78,7 @@ export class MemStorage implements IStorage {
     this.adminUsers = new Map();
     this.newsUpdates = new Map();
     this.emailSubscriptions = new Map();
+    this.transactions = new Map();
     
     // Create default admin user
     const defaultAdmin: AdminUser = {
@@ -280,6 +291,56 @@ export class MemStorage implements IStorage {
       };
       this.emailSubscriptions.set(email.toLowerCase(), updated);
     }
+  }
+
+  // Transaction methods
+  async createTransaction(transaction: InsertTransaction): Promise<Transaction> {
+    const id = randomUUID();
+    const now = new Date();
+    const newTransaction: Transaction = {
+      id,
+      walletAddress: transaction.walletAddress.toLowerCase(),
+      transactionType: transaction.transactionType,
+      amount: transaction.amount,
+      tokenSymbol: transaction.tokenSymbol || "MEMES",
+      transactionHash: transaction.transactionHash,
+      blockNumber: transaction.blockNumber || null,
+      status: transaction.status || "pending",
+      createdAt: now,
+    };
+    this.transactions.set(transaction.transactionHash, newTransaction);
+    return newTransaction;
+  }
+
+  async getTransactionsByWallet(walletAddress: string): Promise<Transaction[]> {
+    return Array.from(this.transactions.values())
+      .filter((tx) => tx.walletAddress === walletAddress.toLowerCase())
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  }
+
+  async getTransactionByHash(hash: string): Promise<Transaction | undefined> {
+    return this.transactions.get(hash);
+  }
+
+  async updateTransactionStatus(hash: string, status: string): Promise<Transaction | undefined> {
+    const transaction = this.transactions.get(hash);
+    if (!transaction) return undefined;
+    
+    const updated: Transaction = {
+      ...transaction,
+      status,
+    };
+    this.transactions.set(hash, updated);
+    return updated;
+  }
+
+  async getTransactionsByType(walletAddress: string, type: string): Promise<Transaction[]> {
+    return Array.from(this.transactions.values())
+      .filter((tx) => 
+        tx.walletAddress === walletAddress.toLowerCase() && 
+        tx.transactionType === type
+      )
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
   }
 }
 

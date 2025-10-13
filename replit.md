@@ -54,7 +54,18 @@ This is a full-stack web application built with React and Express.js for "MemeSt
 
 # Recent Changes (October 2025)
 
-## Branding Update (Latest)
+## Transaction Database Integration (Latest)
+- **Transactions Table**: New database table to track all blockchain transactions
+  - **Stores**: Stake, Claim (2 separate entries: staking rewards + referral rewards), Capital Withdraw
+  - **Fields**: walletAddress, transactionType, amount, tokenSymbol, transactionHash, blockNumber, status, createdAt
+  - **Status Tracking**: pending, confirmed, failed states
+  - **Query Methods**: 
+    - Get all transactions by wallet
+    - Get transactions by type (Stake, Claim Staking Rewards, Claim Referral Rewards, Capital Withdraw)
+    - Update transaction status by hash
+  - **Storage Implementation**: Full CRUD operations in MemStorage and IStorage interface
+
+## Branding Update
 - **Brand Name**: Updated from "memes" to **"MEMES STAKE"** across all pages
   - Bold gold (#ffd700) text styling for maximum visibility
   - Updated all page headers: Home, Dashboard, Staking, Income History, Airdrop

@@ -113,3 +113,24 @@ export const insertEmailSubscriptionSchema = createInsertSchema(emailSubscriptio
 
 export type InsertEmailSubscription = z.infer<typeof insertEmailSubscriptionSchema>;
 export type EmailSubscription = typeof emailSubscriptions.$inferSelect;
+
+// Transactions table - tracks all blockchain transactions
+export const transactions = pgTable("transactions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  walletAddress: text("wallet_address").notNull(),
+  transactionType: text("transaction_type").notNull(), // "Stake", "Claim Staking Rewards", "Claim Referral Rewards", "Capital Withdraw"
+  amount: text("amount").notNull(), // Store as string to handle big numbers
+  tokenSymbol: text("token_symbol").notNull().default("MEMES"), // Token involved in transaction
+  transactionHash: text("transaction_hash").notNull().unique(),
+  blockNumber: integer("block_number"),
+  status: text("status").notNull().default("pending"), // "pending", "confirmed", "failed"
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const insertTransactionSchema = createInsertSchema(transactions).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertTransaction = z.infer<typeof insertTransactionSchema>;
+export type Transaction = typeof transactions.$inferSelect;
