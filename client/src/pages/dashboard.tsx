@@ -1853,8 +1853,38 @@ export default function Dashboard() {
         {/* Buy MEMES Tokens Section - Clean & Attractive */}
         <Card className="p-6 glass-card" style={{border: '2px solid #ffd700', boxShadow: '0 4px 20px rgba(255, 215, 0, 0.2)'}}>
           <div className="text-center mb-6">
-            <h3 className="text-2xl font-bold mb-1" style={{color: '#ffd700'}}>🛒 Buy $MEMES Tokens</h3>
-            <p className="text-sm text-gray-400">Only $0.0001 per token • Minimum $50</p>
+            <h3 className="text-2xl font-bold mb-2" style={{color: '#ffd700'}}>🛒 Buy $MEMES Tokens</h3>
+            
+            {/* Live Price Display */}
+            <div className="flex items-center justify-center gap-4 mt-4">
+              <div className="px-4 py-2 rounded-lg backdrop-blur-sm" style={{
+                background: 'rgba(255, 215, 0, 0.15)',
+                border: '1px solid rgba(255, 215, 0, 0.3)'
+              }}>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                  <span className="text-xs font-semibold text-gray-400">BNB Price:</span>
+                  <span className="text-sm font-bold" style={{color: '#ffd700'}}>
+                    ${bnbPrice.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                  </span>
+                </div>
+              </div>
+              
+              <div className="px-4 py-2 rounded-lg backdrop-blur-sm" style={{
+                background: 'rgba(0, 191, 255, 0.15)',
+                border: '1px solid rgba(0, 191, 255, 0.3)'
+              }}>
+                <div className="flex items-center gap-2">
+                  <Coins className="w-3 h-3" style={{color: '#00bfff'}} />
+                  <span className="text-xs font-semibold text-gray-400">MEMES Price:</span>
+                  <span className="text-sm font-bold" style={{color: '#00bfff'}}>
+                    $0.0001
+                  </span>
+                </div>
+              </div>
+            </div>
+            
+            <p className="text-xs text-gray-500 mt-3">Minimum $50 • Auto-updates every 5 minutes</p>
           </div>
           
           <div className="space-y-5">
@@ -2299,23 +2329,63 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Claim Section */}
-          <div className="p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.2)'}}>
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-sm text-muted-foreground mb-1">Claimable Amount</div>
-                <div className="text-2xl font-bold" style={{color: '#00ff88'}}>
-                  {claimableAmount.toLocaleString()} $MEMES
+          {/* Claim Section - Highlighted */}
+          <div className="relative p-6 rounded-xl overflow-hidden animate-pulse" style={{
+            background: 'linear-gradient(135deg, rgba(0, 255, 136, 0.25) 0%, rgba(0, 255, 136, 0.15) 100%)',
+            border: '3px solid rgba(0, 255, 136, 0.6)',
+            boxShadow: '0 10px 40px rgba(0, 255, 136, 0.3), inset 0 0 60px rgba(0, 255, 136, 0.1)'
+          }}>
+            <div className="absolute top-0 right-0 w-40 h-40 opacity-10">
+              <Gift className="w-full h-full" style={{color: '#00ff88'}} />
+            </div>
+            <div className="relative z-10">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{
+                  background: 'linear-gradient(135deg, #00ff88 0%, #00cc70 100%)',
+                  boxShadow: '0 4px 15px rgba(0, 255, 136, 0.5)'
+                }}>
+                  <Gift className="w-4 h-4 text-black" />
+                </div>
+                <div className="text-sm font-bold uppercase tracking-wide" style={{color: '#00ff88'}}>
+                  ⚡ CLAIMABLE AMOUNT
                 </div>
               </div>
-              <Button 
-                onClick={handleClaimEarnings}
-                disabled={isClaiming || claimableAmount <= 0}
-                style={{background: 'linear-gradient(135deg, #00ff88 0%, #00cc70 100%)', color: '#000'}}
-                data-testid="button-claim-earnings"
-              >
-                {isClaiming ? '⏳ Claiming...' : '💎 Claim to Wallet'}
-              </Button>
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="text-4xl font-black mb-1" style={{
+                    background: 'linear-gradient(135deg, #00ff88 0%, #00ffaa 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent'
+                  }}>
+                    {claimableAmount.toLocaleString()} $MEMES
+                  </div>
+                  <div className="text-xs" style={{color: '#00ff88'}}>
+                    💰 ${(claimableAmount * 0.0001).toFixed(2)} USD Value
+                  </div>
+                </div>
+                <Button 
+                  onClick={handleClaimEarnings}
+                  disabled={isClaiming || claimableAmount <= 0}
+                  className="text-base font-bold px-6 py-6"
+                  style={{
+                    background: 'linear-gradient(135deg, #00ff88 0%, #00cc70 100%)',
+                    color: '#000',
+                    boxShadow: '0 8px 25px rgba(0, 255, 136, 0.4)',
+                    border: 'none'
+                  }}
+                  data-testid="button-claim-earnings"
+                >
+                  {isClaiming ? (
+                    <span className="flex items-center gap-2">
+                      <span className="animate-spin">⏳</span> Claiming...
+                    </span>
+                  ) : (
+                    <span className="flex items-center gap-2">
+                      <Gift className="w-5 h-5" /> Claim Now
+                    </span>
+                  )}
+                </Button>
+              </div>
             </div>
           </div>
         </Card>
