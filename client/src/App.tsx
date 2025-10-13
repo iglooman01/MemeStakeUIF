@@ -10,6 +10,7 @@ import Airdrop from "@/pages/airdrop";
 import IncomeHistory from "@/pages/income-history";
 import Whitepaper from "@/pages/whitepaper";
 import Admin from "@/pages/admin";
+import AdminLogin from "@/pages/admin-login";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -21,7 +22,8 @@ function Router() {
       <Route path="/airdrop" component={Airdrop} />
       <Route path="/income-history" component={IncomeHistory} />
       <Route path="/whitepaper" component={Whitepaper} />
-      <Route path="/admin" component={Admin} />
+      <Route path="/kb-admin-login" component={AdminLogin} />
+      <Route path="/kb-admin-007" component={Admin} />
       <Route component={NotFound} />
     </Switch>
   );
