@@ -877,6 +877,10 @@ export default function Dashboard() {
           // Account accessible - restore wallet
           setWalletAddress(storedAddress);
           setWalletType(storedWalletType || '');
+          
+          // Also check and set the current network immediately
+          const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+          setCurrentChainId(chainId);
         } catch (error) {
           // Error accessing accounts - clear session
           localStorage.removeItem('walletConnected');
@@ -902,7 +906,33 @@ export default function Dashboard() {
       checkCurrentNetwork();
     }, 3000);
 
-    return () => clearInterval(interval);
+    // Listen for network changes
+    const handleChainChanged = (chainId: string) => {
+      console.log('Network changed to:', chainId);
+      setCurrentChainId(chainId);
+      
+      if (chainId !== BSC_TESTNET_CHAIN_ID) {
+        toast({
+          title: "⚠️ Network Changed",
+          description: `You switched to chain ID: ${parseInt(chainId, 16)}. Please switch back to BSC Testnet (97)`,
+          variant: "destructive"
+        });
+      } else {
+        toast({
+          title: "✅ Correct Network",
+          description: "You're now on BSC Testnet",
+        });
+      }
+    };
+
+    window.ethereum.on('chainChanged', handleChainChanged);
+
+    return () => {
+      clearInterval(interval);
+      if (window.ethereum.removeListener) {
+        window.ethereum.removeListener('chainChanged', handleChainChanged);
+      }
+    };
   }, [walletAddress]);
 
   // Listen for wallet account changes
