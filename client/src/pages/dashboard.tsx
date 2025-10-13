@@ -1123,12 +1123,14 @@ export default function Dashboard() {
         console.log('Level 3 rewards:', level3Rewards);
 
         setStakingRewards(totalRewards);
+        setReferralEarnings(totalRewards); // Set total referral earnings
         setLevel1AirdropRewards(level1Rewards);
         setLevel2AirdropRewards(level2Rewards);
         setLevel3AirdropRewards(level3Rewards);
       } catch (rewardsError) {
         console.error('Error fetching referral rewards:', rewardsError);
         setStakingRewards(0);
+        setReferralEarnings(0); // Reset referral earnings on error
         setLevel1AirdropRewards(0);
         setLevel2AirdropRewards(0);
         setLevel3AirdropRewards(0);
