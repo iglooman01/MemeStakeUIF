@@ -2002,74 +2002,74 @@ export default function Dashboard() {
           </div>
         </Card>
 
-        {/* Main Dashboard Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Main Dashboard Grid - Compact */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
           
-          {/* Wallet Balance - Redesigned */}
+          {/* Wallet Balance - Compact */}
           <Card className="p-0 overflow-hidden relative" style={{
             background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(0, 191, 255, 0.1) 100%)',
             border: '1px solid rgba(255, 215, 0, 0.3)'
           }}>
-            {/* Header with gradient */}
-            <div className="p-6 pb-4 relative" style={{
+            {/* Header - Compact */}
+            <div className="p-3 pb-2 relative" style={{
               background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(0, 191, 255, 0.15) 100%)'
             }}>
               <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{
                     background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)',
                     boxShadow: '0 4px 15px rgba(255, 215, 0, 0.4)'
                   }}>
-                    <span className="text-xl">💰</span>
+                    <span className="text-base">💰</span>
                   </div>
-                  <h3 className="text-xl font-bold bg-gradient-to-r from-yellow-400 to-cyan-400 bg-clip-text text-transparent">
+                  <h3 className="text-base sm:text-lg font-bold bg-gradient-to-r from-yellow-400 to-cyan-400 bg-clip-text text-transparent">
                     My Wallet
                   </h3>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
                   <span className="text-xs font-semibold" style={{color: '#00ff88'}}>LIVE</span>
                 </div>
               </div>
               
-              {/* Wallet Address Badge */}
+              {/* Wallet Address Badge - Compact */}
               {walletAddress && (
-                <div className="mt-3 p-3 rounded-lg backdrop-blur-sm" style={{
+                <div className="mt-2 p-2 rounded-lg backdrop-blur-sm" style={{
                   background: 'rgba(0, 191, 255, 0.2)',
                   border: '1px solid rgba(0, 191, 255, 0.3)'
                 }}>
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="text-xs font-semibold mb-1" style={{color: '#00bfff'}}>Connected Wallet</div>
-                      <div className="text-sm font-mono font-bold text-white">
-                        {walletAddress.slice(0, 8)}...{walletAddress.slice(-6)}
+                      <div className="text-xs font-semibold mb-0.5" style={{color: '#00bfff'}}>Wallet</div>
+                      <div className="text-xs font-mono font-bold text-white">
+                        {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
                       </div>
                     </div>
-                    <Coins className="w-5 h-5" style={{color: '#00bfff'}} />
+                    <Coins className="w-4 h-4" style={{color: '#00bfff'}} />
                   </div>
                 </div>
               )}
             </div>
             
-            {/* Wallet Stats Grid */}
-            <div className="p-6 pt-4 space-y-3">
-              {/* Main Balance - Featured */}
-              <div className="p-5 rounded-xl relative overflow-hidden" style={{
+            {/* Wallet Stats - Compact */}
+            <div className="p-3 pt-2 space-y-2">
+              {/* Main Balance - Compact */}
+              <div className="p-3 rounded-xl relative overflow-hidden" style={{
                 background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, rgba(255, 215, 0, 0.05) 100%)',
                 border: '2px solid rgba(255, 215, 0, 0.4)',
                 boxShadow: '0 8px 25px rgba(255, 215, 0, 0.2)'
               }}>
-                <div className="absolute top-0 right-0 w-32 h-32 opacity-10">
+                <div className="absolute top-0 right-0 w-24 h-24 opacity-10">
                   <Coins className="w-full h-full" style={{color: '#ffd700'}} />
                 </div>
                 <div className="relative z-10">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Zap className="w-4 h-4" style={{color: '#ffd700'}} />
+                  <div className="flex items-center gap-1.5 mb-1">
+                    <Zap className="w-3.5 h-3.5" style={{color: '#ffd700'}} />
                     <div className="text-xs font-semibold uppercase tracking-wide" style={{color: '#ffd700'}}>
                       Token Balance
                     </div>
                   </div>
-                  <div className="text-3xl font-black" style={{
+                  <div className="text-xl sm:text-2xl font-black" style={{
                     background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent'
@@ -2083,40 +2083,40 @@ export default function Dashboard() {
                 </div>
               </div>
               
-              {/* Stats Grid */}
-              <div className="grid grid-cols-1 gap-3">
+              {/* Stats Grid - Compact */}
+              <div className="grid grid-cols-1 gap-2">
                 {/* Total Rewards */}
-                <div className="p-4 rounded-lg backdrop-blur-sm" style={{
+                <div className="p-2.5 rounded-lg backdrop-blur-sm" style={{
                   background: 'rgba(0, 191, 255, 0.15)',
                   border: '1px solid rgba(0, 191, 255, 0.3)'
                 }}>
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <Trophy className="w-4 h-4" style={{color: '#00bfff'}} />
-                      <span className="text-sm text-gray-300">Total Rewards</span>
+                    <div className="flex items-center gap-1.5">
+                      <Trophy className="w-3.5 h-3.5" style={{color: '#00bfff'}} />
+                      <span className="text-xs text-gray-300">Total Rewards</span>
                     </div>
-                    <div className="text-lg font-bold" style={{color: '#00bfff'}}>
+                    <div className="text-sm font-bold" style={{color: '#00bfff'}}>
                       {isLoadingBalances ? (
-                        <span className="animate-pulse text-sm">...</span>
+                        <span className="animate-pulse text-xs">...</span>
                       ) : (
-                        `${stakingRewards.toLocaleString()} $MEMES`
+                        `${stakingRewards.toLocaleString()}`
                       )}
                     </div>
                   </div>
                 </div>
                 
                 {/* Airdrop Tokens */}
-                <div className="p-4 rounded-lg backdrop-blur-sm" style={{
+                <div className="p-2.5 rounded-lg backdrop-blur-sm" style={{
                   background: 'rgba(0, 255, 136, 0.15)',
                   border: '1px solid rgba(0, 255, 136, 0.3)'
                 }}>
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <Gift className="w-4 h-4" style={{color: '#00ff88'}} />
-                      <span className="text-sm text-gray-300">Airdrop Tokens</span>
+                    <div className="flex items-center gap-1.5">
+                      <Gift className="w-3.5 h-3.5" style={{color: '#00ff88'}} />
+                      <span className="text-xs text-gray-300">Airdrop Tokens</span>
                     </div>
-                    <div className="text-lg font-bold" style={{color: '#00ff88'}}>
-                      {airdropTokens.toLocaleString()} $MEMES
+                    <div className="text-sm font-bold" style={{color: '#00ff88'}}>
+                      {airdropTokens.toLocaleString()}
                     </div>
                   </div>
                 </div>
@@ -2174,99 +2174,99 @@ export default function Dashboard() {
               </div>
             </div>
             
-            {/* APY Highlight */}
-            <div className="px-6 pb-4">
-              <div className="p-5 rounded-xl relative overflow-hidden" style={{
+            {/* APY Highlight - Compact */}
+            <div className="px-3 pb-2">
+              <div className="p-3 rounded-xl relative overflow-hidden" style={{
                 background: 'linear-gradient(135deg, rgba(0, 255, 136, 0.2) 0%, rgba(0, 255, 136, 0.05) 100%)',
                 border: '2px solid rgba(0, 255, 136, 0.4)',
                 boxShadow: '0 8px 25px rgba(0, 255, 136, 0.2)'
               }}>
-                <div className="absolute top-0 right-0 w-32 h-32 opacity-10">
+                <div className="absolute top-0 right-0 w-24 h-24 opacity-10">
                   <TrendingUp className="w-full h-full" style={{color: '#00ff88'}} />
                 </div>
                 <div className="relative z-10">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Rocket className="w-4 h-4" style={{color: '#00ff88'}} />
+                  <div className="flex items-center gap-1.5 mb-1">
+                    <Rocket className="w-3.5 h-3.5" style={{color: '#00ff88'}} />
                     <div className="text-xs font-semibold uppercase tracking-wide" style={{color: '#00ff88'}}>
-                      Annual Percentage Yield
+                      APY
                     </div>
                   </div>
-                  <div className="text-4xl font-black" style={{
+                  <div className="text-2xl sm:text-3xl font-black" style={{
                     background: 'linear-gradient(135deg, #00ff88 0%, #00ffaa 100%)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent'
                   }}>
-                    365% APY
+                    365%
                   </div>
-                  <div className="text-xs mt-1" style={{color: '#00ff88'}}>
-                    🔥 1% Daily Returns
+                  <div className="text-xs mt-0.5" style={{color: '#00ff88'}}>
+                    🔥 1% Daily
                   </div>
                 </div>
               </div>
             </div>
             
-            {/* Staking Stats */}
-            <div className="px-6 pb-6 space-y-3">
+            {/* Staking Stats - Compact */}
+            <div className="px-3 pb-3 space-y-2">
               {/* Staked Amount */}
-              <div className="p-4 rounded-lg backdrop-blur-sm" style={{
+              <div className="p-2.5 rounded-lg backdrop-blur-sm" style={{
                 background: 'rgba(255, 215, 0, 0.15)',
                 border: '1px solid rgba(255, 215, 0, 0.3)'
               }}>
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Lock className="w-4 h-4" style={{color: '#ffd700'}} />
-                    <span className="text-sm text-gray-300">Staked Amount</span>
+                  <div className="flex items-center gap-1.5">
+                    <Lock className="w-3.5 h-3.5" style={{color: '#ffd700'}} />
+                    <span className="text-xs text-gray-300">Staked</span>
                   </div>
-                  <div className="text-lg font-bold" style={{color: '#ffd700'}}>
+                  <div className="text-sm font-bold" style={{color: '#ffd700'}}>
                     {isLoadingBalances ? (
-                      <span className="animate-pulse text-sm">...</span>
+                      <span className="animate-pulse text-xs">...</span>
                     ) : (
-                      `${totalStakedAmount.toLocaleString()} $MEMES`
+                      `${totalStakedAmount.toLocaleString()}`
                     )}
                   </div>
                 </div>
               </div>
               
               {/* Lock Period */}
-              <div className="p-4 rounded-lg backdrop-blur-sm" style={{
+              <div className="p-2.5 rounded-lg backdrop-blur-sm" style={{
                 background: 'rgba(0, 191, 255, 0.15)',
                 border: '1px solid rgba(0, 191, 255, 0.3)'
               }}>
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Shield className="w-4 h-4" style={{color: '#00bfff'}} />
-                    <span className="text-sm text-gray-300">Lock Period</span>
+                  <div className="flex items-center gap-1.5">
+                    <Shield className="w-3.5 h-3.5" style={{color: '#00bfff'}} />
+                    <span className="text-xs text-gray-300">Lock Period</span>
                   </div>
-                  <div className="text-lg font-bold text-white">
+                  <div className="text-sm font-bold text-white">
                     50 Days
                   </div>
                 </div>
               </div>
               
               {/* Daily Rewards */}
-              <div className="p-4 rounded-lg backdrop-blur-sm" style={{
+              <div className="p-2.5 rounded-lg backdrop-blur-sm" style={{
                 background: 'rgba(0, 255, 136, 0.15)',
                 border: '1px solid rgba(0, 255, 136, 0.3)'
               }}>
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Zap className="w-4 h-4" style={{color: '#00ff88'}} />
-                    <span className="text-sm text-gray-300">Today's Rewards</span>
+                  <div className="flex items-center gap-1.5">
+                    <Zap className="w-3.5 h-3.5" style={{color: '#00ff88'}} />
+                    <span className="text-xs text-gray-300">Today's Rewards</span>
                   </div>
-                  <div className="text-lg font-bold" style={{color: '#00ff88'}}>
+                  <div className="text-sm font-bold" style={{color: '#00ff88'}}>
                     {isLoadingBalances ? (
-                      <span className="animate-pulse text-sm">...</span>
+                      <span className="animate-pulse text-xs">...</span>
                     ) : (
-                      `${accruedToday.toLocaleString()} $MEMES`
+                      `${accruedToday.toLocaleString()}`
                     )}
                   </div>
                 </div>
               </div>
               
-              {/* Stake Button */}
+              {/* Stake Button - Compact */}
               <Button 
-                size="lg"
-                className="w-full mt-4 text-base font-bold py-6 transition-all hover:scale-105" 
+                size="sm"
+                className="w-full mt-2 text-sm font-bold py-3 transition-all hover:scale-105" 
                 onClick={handleStakeTokens}
                 style={{
                   background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)',
@@ -2276,50 +2276,49 @@ export default function Dashboard() {
                 }}
                 data-testid="button-stake-more"
               >
-                <Rocket className="w-5 h-5 mr-2" />
-                Stake More Tokens
+                <Rocket className="w-4 h-4 mr-1.5" />
+                Stake More
               </Button>
             </div>
           </Card>
         </div>
 
-        {/* Earnings Section */}
-        <Card className="p-6 glass-card">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold">💰 My Earnings</h3>
+        {/* Earnings Section - Compact */}
+        <Card className="p-3 sm:p-4 glass-card">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-base font-semibold">💰 My Earnings</h3>
             <Button 
               variant="outline" 
               size="sm"
               onClick={() => setLocation('/income-history')}
+              className="text-xs py-1 px-2 h-auto"
               data-testid="button-view-history"
             >
-              📊 View History
+              📊 History
             </Button>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-4 mb-4">
+          <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-3">
             {/* Staking Earnings */}
-            <div className="p-4 rounded-lg text-center" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.2)'}}>
-              <div className="text-xs text-muted-foreground mb-2">Staking Rewards</div>
-              <div className="text-xl font-bold" style={{color: '#00bfff'}}>
+            <div className="p-2 sm:p-3 rounded-lg text-center" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.2)'}}>
+              <div className="text-xs text-muted-foreground mb-1">Staking</div>
+              <div className="text-sm sm:text-base font-bold" style={{color: '#00bfff'}}>
                 {stakingEarnings.toLocaleString()}
               </div>
-              <div className="text-xs text-muted-foreground mt-1">$MEMES</div>
             </div>
 
             {/* Referral Earnings */}
-            <div className="p-4 rounded-lg text-center" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)'}}>
-              <div className="text-xs text-muted-foreground mb-2">Referral Rewards</div>
-              <div className="text-xl font-bold" style={{color: '#ffd700'}}>
+            <div className="p-2 sm:p-3 rounded-lg text-center" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)'}}>
+              <div className="text-xs text-muted-foreground mb-1">Referral</div>
+              <div className="text-sm sm:text-base font-bold" style={{color: '#ffd700'}}>
                 {referralEarnings.toLocaleString()}
               </div>
-              <div className="text-xs text-muted-foreground mt-1">$MEMES</div>
             </div>
 
             {/* Total Earnings */}
-            <div className="p-4 rounded-lg text-center" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.2)'}}>
-              <div className="text-xs text-muted-foreground mb-2">Total Earnings</div>
-              <div className="text-xl font-bold" style={{color: '#00ff88'}}>
+            <div className="p-2 sm:p-3 rounded-lg text-center" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.2)'}}>
+              <div className="text-xs text-muted-foreground mb-1">Total</div>
+              <div className="text-sm sm:text-base font-bold" style={{color: '#00ff88'}}>
                 {totalEarnings.toLocaleString()}
               </div>
               <div className="text-xs text-muted-foreground mt-1">$MEMES</div>
