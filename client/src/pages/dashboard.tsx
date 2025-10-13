@@ -843,16 +843,61 @@ export default function Dashboard() {
     }
   };
 
-  // Load wallet address and type from localStorage
+  // Verify actual wallet connection on page load (don't trust localStorage)
   useEffect(() => {
-    const storedAddress = localStorage.getItem('walletAddress');
-    const storedWalletType = localStorage.getItem('walletType');
-    if (storedAddress) {
-      setWalletAddress(storedAddress);
-    }
-    if (storedWalletType) {
-      setWalletType(storedWalletType);
-    }
+    const verifyWalletConnection = async () => {
+      const storedAddress = localStorage.getItem('walletAddress');
+      const storedWalletType = localStorage.getItem('walletType');
+      
+      if (!storedAddress || !window.ethereum) {
+        // No stored address or no wallet - clear everything
+        localStorage.removeItem('walletConnected');
+        localStorage.removeItem('walletAddress');
+        localStorage.removeItem('walletType');
+        return;
+      }
+
+      try {
+        // Check if wallet is actually unlocked and connected
+        const accounts = await window.ethereum.request({ 
+          method: 'eth_accounts' 
+        });
+
+        if (accounts && accounts.length > 0) {
+          // Wallet is unlocked and connected
+          const currentAccount = accounts[0].toLowerCase();
+          const storedAddressLower = storedAddress.toLowerCase();
+
+          if (currentAccount === storedAddressLower) {
+            // Same account - restore connection
+            setWalletAddress(storedAddress);
+            setWalletType(storedWalletType || '');
+          } else {
+            // Different account - update to current
+            setWalletAddress(accounts[0]);
+            localStorage.setItem('walletAddress', accounts[0]);
+            setWalletType(storedWalletType || '');
+          }
+        } else {
+          // Wallet is locked or not connected - clear localStorage
+          localStorage.removeItem('walletConnected');
+          localStorage.removeItem('walletAddress');
+          localStorage.removeItem('walletType');
+          setWalletAddress('');
+          setWalletType('');
+        }
+      } catch (error) {
+        console.error('Error verifying wallet connection:', error);
+        // Clear everything on error
+        localStorage.removeItem('walletConnected');
+        localStorage.removeItem('walletAddress');
+        localStorage.removeItem('walletType');
+        setWalletAddress('');
+        setWalletType('');
+      }
+    };
+
+    verifyWalletConnection();
   }, []);
 
   // Check network on load and periodically

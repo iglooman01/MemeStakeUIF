@@ -24,11 +24,56 @@ export default function Airdrop() {
     ? `https://memestake.app/airdrop?ref=${walletAddress.slice(0, 6)}` 
     : 'Connect wallet to get your referral link';
 
+  // Verify actual wallet connection on page load (don't trust localStorage)
   useEffect(() => {
-    const storedAddress = localStorage.getItem('walletAddress');
-    if (storedAddress) {
-      setWalletAddress(storedAddress);
-    }
+    const verifyWalletConnection = async () => {
+      const storedAddress = localStorage.getItem('walletAddress');
+      
+      if (!storedAddress || !window.ethereum) {
+        localStorage.removeItem('walletConnected');
+        localStorage.removeItem('walletAddress');
+        localStorage.removeItem('walletType');
+        setLocation('/');
+        return;
+      }
+
+      try {
+        const accounts = await window.ethereum.request({ 
+          method: 'eth_accounts' 
+        });
+
+        if (accounts && accounts.length > 0) {
+          const currentAccount = accounts[0].toLowerCase();
+          const storedAddressLower = storedAddress.toLowerCase();
+
+          if (currentAccount === storedAddressLower) {
+            setWalletAddress(storedAddress);
+          } else {
+            setWalletAddress(accounts[0]);
+            localStorage.setItem('walletAddress', accounts[0]);
+          }
+        } else {
+          // Wallet is locked - clear and redirect
+          localStorage.removeItem('walletConnected');
+          localStorage.removeItem('walletAddress');
+          localStorage.removeItem('walletType');
+          toast({
+            title: "🔒 Wallet Locked",
+            description: "Please unlock your wallet to continue",
+            variant: "destructive"
+          });
+          setLocation('/');
+        }
+      } catch (error) {
+        console.error('Error verifying wallet connection:', error);
+        localStorage.removeItem('walletConnected');
+        localStorage.removeItem('walletAddress');
+        localStorage.removeItem('walletType');
+        setLocation('/');
+      }
+    };
+
+    verifyWalletConnection();
   }, []);
 
   // Listen for wallet account changes
