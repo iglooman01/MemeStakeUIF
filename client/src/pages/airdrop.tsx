@@ -231,10 +231,10 @@ export default function Airdrop() {
   };
 
   const shareReferral = () => {
-    const shareText = `Join me on Memes Everywhere and claim your free MEMES tokens! 🚀\n\n${referralLink}`;
+    const shareText = `Join me on memes and claim your free MEMES tokens! 🚀\n\n${referralLink}`;
     if (navigator.share) {
       navigator.share({
-        title: 'Memes Everywhere Airdrop',
+        title: 'memes Airdrop',
         text: shareText,
       });
     } else {
@@ -256,8 +256,8 @@ export default function Airdrop() {
         <div className="max-w-6xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <img src={memeStakeLogo} alt="Memes Everywhere" className="w-10 h-10 rounded-full" data-testid="logo" />
-              <span className="text-xl font-bold" style={{color: '#ffd700'}} data-testid="brand-name">Memes Everywhere</span>
+              <img src={memeStakeLogo} alt="memes" className="w-10 h-10 rounded-full" data-testid="logo" />
+              <span className="text-xl font-bold" style={{color: '#ffd700'}} data-testid="brand-name">memes</span>
             </div>
             <nav className="hidden md:flex space-x-6">
               <button onClick={() => setLocation('/')} className="hover:text-primary transition-colors" data-testid="nav-home">Home</button>
@@ -308,7 +308,7 @@ export default function Airdrop() {
             </div>
           </div>
           <p className="mt-6 text-muted-foreground">
-            🚀 Memes Everywhere DECENTRALIZED AIRDROP is LIVE! Complete social tasks to claim exclusive MEMES tokens DIRECT IN YOUR WALLET
+            🚀 memes DECENTRALIZED AIRDROP is LIVE! Complete social tasks to claim exclusive MEMES tokens DIRECT IN YOUR WALLET
           </p>
         </Card>
 
@@ -533,9 +533,9 @@ export default function Airdrop() {
           
           <div className="space-y-4">
             <details className="p-4 rounded-lg" style={{background: 'rgba(255, 255, 255, 0.05)'}}>
-              <summary className="font-semibold cursor-pointer">What is Memes Everywhere?</summary>
+              <summary className="font-semibold cursor-pointer">What is memes?</summary>
               <p className="text-sm text-muted-foreground mt-3">
-                Memes Everywhere is a stake-to-earn meme token project with audited contracts, transparent tokenomics, and community rewards.
+                memes is a stake-to-earn meme token project with audited contracts, transparent tokenomics, and community rewards.
               </p>
             </details>
             
@@ -562,17 +562,17 @@ export default function Airdrop() {
           </div>
         </Card>
 
-        {/* About Memes Everywhere */}
+        {/* About memes */}
         <Card className="p-6 mb-6 glass-card">
           <h2 className="text-2xl font-bold mb-6 text-center" style={{color: '#ffd700'}}>
-            🚀 About Memes Everywhere
+            🚀 About memes
           </h2>
           
           <div className="space-y-4">
             <div>
               <h3 className="text-xl font-semibold mb-3" style={{color: '#00bfff'}}>Our Mission</h3>
               <p className="text-muted-foreground">
-                Memes Everywhere is revolutionizing the meme coin ecosystem by combining decentralized airdrops with innovative staking mechanisms. 
+                memes is revolutionizing the meme coin ecosystem by combining decentralized airdrops with innovative staking mechanisms. 
                 We deliver tokens direct to your wallet while building the strongest meme community in crypto.
               </p>
             </div>

@@ -36,7 +36,7 @@ const messages = [
   'joined the airdrop!',
   'just signed up!',
   'claimed tokens!',
-  'joined Memes Everywhere!',
+  'joined memes!',
   'connected wallet!',
   'just connected!',
   'wallet connected!',

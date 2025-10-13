@@ -683,7 +683,7 @@ export default function Staking() {
             <div className="flex items-center space-x-2">
               <img 
                 src={memeStakeLogo} 
-                alt="Memes Everywhere Logo" 
+                alt="memes Logo" 
                 className="w-12 h-12 rounded-lg"
                 style={{filter: 'drop-shadow(0 4px 15px rgba(255, 215, 0, 0.2))'}}
               />

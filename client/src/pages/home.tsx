@@ -770,7 +770,7 @@ export default function Home() {
             <div className="flex items-center space-x-2 cursor-pointer" data-testid="logo-brand" onClick={() => window.location.href = '/'}>
               <img 
                 src={memeStakeLogo} 
-                alt="Memes Everywhere Logo" 
+                alt="memes Logo" 
                 className="w-16 h-16 rounded-lg shadow-lg"
                 style={{
                   filter: 'drop-shadow(0 4px 15px rgba(255, 215, 0, 0.2))'
@@ -1566,7 +1566,7 @@ export default function Home() {
               <div className="flex items-center space-x-3">
                 <img 
                   src={memeStakeLogo} 
-                  alt="Memes Everywhere Logo" 
+                  alt="memes Logo" 
                   className="w-8 h-8 rounded-lg"
                   style={{
                     filter: 'drop-shadow(0 2px 8px rgba(255, 215, 0, 0.1))'
@@ -1751,7 +1751,7 @@ export default function Home() {
             <div className="flex justify-center mb-6">
               <img 
                 src={memeStakeLogo} 
-                alt="Memes Everywhere Logo" 
+                alt="memes Logo" 
                 className="w-20 h-20 rounded-2xl animate-pulse"
                 style={{
                   filter: 'drop-shadow(0 8px 20px rgba(255, 215, 0, 0.4))',
@@ -1853,12 +1853,12 @@ export default function Home() {
               <div className="flex items-center justify-center gap-3 mb-3">
                 <img 
                   src={memeStakeLogo} 
-                  alt="Memes Everywhere Logo" 
+                  alt="memes Logo" 
                   className="w-12 h-12 rounded-full"
                   style={{boxShadow: '0 4px 15px rgba(255, 215, 0, 0.3)'}}
                 />
                 <h3 className="text-2xl font-bold bg-gradient-to-r from-yellow-400 to-cyan-400 bg-clip-text text-transparent">
-                  Memes Everywhere
+                  memes
                 </h3>
               </div>
               <p className="text-sm text-gray-400 max-w-md mx-auto">
@@ -1933,7 +1933,7 @@ export default function Home() {
             {/* Copyright */}
             <div className="text-center">
               <p className="text-sm text-gray-500">
-                © {new Date().getFullYear()} <span className="font-semibold" style={{color: '#ffd700'}}>Memes Everywhere</span>. All rights reserved.
+                © {new Date().getFullYear()} <span className="font-semibold" style={{color: '#ffd700'}}>memes</span>. All rights reserved.
               </p>
               <p className="text-xs text-gray-600 mt-2">
                 Built on Binance Smart Chain • Powered by Community

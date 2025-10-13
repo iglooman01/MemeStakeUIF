@@ -67,7 +67,7 @@ export function Footer() {
         {/* Copyright */}
         <div className="text-center mt-4 pt-4 border-t border-border">
           <div className="text-muted-foreground text-sm">
-            © 2025 Memes Everywhere. All rights reserved.
+            © 2025 memes. All rights reserved.
           </div>
         </div>
       </div>
