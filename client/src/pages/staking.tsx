@@ -320,8 +320,36 @@ export default function Staking() {
         description: "Withdrawing your capital...",
       });
 
+      // Get stake amount from activeStakes
+      const stake = activeStakes.find(s => Number(s.id) === stakeId);
+      const stakeAmountValue = stake ? (Number(stake.details.amount) / 1e18).toString() : '0';
+
+      // Save transaction to database
+      try {
+        await apiRequest('/api/transactions', 'POST', {
+          walletAddress: walletAddress,
+          transactionType: 'Capital Withdraw',
+          amount: stakeAmountValue,
+          tokenSymbol: 'MEMES',
+          transactionHash: txHash,
+          status: 'pending'
+        });
+        console.log('Capital withdraw transaction saved to database');
+      } catch (dbError) {
+        console.error('Error saving capital withdraw transaction:', dbError);
+      }
+
       // Wait for transaction confirmation
       await new Promise(resolve => setTimeout(resolve, 3000));
+
+      // Update transaction status to confirmed
+      try {
+        await apiRequest(`/api/transactions/${txHash}/status`, 'PUT', {
+          status: 'confirmed'
+        });
+      } catch (dbError) {
+        console.error('Error updating transaction status:', dbError);
+      }
 
       // Refresh data after withdrawal
       await fetchStakingData();
