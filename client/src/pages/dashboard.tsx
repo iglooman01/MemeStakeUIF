@@ -1197,21 +1197,8 @@ export default function Dashboard() {
         console.log('Pending/Claimable rewards:', claimableAmount);
         setPendingStakingRewards(claimableAmount);
 
-        // Calculate Accrued Today: 1% of active stakes whose lastClaim is < 24 hours
-        const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
-        
-        let todayAccrued = 0;
-        
-        for (const stake of activeStakes) {
-          if (stake.details && stake.details.isActive) {
-            const lastClaimTime = Number(stake.details.lastClaimTime);
-            // If lastClaim is within the last 24 hours
-            if (lastClaimTime + (24 * 60 * 60) <= currentTime) {
-              todayAccrued += (Number(stake.details.amount) / 1e18) * 0.01; // 1% of stake
-            }
-          }
-        }
-        
+        // Calculate Accrued Today: 1% of total staked (daily rate)
+        const todayAccrued = totalStaked * 0.01; // 1% daily APY
         console.log('Accrued today:', todayAccrued);
         setAccruedToday(todayAccrued);
       } catch (stakeError) {
@@ -2391,7 +2378,7 @@ export default function Dashboard() {
                     <span className="text-xs text-gray-300">Lock Period</span>
                   </div>
                   <div className="text-sm font-bold text-white">
-                    50 Days
+                    90 Days
                   </div>
                 </div>
               </div>

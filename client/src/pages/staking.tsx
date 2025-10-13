@@ -302,7 +302,7 @@ export default function Staking() {
 
       // Prepare the withdrawCapital contract call
       const stakeIdHex = stakeId.toString(16).padStart(64, '0');
-      const withdrawData = '0x4e71d92d' + stakeIdHex; // withdrawCapital(uint256) function signature
+      const withdrawData = '0xd95b0a12' + stakeIdHex; // withdrawCapital(uint256) function signature
 
       // Send transaction
       const txHash = await window.ethereum.request({
@@ -971,7 +971,7 @@ export default function Staking() {
               <div className="p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.2)'}}>
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm text-muted-foreground">💰 Claimable Now</span>
-                  <span className="text-xs" style={{color: '#00ff88'}}>{daysStaked} days</span>
+                  {/*<span className="text-xs" style={{color: '#00ff88'}}>{daysStaked} days</span>*/}
                 </div>
                 <div className="text-2xl font-bold" style={{color: '#00ff88'}}>
                   {claimableRewards.toLocaleString()} $MEMES

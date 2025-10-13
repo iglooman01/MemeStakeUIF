@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import memeStakeLogo from "@assets/ChatGPT Image Oct 9, 2025, 11_08_34 AM_1759988345567.png";
+import { createPublicClient, http } from 'viem';
+import { bscTestnet } from 'viem/chains';
+import { CONTRACTS } from '@/config/contracts';
 
 interface IncomeRecord {
   id: number;
@@ -17,6 +20,81 @@ export default function IncomeHistory() {
   const [location, setLocation] = useLocation();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+
+  // Smart contract data state
+  const [stakingRewards, setStakingRewards] = useState(0);
+  const [referralRewards, setReferralRewards] = useState(0);
+  const [bonusRewards, setBonusRewards] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [walletAddress, setWalletAddress] = useState<string | null>(null);
+
+  // Create public client for reading contract data
+  const publicClient = createPublicClient({
+    chain: bscTestnet,
+    transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
+  });
+
+  // Fetch wallet address on mount
+  useEffect(() => {
+    const storedWallet = localStorage.getItem('connectedWallet');
+    setWalletAddress(storedWallet);
+  }, []);
+
+  // Fetch rewards data from smart contracts
+  useEffect(() => {
+    const fetchRewards = async () => {
+      if (!walletAddress) {
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        setIsLoading(true);
+
+        // 1. Staking Rewards = getPendingRewards from MEMES_STAKE
+        const pendingRewards = await publicClient.readContract({
+          address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
+          abi: CONTRACTS.MEMES_STAKE.abi,
+          functionName: 'getPendingRewards',
+          args: [walletAddress as `0x${string}`]
+        }) as bigint;
+        setStakingRewards(Number(pendingRewards) / 1e18);
+
+        // 2. Referral Rewards = getTotalRewardsByReferralLevel from MEMES_STAKE
+        const rewardsByLevel = await publicClient.readContract({
+          address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
+          abi: CONTRACTS.MEMES_STAKE.abi,
+          functionName: 'getTotalRewardsByReferralLevel',
+          args: [walletAddress as `0x${string}`]
+        }) as any[];
+        const totalReferralRewards = Number(rewardsByLevel[0] || 0) / 1e18;
+        setReferralRewards(totalReferralRewards);
+
+        // 3. Bonus Rewards = referralRewardByLevel from MEMES_PRESALE (levels 0-2)
+        let totalPresaleRewards = 0;
+        for (let level = 0; level < 3; level++) {
+          const reward = await publicClient.readContract({
+            address: CONTRACTS.MEMES_PRESALE.address as `0x${string}`,
+            abi: CONTRACTS.MEMES_PRESALE.abi,
+            functionName: 'referralRewardByLevel',
+            args: [walletAddress as `0x${string}`, level]
+          }) as bigint;
+          totalPresaleRewards += Number(reward) / 1e18;
+        }
+        setBonusRewards(totalPresaleRewards);
+
+      } catch (error) {
+        console.error('Error fetching rewards:', error);
+        setStakingRewards(0);
+        setReferralRewards(0);
+        setBonusRewards(0);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchRewards();
+  }, [walletAddress]);
 
   // Sample income history data
   const incomeHistory: IncomeRecord[] = [
@@ -60,10 +138,8 @@ export default function IncomeHistory() {
     }
   };
 
-  const totalStakingEarnings = incomeHistory.filter(r => r.type === 'staking').reduce((sum, r) => sum + r.amount, 0);
-  const totalReferralEarnings = incomeHistory.filter(r => r.type === 'referral').reduce((sum, r) => sum + r.amount, 0);
-  const totalBonusEarnings = incomeHistory.filter(r => r.type === 'bonus').reduce((sum, r) => sum + r.amount, 0);
-  const grandTotal = totalStakingEarnings + totalReferralEarnings + totalBonusEarnings;
+  // Calculate totals from smart contract data
+  const grandTotal = stakingRewards + referralRewards + bonusRewards;
 
   return (
     <div className="min-h-screen text-foreground" style={{background: 'linear-gradient(135deg, #0a0e1a 0%, #1a1f2e 50%, #0f1421 100%)'}} data-testid="income-history-page">
@@ -100,7 +176,11 @@ export default function IncomeHistory() {
           <Card className="p-4 glass-card text-center">
             <div className="text-xs text-muted-foreground mb-2">Total Earnings</div>
             <div className="text-2xl font-bold" style={{color: '#00ff88'}}>
-              {grandTotal.toLocaleString()}
+              {isLoading ? (
+                <span className="animate-pulse">...</span>
+              ) : (
+                grandTotal.toLocaleString()
+              )}
             </div>
             <div className="text-xs text-muted-foreground mt-1">$MEMES</div>
           </Card>
@@ -108,7 +188,11 @@ export default function IncomeHistory() {
           <Card className="p-4 glass-card text-center">
             <div className="text-xs text-muted-foreground mb-2">Staking Rewards</div>
             <div className="text-xl font-bold" style={{color: '#00bfff'}}>
-              {totalStakingEarnings.toLocaleString()}
+              {isLoading ? (
+                <span className="animate-pulse">...</span>
+              ) : (
+                stakingRewards.toLocaleString()
+              )}
             </div>
             <div className="text-xs text-muted-foreground mt-1">$MEMES</div>
           </Card>
@@ -116,7 +200,11 @@ export default function IncomeHistory() {
           <Card className="p-4 glass-card text-center">
             <div className="text-xs text-muted-foreground mb-2">Referral Rewards</div>
             <div className="text-xl font-bold" style={{color: '#ffd700'}}>
-              {totalReferralEarnings.toLocaleString()}
+              {isLoading ? (
+                <span className="animate-pulse">...</span>
+              ) : (
+                referralRewards.toLocaleString()
+              )}
             </div>
             <div className="text-xs text-muted-foreground mt-1">$MEMES</div>
           </Card>
@@ -124,7 +212,11 @@ export default function IncomeHistory() {
           <Card className="p-4 glass-card text-center">
             <div className="text-xs text-muted-foreground mb-2">Bonus Rewards</div>
             <div className="text-xl font-bold" style={{color: '#ff69b4'}}>
-              {totalBonusEarnings.toLocaleString()}
+              {isLoading ? (
+                <span className="animate-pulse">...</span>
+              ) : (
+                bonusRewards.toLocaleString()
+              )}
             </div>
             <div className="text-xs text-muted-foreground mt-1">$MEMES</div>
           </Card>
