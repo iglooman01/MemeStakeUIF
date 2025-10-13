@@ -1170,40 +1170,40 @@ export default function Dashboard() {
       
       {/* Header */}
       <header className="sticky top-0 z-50 border-b border-border backdrop-blur-md" style={{background: 'rgba(15, 10, 35, 0.95)'}} data-testid="dashboard-header">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3">
-          <div className="flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 py-2">
+          <div className="flex items-center justify-between gap-2">
             {/* Logo */}
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center gap-2">
               <img 
                 src={memeStakeLogo} 
                 alt="memes Logo" 
-                className="w-14 h-14 rounded-lg cursor-pointer transition-transform hover:scale-105"
+                className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg cursor-pointer transition-transform hover:scale-105"
                 style={{filter: 'drop-shadow(0 4px 20px rgba(255, 215, 0, 0.4))'}}
                 onClick={() => setLocation('/')}
                 data-testid="logo-memestake"
               />
-              <span className="text-xl font-bold hidden sm:block" style={{color: '#ffd700'}}>memes</span>
+              <span className="text-lg sm:text-xl font-bold hidden sm:block" style={{color: '#ffd700'}}>memes</span>
             </div>
             
             {/* Navigation Menu */}
-            <nav className="hidden md:flex items-center space-x-6">
+            <nav className="hidden md:flex items-center gap-3">
               <button
                 onClick={() => setLocation('/dashboard')}
-                className="flex items-center space-x-2 text-sm font-medium transition-colors hover:text-[#ffd700]"
+                className="flex items-center gap-1.5 text-xs font-medium transition-colors hover:text-[#ffd700] px-2 py-1"
                 style={{color: location === '/dashboard' ? '#ffd700' : '#ffffff'}}
                 data-testid="nav-dashboard"
               >
-                <Home className="w-4 h-4" />
-                <span>Dashboard</span>
+                <Home className="w-3.5 h-3.5" />
+                <span className="hidden lg:inline">Dashboard</span>
               </button>
               
               <button
                 onClick={() => setLocation('/')}
-                className="flex items-center space-x-2 text-sm font-medium text-white transition-colors hover:text-[#ffd700]"
+                className="flex items-center gap-1.5 text-xs font-medium text-white transition-colors hover:text-[#ffd700] px-2 py-1"
                 data-testid="nav-about"
               >
-                <BookOpen className="w-4 h-4" />
-                <span>About</span>
+                <BookOpen className="w-3.5 h-3.5" />
+                <span className="hidden lg:inline">About</span>
               </button>
               
               <button
@@ -1214,23 +1214,23 @@ export default function Dashboard() {
                     if (element) element.scrollIntoView({ behavior: 'smooth' });
                   }, 100);
                 }}
-                className="flex items-center space-x-2 text-sm font-medium text-white transition-colors hover:text-[#ffd700]"
+                className="flex items-center gap-1.5 text-xs font-medium text-white transition-colors hover:text-[#ffd700] px-2 py-1"
                 data-testid="nav-tokenomics"
               >
-                <Coins className="w-4 h-4" />
-                <span>Tokenomics</span>
+                <Coins className="w-3.5 h-3.5" />
+                <span className="hidden lg:inline">Tokenomics</span>
               </button>
               
               <a
                 href="https://t.me/memestakegroup"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center space-x-2 text-sm font-medium text-white transition-colors hover:text-[#00bfff] px-3 py-1.5 rounded-lg"
+                className="flex items-center gap-1.5 text-xs font-medium text-white transition-colors hover:text-[#00bfff] px-2 py-1 rounded-lg"
                 style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}
                 data-testid="nav-telegram"
               >
-                <SiTelegram className="w-4 h-4" style={{color: '#00bfff'}} />
-                <span>Join Telegram</span>
+                <SiTelegram className="w-3.5 h-3.5" style={{color: '#00bfff'}} />
+                <span className="hidden lg:inline">Telegram</span>
               </a>
             </nav>
 
@@ -1284,89 +1284,86 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <div className="max-w-6xl mx-auto px-6 py-8 space-y-6">
+      <div className="max-w-6xl mx-auto px-3 sm:px-4 py-3 sm:py-4 space-y-3 sm:space-y-4">
         
-        {/* Welcome & Airdrop Timer */}
-        <Card className="p-6 glass-card">
+        {/* Welcome & Airdrop Timer - Compact */}
+        <Card className="p-3 sm:p-4 glass-card">
           <div className="text-center">
-            <h1 className="text-3xl font-bold mb-4" style={{color: '#ffd700'}}>
-              🎉 Welcome to Your memes Dashboard!
+            <h1 className="text-lg sm:text-xl font-bold mb-2" style={{color: '#ffd700'}}>
+              🎉 Welcome to memes Dashboard
             </h1>
-            <p className="text-lg text-muted-foreground mb-6">
-              Your wallet is connected and ready for staking rewards
-            </p>
             
-            {/* Airdrop Countdown */}
-            <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg p-4 mb-6 border border-primary/20">
-              <div className="flex items-center justify-center mb-2">
-                <span className="text-2xl mr-2">⏰</span>
-                <span className="text-lg font-semibold" style={{color: '#00bfff'}}>AIRDROP ENDS IN</span>
+            {/* Airdrop Countdown - Compact */}
+            <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg p-2 sm:p-3 border border-primary/20">
+              <div className="flex items-center justify-center gap-1 mb-1">
+                <span className="text-base sm:text-lg">⏰</span>
+                <span className="text-xs sm:text-sm font-semibold" style={{color: '#00bfff'}}>AIRDROP ENDS IN</span>
               </div>
-              <div className="flex items-center justify-center space-x-6">
+              <div className="flex items-center justify-center gap-2 sm:gap-4">
                 <div className="text-center">
-                  <div className="text-2xl font-bold" style={{color: '#ffd700'}}>{String(airdropTime.days).padStart(2, '0')}</div>
-                  <div className="text-sm text-muted-foreground">DAYS</div>
+                  <div className="text-lg sm:text-xl font-bold" style={{color: '#ffd700'}}>{String(airdropTime.days).padStart(2, '0')}</div>
+                  <div className="text-xs text-muted-foreground">DAYS</div>
                 </div>
-                <div className="text-xl font-bold" style={{color: '#ffd700'}}>:</div>
+                <div className="text-sm font-bold" style={{color: '#ffd700'}}>:</div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold" style={{color: '#ffd700'}}>{String(airdropTime.hours).padStart(2, '0')}</div>
-                  <div className="text-sm text-muted-foreground">HOURS</div>
+                  <div className="text-lg sm:text-xl font-bold" style={{color: '#ffd700'}}>{String(airdropTime.hours).padStart(2, '0')}</div>
+                  <div className="text-xs text-muted-foreground">HRS</div>
                 </div>
-                <div className="text-xl font-bold" style={{color: '#ffd700'}}>:</div>
+                <div className="text-sm font-bold" style={{color: '#ffd700'}}>:</div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold" style={{color: '#ffd700'}}>{String(airdropTime.minutes).padStart(2, '0')}</div>
-                  <div className="text-sm text-muted-foreground">MINUTES</div>
+                  <div className="text-lg sm:text-xl font-bold" style={{color: '#ffd700'}}>{String(airdropTime.minutes).padStart(2, '0')}</div>
+                  <div className="text-xs text-muted-foreground">MIN</div>
                 </div>
-                <div className="text-xl font-bold" style={{color: '#ffd700'}}>:</div>
+                <div className="text-sm font-bold" style={{color: '#ffd700'}}>:</div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold" style={{color: '#ffd700'}}>{String(airdropTime.seconds).padStart(2, '0')}</div>
-                  <div className="text-sm text-muted-foreground">SECONDS</div>
+                  <div className="text-lg sm:text-xl font-bold" style={{color: '#ffd700'}}>{String(airdropTime.seconds).padStart(2, '0')}</div>
+                  <div className="text-xs text-muted-foreground">SEC</div>
                 </div>
               </div>
             </div>
           </div>
         </Card>
 
-        {/* Wrong Network Warning Banner */}
+        {/* Wrong Network Warning - Compact */}
         {walletAddress && currentChainId && currentChainId !== BSC_TESTNET_CHAIN_ID && (
-          <Card className="p-6 border-2 animate-pulse" style={{
+          <Card className="p-3 border-2 animate-pulse" style={{
             borderColor: 'rgba(255, 0, 0, 0.5)',
             background: 'rgba(255, 0, 0, 0.1)'
           }}>
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <AlertTriangle className="w-8 h-8" style={{color: '#ff4444'}} />
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <AlertTriangle className="w-5 h-5" style={{color: '#ff4444'}} />
                 <div>
-                  <h3 className="font-bold text-lg" style={{color: '#ff4444'}}>Wrong Network Detected</h3>
-                  <p className="text-sm text-muted-foreground">
-                    You're connected to chain ID: {parseInt(currentChainId, 16)}. 
-                    Please switch to BSC Testnet (Chain ID: 97) to use this app.
+                  <h3 className="font-bold text-sm" style={{color: '#ff4444'}}>Wrong Network</h3>
+                  <p className="text-xs text-muted-foreground">
+                    Switch to BSC Testnet (Chain ID: 97)
                   </p>
                 </div>
               </div>
               <Button 
                 onClick={switchToBscTestnet}
                 disabled={isCheckingNetwork}
-                className="whitespace-nowrap"
+                size="sm"
+                className="text-xs whitespace-nowrap"
                 style={{
                   background: '#ff4444',
                   color: '#fff'
                 }}
                 data-testid="button-switch-network-banner"
               >
-                {isCheckingNetwork ? '⏳ Switching Network...' : '🔄 Switch to BSC Testnet'}
+                {isCheckingNetwork ? '⏳ Switching...' : '🔄 Switch Network'}
               </Button>
             </div>
           </Card>
         )}
         
-        <Card className="p-6 glass-card">
+        <Card className="p-3 sm:p-4 glass-card">
           <div className="text-center">
-            {/* Claim Your Airdrop Now Button */}
-            <div className="mt-6 relative group">
+            {/* Claim Airdrop Button - Compact */}
+            <div className="relative group">
               <button
                 onClick={() => setShowAirdropClaim(!showAirdropClaim)}
-                className="w-full py-5 px-8 rounded-2xl font-extrabold text-2xl relative overflow-hidden transition-all duration-500 transform hover:scale-105 hover:rotate-1"
+                className="w-full py-3 sm:py-4 px-4 sm:px-6 rounded-xl font-bold text-base sm:text-lg relative overflow-hidden transition-all duration-500 transform hover:scale-105"
                 style={{
                   background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 25%, #ffd700 50%, #ffed4e 75%, #ffd700 100%)',
                   backgroundSize: '200% 200%',
