@@ -962,10 +962,37 @@ export default function Dashboard() {
 
       const amount = parseFloat(buyAmount);
 
-      // For both BNB and USDT, use simple calculation based on token price
-      // 1 USDT = $1, Token price = $0.0001
-      // So 1 USDT = 1 / 0.0001 = 10,000 MEMES tokens
-      setEstimatedTokens(amount / TOKEN_PRICE);
+      if (paymentMethod === 'usdt') {
+        try {
+          // Create public client for reading contract
+          const publicClient = createPublicClient({
+            chain: bscTestnet,
+            transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
+          });
+
+          // Convert amount to wei (assuming 18 decimals for USDT)
+          const amountInWei = BigInt(Math.floor(amount * 1e18));
+
+          // Call calculatememesTokens from contract (lowercase function name)
+          const memesTokens = await publicClient.readContract({
+            address: CONTRACTS.MEMES_PRESALE.address as `0x${string}`,
+            abi: CONTRACTS.MEMES_PRESALE.abi,
+            functionName: 'calculatememesTokens',
+            args: [CONTRACTS.USDT_TOKEN.address as `0x${string}`, amountInWei]
+          });
+
+          // Convert from wei to tokens (assuming 18 decimals)
+          const tokensEstimated = Number(memesTokens) / 1e18;
+          setEstimatedTokens(tokensEstimated);
+        } catch (error) {
+          console.error('Error calculating MEMES tokens:', error);
+          // Fallback to simple calculation if contract call fails
+          setEstimatedTokens(amount / TOKEN_PRICE);
+        }
+      } else {
+        // For BNB, use simple calculation
+        setEstimatedTokens(amount / TOKEN_PRICE);
+      }
     };
 
     calculateEstimatedTokens();
