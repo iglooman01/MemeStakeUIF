@@ -240,7 +240,7 @@ export default function IncomeHistory() {
         
         {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card className="p-4walle glass-card text-center">
+          <Card className="p-4 walle glass-card text-center">
             <div className="text-xs text-muted-foreground mb-2">Total Earnings</div>
             <div className="text-2xl font-bold" style={{color: '#00ff88'}}>
               {isLoading ? (

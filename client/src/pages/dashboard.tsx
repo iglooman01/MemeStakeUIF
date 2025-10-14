@@ -957,7 +957,7 @@ export default function Dashboard() {
         console.log('No accounts connected');
         handleDisconnectWallet();
       } else {
-        const newAddress = accounts[0];
+        const newAddress = accounts[0].toLowerCase(); // Normalize to lowercase
         
         // Validate the new address
         if (isValidEthereumAddress(newAddress)) {
@@ -971,10 +971,19 @@ export default function Dashboard() {
           queryClient.invalidateQueries({ queryKey: ['/api/airdrop/status'] });
           queryClient.invalidateQueries({ queryKey: ['/api/transactions'] });
           
-          // Reset all balances to trigger refetch
+          // Reset all state values to trigger refetch
           setTokenBalance(0);
           setTotalStakedAmount(0);
           setPendingStakingRewards(0);
+          setAccruedToday(0);
+          setReferralEarnings(0);
+          setPresaleReferralRewards(0);
+          setLevel1AirdropRewards(0);
+          setLevel2AirdropRewards(0);
+          setLevel3AirdropRewards(0);
+          setLevel1StakingRewards(0);
+          setLevel2StakingRewards(0);
+          setLevel3StakingRewards(0);
           
           // Show notification to user
           toast({
@@ -982,8 +991,76 @@ export default function Dashboard() {
             description: `Switched to ${newAddress.slice(0, 6)}...${newAddress.slice(-4)}. Refreshing data...`,
           });
           
-          // Refresh all data for the new wallet
-          fetchBalances();
+          // Force immediate refresh by waiting a tiny bit for state to update
+          setTimeout(() => {
+            // Manually fetch all data for the new wallet using the new address
+            const fetchNewWalletData = async () => {
+              try {
+                const publicClient = createPublicClient({
+                  chain: bscTestnet,
+                  transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
+                });
+
+                // Fetch balance
+                const balance = await publicClient.readContract({
+                  address: CONTRACTS.MEMES_TOKEN.address as `0x${string}`,
+                  abi: CONTRACTS.MEMES_TOKEN.abi,
+                  functionName: 'balanceOf',
+                  args: [newAddress as `0x${string}`]
+                }) as bigint;
+                setTokenBalance(Number(balance) / 1e18);
+
+                // Fetch staked data
+                const activeStakes = await publicClient.readContract({
+                  address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
+                  abi: CONTRACTS.MEMES_STAKE.abi,
+                  functionName: 'getActiveStakesWithId',
+                  args: [newAddress as `0x${string}`]
+                }) as any[];
+
+                let totalStaked = 0;
+                for (const stakeWithId of activeStakes) {
+                  totalStaked += Number(stakeWithId.details.amount) / 1e18;
+                }
+                setTotalStakedAmount(totalStaked);
+
+                // Fetch pending rewards
+                const pendingRewards = await publicClient.readContract({
+                  address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
+                  abi: CONTRACTS.MEMES_STAKE.abi,
+                  functionName: 'getPendingRewards',
+                  args: [newAddress as `0x${string}`]
+                }) as bigint;
+                setPendingStakingRewards(Number(pendingRewards) / 1e18);
+
+                // Calculate accrued today
+                const currentTime = Math.floor(Date.now() / 1000);
+                let todayAccrued = 0;
+                for (const stake of activeStakes) {
+                  if (stake.details && stake.details.isActive) {
+                    const lastClaimTime = Number(stake.details.lastClaimTime);
+                    if (lastClaimTime + (24 * 60 * 60) <= currentTime) {
+                      todayAccrued += (Number(stake.details.amount) / 1e18) * 0.01;
+                    }
+                  }
+                }
+                setAccruedToday(todayAccrued);
+
+                // Fetch referral rewards
+                const rewardsByLevel = await publicClient.readContract({
+                  address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
+                  abi: CONTRACTS.MEMES_STAKE.abi,
+                  functionName: 'getTotalRewardsByReferralLevel',
+                  args: [newAddress as `0x${string}`]
+                }) as any[];
+                setReferralEarnings(Number(rewardsByLevel[0] || 0) / 1e18);
+              } catch (error) {
+                console.error('Error fetching new wallet data:', error);
+              }
+            };
+            
+            fetchNewWalletData();
+          }, 100);
         } else {
           console.warn('Invalid wallet address received:', newAddress);
           toast({
