@@ -452,7 +452,8 @@ export default function Staking() {
         method: 'eth_requestAccounts' 
       });
 
-      const amountInWei = (BigInt(parseFloat(stakeAmount)) * BigInt(10 ** 18)).toString(16);
+      // Convert amount to Wei properly (multiply by 10^18)
+      const amountInWei = (BigInt(Math.floor(parseFloat(stakeAmount))) * BigInt('1000000000000000000')).toString(16);
       
       // Step 1: Check current allowance
       const allowanceData = '0xdd62ed3e' + // allowance(address,address) function signature
@@ -468,7 +469,7 @@ export default function Staking() {
       });
 
       const currentAllowance = BigInt(allowanceResult);
-      const requiredAmount = BigInt(parseFloat(stakeAmount)) * BigInt(10 ** 18);
+      const requiredAmount = BigInt(Math.floor(parseFloat(stakeAmount))) * BigInt('1000000000000000000');
 
       // Step 2: If allowance is insufficient, approve first
       if (currentAllowance < requiredAmount) {
