@@ -684,19 +684,21 @@ export default function Dashboard() {
 
       // Get wallet client based on wallet type
       let walletClient;
-      if (walletType === 'metamask' && window.ethereum) {
+      const normalizedWalletType = walletType.toLowerCase().replace(/\s+/g, '');
+      
+      if (normalizedWalletType === 'metamask' && window.ethereum) {
         walletClient = createWalletClient({
           account: walletAddress as `0x${string}`,
           chain: bscTestnet,
           transport: custom(window.ethereum)
         });
-      } else if (walletType === 'trust' && (window as any).trustwallet) {
+      } else if (normalizedWalletType === 'trustwallet' && (window as any).trustwallet) {
         walletClient = createWalletClient({
           account: walletAddress as `0x${string}`,
           chain: bscTestnet,
           transport: custom((window as any).trustwallet)
         });
-      } else if (walletType === 'safepal' && (window as any).safepalProvider) {
+      } else if (normalizedWalletType === 'safepal' && (window as any).safepalProvider) {
         walletClient = createWalletClient({
           account: walletAddress as `0x${string}`,
           chain: bscTestnet,
