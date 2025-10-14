@@ -367,8 +367,9 @@ export default function IncomeHistory() {
                           rel="noopener noreferrer"
                           className="text-xs font-mono hover:underline"
                           style={{color: '#00bfff'}}
+                          title={record.txHash}
                         >
-                          {record.txHash}
+                          {record.txHash.slice(0, 10)}...{record.txHash.slice(-8)}
                         </a>
                       ) : (
                         <span className="text-xs text-muted-foreground">-</span>
