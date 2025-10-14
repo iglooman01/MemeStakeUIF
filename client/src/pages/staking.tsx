@@ -324,8 +324,47 @@ export default function Staking() {
       const stake = activeStakes.find(s => Number(s.stakeId) === stakeId);
       const stakeAmountValue = stake ? (Number(stake.details.amount) / 1e18).toString() : '0';
 
-      // Save transaction to database
+      // Calculate pending rewards for this specific stake
+      let pendingRewards = 0;
+      if (stake && stake.details) {
+        const stakeAmount = Number(stake.details.amount) / 1e18;
+        const lastClaimTime = Number(stake.details.lastClaimTime);
+        const currentTime = Math.floor(Date.now() / 1000);
+        const timeDiff = currentTime - lastClaimTime;
+        const daysElapsed = timeDiff / 86400; // 86400 seconds in a day
+        
+        // Calculate pending rewards: 1% daily, so daysElapsed * 0.01 * stakeAmount
+        pendingRewards = daysElapsed * 0.01 * stakeAmount;
+        
+        console.log('Pending rewards for stake:', {
+          stakeId,
+          stakeAmount,
+          lastClaimTime,
+          currentTime,
+          daysElapsed,
+          pendingRewards
+        });
+      }
+
+      // Save transaction records to database
       try {
+        // 1. If there are pending rewards, save claim rewards transaction
+        if (pendingRewards > 0) {
+          console.log('Saving claim staking rewards transaction for pending rewards:', pendingRewards);
+          
+          const claimResponse = await apiRequest('POST', '/api/transactions', {
+            walletAddress: walletAddress,
+            transactionType: 'Claim Staking Rewards',
+            amount: pendingRewards.toFixed(2),
+            tokenSymbol: 'MEMES',
+            transactionHash: txHash,
+            status: 'pending'
+          });
+          const claimTransaction = await claimResponse.json();
+          console.log('✅ Claim staking rewards transaction saved:', claimTransaction);
+        }
+
+        // 2. Save capital withdraw transaction
         console.log('Attempting to save capital withdraw transaction:', {
           walletAddress,
           transactionType: 'Capital Withdraw',
@@ -345,7 +384,7 @@ export default function Staking() {
         const savedTransaction = await response.json();
         console.log('✅ Capital withdraw transaction saved to database:', savedTransaction);
       } catch (dbError) {
-        console.error('❌ Error saving capital withdraw transaction:', dbError);
+        console.error('❌ Error saving transactions:', dbError);
         toast({
           title: "⚠️ Database Save Failed",
           description: "Capital withdrawn but failed to save to history",
