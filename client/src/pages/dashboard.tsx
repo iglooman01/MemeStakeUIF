@@ -53,6 +53,7 @@ export default function Dashboard() {
     youtube: false
   });
   const [airdropClaimed, setAirdropClaimed] = useState(false);
+  const [userClaimableAmount, setUserClaimableAmount] = useState(0);
   const [airdropTxHash, setAirdropTxHash] = useState<string>('');
   const [isClaimingAirdrop, setIsClaimingAirdrop] = useState(false);
   const [isFetchingBalance, setIsFetchingBalance] = useState(false);
@@ -329,7 +330,7 @@ export default function Dashboard() {
     }, 1500);
   };
 
-  // Mock smart contract claim function
+  // Claim airdrop from smart contract
   const handleClaimAirdrop = async () => {
     if (!walletAddress) {
       toast({
@@ -346,7 +347,7 @@ export default function Dashboard() {
         title: "🎉 You've already claimed your airdrop!",
         description: (
           <div className="space-y-2 mt-2">
-            <p className="text-sm">✅ 1,000 MEMES tokens have been sent to your wallet.</p>
+            <p className="text-sm">✅ {userClaimableAmount.toLocaleString()} MEMES tokens have been sent to your wallet.</p>
             <p className="text-sm">💰 Want to earn more MEMES tokens?</p>
             <p className="text-xs text-muted-foreground">Invite your friends using your referral link and build your team to earn extra rewards</p>
           </div>
@@ -355,23 +356,99 @@ export default function Dashboard() {
       return;
     }
 
-    setIsClaimingAirdrop(true);
-    
-    // Simulate smart contract call claimTokens(walletAddress)
-    setTimeout(() => {
-      // Generate mock transaction hash
-      const mockTxHash = '0x' + Array.from({length: 64}, () => 
-        Math.floor(Math.random() * 16).toString(16)).join('');
+    // Check if user has claimable amount
+    if (userClaimableAmount <= 0) {
+      toast({
+        title: "❌ No Claimable Tokens",
+        description: "You don't have any tokens to claim",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    try {
+      setIsClaimingAirdrop(true);
+
+      // Get wallet client based on wallet type
+      let walletClient;
+      const normalizedWalletType = walletType.toLowerCase().replace(/\s+/g, '');
       
-      setAirdropTxHash(mockTxHash);
+      if (normalizedWalletType === 'metamask' && window.ethereum) {
+        walletClient = createWalletClient({
+          account: walletAddress as `0x${string}`,
+          chain: bscTestnet,
+          transport: custom(window.ethereum)
+        });
+      } else if (normalizedWalletType === 'trustwallet' && (window as any).trustwallet) {
+        walletClient = createWalletClient({
+          account: walletAddress as `0x${string}`,
+          chain: bscTestnet,
+          transport: custom((window as any).trustwallet)
+        });
+      } else if (normalizedWalletType === 'safepal' && (window as any).safepalProvider) {
+        walletClient = createWalletClient({
+          account: walletAddress as `0x${string}`,
+          chain: bscTestnet,
+          transport: custom((window as any).safepalProvider)
+        });
+      } else {
+        throw new Error('Wallet not available');
+      }
+
+      // Call claimAirdrop function from airdrop contract
+      const hash = await walletClient.writeContract({
+        address: CONTRACTS.MEMES_AIRDROP.address as `0x${string}`,
+        abi: CONTRACTS.MEMES_AIRDROP.abi,
+        functionName: 'claimAirdrop',
+        args: []
+      });
+
+      toast({
+        title: "⏳ Transaction Submitted",
+        description: "Claiming your airdrop...",
+      });
+
+      // Wait for transaction confirmation
+      const publicClient = createPublicClient({
+        chain: bscTestnet,
+        transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
+      });
+
+      await publicClient.waitForTransactionReceipt({ hash });
+
+      setAirdropTxHash(hash);
       setAirdropClaimed(true);
-      setIsClaimingAirdrop(false);
-      
+
       toast({
         title: "🎉 Airdrop Claimed!",
-        description: "1000 MEMES tokens have been sent to your wallet",
+        description: `${userClaimableAmount.toLocaleString()} MEMES tokens have been sent to your wallet`,
       });
-    }, 2000);
+
+      // Refresh balances after successful claim
+      setTimeout(() => {
+        fetchBalances();
+      }, 2000);
+
+    } catch (error: any) {
+      console.error('Airdrop claim error:', error);
+      
+      let errorMessage = error.message || 'Failed to claim airdrop';
+      
+      // Handle specific error codes
+      if (error.code === 4001) {
+        errorMessage = 'Transaction rejected by user';
+      } else if (error.message?.includes('insufficient funds')) {
+        errorMessage = 'Insufficient BNB for gas fees';
+      }
+      
+      toast({
+        title: "❌ Claim Failed",
+        description: errorMessage,
+        variant: "destructive"
+      });
+    } finally {
+      setIsClaimingAirdrop(false);
+    }
   };
 
   // Fetch wallet balance from smart contract
@@ -1413,21 +1490,30 @@ export default function Dashboard() {
 
       // Check if user has already claimed airdrop from airdrop contract
       try {
-        const claimed = await publicClient.readContract({
-          address: CONTRACTS.MEMES_AIRDROP.address as `0x${string}`,
-          abi: CONTRACTS.MEMES_AIRDROP.abi,
-          functionName: 'hasClaimed',
-          args: [walletAddress as `0x${string}`]
-        }) as boolean;
+        const [claimed, claimableAmount] = await Promise.all([
+          publicClient.readContract({
+            address: CONTRACTS.MEMES_AIRDROP.address as `0x${string}`,
+            abi: CONTRACTS.MEMES_AIRDROP.abi,
+            functionName: 'hasClaimed',
+            args: [walletAddress as `0x${string}`]
+          }) as Promise<boolean>,
+          publicClient.readContract({
+            address: CONTRACTS.MEMES_AIRDROP.address as `0x${string}`,
+            abi: CONTRACTS.MEMES_AIRDROP.abi,
+            functionName: 'userClaimable',
+            args: [walletAddress as `0x${string}`]
+          }) as Promise<bigint>
+        ]);
 
         console.log('Airdrop claimed status:', claimed);
+        console.log('User claimable amount:', Number(claimableAmount) / 1e18);
+        
         setAirdropClaimed(claimed);
-
-        // Note: The contract doesn't store transaction hash, but we can fetch recent transactions
-        // from the blockchain if needed. For now, we'll use a placeholder message.
+        setUserClaimableAmount(Number(claimableAmount) / 1e18);
       } catch (claimError) {
         console.error('Error checking airdrop claim status:', claimError);
         setAirdropClaimed(false);
+        setUserClaimableAmount(0);
       }
     } catch (error) {
       console.error('Error fetching balances:', error);
@@ -1688,13 +1774,21 @@ export default function Dashboard() {
           </Card>
         )}
         
-        <Card className="p-3 sm:p-4 glass-card">
-          <div className="text-center">
-            {/* Claim Airdrop Button - Compact */}
-            <div className="relative group">
+        {/* Show Claim Airdrop Section only if not claimed and has claimable amount */}
+        {!airdropClaimed && userClaimableAmount > 0 && (
+          <Card className="p-3 sm:p-4 glass-card">
+            <div className="text-center">
+              <h3 className="text-lg sm:text-xl font-bold mb-3 flex items-center justify-center gap-2">
+                <span className="text-2xl">🎁</span>
+                <span style={{ color: '#ffd700' }}>Claim Your MEMES Airdrop</span>
+              </h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                You have <span className="font-bold text-[#ffd700]">{userClaimableAmount.toLocaleString()} MEMES</span> tokens ready to claim!
+              </p>
               <button
-                onClick={() => setShowAirdropClaim(!showAirdropClaim)}
-                className="w-full py-3 sm:py-4 px-4 sm:px-6 rounded-xl font-bold text-base sm:text-lg relative overflow-hidden transition-all duration-500 transform hover:scale-105"
+                onClick={handleClaimAirdrop}
+                disabled={isClaimingAirdrop}
+                className="w-full py-3 sm:py-4 px-4 sm:px-6 rounded-xl font-bold text-base sm:text-lg relative overflow-hidden transition-all duration-500 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{
                   background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 25%, #ffd700 50%, #ffed4e 75%, #ffd700 100%)',
                   backgroundSize: '200% 200%',
@@ -1703,7 +1797,7 @@ export default function Dashboard() {
                   boxShadow: '0 8px 32px rgba(255, 215, 0, 0.6), 0 0 60px rgba(255, 215, 0, 0.3)',
                   border: '2px solid rgba(255, 237, 78, 0.8)'
                 }}
-                data-testid="button-toggle-airdrop-claim"
+                data-testid="button-claim-airdrop"
               >
                 {/* Animated shine effect */}
                 <span 
@@ -1726,453 +1820,59 @@ export default function Dashboard() {
                 
                 {/* Button content */}
                 <span className="flex items-center justify-center gap-3 relative z-10">
-                  <span className="text-3xl animate-bounce">🎁</span>
-                  <span className="tracking-wider">
-                    CLAIM YOUR AIRDROP NOW!
-                  </span>
-                  <span 
-                    className="text-2xl transition-transform duration-300"
-                    style={{
-                      transform: showAirdropClaim ? 'rotate(180deg)' : 'rotate(0deg)',
-                      display: 'inline-block'
-                    }}
-                  >
-                    ▼
-                  </span>
+                  {isClaimingAirdrop ? (
+                    <>
+                      <span className="text-2xl">⏳</span>
+                      <span className="tracking-wider">CLAIMING...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="text-2xl">🎁</span>
+                      <span className="tracking-wider">CLAIM NOW</span>
+                    </>
+                  )}
                 </span>
               </button>
-              
-              {/* Decorative particles */}
-              <div className="absolute -top-2 -left-2 w-4 h-4 bg-yellow-400 rounded-full opacity-60 animate-ping" style={{animationDuration: '2s'}} />
-              <div className="absolute -top-2 -right-2 w-4 h-4 bg-yellow-400 rounded-full opacity-60 animate-ping" style={{animationDuration: '2.5s'}} />
-              <div className="absolute -bottom-2 -left-2 w-4 h-4 bg-yellow-400 rounded-full opacity-60 animate-ping" style={{animationDuration: '3s'}} />
-              <div className="absolute -bottom-2 -right-2 w-4 h-4 bg-yellow-400 rounded-full opacity-60 animate-ping" style={{animationDuration: '2.2s'}} />
+            </div>
+          </Card>
+        )}
+
+        {/* Referral & Sponsor Section */}
+        <Card className="p-3 sm:p-4 glass-card" style={{border: '2px solid #00bfff', boxShadow: '0 4px 20px rgba(0, 191, 255, 0.2)'}}>
+          <div className="grid md:grid-cols-2 gap-4">
+            {/* Referral Link */}
+            <div className="p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)'}}>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-semibold" style={{color: '#ffd700'}}>🔗 Your Referral Link</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <input
+                  type="text"
+                  value={referralLink}
+                  readOnly
+                  className="flex-1 px-3 py-2 rounded text-xs font-mono bg-black/30 border border-white/10 text-gray-300"
+                  data-testid="input-referral-link"
+                />
+                <button
+                  onClick={copyReferralLink}
+                  className="px-4 py-2 rounded font-semibold text-sm transition-all duration-200 hover:scale-105"
+                  style={{background: '#ffd700', color: '#000'}}
+                  data-testid="button-copy-referral"
+                >
+                  📋 Copy
+                </button>
+              </div>
             </div>
 
-            {/* Airdrop Claim Section - Dropdown */}
-            {showAirdropClaim && (
-              <div 
-                className="mt-6 p-8 rounded-2xl relative overflow-hidden"
-                style={{
-                  background: 'linear-gradient(135deg, rgba(15, 10, 35, 0.98), rgba(30, 15, 60, 0.98), rgba(15, 10, 35, 0.98))',
-                  border: '2px solid rgba(255, 215, 0, 0.4)',
-                  boxShadow: '0 20px 60px rgba(255, 215, 0, 0.2), inset 0 0 60px rgba(255, 215, 0, 0.05)',
-                  animation: 'slideDown 0.5s ease-out'
-                }}
-              >
-                {/* Animated background elements */}
-                <div className="absolute top-0 right-0 w-32 h-32 rounded-full opacity-20" 
-                     style={{background: 'radial-gradient(circle, #ffd700 0%, transparent 70%)', animation: 'pulse 3s ease-in-out infinite'}} />
-                <div className="absolute bottom-0 left-0 w-40 h-40 rounded-full opacity-20" 
-                     style={{background: 'radial-gradient(circle, #00bfff 0%, transparent 70%)', animation: 'pulse 4s ease-in-out infinite'}} />
-                
-                {/* Header with animated gradient text */}
-                <div className="relative z-10 mb-8 text-center">
-                  <h2 
-                    className="text-4xl font-extrabold mb-3"
-                    style={{
-                      background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%)',
-                      backgroundSize: '200% 200%',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      backgroundClip: 'text',
-                      animation: 'gradientShift 3s ease infinite'
-                    }}
-                  >
-                    🎁 Claim Your MEMES Airdrop
-                  </h2>
-                  <p className="text-center text-gray-300 max-w-2xl mx-auto">
-                    Complete the verification steps below to claim your exclusive MEMES tokens from our <span className="font-bold" style={{color: '#ffd700'}}>decentralized airdrop direct in your wallet</span> and join our growing community.
-                  </p>
-                  
-                  {/* Progress bar */}
-                  <div className="mt-6 max-w-md mx-auto">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-semibold" style={{color: '#00bfff'}}>Overall Progress</span>
-                      <span className="text-sm font-bold" style={{color: '#ffd700'}}>
-                        {Math.round(((emailVerified ? 1 : 0) + Object.values(tasksCompleted).filter(Boolean).length) / 5 * 100)}%
-                      </span>
-                    </div>
-                    <div className="h-3 rounded-full overflow-hidden" style={{background: 'rgba(0, 0, 0, 0.4)'}}>
-                      <div 
-                        className="h-full transition-all duration-700 ease-out"
-                        style={{
-                          width: `${((emailVerified ? 1 : 0) + Object.values(tasksCompleted).filter(Boolean).length) / 5 * 100}%`,
-                          background: 'linear-gradient(90deg, #ffd700 0%, #00bfff 50%, #00ff88 100%)',
-                          boxShadow: '0 0 10px rgba(255, 215, 0, 0.5)'
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* If already claimed, show permanent message */}
-                {airdropClaimed ? (
-                  <div className="p-8 rounded-xl text-center" style={{
-                    background: 'linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 255, 136, 0.05))',
-                    border: '2px solid rgba(0, 255, 136, 0.4)',
-                    boxShadow: '0 8px 24px rgba(0, 255, 136, 0.3)'
-                  }}>
-                    <div className="mb-4 text-5xl">✅</div>
-                    <h3 className="text-2xl font-bold mb-3" style={{color: '#00ff88'}}>
-                      You have already received your airdrop.
-                    </h3>
-                    <p className="text-gray-300 mb-4">Transaction Hash:</p>
-                    <a
-                      href={`https://bscscan.com/tx/${airdropTxHash}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-block px-6 py-3 rounded-xl font-mono text-sm transition-all duration-300 transform hover:scale-105"
-                      style={{
-                        background: 'rgba(0, 255, 136, 0.2)',
-                        color: '#00ff88',
-                        border: '2px solid rgba(0, 255, 136, 0.4)'
-                      }}
-                    >
-                      {airdropTxHash.slice(0, 10)}...{airdropTxHash.slice(-8)}
-                    </a>
-                  </div>
-                ) : allTasksCompleted ? (
-                  /* Step 4: Show eligibility and claim button when all tasks complete */
-                  <div className="space-y-6">
-                    <div className="text-center py-6">
-                      <div className="mb-4 text-6xl animate-bounce">💰</div>
-                      <h3 className="text-3xl font-bold mb-3" style={{
-                        background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%)',
-                        backgroundSize: '200% 200%',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        backgroundClip: 'text',
-                        animation: 'gradientShift 3s ease infinite'
-                      }}>
-                        You are eligible for 1000 MEMES Token Reward!
-                      </h3>
-                      <p className="text-gray-300 text-lg">
-                        Click the button below to claim your tokens
-                      </p>
-                    </div>
-                    
-                    <button
-                      onClick={handleClaimAirdrop}
-                      disabled={isClaimingAirdrop}
-                      className="w-full px-8 py-5 rounded-xl font-bold text-2xl transition-all duration-300 transform hover:scale-105 hover:rotate-1"
-                      style={{
-                        background: isClaimingAirdrop 
-                          ? 'rgba(100, 100, 100, 0.3)' 
-                          : 'linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%)',
-                        backgroundSize: '200% 200%',
-                        animation: isClaimingAirdrop ? 'none' : 'gradientShift 3s ease infinite',
-                        color: '#000',
-                        boxShadow: isClaimingAirdrop ? 'none' : '0 8px 24px rgba(255, 215, 0, 0.5)',
-                        cursor: isClaimingAirdrop ? 'not-allowed' : 'pointer'
-                      }}
-                      data-testid="button-claim-airdrop"
-                    >
-                      {isClaimingAirdrop ? '⏳ Claiming...' : '🎁 Claim Now'}
-                    </button>
-                  </div>
-                ) : (
-                  <>
-                    {/* 1. Email Verification */}
-                    <div className="mb-6 relative z-10">
-                  <div 
-                    className="p-6 rounded-xl transition-all duration-300"
-                    style={{
-                      background: emailVerified 
-                        ? 'linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 255, 136, 0.05))' 
-                        : 'linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.05))',
-                      border: emailVerified 
-                        ? '2px solid rgba(0, 255, 136, 0.4)' 
-                        : '2px solid rgba(255, 215, 0, 0.4)',
-                      boxShadow: emailVerified 
-                        ? '0 8px 24px rgba(0, 255, 136, 0.2)' 
-                        : '0 8px 24px rgba(255, 215, 0, 0.2)'
-                    }}
-                  >
-                    <div className="flex items-center gap-3 mb-4">
-                      <div 
-                        className="w-10 h-10 rounded-full flex items-center justify-center text-xl font-bold transition-all duration-300"
-                        style={{
-                          background: emailVerified ? '#00ff88' : '#ffd700',
-                          color: '#000',
-                          boxShadow: emailVerified ? '0 4px 15px rgba(0, 255, 136, 0.4)' : '0 4px 15px rgba(255, 215, 0, 0.4)'
-                        }}
-                      >
-                        {emailVerified ? '✓' : '1'}
-                      </div>
-                      <h3 className="text-xl font-bold text-white">Email Verification</h3>
-                    </div>
-                  
-                    {!emailVerified ? (
-                      <div>
-                        {!showOtpInput ? (
-                          <div className="space-y-3">
-                            <input
-                              type="email"
-                              value={email}
-                              onChange={(e) => setEmail(e.target.value)}
-                              placeholder="Enter your email address"
-                              className="w-full px-5 py-4 rounded-xl text-white placeholder-gray-400 transition-all duration-200 focus:ring-2 focus:ring-yellow-500"
-                              style={{
-                                background: 'rgba(0, 0, 0, 0.4)', 
-                                border: '2px solid rgba(255, 215, 0, 0.3)'
-                              }}
-                              data-testid="input-email"
-                            />
-                            <div className="flex gap-3">
-                              <button
-                                onClick={handleSendOTP}
-                                className="flex-1 px-6 py-4 rounded-xl font-bold transition-all duration-300 transform hover:scale-105"
-                                style={{
-                                  background: 'linear-gradient(135deg, #00bfff 0%, #0099cc 100%)', 
-                                  color: '#000',
-                                  boxShadow: '0 4px 15px rgba(0, 191, 255, 0.4)'
-                                }}
-                                data-testid="button-send-otp"
-                              >
-                                📧 Send OTP
-                              </button>
-                              <button
-                                onClick={handleSkipVerification}
-                                className="px-6 py-4 rounded-xl font-bold transition-all duration-300 transform hover:scale-105"
-                                style={{
-                                  background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)', 
-                                  color: '#000',
-                                  boxShadow: '0 4px 15px rgba(255, 215, 0, 0.4)'
-                                }}
-                                data-testid="button-skip-verification"
-                              >
-                                🚀 Skip
-                              </button>
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="space-y-4">
-                            <div className="flex gap-3">
-                              <input
-                                type="text"
-                                value={otp}
-                                onChange={(e) => setOtp(e.target.value)}
-                                placeholder="Enter 6-digit OTP"
-                                className="flex-1 px-5 py-4 rounded-xl text-white placeholder-gray-400 text-center text-2xl tracking-widest transition-all duration-200 focus:ring-2 focus:ring-green-500"
-                                style={{
-                                  background: 'rgba(0, 0, 0, 0.4)', 
-                                  border: '2px solid rgba(0, 255, 136, 0.3)'
-                                }}
-                                maxLength={6}
-                                data-testid="input-otp"
-                              />
-                              <button
-                                onClick={handleVerifyOTP}
-                                className="px-8 py-4 rounded-xl font-bold transition-all duration-300 transform hover:scale-105"
-                                style={{
-                                  background: 'linear-gradient(135deg, #00ff88 0%, #00cc70 100%)', 
-                                  color: '#000',
-                                  boxShadow: '0 4px 15px rgba(0, 255, 136, 0.4)'
-                                }}
-                                data-testid="button-verify-otp"
-                              >
-                                ✅ Verify
-                              </button>
-                            </div>
-                            <div className="text-center">
-                              <button
-                                onClick={handleResendOTP}
-                                disabled={resendCooldown > 0}
-                                className="text-sm font-semibold px-6 py-3 rounded-xl transition-all duration-300 transform hover:scale-105"
-                                style={{
-                                  background: resendCooldown > 0 ? 'rgba(100, 100, 100, 0.3)' : 'rgba(0, 191, 255, 0.2)',
-                                  color: resendCooldown > 0 ? '#666' : '#00bfff',
-                                  border: `2px solid ${resendCooldown > 0 ? 'rgba(100, 100, 100, 0.3)' : 'rgba(0, 191, 255, 0.3)'}`,
-                                  cursor: resendCooldown > 0 ? 'not-allowed' : 'pointer'
-                                }}
-                                data-testid="button-resend-otp"
-                              >
-                                {resendCooldown > 0 
-                                  ? `🕐 Resend in ${resendCooldown}s` 
-                                  : '🔄 Resend OTP'}
-                              </button>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    ) : (
-                      <div className="text-center py-4">
-                        <div className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-lg animate-bounce" style={{
-                          background: 'rgba(0, 255, 136, 0.2)',
-                          color: '#00ff88',
-                          border: '2px solid rgba(0, 255, 136, 0.4)'
-                        }}>
-                          ✅ Email Verified Successfully!
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* 2. Social Media Tasks */}
-                <div className="mb-6 relative z-10">
-                  <div 
-                    className="p-6 rounded-xl transition-all duration-300"
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(0, 191, 255, 0.15), rgba(0, 191, 255, 0.05))',
-                      border: '2px solid rgba(0, 191, 255, 0.4)',
-                      boxShadow: '0 8px 24px rgba(0, 191, 255, 0.2)',
-                      opacity: emailVerified ? 1 : 0.6
-                    }}
-                  >
-                    <div className="flex items-center gap-3 mb-4">
-                      <div 
-                        className="w-10 h-10 rounded-full flex items-center justify-center text-xl font-bold"
-                        style={{
-                          background: emailVerified ? '#00bfff' : '#666',
-                          color: '#000',
-                          boxShadow: emailVerified ? '0 4px 15px rgba(0, 191, 255, 0.4)' : 'none'
-                        }}
-                      >
-                        2
-                      </div>
-                      <h3 className="text-xl font-bold text-white">Social Media Tasks</h3>
-                      <div className="ml-auto px-4 py-1 rounded-full text-sm font-bold" style={{
-                        background: 'rgba(0, 191, 255, 0.2)',
-                        color: '#00bfff',
-                        border: '1px solid rgba(0, 191, 255, 0.3)'
-                      }}>
-                        {Object.values(tasksCompleted).filter(Boolean).length}/4
-                      </div>
-                    </div>
-                  
-                    {!emailVerified && (
-                      <div className="mb-4 p-4 rounded-xl text-center animate-pulse" style={{
-                        background: 'rgba(255, 215, 0, 0.15)', 
-                        border: '2px solid rgba(255, 215, 0, 0.3)'
-                      }}>
-                        <span className="font-bold" style={{color: '#ffd700'}}>🔒 Verify your email first to unlock tasks</span>
-                      </div>
-                    )}
-
-                    <div className="space-y-3">
-                      {[
-                        { id: 'telegram_group', label: 'Join Telegram Group', icon: '💬', reward: '250 $MEMES', url: 'https://t.me/memestakegroup' },
-                        { id: 'telegram_channel', label: 'Join Telegram Channel', icon: '📢', reward: '250 $MEMES', url: 'https://t.me/memstakeofficial' },
-                        { id: 'twitter', label: 'Follow on Twitter/X', icon: '🐦', reward: '250 $MEMES', url: 'https://twitter.com/memestake_official' },
-                        { id: 'youtube', label: 'Subscribe YouTube', icon: '📺', reward: '250 $MEMES', url: 'https://youtube.com/@memestake' }
-                      ].map((task, index) => {
-                        const isCompleted = tasksCompleted[task.id as keyof typeof tasksCompleted];
-                        return (
-                          <div 
-                            key={task.id} 
-                            className="flex items-center justify-between p-4 rounded-xl transition-all duration-300 transform hover:scale-102"
-                            style={{
-                              background: isCompleted 
-                                ? 'linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 255, 136, 0.05))' 
-                                : 'rgba(0, 0, 0, 0.4)', 
-                              border: isCompleted 
-                                ? '2px solid rgba(0, 255, 136, 0.4)' 
-                                : '2px solid rgba(255, 255, 255, 0.1)',
-                              boxShadow: isCompleted ? '0 4px 15px rgba(0, 255, 136, 0.2)' : 'none'
-                            }}
-                          >
-                            <div className="flex items-center gap-3">
-                              <span className="text-2xl">{task.icon}</span>
-                              <div>
-                                <div className="font-semibold" style={{color: isCompleted ? '#00ff88' : '#fff'}}>
-                                  {task.label}
-                                </div>
-                                <div className="text-xs" style={{color: isCompleted ? '#00ff88' : '#ffd700'}}>
-                                  Reward: {task.reward}
-                                </div>
-                              </div>
-                            </div>
-                            {isCompleted ? (
-                              <div className="flex items-center gap-2 px-4 py-2 rounded-full" style={{
-                                background: 'rgba(0, 255, 136, 0.2)',
-                                border: '1px solid rgba(0, 255, 136, 0.4)'
-                              }}>
-                                <span className="text-sm font-bold" style={{color: '#00ff88'}}>✓ Completed</span>
-                              </div>
-                            ) : tasksPending[task.id as keyof typeof tasksPending] ? (
-                              <div className="flex items-center gap-2 px-4 py-2 rounded-full animate-pulse" style={{
-                                background: 'rgba(255, 215, 0, 0.2)',
-                                border: '1px solid rgba(255, 215, 0, 0.4)'
-                              }}>
-                                <span className="text-sm font-bold" style={{color: '#ffd700'}}>⏳ Pending</span>
-                              </div>
-                            ) : (
-                              <button
-                                onClick={() => {
-                                  if (emailVerified) {
-                                    window.open(task.url, '_blank');
-                                    handleCompleteTask(task.id);
-                                  } else {
-                                    toast({
-                                      title: "🔒 Locked",
-                                      description: "Verify your email first",
-                                    });
-                                  }
-                                }}
-                                className="px-5 py-2 rounded-xl font-bold transition-all duration-300 transform hover:scale-105"
-                                style={{
-                                  background: emailVerified 
-                                    ? 'linear-gradient(135deg, #00bfff 0%, #0099cc 100%)' 
-                                    : 'rgba(100, 100, 100, 0.3)',
-                                  color: emailVerified ? '#000' : '#666',
-                                  cursor: emailVerified ? 'pointer' : 'not-allowed',
-                                  boxShadow: emailVerified ? '0 4px 15px rgba(0, 191, 255, 0.4)' : 'none'
-                                }}
-                                disabled={!emailVerified}
-                                data-testid={`button-${task.id}`}
-                              >
-                                {emailVerified ? '🚀 Start' : '🔒 Locked'}
-                              </button>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-                  </>
-                )}
+            {/* Sponsor Address */}
+            <div className="p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.2)'}}>
+              <div className="mb-2">
+                <span className="text-sm font-semibold" style={{color: '#00bfff'}}>👤 Your Sponsor</span>
               </div>
-            )}
-
-            {/* Referral & Sponsor Section */}
-            <div className="grid md:grid-cols-2 gap-4 mt-6">
-              {/* Referral Link */}
-              <div className="p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)'}}>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-semibold" style={{color: '#ffd700'}}>🔗 Your Referral Link</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <input
-                    type="text"
-                    value={referralLink}
-                    readOnly
-                    className="flex-1 px-3 py-2 rounded text-xs font-mono bg-black/30 border border-white/10 text-gray-300"
-                    data-testid="input-referral-link"
-                  />
-                  <button
-                    onClick={copyReferralLink}
-                    className="px-4 py-2 rounded font-semibold text-sm transition-all duration-200 hover:scale-105"
-                    style={{background: '#ffd700', color: '#000'}}
-                    data-testid="button-copy-referral"
-                  >
-                    📋 Copy
-                  </button>
-                </div>
-              </div>
-
-              {/* Sponsor Address */}
-              <div className="p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.2)'}}>
-                <div className="mb-2">
-                  <span className="text-sm font-semibold" style={{color: '#00bfff'}}>👤 Your Sponsor</span>
-                </div>
-                <div className="flex items-center justify-center p-3 rounded bg-black/30 border border-white/10">
-                  <span className="font-mono text-sm font-bold" style={{color: '#00bfff'}}>
-                    {sponsorAddress ? `${sponsorAddress.slice(0, 6)}...${sponsorAddress.slice(-4)}` : 'Loading...'}
-                  </span>
-                </div>
+              <div className="flex items-center justify-center p-3 rounded bg-black/30 border border-white/10">
+                <span className="font-mono text-sm font-bold" style={{color: '#00bfff'}}>
+                  {sponsorAddress ? `${sponsorAddress.slice(0, 6)}...${sponsorAddress.slice(-4)}` : 'Loading...'}
+                </span>
               </div>
             </div>
           </div>
