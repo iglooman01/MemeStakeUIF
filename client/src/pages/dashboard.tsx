@@ -1411,11 +1411,11 @@ export default function Dashboard() {
         setLevel3StakingRewards(0);
       }
 
-      // Check if user has already claimed airdrop from stake contract
+      // Check if user has already claimed airdrop from airdrop contract
       try {
         const claimed = await publicClient.readContract({
-          address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
-          abi: CONTRACTS.MEMES_STAKE.abi,
+          address: CONTRACTS.MEMES_AIRDROP.address as `0x${string}`,
+          abi: CONTRACTS.MEMES_AIRDROP.abi,
           functionName: 'hasClaimed',
           args: [walletAddress as `0x${string}`]
         }) as boolean;
