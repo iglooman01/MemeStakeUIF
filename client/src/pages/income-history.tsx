@@ -127,13 +127,15 @@ export default function IncomeHistory() {
 
     try {
       const transformedTransactions: IncomeRecord[] = dbTransactions
-        .filter(tx => tx.transactionType !== 'Stake') // Filter out Stake transactions (capital out, not income)
         .map((tx) => {
           // Map transaction type to IncomeRecord type
           let type: 'staking' | 'referral' | 'bonus' | 'capital_withdrawn' = 'staking';
           let eventType = tx.transactionType;
 
-          if (tx.transactionType === 'Claim Staking Rewards') {
+          if (tx.transactionType === 'Stake') {
+            type = 'capital_withdrawn'; // Use same type as withdrawals for display
+            eventType = 'Tokens Staked';
+          } else if (tx.transactionType === 'Claim Staking Rewards') {
             type = 'staking';
             eventType = 'Staking Rewards Claimed';
           } else if (tx.transactionType === 'Claim Referral Rewards') {
