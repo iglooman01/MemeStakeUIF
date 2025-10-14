@@ -60,6 +60,9 @@ MemeStake is a full-stack web application for a cryptocurrency staking platform 
 ## System Design Choices
 - **Web3 Integration**: Wallet connection with network auto-switch to BSC Testnet, connected wallet display, disconnect functionality.
 - **Airdrop Claim**: Dashboard integration to check claim status and execute `claimAirdrop()` via smart contract.
+  - **Balance Verification**: Checks if airdrop contract has sufficient MEMES tokens before claiming
+  - **Auto-refresh**: After successful claim, automatically refreshes token balances, staking data, and airdrop status
+  - Shows claim section only when `!hasClaimed && userClaimable > 0`
 - **Staking Data**: Uses `getActiveStakesWithId()` and `getPendingRewards()` for efficient and accurate staking information.
 - **Wallet Change Detection**: Auto-refreshes dashboard data on wallet switch using `accountsChanged` event.
 - **Security**: Wallet address validation using `isValidEthereumAddress()` and removal of demo mode.

@@ -450,9 +450,10 @@ export default function Dashboard() {
         description: `${userClaimableAmount.toLocaleString()} MEMES tokens have been sent to your wallet`,
       });
 
-      // Refresh balances after successful claim
-      setTimeout(() => {
-        fetchBalances();
+      // Refresh all page data after successful claim
+      setTimeout(async () => {
+        await fetchBalances(); // Refresh balances, staking data, and airdrop claim status
+        refetchAirdrop(); // Refresh airdrop backend data
       }, 2000);
 
     } catch (error: any) {
