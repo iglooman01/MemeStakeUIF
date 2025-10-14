@@ -26,17 +26,10 @@ export default function IncomeHistory() {
   // Smart contract data state
   const [stakingRewards, setStakingRewards] = useState(0);
   const [referralRewards, setReferralRewards] = useState(0);
-  //const [bonusRewards, setBonusRewards] = useState(0);
+  const [bonusRewards, setBonusRewards] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [isLoadingTransactions, setIsLoadingTransactions] = useState(true);
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
   const [transactions, setTransactions] = useState<IncomeRecord[]>([]);
-
-  // Create public client for reading contract data
-  const publicClient = createPublicClient({
-    chain: bscTestnet,
-    transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
-  });
 
   // Fetch wallet address on mount
   useEffect(() => {
@@ -56,43 +49,57 @@ export default function IncomeHistory() {
       try {
         setIsLoading(true);
 
-        // 1. Staking Rewards = getPendingRewards from MEMES_STAKE
-        const pendingRewards = await publicClient.readContract({
-          address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
-          abi: CONTRACTS.MEMES_STAKE.abi,
-          functionName: 'getPendingRewards',
-          args: [walletAddress as `0x${string}`]
-        }) as bigint;
-        setStakingRewards(Number(pendingRewards) / 1e18);
+        // Create public client inside useEffect to avoid recreation on every render
+        const publicClient = createPublicClient({
+          chain: bscTestnet,
+          transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
+        });
 
-        // 2. Referral Rewards = getTotalRewardsByReferralLevel from MEMES_STAKE
-        const rewardsByLevel = await publicClient.readContract({
+        // 1. Staking Rewards = sum of totalRewardsClaimed from all user stakes
+        const activeStakes = await publicClient.readContract({
           address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
           abi: CONTRACTS.MEMES_STAKE.abi,
-          functionName: 'getTotalRewardsByReferralLevel',
+          functionName: 'getActiveStakesWithId',
           args: [walletAddress as `0x${string}`]
         }) as any[];
-        const totalReferralRewards = Number(rewardsByLevel[0] || 0) / 1e18;
+
+        const totalClaimedRewards = activeStakes.reduce((sum, stake) => {
+          return sum + Number(stake.details.totalRewardsClaimed);
+        }, 0);
+        
+        setStakingRewards(totalClaimedRewards / 1e18);
+
+        // 2. Referral Rewards = totalClaimedRewardsByReferralLevel from MEMES_STAKE        
+        let totalReferralRewards = 0;
+        for (let level = 0; level < 3; level++) {
+          const reward = await publicClient.readContract({
+            address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
+            abi: CONTRACTS.MEMES_STAKE.abi,
+            functionName: 'totalClaimedRewardsByReferralLevel',
+            args: [walletAddress as `0x${string}`, level]
+          }) as bigint;
+            totalReferralRewards += Number(reward) / 1e18;
+        }
         setReferralRewards(totalReferralRewards);
 
         // 3. Bonus Rewards = referralRewardByLevel from MEMES_PRESALE (levels 0-2)
-        let totalPresaleRewards = 0;
+        let totalAirdropRewards = 0;
         for (let level = 0; level < 3; level++) {
           const reward = await publicClient.readContract({
-            address: CONTRACTS.MEMES_PRESALE.address as `0x${string}`,
-            abi: CONTRACTS.MEMES_PRESALE.abi,
-            functionName: 'referralRewardByLevel',
+            address: CONTRACTS.MEMES_AIRDROP.address as `0x${string}`,
+            abi: CONTRACTS.MEMES_AIRDROP.abi,
+            functionName: 'totalAirdropClaimedRewardsByReferralLevel',
             args: [walletAddress as `0x${string}`, level]
           }) as bigint;
-          totalPresaleRewards += Number(reward) / 1e18;
+            totalAirdropRewards += Number(reward) / 1e18;
         }
-       // setBonusRewards(totalPresaleRewards);
+        setBonusRewards(totalAirdropRewards);
 
       } catch (error) {
         console.error('Error fetching rewards:', error);
         setStakingRewards(0);
         setReferralRewards(0);
-        //setBonusRewards(0);
+        setBonusRewards(0);
       } finally {
         setIsLoading(false);
       }
@@ -109,49 +116,49 @@ export default function IncomeHistory() {
 
   // Transform database transactions into IncomeRecord format
   useEffect(() => {
-    if (!walletAddress || isLoadingDbTransactions) {
-      setTransactions([]);
-      setIsLoadingTransactions(true);
-      return;
+    // Only run when wallet is connected and not loading
+    if (!walletAddress) {
+      return; // Don't do anything when wallet is null to avoid infinite loops
+    }
+    
+    if (isLoadingDbTransactions) {
+      return; // Wait for data to finish loading
     }
 
     try {
-      const transformedTransactions: IncomeRecord[] = dbTransactions.map((tx) => {
-        // Map transaction type to IncomeRecord type
-        let type: 'staking' | 'referral' | 'bonus' | 'capital_withdrawn' = 'staking';
-        let eventType = tx.transactionType;
+      const transformedTransactions: IncomeRecord[] = dbTransactions
+        .filter(tx => tx.transactionType !== 'Stake') // Filter out Stake transactions (capital out, not income)
+        .map((tx) => {
+          // Map transaction type to IncomeRecord type
+          let type: 'staking' | 'referral' | 'bonus' | 'capital_withdrawn' = 'staking';
+          let eventType = tx.transactionType;
 
-        if (tx.transactionType === 'Stake') {
-          type = ''; // Stake is capital going out (negative)
-          eventType = 'Staked';
-        } else if (tx.transactionType === 'Claim Staking Rewards') {
-          type = 'staking';
-          eventType = 'Staking Rewards Claimed';
-        } else if (tx.transactionType === 'Claim Referral Rewards') {
-          type = 'referral';
-          eventType = 'Referral Rewards Claimed';
-        } else if (tx.transactionType === 'Capital Withdraw') {
-          type = 'capital_withdrawn';
-          eventType = 'Capital Withdrawn';
-        }
+          if (tx.transactionType === 'Claim Staking Rewards') {
+            type = 'staking';
+            eventType = 'Staking Rewards Claimed';
+          } else if (tx.transactionType === 'Claim Referral Rewards') {
+            type = 'referral';
+            eventType = 'Referral Rewards Claimed';
+          } else if (tx.transactionType === 'Capital Withdraw') {
+            type = 'capital_withdrawn';
+            eventType = 'Capital Withdrawn';
+          }
 
-        return {
-          id: tx.id,
-          date: new Date(tx.createdAt).toLocaleString(),
-          type,
-          amount: parseFloat(tx.amount),
-          status: tx.status === 'confirmed' ? 'claimed' : tx.status,
-          txHash: tx.transactionHash,
-          eventType
-        };
-      });
+          return {
+            id: tx.id,
+            date: new Date(tx.createdAt).toLocaleString(),
+            type,
+            amount: parseFloat(tx.amount),
+            status: tx.status === 'confirmed' ? 'claimed' : tx.status,
+            txHash: tx.transactionHash,
+            eventType
+          };
+        });
 
       setTransactions(transformedTransactions);
-      setIsLoadingTransactions(false);
     } catch (error) {
       console.error('Error transforming transactions:', error);
       setTransactions([]);
-      setIsLoadingTransactions(false);
     }
   }, [dbTransactions, walletAddress, isLoadingDbTransactions]);
 
@@ -182,7 +189,7 @@ export default function IncomeHistory() {
   };
 
   // Calculate totals from smart contract data
-  const grandTotal = stakingRewards + referralRewards ;
+  const grandTotal = stakingRewards + referralRewards + bonusRewards;
 
   return (
     <div className="min-h-screen text-foreground" style={{background: 'linear-gradient(135deg, #0a0e1a 0%, #1a1f2e 50%, #0f1421 100%)'}} data-testid="income-history-page">
@@ -296,7 +303,7 @@ export default function IncomeHistory() {
                 </tr>
               </thead>
               <tbody>
-                {isLoadingTransactions ? (
+                {isLoadingDbTransactions ? (
                   <tr>
                     <td colSpan={5} className="py-12 text-center">
                       <div className="flex flex-col items-center gap-3">
