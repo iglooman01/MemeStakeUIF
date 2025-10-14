@@ -340,6 +340,21 @@ export default function Dashboard() {
       return;
     }
 
+    // Check if user has already claimed
+    if (airdropClaimed) {
+      toast({
+        title: "🎉 You've already claimed your airdrop!",
+        description: (
+          <div className="space-y-2 mt-2">
+            <p className="text-sm">✅ 1,000 MEMES tokens have been sent to your wallet.</p>
+            <p className="text-sm">💰 Want to earn more MEMES tokens?</p>
+            <p className="text-xs text-muted-foreground">Invite your friends using your referral link and build your team to earn extra rewards</p>
+          </div>
+        ),
+      });
+      return;
+    }
+
     setIsClaimingAirdrop(true);
     
     // Simulate smart contract call claimTokens(walletAddress)
@@ -1394,6 +1409,25 @@ export default function Dashboard() {
         setLevel1StakingRewards(0);
         setLevel2StakingRewards(0);
         setLevel3StakingRewards(0);
+      }
+
+      // Check if user has already claimed airdrop from stake contract
+      try {
+        const claimed = await publicClient.readContract({
+          address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
+          abi: CONTRACTS.MEMES_STAKE.abi,
+          functionName: 'hasClaimed',
+          args: [walletAddress as `0x${string}`]
+        }) as boolean;
+
+        console.log('Airdrop claimed status:', claimed);
+        setAirdropClaimed(claimed);
+
+        // Note: The contract doesn't store transaction hash, but we can fetch recent transactions
+        // from the blockchain if needed. For now, we'll use a placeholder message.
+      } catch (claimError) {
+        console.error('Error checking airdrop claim status:', claimError);
+        setAirdropClaimed(false);
       }
     } catch (error) {
       console.error('Error fetching balances:', error);

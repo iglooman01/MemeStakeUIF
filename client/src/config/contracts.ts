@@ -231,7 +231,7 @@ export const CONTRACTS = {
 
   // Staking Contract
   MEMES_STAKE: {
-    address: "0xCEBEFDed1E530B6F19b5878f8aceC2C79eb67921",
+    address: "0xDB7c242d10f5A5152a88F73Be02060f100D9206B",
     abi: [
       {
         inputs: [],

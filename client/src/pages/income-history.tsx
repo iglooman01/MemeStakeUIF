@@ -344,7 +344,7 @@ export default function IncomeHistory() {
                     </td>
                     <td className="py-4 px-4 text-right">
                       <span className="font-bold" style={{color: getTypeColor(record.type)}}>
-                        +{record.amount.toLocaleString()} $MEMES
+                         {record.eventType === 'Tokens Staked' ? '-' : '+'}{record.amount.toLocaleString()} $MEMES                        
                       </span>
                     </td>
                     <td className="py-4 px-4 text-center">
