@@ -21,7 +21,7 @@ export type User = typeof users.$inferSelect;
 export const airdropParticipants = pgTable("airdrop_participants", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   walletAddress: text("wallet_address").notNull().unique(),
-  email: text("email"),
+  email: text("email").unique(),
   emailVerified: boolean("email_verified").notNull().default(false),
   referralCode: text("referral_code").notNull().unique(),
   referredBy: text("referred_by"), // referral code of the person who referred them

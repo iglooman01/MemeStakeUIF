@@ -54,6 +54,7 @@ export default function Dashboard() {
   });
   const [airdropClaimed, setAirdropClaimed] = useState(false);
   const [userClaimableAmount, setUserClaimableAmount] = useState(0);
+  const [userClaimedAmount, setUserClaimedAmount] = useState(0);
   const [airdropTxHash, setAirdropTxHash] = useState<string>('');
   const [isClaimingAirdrop, setIsClaimingAirdrop] = useState(false);
   const [isFetchingBalance, setIsFetchingBalance] = useState(false);
@@ -1517,7 +1518,7 @@ export default function Dashboard() {
 
       // Check if user has already claimed airdrop from airdrop contract
       try {
-        const [claimed, claimableAmount] = await Promise.all([
+        const [claimed, claimableAmount, claimedAmount] = await Promise.all([
           publicClient.readContract({
             address: CONTRACTS.MEMES_AIRDROP.address as `0x${string}`,
             abi: CONTRACTS.MEMES_AIRDROP.abi,
@@ -1529,6 +1530,12 @@ export default function Dashboard() {
             abi: CONTRACTS.MEMES_AIRDROP.abi,
             functionName: 'userClaimable',
             args: [walletAddress as `0x${string}`]
+          }) as Promise<bigint>,
+          publicClient.readContract({
+            address: CONTRACTS.MEMES_AIRDROP.address as `0x${string}`,
+            abi: CONTRACTS.MEMES_AIRDROP.abi,
+            functionName: 'userClaimed',
+            args: [walletAddress as `0x${string}`]
           }) as Promise<bigint>
         ]);
 
@@ -1536,11 +1543,13 @@ export default function Dashboard() {
         console.log('User claimable amount:', Number(claimableAmount) / 1e18);
         
         setAirdropClaimed(claimed);
+        setUserClaimedAmount(Number(claimedAmount) / 1e18);
         setUserClaimableAmount(Number(claimableAmount) / 1e18);
       } catch (claimError) {
         console.error('Error checking airdrop claim status:', claimError);
         setAirdropClaimed(false);
         setUserClaimableAmount(0);
+        setUserClaimedAmount(0);
       }
     } catch (error) {
       console.error('Error fetching balances:', error);
@@ -2174,7 +2183,7 @@ export default function Dashboard() {
                       <span className="text-xs text-gray-300">Airdrop Tokens</span>
                     </div>
                     <div className="text-sm font-bold" style={{color: '#00ff88'}}>
-                      {userClaimableAmount.toLocaleString()}
+                      {userClaimedAmount.toLocaleString()}
                     </div>
                   </div>
                 </div>
