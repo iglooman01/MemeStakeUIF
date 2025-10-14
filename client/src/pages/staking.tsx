@@ -505,6 +505,21 @@ export default function Staking() {
       const stakeData = '0xa694fc3a' + // stake(uint256) function signature
         amountInWei.padStart(64, '0'); // amount
 
+      // Estimate gas first to catch errors early
+      try {
+        await window.ethereum.request({
+          method: 'eth_estimateGas',
+          params: [{
+            from: accounts[0],
+            to: CONTRACTS.MEMES_STAKE.address,
+            data: stakeData,
+          }]
+        });
+      } catch (gasError: any) {
+        console.error('Gas estimation failed:', gasError);
+        throw new Error(`Transaction would fail: ${gasError.message || 'Unknown error'}. Please check if the staking contract is active and you have sufficient balance.`);
+      }
+
       const stakeTxHash = await window.ethereum.request({
         method: 'eth_sendTransaction',
         params: [{
