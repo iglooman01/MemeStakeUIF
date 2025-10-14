@@ -536,6 +536,11 @@ export default function Dashboard() {
           setIsPurchasing(false);
           setShowSuccessModal(true);
           setBuyAmount('');
+          
+          // Invalidate all queries to refresh data
+          queryClient.invalidateQueries({ queryKey: ['/api/airdrop/status'] });
+          queryClient.invalidateQueries({ queryKey: ['/api/transactions'] });
+          
           // Refresh balance data after purchase
           fetchBalances();
         }, 2000);
@@ -624,6 +629,11 @@ export default function Dashboard() {
           setIsPurchasing(false);
           setShowSuccessModal(true);
           setBuyAmount('');
+          
+          // Invalidate all queries to refresh data
+          queryClient.invalidateQueries({ queryKey: ['/api/airdrop/status'] });
+          queryClient.invalidateQueries({ queryKey: ['/api/transactions'] });
+          
           // Refresh balance data after purchase
           fetchBalances();
         }, 2000);
@@ -904,17 +914,23 @@ export default function Dashboard() {
           setWalletAddress(newAddress);
           localStorage.setItem('walletAddress', newAddress);
           
-          // Invalidate airdrop queries to fetch fresh data
+          // Invalidate all queries to fetch fresh data for new wallet
           queryClient.invalidateQueries({ queryKey: ['/api/airdrop/status'] });
+          queryClient.invalidateQueries({ queryKey: ['/api/transactions'] });
+          
+          // Reset all balances to trigger refetch
+          setTokenBalance(0);
+          setTotalStakedAmount(0);
+          setPendingStakingRewards(0);
           
           // Show notification to user
           toast({
             title: "🔄 Wallet Changed",
-            description: `Switched to ${newAddress.slice(0, 6)}...${newAddress.slice(-4)}`,
+            description: `Switched to ${newAddress.slice(0, 6)}...${newAddress.slice(-4)}. Refreshing data...`,
           });
           
           // Refresh all data for the new wallet
-          // The fetchBalances will be called automatically via the useEffect dependency
+          fetchBalances();
         } else {
           console.warn('Invalid wallet address received:', newAddress);
           toast({
