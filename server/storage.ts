@@ -344,4 +344,66 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+// Database Storage - Uses PostgreSQL for persistent storage
+import { db } from './db';
+import { transactions as transactionsTable } from '@shared/schema';
+import { eq, and, desc } from 'drizzle-orm';
+
+export class DbStorage extends MemStorage {
+  // Override transaction methods to use PostgreSQL database
+  
+  async createTransaction(transaction: InsertTransaction): Promise<Transaction> {
+    const newTransaction = await db.insert(transactionsTable).values({
+      walletAddress: transaction.walletAddress.toLowerCase(),
+      transactionType: transaction.transactionType,
+      amount: transaction.amount,
+      tokenSymbol: transaction.tokenSymbol || 'MEMES',
+      transactionHash: transaction.transactionHash,
+      blockNumber: transaction.blockNumber,
+      status: transaction.status || 'pending',
+    }).returning();
+    
+    return newTransaction[0];
+  }
+
+  async getTransactionsByWallet(walletAddress: string): Promise<Transaction[]> {
+    const results = await db.select()
+      .from(transactionsTable)
+      .where(eq(transactionsTable.walletAddress, walletAddress.toLowerCase()))
+      .orderBy(desc(transactionsTable.createdAt));
+    
+    return results;
+  }
+
+  async getTransactionByHash(hash: string): Promise<Transaction | undefined> {
+    const results = await db.select()
+      .from(transactionsTable)
+      .where(eq(transactionsTable.transactionHash, hash))
+      .limit(1);
+    
+    return results[0];
+  }
+
+  async updateTransactionStatus(hash: string, status: string): Promise<Transaction | undefined> {
+    const results = await db.update(transactionsTable)
+      .set({ status })
+      .where(eq(transactionsTable.transactionHash, hash))
+      .returning();
+    
+    return results[0];
+  }
+
+  async getTransactionsByType(walletAddress: string, type: string): Promise<Transaction[]> {
+    const results = await db.select()
+      .from(transactionsTable)
+      .where(and(
+        eq(transactionsTable.walletAddress, walletAddress.toLowerCase()),
+        eq(transactionsTable.transactionType, type)
+      ))
+      .orderBy(desc(transactionsTable.createdAt));
+    
+    return results;
+  }
+}
+
+export const storage = new DbStorage();
