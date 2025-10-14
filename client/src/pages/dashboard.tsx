@@ -1837,8 +1837,52 @@ export default function Dashboard() {
           </Card>
         )}
         
-        {/* Show Claim Airdrop Section only if not claimed and has claimable amount */}
-        {!airdropClaimed && userClaimableAmount > 0 && (
+        {/* Airdrop Claim/Success Section */}
+        {airdropClaimed ? (
+          // Show success message when already claimed
+          <Card className="p-4 sm:p-5 glass-card">
+            <div className="text-center space-y-4">
+              <h3 className="text-2xl sm:text-3xl font-bold" style={{color: '#00ff88'}}>
+                🎉 You've already claimed your airdrop!
+              </h3>
+              
+              <div className="space-y-3">
+                <p className="text-base sm:text-lg">
+                  ✅ <span className="font-bold" style={{color: '#ffd700'}}>{userClaimableAmount.toLocaleString()} MEMES</span> tokens have been sent to your wallet.
+                </p>
+                
+                {airdropTxHash && (
+                  <p className="text-sm">
+                    🔗 Check your transaction on BscScan:{' '}
+                    <a
+                      href={`https://testnet.bscscan.com/tx/${airdropTxHash}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-mono underline hover:text-[#00bfff]"
+                      style={{color: '#ffd700'}}
+                      data-testid="link-airdrop-tx"
+                    >
+                      {airdropTxHash.slice(0, 10)}...{airdropTxHash.slice(-8)}
+                    </a>
+                  </p>
+                )}
+                
+                <div className="mt-6 p-4 rounded-lg" style={{
+                  background: 'rgba(255, 215, 0, 0.1)',
+                  border: '1px solid rgba(255, 215, 0, 0.3)'
+                }}>
+                  <p className="text-base sm:text-lg font-bold mb-2" style={{color: '#ffd700'}}>
+                    💰 Want to earn more MEMES tokens?
+                  </p>
+                  <p className="text-sm text-gray-400">
+                    Invite your friends using your referral link and build your team to earn extra rewards!
+                  </p>
+                </div>
+              </div>
+            </div>
+          </Card>
+        ) : userClaimableAmount > 0 ? (
+          // Show claim button directly when userClaimableAmount > 0 (bypass email/tasks)
           <>
             {/* Yellow Banner */}
             <Card className="p-4 sm:p-5 cursor-pointer transition-transform hover:scale-[1.02]" 
@@ -1864,111 +1908,11 @@ export default function Dashboard() {
                   <span className="text-2xl">🎁</span>
                   <span style={{ color: '#ffd700' }}>Claim Your MEMES Airdrop</span>
                 </h3>
-                <p className="text-sm text-muted-foreground mb-2">
-                  Complete the verification steps below to claim your exclusive MEMES tokens from our
-                </p>
-                <p className="text-sm font-bold mb-4" style={{color: '#ffd700'}}>
-                  decentralized airdrop direct in your wallet <span className="text-muted-foreground">and join our growing community.</span>
+                <p className="text-sm text-muted-foreground mb-4">
+                  You have <span className="font-bold text-[#ffd700]">{userClaimableAmount.toLocaleString()} MEMES</span> tokens ready to claim!
                 </p>
 
-                {/* Overall Progress */}
-                <div className="flex items-center justify-between mb-6 px-4">
-                  <span className="text-sm font-semibold" style={{color: '#00bfff'}}>Overall Progress</span>
-                  <span className="text-sm font-bold" style={{color: '#ffd700'}}>
-                    {Math.round((Object.values(tasksCompleted).filter(Boolean).length / Object.values(tasksCompleted).length) * 100)}%
-                  </span>
-                </div>
-
-              {/* Email Verification Required */}
-              {!emailVerified ? (
-                <div className="space-y-4">
-                  <div className="p-3 rounded-lg" style={{ background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)' }}>
-                    <p className="text-sm mb-3" style={{ color: '#00bfff' }}>
-                      📧 Verify your email to claim airdrop tokens
-                    </p>
-                    
-                    {/* Email Input */}
-                    <div className="mb-3">
-                      <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="Enter your email"
-                        className="w-full px-3 py-2 rounded bg-black/30 border border-white/20 text-white placeholder-gray-400 focus:border-cyan-500 focus:outline-none"
-                        disabled={showOtpInput}
-                        data-testid="input-email"
-                      />
-                    </div>
-
-                    {/* Sponsor Code Input (if not already set) */}
-                    {!sponsorAddress && !referralCode && (
-                      <div className="mb-3">
-                        <input
-                          type="text"
-                          value={sponsorAddress}
-                          onChange={(e) => setSponsorAddress(e.target.value)}
-                          placeholder="Sponsor code (optional)"
-                          className="w-full px-3 py-2 rounded bg-black/30 border border-white/20 text-white placeholder-gray-400 focus:border-gold-500 focus:outline-none"
-                          disabled={showOtpInput}
-                          data-testid="input-sponsor-code"
-                        />
-                      </div>
-                    )}
-
-                    {/* OTP Input (shown after OTP sent) */}
-                    {showOtpInput && (
-                      <div className="mb-3">
-                        <input
-                          type="text"
-                          value={otp}
-                          onChange={(e) => setOtp(e.target.value)}
-                          placeholder="Enter 6-digit OTP"
-                          maxLength={6}
-                          className="w-full px-3 py-2 rounded bg-black/30 border border-white/20 text-white placeholder-gray-400 focus:border-green-500 focus:outline-none text-center text-lg tracking-widest"
-                          data-testid="input-otp"
-                        />
-                      </div>
-                    )}
-
-                    {/* Action Buttons */}
-                    <div className="flex gap-2">
-                      {!showOtpInput ? (
-                        <Button
-                          onClick={handleSendOTP}
-                          disabled={isSendingOtp || !email}
-                          className="w-full"
-                          style={{ background: '#00bfff', color: '#000' }}
-                          data-testid="button-send-otp"
-                        >
-                          {isSendingOtp ? '⏳ Sending...' : '📧 Send OTP'}
-                        </Button>
-                      ) : (
-                        <>
-                          <Button
-                            onClick={handleVerifyOTP}
-                            disabled={isVerifyingOtp || !otp}
-                            className="flex-1"
-                            style={{ background: '#00ff88', color: '#000' }}
-                            data-testid="button-verify-otp"
-                          >
-                            {isVerifyingOtp ? '⏳ Verifying...' : '✅ Verify'}
-                          </Button>
-                          <Button
-                            onClick={handleResendOTP}
-                            disabled={resendCooldown > 0}
-                            variant="outline"
-                            className="flex-1"
-                            data-testid="button-resend-otp"
-                          >
-                            {resendCooldown > 0 ? `⏰ ${resendCooldown}s` : '🔄 Resend'}
-                          </Button>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                // Claim Button (shown only after email verified)
+                {/* Direct Claim Button */}
                 <button
                   onClick={handleClaimAirdrop}
                   disabled={isClaimingAirdrop}
@@ -2017,130 +1961,278 @@ export default function Dashboard() {
                     )}
                   </span>
                 </button>
-              )}
+              </div>
+            </Card>
+          </>
+        ) : (
+          // Show email verification and task completion process when userClaimableAmount <= 0
+          <>
+            {/* Yellow Banner */}
+            <Card className="p-4 sm:p-5 cursor-pointer transition-transform hover:scale-[1.02]" 
+              style={{
+                background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)',
+                border: '2px solid #ffed4e',
+                boxShadow: '0 8px 32px rgba(255, 215, 0, 0.5)'
+              }}
+              data-testid="banner-claim-airdrop"
+            >
+              <div className="flex items-center justify-center gap-3">
+                <span className="text-3xl sm:text-4xl">🎁</span>
+                <h2 className="text-xl sm:text-2xl font-bold tracking-wide" style={{color: '#000'}}>
+                  CLAIM YOUR AIRDROP NOW!
+                </h2>
+                <span className="text-2xl sm:text-3xl">▲</span>
+              </div>
+            </Card>
 
-              {/* Social Media Tasks Section */}
-              <div className="mt-6 p-4 rounded-lg" style={{
-                background: 'rgba(0, 191, 255, 0.1)',
-                border: '1px solid rgba(0, 191, 255, 0.3)'
-              }}>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xl">2️⃣</span>
-                    <h4 className="text-base font-bold" style={{color: '#fff'}}>Social Media Tasks</h4>
-                  </div>
-                  <span className="text-sm font-bold" style={{color: '#00bfff'}}>
-                    {Object.values(tasksCompleted).filter(Boolean).length}/4
+            <Card className="p-3 sm:p-4 glass-card">
+              <div className="text-center">
+                <h3 className="text-lg sm:text-xl font-bold mb-3 flex items-center justify-center gap-2">
+                  <span className="text-2xl">🎁</span>
+                  <span style={{ color: '#ffd700' }}>Claim Your MEMES Airdrop</span>
+                </h3>
+                <p className="text-sm text-muted-foreground mb-2">
+                  Complete the verification steps below to claim your exclusive MEMES tokens from our
+                </p>
+                <p className="text-sm font-bold mb-4" style={{color: '#ffd700'}}>
+                  decentralized airdrop direct in your wallet <span className="text-muted-foreground">and join our growing community.</span>
+                </p>
+
+                {/* Overall Progress */}
+                <div className="flex items-center justify-between mb-6 px-4">
+                  <span className="text-sm font-semibold" style={{color: '#00bfff'}}>Overall Progress</span>
+                  <span className="text-sm font-bold" style={{color: '#ffd700'}}>
+                    {Math.round(((emailVerified ? 1 : 0) + Object.values(tasksCompleted).filter(Boolean).length) / 5 * 100)}%
                   </span>
                 </div>
 
-                {!emailVerified ? (
-                  <div className="text-center py-8">
-                    <Lock className="w-12 h-12 mx-auto mb-3 opacity-50" style={{color: '#ffd700'}} />
-                    <p className="text-sm" style={{color: '#ffd700'}}>
-                      🔒 Verify your email first to unlock tasks
-                    </p>
+                {/* Email Verification Section */}
+                <div className="p-4 rounded-lg mb-4" style={{
+                  background: 'rgba(0, 191, 255, 0.1)',
+                  border: '1px solid rgba(0, 191, 255, 0.3)'
+                }}>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xl">1️⃣</span>
+                      <h4 className="text-base font-bold" style={{color: '#fff'}}>Email Verification</h4>
+                    </div>
+                    {emailVerified && (
+                      <span className="text-sm font-bold" style={{color: '#00ff88'}}>✅ Verified</span>
+                    )}
                   </div>
-                ) : (
-                  <div className="space-y-3">
-                    {/* Telegram Group Task */}
-                    <div className="flex items-center justify-between p-3 rounded-lg bg-black/30 border border-white/10">
-                      <div className="flex items-center gap-3">
-                        <SiTelegram className="w-5 h-5" style={{color: '#00bfff'}} />
-                        <span className="text-sm">Join Telegram Group</span>
-                      </div>
-                      <Button
-                        onClick={() => {
-                          window.open('https://t.me/memesstake', '_blank');
-                          handleCompleteTask('telegram_group');
-                        }}
-                        disabled={tasksCompleted.telegram_group || tasksPending.telegram_group}
-                        size="sm"
-                        style={{
-                          background: tasksCompleted.telegram_group ? '#00ff88' : '#00bfff',
-                          color: '#000'
-                        }}
-                        data-testid="button-task-telegram-group"
-                      >
-                        {tasksCompleted.telegram_group ? '✅ Done' : tasksPending.telegram_group ? '⏳...' : 'Join'}
-                      </Button>
-                    </div>
 
-                    {/* Telegram Channel Task */}
-                    <div className="flex items-center justify-between p-3 rounded-lg bg-black/30 border border-white/10">
-                      <div className="flex items-center gap-3">
-                        <SiTelegram className="w-5 h-5" style={{color: '#00bfff'}} />
-                        <span className="text-sm">Join Telegram Channel</span>
+                  {!emailVerified ? (
+                    <div className="space-y-3">
+                      <p className="text-sm mb-3" style={{ color: '#00bfff' }}>
+                        📧 Verify your email to unlock tasks
+                      </p>
+                      
+                      {/* Email Input */}
+                      <div>
+                        <input
+                          type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          placeholder="Enter your email"
+                          className="w-full px-3 py-2 rounded bg-black/30 border border-white/20 text-white placeholder-gray-400 focus:border-cyan-500 focus:outline-none"
+                          disabled={showOtpInput}
+                          data-testid="input-email"
+                        />
                       </div>
-                      <Button
-                        onClick={() => {
-                          window.open('https://t.me/memesstakechannel', '_blank');
-                          handleCompleteTask('telegram_channel');
-                        }}
-                        disabled={tasksCompleted.telegram_channel || tasksPending.telegram_channel}
-                        size="sm"
-                        style={{
-                          background: tasksCompleted.telegram_channel ? '#00ff88' : '#00bfff',
-                          color: '#000'
-                        }}
-                        data-testid="button-task-telegram-channel"
-                      >
-                        {tasksCompleted.telegram_channel ? '✅ Done' : tasksPending.telegram_channel ? '⏳...' : 'Join'}
-                      </Button>
-                    </div>
 
-                    {/* Twitter Task */}
-                    <div className="flex items-center justify-between p-3 rounded-lg bg-black/30 border border-white/10">
-                      <div className="flex items-center gap-3">
-                        <SiX className="w-5 h-5" style={{color: '#00bfff'}} />
-                        <span className="text-sm">Follow on X (Twitter)</span>
-                      </div>
-                      <Button
-                        onClick={() => {
-                          window.open('https://twitter.com/memesstake', '_blank');
-                          handleCompleteTask('twitter');
-                        }}
-                        disabled={tasksCompleted.twitter || tasksPending.twitter}
-                        size="sm"
-                        style={{
-                          background: tasksCompleted.twitter ? '#00ff88' : '#00bfff',
-                          color: '#000'
-                        }}
-                        data-testid="button-task-twitter"
-                      >
-                        {tasksCompleted.twitter ? '✅ Done' : tasksPending.twitter ? '⏳...' : 'Follow'}
-                      </Button>
-                    </div>
+                      {/* Sponsor Code Input (if not already set) */}
+                      {!sponsorAddress && !referralCode && (
+                        <div>
+                          <input
+                            type="text"
+                            value={sponsorAddress}
+                            onChange={(e) => setSponsorAddress(e.target.value)}
+                            placeholder="Sponsor code (optional)"
+                            className="w-full px-3 py-2 rounded bg-black/30 border border-white/20 text-white placeholder-gray-400 focus:border-gold-500 focus:outline-none"
+                            disabled={showOtpInput}
+                            data-testid="input-sponsor-code"
+                          />
+                        </div>
+                      )}
 
-                    {/* YouTube Task */}
-                    <div className="flex items-center justify-between p-3 rounded-lg bg-black/30 border border-white/10">
-                      <div className="flex items-center gap-3">
-                        <svg className="w-5 h-5" style={{color: '#00bfff'}} fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                        </svg>
-                        <span className="text-sm">Subscribe YouTube</span>
+                      {/* OTP Input (shown after OTP sent) */}
+                      {showOtpInput && (
+                        <div>
+                          <input
+                            type="text"
+                            value={otp}
+                            onChange={(e) => setOtp(e.target.value)}
+                            placeholder="Enter 6-digit OTP"
+                            maxLength={6}
+                            className="w-full px-3 py-2 rounded bg-black/30 border border-white/20 text-white placeholder-gray-400 focus:border-green-500 focus:outline-none text-center text-lg tracking-widest"
+                            data-testid="input-otp"
+                          />
+                        </div>
+                      )}
+
+                      {/* Action Buttons */}
+                      <div className="flex gap-2">
+                        {!showOtpInput ? (
+                          <Button
+                            onClick={handleSendOTP}
+                            disabled={isSendingOtp || !email}
+                            className="w-full"
+                            style={{ background: '#00bfff', color: '#000' }}
+                            data-testid="button-send-otp"
+                          >
+                            {isSendingOtp ? '⏳ Sending...' : '📧 Send OTP'}
+                          </Button>
+                        ) : (
+                          <>
+                            <Button
+                              onClick={handleVerifyOTP}
+                              disabled={isVerifyingOtp || !otp}
+                              className="flex-1"
+                              style={{ background: '#00ff88', color: '#000' }}
+                              data-testid="button-verify-otp"
+                            >
+                              {isVerifyingOtp ? '⏳ Verifying...' : '✅ Verify'}
+                            </Button>
+                            <Button
+                              onClick={handleResendOTP}
+                              disabled={resendCooldown > 0}
+                              variant="outline"
+                              className="flex-1"
+                              data-testid="button-resend-otp"
+                            >
+                              {resendCooldown > 0 ? `⏰ ${resendCooldown}s` : '🔄 Resend'}
+                            </Button>
+                          </>
+                        )}
                       </div>
-                      <Button
-                        onClick={() => {
-                          window.open('https://youtube.com/@memesstake', '_blank');
-                          handleCompleteTask('youtube');
-                        }}
-                        disabled={tasksCompleted.youtube || tasksPending.youtube}
-                        size="sm"
-                        style={{
-                          background: tasksCompleted.youtube ? '#00ff88' : '#00bfff',
-                          color: '#000'
-                        }}
-                        data-testid="button-task-youtube"
-                      >
-                        {tasksCompleted.youtube ? '✅ Done' : tasksPending.youtube ? '⏳...' : 'Subscribe'}
-                      </Button>
                     </div>
+                  ) : (
+                    <p className="text-sm text-gray-400">Your email has been verified successfully!</p>
+                  )}
+                </div>
+
+                {/* Social Media Tasks Section */}
+                <div className="p-4 rounded-lg" style={{
+                  background: 'rgba(0, 191, 255, 0.1)',
+                  border: '1px solid rgba(0, 191, 255, 0.3)'
+                }}>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xl">2️⃣</span>
+                      <h4 className="text-base font-bold" style={{color: '#fff'}}>Social Media Tasks</h4>
+                    </div>
+                    <span className="text-sm font-bold" style={{color: '#00bfff'}}>
+                      {Object.values(tasksCompleted).filter(Boolean).length}/4
+                    </span>
                   </div>
-                )}
+
+                  {!emailVerified ? (
+                    <div className="text-center py-8">
+                      <Lock className="w-12 h-12 mx-auto mb-3 opacity-50" style={{color: '#ffd700'}} />
+                      <p className="text-sm" style={{color: '#ffd700'}}>
+                        🔒 Verify your email first to unlock tasks
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      {/* Telegram Group Task */}
+                      <div className="flex items-center justify-between p-3 rounded-lg bg-black/30 border border-white/10">
+                        <div className="flex items-center gap-3">
+                          <SiTelegram className="w-5 h-5" style={{color: '#00bfff'}} />
+                          <span className="text-sm">Join Telegram Group</span>
+                        </div>
+                        <Button
+                          onClick={() => {
+                            window.open('https://t.me/memesstake', '_blank');
+                            handleCompleteTask('telegram_group');
+                          }}
+                          disabled={tasksCompleted.telegram_group || tasksPending.telegram_group}
+                          size="sm"
+                          style={{
+                            background: tasksCompleted.telegram_group ? '#00ff88' : '#00bfff',
+                            color: '#000'
+                          }}
+                          data-testid="button-task-telegram-group"
+                        >
+                          {tasksCompleted.telegram_group ? '✅ Done' : tasksPending.telegram_group ? '⏳...' : 'Join'}
+                        </Button>
+                      </div>
+
+                      {/* Telegram Channel Task */}
+                      <div className="flex items-center justify-between p-3 rounded-lg bg-black/30 border border-white/10">
+                        <div className="flex items-center gap-3">
+                          <SiTelegram className="w-5 h-5" style={{color: '#00bfff'}} />
+                          <span className="text-sm">Join Telegram Channel</span>
+                        </div>
+                        <Button
+                          onClick={() => {
+                            window.open('https://t.me/memesstakechannel', '_blank');
+                            handleCompleteTask('telegram_channel');
+                          }}
+                          disabled={tasksCompleted.telegram_channel || tasksPending.telegram_channel}
+                          size="sm"
+                          style={{
+                            background: tasksCompleted.telegram_channel ? '#00ff88' : '#00bfff',
+                            color: '#000'
+                          }}
+                          data-testid="button-task-telegram-channel"
+                        >
+                          {tasksCompleted.telegram_channel ? '✅ Done' : tasksPending.telegram_channel ? '⏳...' : 'Join'}
+                        </Button>
+                      </div>
+
+                      {/* Twitter Task */}
+                      <div className="flex items-center justify-between p-3 rounded-lg bg-black/30 border border-white/10">
+                        <div className="flex items-center gap-3">
+                          <SiX className="w-5 h-5" style={{color: '#00bfff'}} />
+                          <span className="text-sm">Follow on X (Twitter)</span>
+                        </div>
+                        <Button
+                          onClick={() => {
+                            window.open('https://twitter.com/memesstake', '_blank');
+                            handleCompleteTask('twitter');
+                          }}
+                          disabled={tasksCompleted.twitter || tasksPending.twitter}
+                          size="sm"
+                          style={{
+                            background: tasksCompleted.twitter ? '#00ff88' : '#00bfff',
+                            color: '#000'
+                          }}
+                          data-testid="button-task-twitter"
+                        >
+                          {tasksCompleted.twitter ? '✅ Done' : tasksPending.twitter ? '⏳...' : 'Follow'}
+                        </Button>
+                      </div>
+
+                      {/* YouTube Task */}
+                      <div className="flex items-center justify-between p-3 rounded-lg bg-black/30 border border-white/10">
+                        <div className="flex items-center gap-3">
+                          <svg className="w-5 h-5" style={{color: '#00bfff'}} fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                          </svg>
+                          <span className="text-sm">Subscribe YouTube</span>
+                        </div>
+                        <Button
+                          onClick={() => {
+                            window.open('https://youtube.com/@memesstake', '_blank');
+                            handleCompleteTask('youtube');
+                          }}
+                          disabled={tasksCompleted.youtube || tasksPending.youtube}
+                          size="sm"
+                          style={{
+                            background: tasksCompleted.youtube ? '#00ff88' : '#00bfff',
+                            color: '#000'
+                          }}
+                          data-testid="button-task-youtube"
+                        >
+                          {tasksCompleted.youtube ? '✅ Done' : tasksPending.youtube ? '⏳...' : 'Subscribe'}
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          </Card>
+            </Card>
           </>
         )}
 
