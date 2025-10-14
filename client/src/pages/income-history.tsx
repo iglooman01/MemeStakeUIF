@@ -26,7 +26,7 @@ export default function IncomeHistory() {
   // Smart contract data state
   const [stakingRewards, setStakingRewards] = useState(0);
   const [referralRewards, setReferralRewards] = useState(0);
-  const [bonusRewards, setBonusRewards] = useState(0);
+  //const [bonusRewards, setBonusRewards] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingTransactions, setIsLoadingTransactions] = useState(true);
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
@@ -86,13 +86,13 @@ export default function IncomeHistory() {
           }) as bigint;
           totalPresaleRewards += Number(reward) / 1e18;
         }
-        setBonusRewards(totalPresaleRewards);
+       // setBonusRewards(totalPresaleRewards);
 
       } catch (error) {
         console.error('Error fetching rewards:', error);
         setStakingRewards(0);
         setReferralRewards(0);
-        setBonusRewards(0);
+        //setBonusRewards(0);
       } finally {
         setIsLoading(false);
       }
@@ -122,7 +122,7 @@ export default function IncomeHistory() {
         let eventType = tx.transactionType;
 
         if (tx.transactionType === 'Stake') {
-          type = 'capital_withdrawn'; // Stake is capital going out (negative)
+          type = ''; // Stake is capital going out (negative)
           eventType = 'Staked';
         } else if (tx.transactionType === 'Claim Staking Rewards') {
           type = 'staking';
@@ -182,7 +182,7 @@ export default function IncomeHistory() {
   };
 
   // Calculate totals from smart contract data
-  const grandTotal = stakingRewards + referralRewards + bonusRewards;
+  const grandTotal = stakingRewards + referralRewards ;
 
   return (
     <div className="min-h-screen text-foreground" style={{background: 'linear-gradient(135deg, #0a0e1a 0%, #1a1f2e 50%, #0f1421 100%)'}} data-testid="income-history-page">
@@ -231,7 +231,7 @@ export default function IncomeHistory() {
         
         {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card className="p-4 glass-card text-center">
+          <Card className="p-3 glass-card text-center">
             <div className="text-xs text-muted-foreground mb-2">Total Earnings</div>
             <div className="text-2xl font-bold" style={{color: '#00ff88'}}>
               {isLoading ? (
@@ -243,7 +243,7 @@ export default function IncomeHistory() {
             <div className="text-xs text-muted-foreground mt-1">$MEMES</div>
           </Card>
 
-          <Card className="p-4 glass-card text-center">
+          <Card className="p-3 glass-card text-center">
             <div className="text-xs text-muted-foreground mb-2">Staking Rewards</div>
             <div className="text-xl font-bold" style={{color: '#00bfff'}}>
               {isLoading ? (
@@ -255,7 +255,7 @@ export default function IncomeHistory() {
             <div className="text-xs text-muted-foreground mt-1">$MEMES</div>
           </Card>
 
-          <Card className="p-4 glass-card text-center">
+          <Card className="p-3 glass-card text-center">
             <div className="text-xs text-muted-foreground mb-2">Referral Rewards</div>
             <div className="text-xl font-bold" style={{color: '#ffd700'}}>
               {isLoading ? (
@@ -267,7 +267,7 @@ export default function IncomeHistory() {
             <div className="text-xs text-muted-foreground mt-1">$MEMES</div>
           </Card>
 
-          <Card className="p-4 glass-card text-center">
+          {/*<Card className="p-4 glass-card text-center">
             <div className="text-xs text-muted-foreground mb-2">Bonus Rewards</div>
             <div className="text-xl font-bold" style={{color: '#ff69b4'}}>
               {isLoading ? (
@@ -277,7 +277,7 @@ export default function IncomeHistory() {
               )}
             </div>
             <div className="text-xs text-muted-foreground mt-1">$MEMES</div>
-          </Card>
+          </Card>*/}
         </div>
 
         {/* Income History Table */}

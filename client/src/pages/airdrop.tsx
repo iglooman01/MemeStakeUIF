@@ -6,6 +6,9 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Progress } from "@/components/ui/progress";
 import memeStakeLogo from "@assets/ChatGPT Image Oct 9, 2025, 11_08_34 AM_1759988345567.png";
+import { createPublicClient, http } from 'viem';
+import { bscTestnet } from 'viem/chains';
+import { CONTRACTS } from '@/config/contracts';
 
 export default function Airdrop() {
   const [location, setLocation] = useLocation();
@@ -18,6 +21,7 @@ export default function Airdrop() {
   const [completedTasks, setCompletedTasks] = useState<string[]>([]);
   const [referralCount, setReferralCount] = useState(1);
   const [airdropTokens, setAirdropTokens] = useState(0);
+  const [claimedTokens, setClaimedTokens] = useState(0);
   const { toast } = useToast();
 
   const referralLink = walletAddress 
@@ -130,6 +134,34 @@ export default function Airdrop() {
 
     return () => clearInterval(timer);
   }, []);
+
+  // Fetch userClaimed from smart contract
+  useEffect(() => {
+    const fetchClaimedTokens = async () => {
+      if (!walletAddress) return;
+
+      try {
+        const publicClient = createPublicClient({
+          chain: bscTestnet,
+          transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
+        });
+
+        const claimed = await publicClient.readContract({
+          address: CONTRACTS.MEMES_AIRDROP.address as `0x${string}`,
+          abi: CONTRACTS.MEMES_AIRDROP.abi,
+          functionName: 'userClaimed',
+          args: [walletAddress as `0x${string}`]
+        }) as bigint;
+
+        const claimedAmount = Number(claimed) / 1e18;
+        setClaimedTokens(claimedAmount);
+      } catch (error) {
+        console.error('Error fetching claimed tokens:', error);
+      }
+    };
+
+    fetchClaimedTokens();
+  }, [walletAddress]);
 
   const connectWallet = async () => {
     if (typeof window.ethereum !== 'undefined') {
@@ -446,7 +478,7 @@ export default function Airdrop() {
             </div>
             <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)'}}>
               <div className="text-sm text-muted-foreground">Airdrop Tokens</div>
-              <div className="text-2xl font-bold" style={{color: '#00ff88'}}>{airdropTokens.toLocaleString()}</div>
+              <div className="text-2xl font-bold" style={{color: '#00ff88'}}>{claimedTokens.toLocaleString()}</div>
             </div>
           </div>
           <p className="text-sm text-muted-foreground mb-4">
