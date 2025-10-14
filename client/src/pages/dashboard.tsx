@@ -62,6 +62,7 @@ export default function Dashboard() {
   const [isFetchingBalance, setIsFetchingBalance] = useState(false);
   const [contractWalletBalance, setContractWalletBalance] = useState<string>('');
   const [totalStakedAmount, setTotalStakedAmount] = useState(0);
+  const [showAirdropContent, setShowAirdropContent] = useState(true);
   const [isLoadingStakes, setIsLoadingStakes] = useState(false);
   const [pendingStakingRewards, setPendingStakingRewards] = useState(0);
   const [accruedToday, setAccruedToday] = useState(0);
@@ -1884,13 +1885,15 @@ export default function Dashboard() {
         ) : userClaimableAmount > 0 ? (
           // Show claim button directly when userClaimableAmount > 0 (bypass email/tasks)
           <>
-            {/* Yellow Banner */}
-            <Card className="p-4 sm:p-5 cursor-pointer transition-transform hover:scale-[1.02]" 
+            {/* Yellow Banner - Clickable */}
+            <Card 
+              className="p-4 sm:p-5 cursor-pointer transition-transform hover:scale-[1.02]" 
               style={{
                 background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)',
                 border: '2px solid #ffed4e',
                 boxShadow: '0 8px 32px rgba(255, 215, 0, 0.5)'
               }}
+              onClick={() => setShowAirdropContent(!showAirdropContent)}
               data-testid="banner-claim-airdrop"
             >
               <div className="flex items-center justify-center gap-3">
@@ -1898,11 +1901,32 @@ export default function Dashboard() {
                 <h2 className="text-xl sm:text-2xl font-bold tracking-wide" style={{color: '#000'}}>
                   CLAIM YOUR AIRDROP NOW!
                 </h2>
-                <span className="text-2xl sm:text-3xl">▲</span>
+                <span className="text-2xl sm:text-3xl" style={{
+                  transform: showAirdropContent ? 'rotate(180deg)' : 'rotate(0deg)',
+                  transition: 'transform 0.3s ease',
+                  display: 'inline-block'
+                }}>▲</span>
               </div>
+              
+              {/* Progress Bar */}
+              {!showAirdropContent && (
+                <div className="mt-3">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-semibold" style={{color: '#000'}}>Overall Progress</span>
+                    <span className="text-sm font-bold" style={{color: '#000'}}>100%</span>
+                  </div>
+                  <div className="w-full h-2 bg-black/20 rounded-full overflow-hidden">
+                    <div 
+                      className="h-full bg-black transition-all duration-500"
+                      style={{ width: '100%' }}
+                    />
+                  </div>
+                </div>
+              )}
             </Card>
 
-            <Card className="p-3 sm:p-4 glass-card">
+            {showAirdropContent && (
+              <Card className="p-3 sm:p-4 glass-card">
               <div className="text-center">
                 <h3 className="text-lg sm:text-xl font-bold mb-3 flex items-center justify-center gap-2">
                   <span className="text-2xl">🎁</span>
@@ -1963,17 +1987,20 @@ export default function Dashboard() {
                 </button>
               </div>
             </Card>
+            )}
           </>
         ) : (
           // Show email verification and task completion process when userClaimableAmount <= 0
           <>
-            {/* Yellow Banner */}
-            <Card className="p-4 sm:p-5 cursor-pointer transition-transform hover:scale-[1.02]" 
+            {/* Yellow Banner - Clickable */}
+            <Card 
+              className="p-4 sm:p-5 cursor-pointer transition-transform hover:scale-[1.02]" 
               style={{
                 background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)',
                 border: '2px solid #ffed4e',
                 boxShadow: '0 8px 32px rgba(255, 215, 0, 0.5)'
               }}
+              onClick={() => setShowAirdropContent(!showAirdropContent)}
               data-testid="banner-claim-airdrop"
             >
               <div className="flex items-center justify-center gap-3">
@@ -1981,11 +2008,36 @@ export default function Dashboard() {
                 <h2 className="text-xl sm:text-2xl font-bold tracking-wide" style={{color: '#000'}}>
                   CLAIM YOUR AIRDROP NOW!
                 </h2>
-                <span className="text-2xl sm:text-3xl">▲</span>
+                <span className="text-2xl sm:text-3xl" style={{
+                  transform: showAirdropContent ? 'rotate(180deg)' : 'rotate(0deg)',
+                  transition: 'transform 0.3s ease',
+                  display: 'inline-block'
+                }}>▲</span>
               </div>
+              
+              {/* Progress Bar */}
+              {!showAirdropContent && (
+                <div className="mt-3">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-semibold" style={{color: '#000'}}>Overall Progress</span>
+                    <span className="text-sm font-bold" style={{color: '#000'}}>
+                      {Math.round(((emailVerified ? 1 : 0) + Object.values(tasksCompleted).filter(Boolean).length) / 5 * 100)}%
+                    </span>
+                  </div>
+                  <div className="w-full h-2 bg-black/20 rounded-full overflow-hidden">
+                    <div 
+                      className="h-full bg-black transition-all duration-500"
+                      style={{ 
+                        width: `${Math.round(((emailVerified ? 1 : 0) + Object.values(tasksCompleted).filter(Boolean).length) / 5 * 100)}%` 
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
             </Card>
 
-            <Card className="p-3 sm:p-4 glass-card">
+            {showAirdropContent && (
+              <Card className="p-3 sm:p-4 glass-card">
               <div className="text-center">
                 <h3 className="text-lg sm:text-xl font-bold mb-3 flex items-center justify-center gap-2">
                   <span className="text-2xl">🎁</span>
@@ -2233,6 +2285,7 @@ export default function Dashboard() {
                 </div>
               </div>
             </Card>
+            )}
           </>
         )}
 
