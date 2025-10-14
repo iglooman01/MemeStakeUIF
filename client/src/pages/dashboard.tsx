@@ -721,6 +721,44 @@ export default function Dashboard() {
         description: "Claiming your rewards...",
       });
 
+      // Save transaction records to database
+      try {
+        // 1. Save staking rewards transaction if there are staking rewards
+        if (pendingStakingRewards > 0) {
+          console.log('Saving claim staking rewards transaction:', pendingStakingRewards);
+          
+          const stakingResponse = await apiRequest('POST', '/api/transactions', {
+            walletAddress: walletAddress,
+            transactionType: 'Claim Staking Rewards',
+            amount: pendingStakingRewards.toString(),
+            tokenSymbol: 'MEMES',
+            transactionHash: hash,
+            status: 'pending'
+          });
+          const stakingTransaction = await stakingResponse.json();
+          console.log('✅ Claim staking rewards transaction saved:', stakingTransaction);
+        }
+
+        // 2. Save referral rewards transaction if there are referral rewards
+        if (referralEarnings > 0) {
+          console.log('Saving claim referral rewards transaction:', referralEarnings);
+          
+          const referralResponse = await apiRequest('POST', '/api/transactions', {
+            walletAddress: walletAddress,
+            transactionType: 'Claim Referral Rewards',
+            amount: referralEarnings.toString(),
+            tokenSymbol: 'MEMES',
+            transactionHash: hash,
+            status: 'pending'
+          });
+          const referralTransaction = await referralResponse.json();
+          console.log('✅ Claim referral rewards transaction saved:', referralTransaction);
+        }
+      } catch (dbError) {
+        console.error('❌ Error saving claim transactions:', dbError);
+        // Don't stop the process, just log the error
+      }
+
       // Wait for transaction confirmation
       const publicClient = createPublicClient({
         chain: bscTestnet,
@@ -729,10 +767,23 @@ export default function Dashboard() {
 
       await publicClient.waitForTransactionReceipt({ hash });
 
+      // Update transaction status to confirmed
+      try {
+        await apiRequest('PUT', `/api/transactions/${hash}/status`, {
+          status: 'confirmed'
+        });
+        console.log('✅ Transaction status updated to confirmed');
+      } catch (dbError) {
+        console.error('Error updating transaction status:', dbError);
+      }
+
       toast({
         title: "🎉 Rewards Claimed!",
         description: `Successfully claimed ${claimableAmount.toLocaleString()} $MEMES to your wallet`,
       });
+
+      // Invalidate transactions query to refresh income history
+      queryClient.invalidateQueries({ queryKey: ['/api/transactions'] });
 
       // Refresh balances after successful claim
       setTimeout(() => {

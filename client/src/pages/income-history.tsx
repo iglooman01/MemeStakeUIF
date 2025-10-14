@@ -59,12 +59,12 @@ export default function IncomeHistory() {
         const activeStakes = await publicClient.readContract({
           address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
           abi: CONTRACTS.MEMES_STAKE.abi,
-          functionName: 'getActiveStakesWithId',
+          functionName: 'getUserStakes',
           args: [walletAddress as `0x${string}`]
         }) as any[];
 
         const totalClaimedRewards = activeStakes.reduce((sum, stake) => {
-          return sum + Number(stake.details.totalRewardsClaimed);
+          return sum + Number(stake.totalRewardsClaimed);
         }, 0);
         
         setStakingRewards(totalClaimedRewards / 1e18);
@@ -240,7 +240,7 @@ export default function IncomeHistory() {
         
         {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card className="p-3 glass-card text-center">
+          <Card className="p-4walle glass-card text-center">
             <div className="text-xs text-muted-foreground mb-2">Total Earnings</div>
             <div className="text-2xl font-bold" style={{color: '#00ff88'}}>
               {isLoading ? (
@@ -252,7 +252,7 @@ export default function IncomeHistory() {
             <div className="text-xs text-muted-foreground mt-1">$MEMES</div>
           </Card>
 
-          <Card className="p-3 glass-card text-center">
+          <Card className="p-4 glass-card text-center">
             <div className="text-xs text-muted-foreground mb-2">Staking Rewards</div>
             <div className="text-xl font-bold" style={{color: '#00bfff'}}>
               {isLoading ? (
@@ -264,7 +264,7 @@ export default function IncomeHistory() {
             <div className="text-xs text-muted-foreground mt-1">$MEMES</div>
           </Card>
 
-          <Card className="p-3 glass-card text-center">
+          <Card className="p-4 glass-card text-center">
             <div className="text-xs text-muted-foreground mb-2">Referral Rewards</div>
             <div className="text-xl font-bold" style={{color: '#ffd700'}}>
               {isLoading ? (
@@ -276,7 +276,7 @@ export default function IncomeHistory() {
             <div className="text-xs text-muted-foreground mt-1">$MEMES</div>
           </Card>
 
-          {/*<Card className="p-4 glass-card text-center">
+          {<Card className="p-4 glass-card text-center">
             <div className="text-xs text-muted-foreground mb-2">Bonus Rewards</div>
             <div className="text-xl font-bold" style={{color: '#ff69b4'}}>
               {isLoading ? (
@@ -286,7 +286,7 @@ export default function IncomeHistory() {
               )}
             </div>
             <div className="text-xs text-muted-foreground mt-1">$MEMES</div>
-          </Card>*/}
+          </Card>}
         </div>
 
         {/* Income History Table */}
