@@ -369,6 +369,37 @@ export default function Dashboard() {
     try {
       setIsClaimingAirdrop(true);
 
+      // Check if airdrop contract has enough MEMES tokens
+      const publicClient = createPublicClient({
+        chain: bscTestnet,
+        transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
+      });
+
+      const airdropContractBalance = await publicClient.readContract({
+        address: CONTRACTS.MEMES_TOKEN.address as `0x${string}`,
+        abi: CONTRACTS.MEMES_TOKEN.abi,
+        functionName: 'balanceOf',
+        args: [CONTRACTS.MEMES_AIRDROP.address]
+      }) as bigint;
+
+      // Convert userClaimableAmount to wei (18 decimals)
+      const claimableInWei = BigInt(Math.floor(userClaimableAmount)) * BigInt('1000000000000000000');
+
+      if (airdropContractBalance < claimableInWei) {
+        toast({
+          title: "⚠️ Insufficient Contract Balance",
+          description: (
+            <div className="space-y-2 mt-2">
+              <p className="text-sm">The airdrop contract doesn't have enough MEMES tokens right now.</p>
+              <p className="text-xs text-muted-foreground">Please contact support or try again later.</p>
+            </div>
+          ),
+          variant: "destructive"
+        });
+        setIsClaimingAirdrop(false);
+        return;
+      }
+
       // Get wallet client based on wallet type
       let walletClient;
       const normalizedWalletType = walletType.toLowerCase().replace(/\s+/g, '');
@@ -408,12 +439,7 @@ export default function Dashboard() {
         description: "Claiming your airdrop...",
       });
 
-      // Wait for transaction confirmation
-      const publicClient = createPublicClient({
-        chain: bscTestnet,
-        transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
-      });
-
+      // Wait for transaction confirmation (reuse publicClient from balance check)
       await publicClient.waitForTransactionReceipt({ hash });
 
       setAirdropTxHash(hash);
