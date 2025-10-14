@@ -121,7 +121,7 @@ export const transactions = pgTable("transactions", {
   transactionType: text("transaction_type").notNull(), // "Stake", "Claim Staking Rewards", "Claim Referral Rewards", "Capital Withdraw"
   amount: text("amount").notNull(), // Store as string to handle big numbers
   tokenSymbol: text("token_symbol").notNull().default("MEMES"), // Token involved in transaction
-  transactionHash: text("transaction_hash").notNull().unique(),
+  transactionHash: text("transaction_hash").notNull(), // Allow duplicate hashes for multiple transaction types in same blockchain tx
   blockNumber: integer("block_number"),
   status: text("status").notNull().default("pending"), // "pending", "confirmed", "failed"
   createdAt: timestamp("created_at").notNull().defaultNow(),
