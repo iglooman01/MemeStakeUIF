@@ -342,7 +342,8 @@ export default function Staking() {
           transactionHash: txHash,
           status: 'pending'
         });
-        console.log('✅ Capital withdraw transaction saved to database:', response);
+        const savedTransaction = await response.json();
+        console.log('✅ Capital withdraw transaction saved to database:', savedTransaction);
       } catch (dbError) {
         console.error('❌ Error saving capital withdraw transaction:', dbError);
         toast({
@@ -535,7 +536,8 @@ export default function Staking() {
           transactionHash: stakeTxHash,
           status: 'pending'
         });
-        console.log('✅ Stake transaction saved to database:', response);
+        const savedTransaction = await response.json();
+        console.log('✅ Stake transaction saved to database:', savedTransaction);
       } catch (dbError) {
         console.error('❌ Error saving stake transaction:', dbError);
         toast({
@@ -763,7 +765,8 @@ export default function Staking() {
             transactionHash: txHash,
             status: 'pending'
           });
-          console.log('✅ Staking rewards transaction saved:', stakingResponse);
+          const stakingTx = await stakingResponse.json();
+          console.log('✅ Staking rewards transaction saved:', stakingTx);
         }
 
         // 2. Save Referral Rewards transaction
@@ -776,7 +779,8 @@ export default function Staking() {
             transactionHash: txHash + '-referral', // Add suffix to make hash unique
             status: 'pending'
           });
-          console.log('✅ Referral rewards transaction saved:', referralResponse);
+          const referralTx = await referralResponse.json();
+          console.log('✅ Referral rewards transaction saved:', referralTx);
         }
         console.log('✅ All claim transactions saved to database');
       } catch (dbError) {
