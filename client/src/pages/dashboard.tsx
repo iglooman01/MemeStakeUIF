@@ -2174,7 +2174,7 @@ export default function Dashboard() {
                       <span className="text-xs text-gray-300">Airdrop Tokens</span>
                     </div>
                     <div className="text-sm font-bold" style={{color: '#00ff88'}}>
-                      {airdropTokens.toLocaleString()}
+                      {userClaimableAmount.toLocaleString()}
                     </div>
                   </div>
                 </div>
