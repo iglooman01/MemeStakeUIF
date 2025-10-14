@@ -141,6 +141,7 @@ export class MemStorage implements IStorage {
       youtubeCompleted: participant.youtubeCompleted ?? false,
       airdropTokens: participant.airdropTokens ?? 0,
       referralTokens: participant.referralTokens ?? 0,
+      exported: participant.exported ?? false,
       createdAt: now,
     };
     this.airdropParticipants.set(newParticipant.walletAddress, newParticipant);

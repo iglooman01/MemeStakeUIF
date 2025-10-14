@@ -31,6 +31,7 @@ export const airdropParticipants = pgTable("airdrop_participants", {
   youtubeCompleted: boolean("youtube_completed").notNull().default(false),
   airdropTokens: integer("airdrop_tokens").notNull().default(0),
   referralTokens: integer("referral_tokens").notNull().default(0),
+  exported: boolean("exported").notNull().default(false),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
