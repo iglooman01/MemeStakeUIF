@@ -326,7 +326,15 @@ export default function Staking() {
 
       // Save transaction to database
       try {
-        await apiRequest('/api/transactions', 'POST', {
+        console.log('Attempting to save capital withdraw transaction:', {
+          walletAddress,
+          transactionType: 'Capital Withdraw',
+          amount: stakeAmountValue,
+          tokenSymbol: 'MEMES',
+          transactionHash: txHash
+        });
+        
+        const response = await apiRequest('/api/transactions', 'POST', {
           walletAddress: walletAddress,
           transactionType: 'Capital Withdraw',
           amount: stakeAmountValue,
@@ -334,9 +342,14 @@ export default function Staking() {
           transactionHash: txHash,
           status: 'pending'
         });
-        console.log('Capital withdraw transaction saved to database');
+        console.log('✅ Capital withdraw transaction saved to database:', response);
       } catch (dbError) {
-        console.error('Error saving capital withdraw transaction:', dbError);
+        console.error('❌ Error saving capital withdraw transaction:', dbError);
+        toast({
+          title: "⚠️ Database Save Failed",
+          description: "Capital withdrawn but failed to save to history",
+          variant: "destructive"
+        });
       }
 
       // Wait for transaction confirmation
@@ -506,7 +519,15 @@ export default function Staking() {
 
       // Save transaction to database
       try {
-        await apiRequest('/api/transactions', 'POST', {
+        console.log('Attempting to save stake transaction:', {
+          walletAddress,
+          transactionType: 'Stake',
+          amount: stakeAmount,
+          tokenSymbol: 'MEMES',
+          transactionHash: stakeTxHash
+        });
+        
+        const response = await apiRequest('/api/transactions', 'POST', {
           walletAddress: walletAddress,
           transactionType: 'Stake',
           amount: stakeAmount,
@@ -514,9 +535,14 @@ export default function Staking() {
           transactionHash: stakeTxHash,
           status: 'pending'
         });
-        console.log('Stake transaction saved to database');
+        console.log('✅ Stake transaction saved to database:', response);
       } catch (dbError) {
-        console.error('Error saving stake transaction:', dbError);
+        console.error('❌ Error saving stake transaction:', dbError);
+        toast({
+          title: "⚠️ Database Save Failed",
+          description: "Transaction completed but failed to save to history",
+          variant: "destructive"
+        });
       }
 
       // Wait for transaction confirmation
@@ -720,9 +746,16 @@ export default function Staking() {
 
       // Save TWO separate transaction records (staking rewards + referral rewards)
       try {
+        console.log('Attempting to save claim transactions:', {
+          walletAddress,
+          stakingRewardsAmount,
+          referralRewardsAmount,
+          txHash
+        });
+        
         // 1. Save Staking Rewards transaction
         if (parseFloat(stakingRewardsAmount) > 0) {
-          await apiRequest('/api/transactions', 'POST', {
+          const stakingResponse = await apiRequest('/api/transactions', 'POST', {
             walletAddress: walletAddress,
             transactionType: 'Claim Staking Rewards',
             amount: stakingRewardsAmount,
@@ -730,11 +763,12 @@ export default function Staking() {
             transactionHash: txHash,
             status: 'pending'
           });
+          console.log('✅ Staking rewards transaction saved:', stakingResponse);
         }
 
         // 2. Save Referral Rewards transaction
         if (parseFloat(referralRewardsAmount) > 0) {
-          await apiRequest('/api/transactions', 'POST', {
+          const referralResponse = await apiRequest('/api/transactions', 'POST', {
             walletAddress: walletAddress,
             transactionType: 'Claim Referral Rewards',
             amount: referralRewardsAmount,
@@ -742,10 +776,16 @@ export default function Staking() {
             transactionHash: txHash + '-referral', // Add suffix to make hash unique
             status: 'pending'
           });
+          console.log('✅ Referral rewards transaction saved:', referralResponse);
         }
-        console.log('Claim transactions saved to database');
+        console.log('✅ All claim transactions saved to database');
       } catch (dbError) {
-        console.error('Error saving claim transactions:', dbError);
+        console.error('❌ Error saving claim transactions:', dbError);
+        toast({
+          title: "⚠️ Database Save Failed",
+          description: "Rewards claimed but failed to save to history",
+          variant: "destructive"
+        });
       }
 
       // Wait for transaction confirmation (optional - could use receipt)

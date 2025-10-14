@@ -231,7 +231,7 @@ export const CONTRACTS = {
 
   // Staking Contract
   MEMES_STAKE: {
-    address: "0x99E5A53Efb9Cc76e160fddEDaEa53e64bf19cE3f",
+    address: "0xCEBEFDed1E530B6F19b5878f8aceC2C79eb67921",
     abi: [
       {
         inputs: [],
@@ -1821,7 +1821,7 @@ export const CONTRACTS = {
   },
   // Presale Contract
   MEMES_PRESALE: {
-    address: "0x8B23Eec1ea7f0D688BBF6AD60db9eb4130b32009",
+    address: "0x00811290A37198d43F82670126e1E6FB4d9500C7",
     abi: [
       {
         inputs: [],
