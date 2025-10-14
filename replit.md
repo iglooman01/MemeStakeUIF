@@ -69,7 +69,7 @@ MemeStake is a full-stack web application for a cryptocurrency staking platform 
   - **Auto-refresh**: After successful claim, automatically refreshes token balances, staking data, and airdrop status
   - Shows claim section only when `!hasClaimed && userClaimable > 0`
 - **Airdrop Export Scheduler**: Automated Node.js scheduler that exports verified participants to smart contract
-  - Runs every 5 minutes
+  - Runs every hour
   - Fetches up to 100 users per batch where: email_verified=true, all tasks completed, exported=false
   - Executes `allowAirdrop(users[], sponsors[])` on Airdrop contract using admin wallet
   - Updates `exported=true` in database after successful transaction

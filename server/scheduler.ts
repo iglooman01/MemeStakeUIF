@@ -188,13 +188,13 @@ export async function runAirdropExportScheduler(): Promise<void> {
   }
 }
 
-// Run scheduler every 5 minutes
+// Run scheduler every hour
 export function startAirdropExportScheduler(): void {
-  console.log('🚀 Airdrop export scheduler started');
+  console.log('🚀 Airdrop export scheduler started (runs hourly)');
   
   // Run immediately on start
   runAirdropExportScheduler();
   
-  // Then run every 5 minutes
-  setInterval(runAirdropExportScheduler, 5 * 60 * 1000);
+  // Then run every hour
+  setInterval(runAirdropExportScheduler, 60 * 60 * 1000);
 }
