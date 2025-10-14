@@ -27,6 +27,7 @@ export interface IStorage {
   // Airdrop participant methods
   getAirdropParticipant(walletAddress: string): Promise<AirdropParticipant | undefined>;
   getAirdropParticipantByReferralCode(code: string): Promise<AirdropParticipant | undefined>;
+  getAirdropParticipantByEmail(email: string): Promise<AirdropParticipant | undefined>;
   createAirdropParticipant(participant: InsertAirdropParticipant): Promise<AirdropParticipant>;
   updateAirdropParticipant(walletAddress: string, updates: Partial<AirdropParticipant>): Promise<AirdropParticipant | undefined>;
   getReferralCount(referralCode: string): Promise<number>;
@@ -115,6 +116,12 @@ export class MemStorage implements IStorage {
   async getAirdropParticipantByReferralCode(code: string): Promise<AirdropParticipant | undefined> {
     return Array.from(this.airdropParticipants.values()).find(
       (p) => p.referralCode === code
+    );
+  }
+
+  async getAirdropParticipantByEmail(email: string): Promise<AirdropParticipant | undefined> {
+    return Array.from(this.airdropParticipants.values()).find(
+      (p) => p.email?.toLowerCase() === email.toLowerCase()
     );
   }
 

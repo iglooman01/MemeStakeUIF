@@ -60,6 +60,11 @@ MemeStake is a full-stack web application for a cryptocurrency staking platform 
 ## System Design Choices
 - **Web3 Integration**: Wallet connection with network auto-switch to BSC Testnet, connected wallet display, disconnect functionality.
 - **Airdrop Claim**: Dashboard integration to check claim status and execute `claimAirdrop()` via smart contract.
+  - **Email Verification**: Maileroo OTP verification required before claiming airdrop
+    - Send 6-digit OTP to email with 10-minute expiration
+    - Email uniqueness enforced in database (one email per wallet)
+    - Sponsor/referral code captured during OTP send
+    - Update email_verified status on successful verification
   - **Balance Verification**: Checks if airdrop contract has sufficient MEMES tokens before claiming
   - **Auto-refresh**: After successful claim, automatically refreshes token balances, staking data, and airdrop status
   - Shows claim section only when `!hasClaimed && userClaimable > 0`
@@ -74,6 +79,12 @@ MemeStake is a full-stack web application for a cryptocurrency staking platform 
 - **React Ecosystem**: React 18, React DOM, React Hook Form, TanStack Query
 - **Backend Framework**: Express.js
 - **Build Tools**: Vite, esbuild, tsx
+
+## Email Services
+- **Maileroo**: Email OTP verification service for airdrop claims
+  - API Key authentication
+  - 6-digit OTP generation and delivery
+  - 10-minute OTP expiration
 
 ## UI and Styling
 - **Component Library**: Radix UI

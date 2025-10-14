@@ -1,8 +1,12 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { generateOTP, sendOTPEmail } from "./email-service";
+import { sendOTPEmail } from "./maileroo";
 import { z } from "zod";
+
+function generateOTP(): string {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Airdrop API routes
@@ -66,7 +70,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Send OTP
   app.post("/api/airdrop/send-otp", async (req, res) => {
     try {
-      const { email, walletAddress } = req.body;
+      const { email, walletAddress, sponsorCode } = req.body;
       
       if (!email || !walletAddress) {
         return res.status(400).json({ error: "Email and wallet address required" });
@@ -75,6 +79,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const participant = await storage.getAirdropParticipant(walletAddress);
       if (!participant) {
         return res.status(404).json({ error: "Participant not found" });
+      }
+
+      // Check if email already exists for a different wallet
+      const existingEmail = await storage.getAirdropParticipantByEmail(email);
+      if (existingEmail && existingEmail.walletAddress.toLowerCase() !== walletAddress.toLowerCase()) {
+        return res.status(400).json({ error: "This email is already registered with another wallet" });
       }
 
       const otp = generateOTP();
@@ -87,7 +97,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
         verified: false,
       });
 
-      await sendOTPEmail(email, otp);
+      const emailSent = await sendOTPEmail(email, otp);
+      if (!emailSent) {
+        return res.status(500).json({ error: "Failed to send email. Please try again." });
+      }
+
+      // Update email and referred_by in airdrop_participants
+      const updates: any = { email };
+      if (sponsorCode && !participant.referredBy) {
+        // Verify sponsor code exists
+        const sponsor = await storage.getAirdropParticipantByReferralCode(sponsorCode);
+        if (sponsor) {
+          updates.referredBy = sponsorCode;
+        }
+      }
+      
+      await storage.updateAirdropParticipant(walletAddress, updates);
 
       res.json({ success: true, message: "OTP sent successfully" });
     } catch (error) {

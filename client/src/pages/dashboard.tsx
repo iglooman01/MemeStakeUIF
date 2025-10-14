@@ -46,6 +46,8 @@ export default function Dashboard() {
   const [otp, setOtp] = useState('');
   const [showOtpInput, setShowOtpInput] = useState(false);
   const [resendCooldown, setResendCooldown] = useState(0);
+  const [isSendingOtp, setIsSendingOtp] = useState(false);
+  const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
   const [tasksPending, setTasksPending] = useState<Record<string, boolean>>({
     telegram_group: false,
     telegram_channel: false,
@@ -175,6 +177,16 @@ export default function Dashboard() {
     }
   }, [walletAddress]);
 
+  // Resend OTP cooldown timer
+  useEffect(() => {
+    if (resendCooldown > 0) {
+      const timer = setTimeout(() => {
+        setResendCooldown(resendCooldown - 1);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [resendCooldown]);
+
   const copyReferralLink = () => {
     navigator.clipboard.writeText(referralLink);
     toast({
@@ -185,18 +197,20 @@ export default function Dashboard() {
 
   // Send OTP mutation
   const sendOtpMutation = useMutation({
-    mutationFn: async (data: { email: string; walletAddress: string }) => {
+    mutationFn: async (data: { email: string; walletAddress: string; sponsorCode?: string }) => {
       const res = await apiRequest('POST', '/api/airdrop/send-otp', data);
       return await res.json();
     },
     onSuccess: () => {
       setShowOtpInput(true);
+      setIsSendingOtp(false);
       toast({
         title: "📧 OTP Sent!",
-        description: `Verification code sent to ${email}. Check console for OTP (dev mode)`,
+        description: `Verification code sent to ${email}`,
       });
     },
     onError: (error: any) => {
+      setIsSendingOtp(false);
       toast({
         title: "❌ Failed to Send OTP",
         description: error.message || "Please try again",
@@ -212,13 +226,15 @@ export default function Dashboard() {
       return await res.json();
     },
     onSuccess: () => {
+      setIsVerifyingOtp(false);
       queryClient.invalidateQueries({ queryKey: ['/api/airdrop/status', walletAddress] });
       toast({
         title: "✅ Email Verified!",
-        description: "You can now complete social tasks",
+        description: "You can now claim your airdrop tokens",
       });
     },
     onError: (error: any) => {
+      setIsVerifyingOtp(false);
       toast({
         title: "❌ Verification Failed",
         description: error.message || "Invalid OTP",
@@ -281,31 +297,42 @@ export default function Dashboard() {
       return;
     }
     
-    sendOtpMutation.mutate({ email, walletAddress });
+    setIsSendingOtp(true);
+    sendOtpMutation.mutate({ 
+      email, 
+      walletAddress, 
+      sponsorCode: sponsorAddress || referralCode 
+    });
     setResendCooldown(60); // Start 60 second cooldown
+  };
+
+  const handleVerifyOTP = async () => {
+    if (!otp || otp.length !== 6) {
+      toast({
+        title: "❌ Invalid OTP",
+        description: "Please enter the 6-digit verification code",
+      });
+      return;
+    }
+    
+    setIsVerifyingOtp(true);
+    verifyOtpMutation.mutate({ email, otp, walletAddress });
   };
 
   const handleResendOTP = async () => {
     if (resendCooldown > 0) return;
     
-    sendOtpMutation.mutate({ email, walletAddress });
+    setIsSendingOtp(true);
+    sendOtpMutation.mutate({ 
+      email, 
+      walletAddress,
+      sponsorCode: sponsorAddress || referralCode
+    });
     setResendCooldown(60);
     toast({
       title: "📧 OTP Resent",
       description: "Check your email for the new verification code",
     });
-  };
-
-  const handleVerifyOTP = () => {
-    if (!otp || otp.length < 4) {
-      toast({
-        title: "❌ Invalid OTP",
-        description: "Please enter the verification code",
-      });
-      return;
-    }
-    
-    verifyOtpMutation.mutate({ email, otp, walletAddress });
   };
 
   const handleSkipVerification = () => {
@@ -1821,54 +1848,146 @@ export default function Dashboard() {
               <p className="text-sm text-muted-foreground mb-4">
                 You have <span className="font-bold text-[#ffd700]">{userClaimableAmount.toLocaleString()} MEMES</span> tokens ready to claim!
               </p>
-              <button
-                onClick={handleClaimAirdrop}
-                disabled={isClaimingAirdrop}
-                className="w-full py-3 sm:py-4 px-4 sm:px-6 rounded-xl font-bold text-base sm:text-lg relative overflow-hidden transition-all duration-500 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-                style={{
-                  background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 25%, #ffd700 50%, #ffed4e 75%, #ffd700 100%)',
-                  backgroundSize: '200% 200%',
-                  animation: 'gradientShift 3s ease infinite',
-                  color: '#000',
-                  boxShadow: '0 8px 32px rgba(255, 215, 0, 0.6), 0 0 60px rgba(255, 215, 0, 0.3)',
-                  border: '2px solid rgba(255, 237, 78, 0.8)'
-                }}
-                data-testid="button-claim-airdrop"
-              >
-                {/* Animated shine effect */}
-                <span 
-                  className="absolute inset-0 w-full h-full"
+
+              {/* Email Verification Required */}
+              {!emailVerified ? (
+                <div className="space-y-4">
+                  <div className="p-3 rounded-lg" style={{ background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)' }}>
+                    <p className="text-sm mb-3" style={{ color: '#00bfff' }}>
+                      📧 Verify your email to claim airdrop tokens
+                    </p>
+                    
+                    {/* Email Input */}
+                    <div className="mb-3">
+                      <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="Enter your email"
+                        className="w-full px-3 py-2 rounded bg-black/30 border border-white/20 text-white placeholder-gray-400 focus:border-cyan-500 focus:outline-none"
+                        disabled={showOtpInput}
+                        data-testid="input-email"
+                      />
+                    </div>
+
+                    {/* Sponsor Code Input (if not already set) */}
+                    {!sponsorAddress && !referralCode && (
+                      <div className="mb-3">
+                        <input
+                          type="text"
+                          value={sponsorAddress}
+                          onChange={(e) => setSponsorAddress(e.target.value)}
+                          placeholder="Sponsor code (optional)"
+                          className="w-full px-3 py-2 rounded bg-black/30 border border-white/20 text-white placeholder-gray-400 focus:border-gold-500 focus:outline-none"
+                          disabled={showOtpInput}
+                          data-testid="input-sponsor-code"
+                        />
+                      </div>
+                    )}
+
+                    {/* OTP Input (shown after OTP sent) */}
+                    {showOtpInput && (
+                      <div className="mb-3">
+                        <input
+                          type="text"
+                          value={otp}
+                          onChange={(e) => setOtp(e.target.value)}
+                          placeholder="Enter 6-digit OTP"
+                          maxLength={6}
+                          className="w-full px-3 py-2 rounded bg-black/30 border border-white/20 text-white placeholder-gray-400 focus:border-green-500 focus:outline-none text-center text-lg tracking-widest"
+                          data-testid="input-otp"
+                        />
+                      </div>
+                    )}
+
+                    {/* Action Buttons */}
+                    <div className="flex gap-2">
+                      {!showOtpInput ? (
+                        <Button
+                          onClick={handleSendOTP}
+                          disabled={isSendingOtp || !email}
+                          className="w-full"
+                          style={{ background: '#00bfff', color: '#000' }}
+                          data-testid="button-send-otp"
+                        >
+                          {isSendingOtp ? '⏳ Sending...' : '📧 Send OTP'}
+                        </Button>
+                      ) : (
+                        <>
+                          <Button
+                            onClick={handleVerifyOTP}
+                            disabled={isVerifyingOtp || !otp}
+                            className="flex-1"
+                            style={{ background: '#00ff88', color: '#000' }}
+                            data-testid="button-verify-otp"
+                          >
+                            {isVerifyingOtp ? '⏳ Verifying...' : '✅ Verify'}
+                          </Button>
+                          <Button
+                            onClick={handleResendOTP}
+                            disabled={resendCooldown > 0}
+                            variant="outline"
+                            className="flex-1"
+                            data-testid="button-resend-otp"
+                          >
+                            {resendCooldown > 0 ? `⏰ ${resendCooldown}s` : '🔄 Resend'}
+                          </Button>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                // Claim Button (shown only after email verified)
+                <button
+                  onClick={handleClaimAirdrop}
+                  disabled={isClaimingAirdrop}
+                  className="w-full py-3 sm:py-4 px-4 sm:px-6 rounded-xl font-bold text-base sm:text-lg relative overflow-hidden transition-all duration-500 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
                   style={{
-                    background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
-                    animation: 'shine 2s infinite',
-                    transform: 'skewX(-20deg)'
+                    background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 25%, #ffd700 50%, #ffed4e 75%, #ffd700 100%)',
+                    backgroundSize: '200% 200%',
+                    animation: 'gradientShift 3s ease infinite',
+                    color: '#000',
+                    boxShadow: '0 8px 32px rgba(255, 215, 0, 0.6), 0 0 60px rgba(255, 215, 0, 0.3)',
+                    border: '2px solid rgba(255, 237, 78, 0.8)'
                   }}
-                />
-                
-                {/* Pulsing glow effect */}
-                <span 
-                  className="absolute inset-0 rounded-2xl"
-                  style={{
-                    background: 'radial-gradient(circle, rgba(255, 215, 0, 0.4) 0%, transparent 70%)',
-                    animation: 'pulse 2s ease-in-out infinite'
-                  }}
-                />
-                
-                {/* Button content */}
-                <span className="flex items-center justify-center gap-3 relative z-10">
-                  {isClaimingAirdrop ? (
-                    <>
-                      <span className="text-2xl">⏳</span>
-                      <span className="tracking-wider">CLAIMING...</span>
-                    </>
-                  ) : (
-                    <>
-                      <span className="text-2xl">🎁</span>
-                      <span className="tracking-wider">CLAIM NOW</span>
-                    </>
-                  )}
-                </span>
-              </button>
+                  data-testid="button-claim-airdrop"
+                >
+                  {/* Animated shine effect */}
+                  <span 
+                    className="absolute inset-0 w-full h-full"
+                    style={{
+                      background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
+                      animation: 'shine 2s infinite',
+                      transform: 'skewX(-20deg)'
+                    }}
+                  />
+                  
+                  {/* Pulsing glow effect */}
+                  <span 
+                    className="absolute inset-0 rounded-2xl"
+                    style={{
+                      background: 'radial-gradient(circle, rgba(255, 215, 0, 0.4) 0%, transparent 70%)',
+                      animation: 'pulse 2s ease-in-out infinite'
+                    }}
+                  />
+                  
+                  {/* Button content */}
+                  <span className="flex items-center justify-center gap-3 relative z-10">
+                    {isClaimingAirdrop ? (
+                      <>
+                        <span className="text-2xl">⏳</span>
+                        <span className="tracking-wider">CLAIMING...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="text-2xl">🎁</span>
+                        <span className="tracking-wider">CLAIM NOW</span>
+                      </>
+                    )}
+                  </span>
+                </button>
+              )}
             </div>
           </Card>
         )}
