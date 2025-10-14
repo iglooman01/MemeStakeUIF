@@ -321,7 +321,7 @@ export default function Staking() {
       });
 
       // Get stake amount from activeStakes
-      const stake = activeStakes.find(s => Number(s.id) === stakeId);
+      const stake = activeStakes.find(s => Number(s.stakeId) === stakeId);
       const stakeAmountValue = stake ? (Number(stake.details.amount) / 1e18).toString() : '0';
 
       // Save transaction to database
