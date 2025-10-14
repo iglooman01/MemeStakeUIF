@@ -1211,8 +1211,21 @@ export default function Dashboard() {
         console.log('Pending/Claimable rewards:', claimableAmount);
         setPendingStakingRewards(claimableAmount);
 
-        // Calculate Accrued Today: 1% of total staked (daily rate)
-        const todayAccrued = totalStaked * 0.01; // 1% daily APY
+        // Calculate Accrued Today: 1% of active stakes whose lastClaim + 24 hours <= currentTime
+        const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+        
+        let todayAccrued = 0;
+        
+        for (const stake of activeStakes) {
+          if (stake.details && stake.details.isActive) {
+            const lastClaimTime = Number(stake.details.lastClaimTime);
+            // If 24 hours have passed since last claim
+            if (lastClaimTime + (24 * 60 * 60) <= currentTime) {
+              todayAccrued += (Number(stake.details.amount) / 1e18) * 0.01; // 1% of stake
+            }
+          }
+        }
+        
         console.log('Accrued today:', todayAccrued);
         setAccruedToday(todayAccrued);
       } catch (stakeError) {
