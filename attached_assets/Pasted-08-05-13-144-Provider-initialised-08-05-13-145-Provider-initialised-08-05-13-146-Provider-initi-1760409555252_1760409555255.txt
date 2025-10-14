@@ -1,0 +1,233 @@
+08:05:13.144  Provider initialised
+08:05:13.145  Provider initialised
+08:05:13.146  Provider initialised
+08:05:13.150  Deprecation warning: tabReply will be removed
+(anonymous) @ content.js:1
+08:05:13.152  Deprecation warning: tabReply will be removed
+(anonymous) @ content.js:1
+08:05:13.153  Deprecation warning: tabReply will be removed
+(anonymous) @ content.js:1
+08:05:13.154  TronLink initiated
+08:05:15.226  Download the React DevTools for a better development experience: https://reactjs.org/link/react-devtools
+08:05:15.517  Invalid wallet address, skipping sponsor fetch
+fetchSponsorAddress @ dashboard.tsx:813
+08:05:15.517  Invalid wallet address, skipping balance fetch
+fetchBalances @ dashboard.tsx:865
+08:05:17.082  Deprecation warning: tabReply will be removed
+(anonymous) @ content.js:1
+08:05:17.088  MessageNode outgoing id not exist! ignore it 784351f5-aca1-470c-ac51-3b3c1ebe9f9f
+handleReply @ content.js:1
+08:05:17.089  MessageNode outgoing id not exist! ignore it 784351f5-aca1-470c-ac51-3b3c1ebe9f9f
+handleReply @ content.js:1
+08:05:17.595  Total presale referral rewards (levels 0-2): 99999.99999999999
+08:05:17.791  Rewards by referral level raw response: Array(4)
+08:05:17.791  Total referral rewards: 0
+08:05:17.791  Level 1 rewards: 0
+08:05:17.791  Level 2 rewards: 0
+08:05:17.791  Level 3 rewards: 0
+08:05:17.792  Fetching stakes for wallet: 0xe9a9a15be983a41adb1859e11cf20257c2dbe532
+08:05:17.792  Staking contract address: 0xCEBEFDed1E530B6F19b5878f8aceC2C79eb67921
+08:05:17.954  Active stakes received: Array(1)
+08:05:17.954  Number of active stakes: 1
+08:05:17.954  Active stake amount: 600000
+08:05:17.954  Total staked amount: 600000
+08:05:18.116  Pending/Claimable rewards: 0
+08:05:18.116  Accrued today: 6000
+08:05:18.282  Staked by referral level raw response: Array(3)
+08:05:18.282  Level 1 staking rewards: 500000
+08:05:18.282  Level 2 staking rewards: 0
+08:05:18.282  Level 3 staking rewards: 0
+08:06:28.591  Detected wallet providers: Object
+08:06:29.294  Invalid wallet address, skipping sponsor fetch
+fetchSponsorAddress @ dashboard.tsx:813
+(anonymous) @ dashboard.tsx:861
+commitHookEffectListMount @ chunk-WERSD76P.js?v=c0175538:16915
+commitPassiveMountOnFiber @ chunk-WERSD76P.js?v=c0175538:18156
+commitPassiveMountEffects_complete @ chunk-WERSD76P.js?v=c0175538:18129
+commitPassiveMountEffects_begin @ chunk-WERSD76P.js?v=c0175538:18119
+commitPassiveMountEffects @ chunk-WERSD76P.js?v=c0175538:18109
+flushPassiveEffectsImpl @ chunk-WERSD76P.js?v=c0175538:19490
+flushPassiveEffects @ chunk-WERSD76P.js?v=c0175538:19447
+commitRootImpl @ chunk-WERSD76P.js?v=c0175538:19416
+commitRoot @ chunk-WERSD76P.js?v=c0175538:19277
+performSyncWorkOnRoot @ chunk-WERSD76P.js?v=c0175538:18895
+flushSyncCallbacks @ chunk-WERSD76P.js?v=c0175538:9119
+(anonymous) @ chunk-WERSD76P.js?v=c0175538:18627
+08:06:29.302  Invalid wallet address, skipping balance fetch
+fetchBalances @ dashboard.tsx:865
+(anonymous) @ dashboard.tsx:996
+commitHookEffectListMount @ chunk-WERSD76P.js?v=c0175538:16915
+commitPassiveMountOnFiber @ chunk-WERSD76P.js?v=c0175538:18156
+commitPassiveMountEffects_complete @ chunk-WERSD76P.js?v=c0175538:18129
+commitPassiveMountEffects_begin @ chunk-WERSD76P.js?v=c0175538:18119
+commitPassiveMountEffects @ chunk-WERSD76P.js?v=c0175538:18109
+flushPassiveEffectsImpl @ chunk-WERSD76P.js?v=c0175538:19490
+flushPassiveEffects @ chunk-WERSD76P.js?v=c0175538:19447
+commitRootImpl @ chunk-WERSD76P.js?v=c0175538:19416
+commitRoot @ chunk-WERSD76P.js?v=c0175538:19277
+performSyncWorkOnRoot @ chunk-WERSD76P.js?v=c0175538:18895
+flushSyncCallbacks @ chunk-WERSD76P.js?v=c0175538:9119
+(anonymous) @ chunk-WERSD76P.js?v=c0175538:18627
+08:06:30.459 dashboard.tsx:1131 Total presale referral rewards (levels 0-2): 0
+08:06:30.917 dashboard.tsx:1147 Rewards by referral level raw response: Array(4)
+08:06:30.918 dashboard.tsx:1156 Total referral rewards: 0
+08:06:30.918 dashboard.tsx:1157 Level 1 rewards: 0
+08:06:30.918 dashboard.tsx:1158 Level 2 rewards: 0
+08:06:30.918 dashboard.tsx:1159 Level 3 rewards: 0
+08:06:30.918 dashboard.tsx:1177 Fetching stakes for wallet: 0x63452625920808313ca1070738eb8d35f9c846de
+08:06:30.918 dashboard.tsx:1178 Staking contract address: 0xCEBEFDed1E530B6F19b5878f8aceC2C79eb67921
+08:06:31.089 dashboard.tsx:1188 Active stakes received: Array(0)
+08:06:31.089 dashboard.tsx:1189 Number of active stakes: 0
+08:06:31.089 dashboard.tsx:1199 Total staked amount: 0
+08:06:31.253 dashboard.tsx:1211 Pending/Claimable rewards: 0
+08:06:31.253 dashboard.tsx:1216 Accrued today: 0
+08:06:31.434 dashboard.tsx:1234 Staked by referral level raw response: Array(3)
+08:06:31.434 dashboard.tsx:1242 Level 1 staking rewards: 0
+08:06:31.435 dashboard.tsx:1243 Level 2 staking rewards: 0
+08:06:31.435 dashboard.tsx:1244 Level 3 staking rewards: 0
+08:07:19.075 dashboard.tsx:1131 Total presale referral rewards (levels 0-2): 0
+08:07:19.257 dashboard.tsx:1147 Rewards by referral level raw response: Array(4)
+08:07:19.257 dashboard.tsx:1156 Total referral rewards: 0
+08:07:19.258 dashboard.tsx:1157 Level 1 rewards: 0
+08:07:19.258 dashboard.tsx:1158 Level 2 rewards: 0
+08:07:19.258 dashboard.tsx:1159 Level 3 rewards: 0
+08:07:19.258 dashboard.tsx:1177 Fetching stakes for wallet: 0x63452625920808313ca1070738eb8d35f9c846de
+08:07:19.258 dashboard.tsx:1178 Staking contract address: 0xCEBEFDed1E530B6F19b5878f8aceC2C79eb67921
+08:07:19.422 dashboard.tsx:1188 Active stakes received: Array(0)
+08:07:19.423 dashboard.tsx:1189 Number of active stakes: 0
+08:07:19.423 dashboard.tsx:1199 Total staked amount: 0
+08:07:20.258 dashboard.tsx:1211 Pending/Claimable rewards: 0
+08:07:20.258 dashboard.tsx:1216 Accrued today: 0
+08:07:20.435 dashboard.tsx:1234 Staked by referral level raw response: Array(3)
+08:07:20.435 dashboard.tsx:1242 Level 1 staking rewards: 0
+08:07:20.435 dashboard.tsx:1243 Level 2 staking rewards: 0
+08:07:20.436 dashboard.tsx:1244 Level 3 staking rewards: 0
+08:07:22.703 staking.tsx:146 Fetching stakes for: 0x63452625920808313ca1070738eb8d35f9c846de
+08:07:22.871 staking.tsx:154 Active stakes response: Array(0)
+08:07:22.871 staking.tsx:165 Total staked amount: 0
+08:07:22.871 staking.tsx:183 Accrued today: 0
+08:07:23.189 staking.tsx:228 Referral rewards: 0
+08:07:23.189 staking.tsx:229 Pending rewards: 0
+08:07:23.189 staking.tsx:230 Total claimable: 0
+08:08:07.038 staking.tsx:522 Attempting to save stake transaction: {walletAddress: '0x63452625920808313ca1070738eb8d35f9c846de', transactionType: 'Stake', amount: '500000', tokenSymbol: 'MEMES', transactionHash: '0x150f67e7c1abda8fd18ab8896bf43ebb9d77a07442b3099c195ee53a9aa3b900'}
+08:08:07.039 staking.tsx:540 ❌ Error saving stake transaction: TypeError: Failed to execute 'fetch' on 'Window': '/api/transactions' is not a valid HTTP method.
+    at apiRequest (queryClient.ts:15:21)
+    at handleStake (staking.tsx:530:32)
+handleStake @ staking.tsx:540
+setTimeout
+(anonymous) @ inpage.js:1
+write @ inpage.js:1
+A @ inpage.js:12
+(anonymous) @ inpage.js:12
+j.write @ inpage.js:12
+d @ inpage.js:12
+a.emit @ inpage.js:10
+I @ inpage.js:12
+A @ inpage.js:12
+j.push @ inpage.js:12
+_write @ inpage.js:1
+A @ inpage.js:12
+(anonymous) @ inpage.js:12
+j.write @ inpage.js:12
+d @ inpage.js:12
+a.emit @ inpage.js:10
+I @ inpage.js:12
+A @ inpage.js:12
+j.push @ inpage.js:12
+_onData @ inpage.js:1
+_onMessage @ inpage.js:1
+postMessage
+_postMessage @ contentscript.js:1
+_write @ contentscript.js:1
+I @ contentscript.js:12
+(anonymous) @ contentscript.js:12
+R.write @ contentscript.js:12
+d @ contentscript.js:12
+a.emit @ contentscript.js:10
+x @ contentscript.js:12
+I @ contentscript.js:12
+R.push @ contentscript.js:12
+_write @ contentscript.js:1
+I @ contentscript.js:12
+(anonymous) @ contentscript.js:12
+R.write @ contentscript.js:12
+d @ contentscript.js:12
+a.emit @ contentscript.js:10
+x @ contentscript.js:12
+I @ contentscript.js:12
+R.push @ contentscript.js:12
+_write @ contentscript.js:1
+I @ contentscript.js:12
+(anonymous) @ contentscript.js:12
+R.write @ contentscript.js:12
+f @ contentscript.js:10
+a.emit @ contentscript.js:10
+X @ contentscript.js:10
+K @ contentscript.js:10
+J.push @ contentscript.js:10
+_onMessage @ contentscript.js:10
+(anonymous) @ contentscript.js:10
+08:08:10.046 staking.tsx:557 Error updating transaction status: TypeError: Failed to execute 'fetch' on 'Window': '/api/transactions/0x150f67e7c1abda8fd18ab8896bf43ebb9d77a07442b3099c195ee53a9aa3b900/status' is not a valid HTTP method.
+    at apiRequest (queryClient.ts:15:21)
+    at handleStake (staking.tsx:553:15)
+handleStake @ staking.tsx:557
+setTimeout
+(anonymous) @ inpage.js:1
+write @ inpage.js:1
+A @ inpage.js:12
+(anonymous) @ inpage.js:12
+j.write @ inpage.js:12
+d @ inpage.js:12
+a.emit @ inpage.js:10
+I @ inpage.js:12
+A @ inpage.js:12
+j.push @ inpage.js:12
+_write @ inpage.js:1
+A @ inpage.js:12
+(anonymous) @ inpage.js:12
+j.write @ inpage.js:12
+d @ inpage.js:12
+a.emit @ inpage.js:10
+I @ inpage.js:12
+A @ inpage.js:12
+j.push @ inpage.js:12
+_onData @ inpage.js:1
+_onMessage @ inpage.js:1
+postMessage
+_postMessage @ contentscript.js:1
+_write @ contentscript.js:1
+I @ contentscript.js:12
+(anonymous) @ contentscript.js:12
+R.write @ contentscript.js:12
+d @ contentscript.js:12
+a.emit @ contentscript.js:10
+x @ contentscript.js:12
+I @ contentscript.js:12
+R.push @ contentscript.js:12
+_write @ contentscript.js:1
+I @ contentscript.js:12
+(anonymous) @ contentscript.js:12
+R.write @ contentscript.js:12
+d @ contentscript.js:12
+a.emit @ contentscript.js:10
+x @ contentscript.js:12
+I @ contentscript.js:12
+R.push @ contentscript.js:12
+_write @ contentscript.js:1
+I @ contentscript.js:12
+(anonymous) @ contentscript.js:12
+R.write @ contentscript.js:12
+f @ contentscript.js:10
+a.emit @ contentscript.js:10
+X @ contentscript.js:10
+K @ contentscript.js:10
+J.push @ contentscript.js:10
+_onMessage @ contentscript.js:10
+(anonymous) @ contentscript.js:10
+08:08:10.049 staking.tsx:146 Fetching stakes for: 0x63452625920808313ca1070738eb8d35f9c846de
+08:08:10.374 staking.tsx:154 Active stakes response: [{…}]
+08:08:10.375 staking.tsx:165 Total staked amount: 500000
+08:08:10.376 staking.tsx:183 Accrued today: 0
+08:08:11.088 staking.tsx:228 Referral rewards: 0
+08:08:11.088 staking.tsx:229 Pending rewards: 0
+08:08:11.088 staking.tsx:230 Total claimable: 0

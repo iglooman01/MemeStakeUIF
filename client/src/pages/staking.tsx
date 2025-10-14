@@ -334,7 +334,7 @@ export default function Staking() {
           transactionHash: txHash
         });
         
-        const response = await apiRequest('/api/transactions', 'POST', {
+        const response = await apiRequest('POST', '/api/transactions', {
           walletAddress: walletAddress,
           transactionType: 'Capital Withdraw',
           amount: stakeAmountValue,
@@ -357,7 +357,7 @@ export default function Staking() {
 
       // Update transaction status to confirmed
       try {
-        await apiRequest(`/api/transactions/${txHash}/status`, 'PUT', {
+        await apiRequest('PUT', `/api/transactions/${txHash}/status`, {
           status: 'confirmed'
         });
       } catch (dbError) {
@@ -527,7 +527,7 @@ export default function Staking() {
           transactionHash: stakeTxHash
         });
         
-        const response = await apiRequest('/api/transactions', 'POST', {
+        const response = await apiRequest('POST', '/api/transactions', {
           walletAddress: walletAddress,
           transactionType: 'Stake',
           amount: stakeAmount,
@@ -550,7 +550,7 @@ export default function Staking() {
 
       // Update transaction status to confirmed
       try {
-        await apiRequest(`/api/transactions/${stakeTxHash}/status`, 'PUT', {
+        await apiRequest('PUT', `/api/transactions/${stakeTxHash}/status`, {
           status: 'confirmed'
         });
       } catch (dbError) {
@@ -755,7 +755,7 @@ export default function Staking() {
         
         // 1. Save Staking Rewards transaction
         if (parseFloat(stakingRewardsAmount) > 0) {
-          const stakingResponse = await apiRequest('/api/transactions', 'POST', {
+          const stakingResponse = await apiRequest('POST', '/api/transactions', {
             walletAddress: walletAddress,
             transactionType: 'Claim Staking Rewards',
             amount: stakingRewardsAmount,
@@ -768,7 +768,7 @@ export default function Staking() {
 
         // 2. Save Referral Rewards transaction
         if (parseFloat(referralRewardsAmount) > 0) {
-          const referralResponse = await apiRequest('/api/transactions', 'POST', {
+          const referralResponse = await apiRequest('POST', '/api/transactions', {
             walletAddress: walletAddress,
             transactionType: 'Claim Referral Rewards',
             amount: referralRewardsAmount,
@@ -794,12 +794,12 @@ export default function Staking() {
       // Update transaction statuses to confirmed
       try {
         if (parseFloat(stakingRewardsAmount) > 0) {
-          await apiRequest(`/api/transactions/${txHash}/status`, 'PUT', {
+          await apiRequest('PUT', `/api/transactions/${txHash}/status`, {
             status: 'confirmed'
           });
         }
         if (parseFloat(referralRewardsAmount) > 0) {
-          await apiRequest(`/api/transactions/${txHash}-referral/status`, 'PUT', {
+          await apiRequest('PUT', `/api/transactions/${txHash}-referral/status`, {
             status: 'confirmed'
           });
         }
