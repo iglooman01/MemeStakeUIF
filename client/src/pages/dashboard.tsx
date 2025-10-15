@@ -2288,6 +2288,60 @@ export default function Dashboard() {
                     </div>
                   )}
                 </div>
+
+                {/* Claim Button (shown when all tasks completed) */}
+                {allTasksCompleted && (
+                  <div className="mt-6 text-center">
+                    <button
+                      onClick={handleClaimAirdrop}
+                      disabled={isClaimingAirdrop}
+                      className="w-full py-3 sm:py-4 px-4 sm:px-6 rounded-xl font-bold text-base sm:text-lg relative overflow-hidden transition-all duration-500 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                      style={{
+                        background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 25%, #ffd700 50%, #ffed4e 75%, #ffd700 100%)',
+                        backgroundSize: '200% 200%',
+                        animation: 'gradientShift 3s ease infinite',
+                        color: '#000',
+                        boxShadow: '0 8px 32px rgba(255, 215, 0, 0.6), 0 0 60px rgba(255, 215, 0, 0.3)',
+                        border: '2px solid rgba(255, 237, 78, 0.8)'
+                      }}
+                      data-testid="button-claim-airdrop-tasks"
+                    >
+                      {/* Animated shine effect */}
+                      <span 
+                        className="absolute inset-0 w-full h-full"
+                        style={{
+                          background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
+                          animation: 'shine 2s infinite',
+                          transform: 'skewX(-20deg)'
+                        }}
+                      />
+                      
+                      {/* Pulsing glow effect */}
+                      <span 
+                        className="absolute inset-0 rounded-2xl"
+                        style={{
+                          background: 'radial-gradient(circle, rgba(255, 215, 0, 0.4) 0%, transparent 70%)',
+                          animation: 'pulse 2s ease-in-out infinite'
+                        }}
+                      />
+                      
+                      {/* Button content */}
+                      <span className="flex items-center justify-center gap-3 relative z-10">
+                        {isClaimingAirdrop ? (
+                          <>
+                            <span className="text-2xl">⏳</span>
+                            <span className="tracking-wider">CLAIMING...</span>
+                          </>
+                        ) : (
+                          <>
+                            <span className="text-2xl">🎁</span>
+                            <span className="tracking-wider">CLAIM NOW</span>
+                          </>
+                        )}
+                      </span>
+                    </button>
+                  </div>
+                )}
               </div>
             </Card>
             )}
