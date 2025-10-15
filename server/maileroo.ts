@@ -1,5 +1,5 @@
 const MAILEROO_API_KEY = process.env.MAILEROO_API_KEY;
-const MAILEROO_API_URL = 'https://smtp.maileroo.com/send';
+const MAILEROO_API_URL = 'https://smtp.maileroo.com/api/v2/emails';
 
 export async function sendOTPEmail(email: string, otp: string): Promise<boolean> {
   if (!MAILEROO_API_KEY) {
@@ -16,10 +16,12 @@ export async function sendOTPEmail(email: string, otp: string): Promise<boolean>
       },
       body: JSON.stringify({
         from: {
-          email: 'noreply@memestake.com',
-          name: 'MEMES STAKE'
+          address: 'noreply@memestake.com',
+          display_name: 'MEMES STAKE'
         },
-        to: [{ email }],
+        to: {
+          address: email
+        },
         subject: 'Verify your email for Memes Airdrop',
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #000; color: #fff; padding: 20px;">
