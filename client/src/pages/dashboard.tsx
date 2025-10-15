@@ -1207,6 +1207,23 @@ export default function Dashboard() {
                   args: [newAddress as `0x${string}`]
                 }) as any[];
                 setReferralEarnings(Number(rewardsByLevel[0] || 0) / 1e18);
+
+                // Fetch airdrop data
+                const claimableAmount = await publicClient.readContract({
+                  address: CONTRACTS.MEMES_AIRDROP.address as `0x${string}`,
+                  abi: CONTRACTS.MEMES_AIRDROP.abi,
+                  functionName: 'userClaimableAmount',
+                  args: [newAddress as `0x${string}`]
+                }) as bigint;
+                setUserClaimableAmount(Number(claimableAmount) / 1e18);
+
+                const hasClaimedAirdrop = await publicClient.readContract({
+                  address: CONTRACTS.MEMES_AIRDROP.address as `0x${string}`,
+                  abi: CONTRACTS.MEMES_AIRDROP.abi,
+                  functionName: 'airdropClaimed',
+                  args: [newAddress as `0x${string}`]
+                }) as boolean;
+                setAirdropClaimed(hasClaimedAirdrop);
               } catch (error) {
                 console.error('Error fetching new wallet data:', error);
               }
