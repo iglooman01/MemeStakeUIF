@@ -60,34 +60,27 @@ async function getEligibleParticipants(limit: number = 100): Promise<EligiblePar
   }
 }
 
-async function getSponsorAddress(referralCode: string | null): Promise<string> {
-  if (!referralCode) {
+async function getSponsorAddress(referredBy: string | null): Promise<string> {
+  if (!referredBy) {
     return '0x0000000000000000000000000000000000000000'; // Zero address if no referrer
   }
 
-  try {
-    const sponsor = await db
-      .select({ walletAddress: airdropParticipants.walletAddress })
-      .from(airdropParticipants)
-      .where(eq(airdropParticipants.referralCode, referralCode))
-      .limit(1);
-
-    return sponsor.length > 0 
-      ? sponsor[0].walletAddress 
-      : '0x0000000000000000000000000000000000000000';
-  } catch (error) {
-    console.error('Error fetching sponsor address:', error);
-    return '0x0000000000000000000000000000000000000000';
-  }
+  // referred_by now stores wallet addresses directly
+  return referredBy;
 }
 
 async function exportBatchToSmartContract(batch: EligibleParticipant[]): Promise<boolean> {
   try {
-    const privateKey = process.env.ADMIN_PRIVATE_KEY;
+    let privateKey = process.env.ADMIN_PRIVATE_KEY;
     
     if (!privateKey) {
       console.error('❌ ADMIN_PRIVATE_KEY not configured');
       return false;
+    }
+
+    // Ensure private key starts with 0x
+    if (!privateKey.startsWith('0x')) {
+      privateKey = `0x${privateKey}`;
     }
 
     // Prepare arrays for smart contract
