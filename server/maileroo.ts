@@ -7,6 +7,8 @@ export async function sendOTPEmail(email: string, otp: string): Promise<boolean>
     return false;
   }
 
+  console.log(`📧 Sending OTP to ${email}: ${otp}`);
+
   try {
     const response = await fetch(MAILEROO_API_URL, {
       method: 'POST',
