@@ -20,7 +20,7 @@ export async function sendOTPEmail(email: string, otp: string): Promise<boolean>
           name: 'MEMES STAKE'
         },
         to: [{ email }],
-        subject: 'Your MEMES STAKE Airdrop Verification Code',
+        subject: 'Verify your email for Memes Airdrop',
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #000; color: #fff; padding: 20px;">
             <h1 style="color: #ffd700; text-align: center;">MEMES STAKE</h1>
