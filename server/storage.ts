@@ -365,11 +365,13 @@ export class DbStorage extends MemStorage {
   // Override airdrop participant methods to use PostgreSQL database
   
   async getAirdropParticipant(walletAddress: string): Promise<AirdropParticipant | undefined> {
+    console.log('🔍 Looking for participant:', walletAddress.toLowerCase());
     const results = await db.select()
       .from(airdropParticipantsTable)
       .where(eq(airdropParticipantsTable.walletAddress, walletAddress.toLowerCase()))
       .limit(1);
     
+    console.log('📊 Found participant:', results[0] ? 'YES' : 'NO');
     return results[0];
   }
 
@@ -392,15 +394,25 @@ export class DbStorage extends MemStorage {
   }
 
   async createAirdropParticipant(participant: InsertAirdropParticipant): Promise<AirdropParticipant> {
-    console.log('💾 Creating airdrop participant in database:', participant.walletAddress);
-    const newParticipant = await db.insert(airdropParticipantsTable).values({
-      ...participant,
-      walletAddress: participant.walletAddress.toLowerCase(),
-      email: participant.email?.toLowerCase(),
-    }).returning();
-    
-    console.log('✅ Participant created successfully:', newParticipant[0].id);
-    return newParticipant[0];
+    try {
+      console.log('💾 Creating airdrop participant in database:', JSON.stringify(participant));
+      const newParticipant = await db.insert(airdropParticipantsTable).values({
+        ...participant,
+        walletAddress: participant.walletAddress.toLowerCase(),
+        email: participant.email?.toLowerCase(),
+      }).returning();
+      
+      console.log('✅ Participant created successfully:', JSON.stringify(newParticipant[0]));
+      
+      // Verify the record was actually saved
+      const verify = await db.select().from(airdropParticipantsTable).where(eq(airdropParticipantsTable.id, newParticipant[0].id));
+      console.log('🔍 Verification query result:', verify.length > 0 ? 'FOUND' : 'NOT FOUND');
+      
+      return newParticipant[0];
+    } catch (error) {
+      console.error('❌ Error creating participant:', error);
+      throw error;
+    }
   }
 
   async updateAirdropParticipant(walletAddress: string, updates: Partial<AirdropParticipant>): Promise<AirdropParticipant | undefined> {

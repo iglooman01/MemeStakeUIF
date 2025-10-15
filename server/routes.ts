@@ -121,7 +121,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         if (sponsorCode) {
           const referrer = await storage.getAirdropParticipantByReferralCode(sponsorCode);
           if (referrer) {
-            referredBy = sponsorCode;
+            referredBy = referrer.walletAddress;
             // Award 100 tokens to referrer for this referral
             await storage.updateAirdropParticipant(referrer.walletAddress, {
               referralTokens: (referrer.referralTokens || 0) + 100,

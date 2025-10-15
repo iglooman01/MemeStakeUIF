@@ -24,7 +24,7 @@ export const airdropParticipants = pgTable("airdrop_participants", {
   email: text("email").unique(),
   emailVerified: boolean("email_verified").notNull().default(false),
   referralCode: text("referral_code").notNull().unique(),
-  referredBy: text("referred_by"), // referral code of the person who referred them
+  referredBy: text("referred_by"), // wallet address of the person who referred them (sponsor)
   telegramGroupCompleted: boolean("telegram_group_completed").notNull().default(false),
   telegramChannelCompleted: boolean("telegram_channel_completed").notNull().default(false),
   twitterCompleted: boolean("twitter_completed").notNull().default(false),
