@@ -99,6 +99,7 @@ async function exportBatchToSmartContract(batch: EligibleParticipant[]): Promise
 
     // Create wallet client
     const account = privateKeyToAccount(privateKey as `0x${string}`);
+    console.log(`📝 Admin wallet address (from ADMIN_PRIVATE_KEY): ${account.address}`);
     const walletClient = createWalletClient({
       account,
       chain: bscTestnet,
