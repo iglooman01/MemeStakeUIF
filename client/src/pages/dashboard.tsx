@@ -144,6 +144,7 @@ export default function Dashboard() {
   const airdropTokens = participant?.airdropTokens || 0;
   const referralCount = airdropData?.referralCount || 0;
   const referralTokens = participant?.referralTokens || 0;
+  const isExported = participant?.exported || false; // Check if user has been exported to smart contract
   
   // Check if all tasks are completed
   const allTasksCompleted = emailVerified && Object.values(tasksCompleted).every(Boolean);
@@ -390,8 +391,8 @@ export default function Dashboard() {
       return;
     }
 
-    // Check if user has claimable amount
-    if (userClaimableAmount <= 0) {
+    // Check if user has claimable amount (allow if exported even if contract amount is 0)
+    if (!isExported && userClaimableAmount <= 0) {
       toast({
         title: "❌ No Claimable Tokens",
         description: "You don't have any tokens to claim",
@@ -1904,8 +1905,8 @@ export default function Dashboard() {
               </div>
             </div>
           </Card>
-        ) : userClaimableAmount > 0 ? (
-          // Show claim button directly when userClaimableAmount > 0 (bypass email/tasks)
+        ) : (isExported || userClaimableAmount > 0) ? (
+          // Show claim button when user is exported OR has claimable amount (bypass email/tasks)
           <>
             {/* Yellow Banner - Clickable */}
             <Card 
@@ -1955,7 +1956,7 @@ export default function Dashboard() {
                   <span style={{ color: '#ffd700' }}>Claim Your MEMES Airdrop</span>
                 </h3>
                 <p className="text-sm text-muted-foreground mb-4">
-                  You have <span className="font-bold text-[#ffd700]">{userClaimableAmount.toLocaleString()} MEMES</span> tokens ready to claim!
+                  You have <span className="font-bold text-[#ffd700]">{(userClaimableAmount > 0 ? userClaimableAmount : (airdropTokens + referralTokens)).toLocaleString()} MEMES</span> tokens ready to claim!
                 </p>
 
                 {/* Direct Claim Button */}
