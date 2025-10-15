@@ -354,10 +354,94 @@ export class MemStorage implements IStorage {
 
 // Database Storage - Uses PostgreSQL for persistent storage
 import { db } from './db';
-import { transactions as transactionsTable } from '@shared/schema';
+import { 
+  transactions as transactionsTable,
+  airdropParticipants as airdropParticipantsTable,
+  otpVerifications as otpVerificationsTable
+} from '@shared/schema';
 import { eq, and, desc } from 'drizzle-orm';
 
 export class DbStorage extends MemStorage {
+  // Override airdrop participant methods to use PostgreSQL database
+  
+  async getAirdropParticipant(walletAddress: string): Promise<AirdropParticipant | undefined> {
+    const results = await db.select()
+      .from(airdropParticipantsTable)
+      .where(eq(airdropParticipantsTable.walletAddress, walletAddress.toLowerCase()))
+      .limit(1);
+    
+    return results[0];
+  }
+
+  async getAirdropParticipantByReferralCode(code: string): Promise<AirdropParticipant | undefined> {
+    const results = await db.select()
+      .from(airdropParticipantsTable)
+      .where(eq(airdropParticipantsTable.referralCode, code))
+      .limit(1);
+    
+    return results[0];
+  }
+
+  async getAirdropParticipantByEmail(email: string): Promise<AirdropParticipant | undefined> {
+    const results = await db.select()
+      .from(airdropParticipantsTable)
+      .where(eq(airdropParticipantsTable.email, email.toLowerCase()))
+      .limit(1);
+    
+    return results[0];
+  }
+
+  async createAirdropParticipant(participant: InsertAirdropParticipant): Promise<AirdropParticipant> {
+    const newParticipant = await db.insert(airdropParticipantsTable).values({
+      ...participant,
+      walletAddress: participant.walletAddress.toLowerCase(),
+      email: participant.email?.toLowerCase(),
+    }).returning();
+    
+    return newParticipant[0];
+  }
+
+  async updateAirdropParticipant(walletAddress: string, updates: Partial<AirdropParticipant>): Promise<AirdropParticipant | undefined> {
+    const results = await db.update(airdropParticipantsTable)
+      .set(updates)
+      .where(eq(airdropParticipantsTable.walletAddress, walletAddress.toLowerCase()))
+      .returning();
+    
+    return results[0];
+  }
+
+  async getReferralCount(referralCode: string): Promise<number> {
+    const results = await db.select()
+      .from(airdropParticipantsTable)
+      .where(eq(airdropParticipantsTable.referredBy, referralCode));
+    
+    return results.length;
+  }
+
+  // Override OTP methods to use PostgreSQL database
+  
+  async createOtp(otp: InsertOtpVerification): Promise<OtpVerification> {
+    const newOtp = await db.insert(otpVerificationsTable).values(otp).returning();
+    
+    return newOtp[0];
+  }
+
+  async getLatestOtp(email: string): Promise<OtpVerification | undefined> {
+    const results = await db.select()
+      .from(otpVerificationsTable)
+      .where(eq(otpVerificationsTable.email, email))
+      .orderBy(desc(otpVerificationsTable.createdAt))
+      .limit(1);
+    
+    return results[0];
+  }
+
+  async markOtpVerified(id: string): Promise<void> {
+    await db.update(otpVerificationsTable)
+      .set({ verified: true })
+      .where(eq(otpVerificationsTable.id, id));
+  }
+  
   // Override transaction methods to use PostgreSQL database
   
   async createTransaction(transaction: InsertTransaction): Promise<Transaction> {
