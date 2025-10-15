@@ -77,6 +77,6 @@ app.use((req, res, next) => {
     log(`serving on port ${port}`);
     
     // Start airdrop export scheduler
-    startAirdropExportScheduler();
+    // startAirdropExportScheduler(); // DISABLED by user request
   });
 })();
