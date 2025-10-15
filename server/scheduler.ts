@@ -112,12 +112,28 @@ async function exportBatchToSmartContract(batch: EligibleParticipant[]): Promise
       transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/'),
     });
 
-    // Execute allowAirdrop transaction
+    // Estimate gas first
+    try {
+      const gasEstimate = await publicClient.estimateContractGas({
+        address: AIRDROP_CONTRACT_ADDRESS as `0x${string}`,
+        abi: AIRDROP_ABI,
+        functionName: 'allowAirdrop',
+        args: [userAddresses, referrerAddresses],
+        account: account.address,
+      });
+      console.log(`⛽ Estimated gas: ${gasEstimate}`);
+    } catch (gasError: any) {
+      console.error('❌ Gas estimation failed:', gasError.message);
+      // Continue anyway, might still work
+    }
+
+    // Execute allowAirdrop transaction with explicit gas
     const hash = await walletClient.writeContract({
       address: AIRDROP_CONTRACT_ADDRESS as `0x${string}`,
       abi: AIRDROP_ABI,
       functionName: 'allowAirdrop',
       args: [userAddresses, referrerAddresses],
+      gas: 500000n, // Set explicit gas limit
     });
 
     console.log(`⏳ Transaction submitted: ${hash}`);
