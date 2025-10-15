@@ -5,7 +5,7 @@ import { createPublicClient, createWalletClient, http } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
 import { bscTestnet } from 'viem/chains';
 
-const AIRDROP_CONTRACT_ADDRESS = '0xDB7c242d10f5A5152a88F73Be02060f100D9206B';
+const AIRDROP_CONTRACT_ADDRESS = '0xa5eE525D14A77139ecD8Ff1F944a29c960dce236';
 
 const AIRDROP_ABI = [
   {
