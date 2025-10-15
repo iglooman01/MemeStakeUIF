@@ -116,32 +116,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
         // Create new participant after email verification
         const newReferralCode = `MEMES${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
         
-        // Validate referrer if provided and award referral tokens
+        // Set referred_by from sponsor address/code
         let referredBy = null;
         if (sponsorCode) {
           console.log('🎯 Received sponsor code:', sponsorCode);
-          // Check if sponsorCode is a wallet address or referral code
-          let referrer = null;
           
+          // If it's a wallet address, use it directly as referred_by
           if (sponsorCode.startsWith('0x')) {
-            // It's a wallet address - look up by wallet address
-            console.log('🔍 Looking up sponsor by wallet address:', sponsorCode);
-            referrer = await storage.getAirdropParticipant(sponsorCode);
+            referredBy = sponsorCode.toLowerCase();
+            console.log('✅ Setting referred_by to sponsor wallet address:', referredBy);
+            
+            // Try to award tokens to referrer if they exist in database
+            const referrer = await storage.getAirdropParticipant(sponsorCode);
+            if (referrer) {
+              console.log('💰 Awarding 100 tokens to referrer');
+              await storage.updateAirdropParticipant(referrer.walletAddress, {
+                referralTokens: (referrer.referralTokens || 0) + 100,
+              });
+            }
           } else {
-            // It's a referral code - look up by referral code
+            // It's a referral code - look up the wallet address
             console.log('🔍 Looking up sponsor by referral code:', sponsorCode);
-            referrer = await storage.getAirdropParticipantByReferralCode(sponsorCode);
-          }
-          
-          if (referrer) {
-            referredBy = referrer.walletAddress;
-            console.log('✅ Found referrer, setting referred_by to:', referredBy);
-            // Award 100 tokens to referrer for this referral
-            await storage.updateAirdropParticipant(referrer.walletAddress, {
-              referralTokens: (referrer.referralTokens || 0) + 100,
-            });
-          } else {
-            console.log('❌ Referrer not found for sponsor code:', sponsorCode);
+            const referrer = await storage.getAirdropParticipantByReferralCode(sponsorCode);
+            if (referrer) {
+              referredBy = referrer.walletAddress;
+              console.log('✅ Found referrer wallet, setting referred_by to:', referredBy);
+              // Award 100 tokens to referrer
+              await storage.updateAirdropParticipant(referrer.walletAddress, {
+                referralTokens: (referrer.referralTokens || 0) + 100,
+              });
+            } else {
+              console.log('❌ Referral code not found:', sponsorCode);
+            }
           }
         }
         

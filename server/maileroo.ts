@@ -1,9 +1,12 @@
 const MAILEROO_API_KEY = process.env.MAILEROO_API_KEY;
-const MAILEROO_API_URL = 'https://smtp.maileroo.com/api/v2/emails';
+const MAILEROO_API_URL = "https://smtp.maileroo.com/api/v2/emails";
 
-export async function sendOTPEmail(email: string, otp: string): Promise<boolean> {
+export async function sendOTPEmail(
+  email: string,
+  otp: string,
+): Promise<boolean> {
   if (!MAILEROO_API_KEY) {
-    console.error('MAILEROO_API_KEY not configured');
+    console.error("MAILEROO_API_KEY not configured");
     return false;
   }
 
@@ -11,20 +14,20 @@ export async function sendOTPEmail(email: string, otp: string): Promise<boolean>
 
   try {
     const response = await fetch(MAILEROO_API_URL, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'X-API-Key': MAILEROO_API_KEY,
+        "Content-Type": "application/json",
+        "X-API-Key": MAILEROO_API_KEY,
       },
       body: JSON.stringify({
         from: {
-          address: 'noreply@memestake.io',
-          display_name: 'MEMES STAKE'
+          address: "noreply@memestake.io",
+          display_name: "MEMES STAKE",
         },
         to: {
-          address: email
+          address: email,
         },
-        subject: 'Verify your email for Memes Airdrop',
+        subject: "Your MemeStake OTP Code",
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #000; color: #fff; padding: 20px;">
             <h1 style="color: #ffd700; text-align: center;">MEMES STAKE</h1>
@@ -47,13 +50,13 @@ export async function sendOTPEmail(email: string, otp: string): Promise<boolean>
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('Maileroo API error:', errorText);
+      console.error("Maileroo API error:", errorText);
       return false;
     }
 
     return true;
   } catch (error) {
-    console.error('Error sending OTP email:', error);
+    console.error("Error sending OTP email:", error);
     return false;
   }
 }
