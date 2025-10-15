@@ -1275,6 +1275,142 @@ export default function Dashboard() {
     };
   }, []);
 
+  // Poll for wallet address changes (since event listeners don't work reliably with mobile wallets)
+  useEffect(() => {
+    if (!walletAddress) return;
+
+    const checkWalletChange = async () => {
+      try {
+        let currentAddress: string | null = null;
+        
+        // Try to get current address from the active wallet provider
+        if (window.ethereum && typeof window.ethereum.request === 'function') {
+          const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+          if (accounts && accounts.length > 0) {
+            currentAddress = accounts[0].toLowerCase();
+          }
+        }
+
+        // If we found an address and it's different from the stored one
+        if (currentAddress && currentAddress !== walletAddress.toLowerCase()) {
+          console.log('🔄 Wallet changed detected via polling:', currentAddress);
+          
+          // Update state and localStorage
+          setWalletAddress(currentAddress);
+          localStorage.setItem('walletAddress', currentAddress);
+          
+          // Reset all state values
+          setTokenBalance(0);
+          setTotalStakedAmount(0);
+          setPendingStakingRewards(0);
+          setAccruedToday(0);
+          setReferralEarnings(0);
+          setPresaleReferralRewards(0);
+          setLevel1AirdropRewards(0);
+          setLevel2AirdropRewards(0);
+          setLevel3AirdropRewards(0);
+          setLevel1StakingRewards(0);
+          setLevel2StakingRewards(0);
+          setLevel3StakingRewards(0);
+          
+          // Invalidate queries
+          queryClient.invalidateQueries({ queryKey: ['/api/airdrop/status'] });
+          queryClient.invalidateQueries({ queryKey: ['/api/transactions'] });
+          
+          // Show notification
+          toast({
+            title: "🔄 Wallet Changed",
+            description: `Switched to ${currentAddress.slice(0, 6)}...${currentAddress.slice(-4)}. Refreshing data...`,
+          });
+          
+          // Fetch new wallet data
+          setTimeout(async () => {
+            try {
+              const publicClient = createPublicClient({
+                chain: bscTestnet,
+                transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
+              });
+
+              const balance = await publicClient.readContract({
+                address: CONTRACTS.MEMES_TOKEN.address as `0x${string}`,
+                abi: CONTRACTS.MEMES_TOKEN.abi,
+                functionName: 'balanceOf',
+                args: [currentAddress as `0x${string}`]
+              }) as bigint;
+              setTokenBalance(Number(balance) / 1e18);
+
+              const activeStakes = await publicClient.readContract({
+                address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
+                abi: CONTRACTS.MEMES_STAKE.abi,
+                functionName: 'getActiveStakesWithId',
+                args: [currentAddress as `0x${string}`]
+              }) as any[];
+
+              let totalStaked = 0;
+              for (const stakeWithId of activeStakes) {
+                totalStaked += Number(stakeWithId.details.amount) / 1e18;
+              }
+              setTotalStakedAmount(totalStaked);
+
+              const pendingRewards = await publicClient.readContract({
+                address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
+                abi: CONTRACTS.MEMES_STAKE.abi,
+                functionName: 'getPendingRewards',
+                args: [currentAddress as `0x${string}`]
+              }) as bigint;
+              setPendingStakingRewards(Number(pendingRewards) / 1e18);
+
+              const currentTime = Math.floor(Date.now() / 1000);
+              let todayAccrued = 0;
+              for (const stake of activeStakes) {
+                if (stake.details && stake.details.isActive) {
+                  const lastClaimTime = Number(stake.details.lastClaimTime);
+                  if (lastClaimTime + (24 * 60 * 60) <= currentTime) {
+                    todayAccrued += (Number(stake.details.amount) / 1e18) * 0.01;
+                  }
+                }
+              }
+              setAccruedToday(todayAccrued);
+
+              const rewardsByLevel = await publicClient.readContract({
+                address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
+                abi: CONTRACTS.MEMES_STAKE.abi,
+                functionName: 'getTotalRewardsByReferralLevel',
+                args: [currentAddress as `0x${string}`]
+              }) as any[];
+              setReferralEarnings(Number(rewardsByLevel[0] || 0) / 1e18);
+
+              const claimableAmount = await publicClient.readContract({
+                address: CONTRACTS.MEMES_AIRDROP.address as `0x${string}`,
+                abi: CONTRACTS.MEMES_AIRDROP.abi,
+                functionName: 'userClaimableAmount',
+                args: [currentAddress as `0x${string}`]
+              }) as bigint;
+              setUserClaimableAmount(Number(claimableAmount) / 1e18);
+
+              const hasClaimedAirdrop = await publicClient.readContract({
+                address: CONTRACTS.MEMES_AIRDROP.address as `0x${string}`,
+                abi: CONTRACTS.MEMES_AIRDROP.abi,
+                functionName: 'airdropClaimed',
+                args: [currentAddress as `0x${string}`]
+              }) as boolean;
+              setAirdropClaimed(hasClaimedAirdrop);
+            } catch (error) {
+              console.error('Error fetching new wallet data:', error);
+            }
+          }, 100);
+        }
+      } catch (error) {
+        console.error('Error checking wallet change:', error);
+      }
+    };
+
+    // Check every 3 seconds
+    const walletCheckInterval = setInterval(checkWalletChange, 3000);
+
+    return () => clearInterval(walletCheckInterval);
+  }, [walletAddress]);
+
   // Check network on load and periodically
   useEffect(() => {
     if (!walletAddress || !window.ethereum) return;
