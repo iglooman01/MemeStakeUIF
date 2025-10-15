@@ -222,7 +222,7 @@ export default function Dashboard() {
 
   // Verify OTP mutation
   const verifyOtpMutation = useMutation({
-    mutationFn: async (data: { email: string; otp: string; walletAddress: string }) => {
+    mutationFn: async (data: { email: string; otp: string; walletAddress: string; sponsorCode?: string }) => {
       const res = await apiRequest('POST', '/api/airdrop/verify-otp', data);
       return await res.json();
     },
@@ -317,7 +317,12 @@ export default function Dashboard() {
     }
     
     setIsVerifyingOtp(true);
-    verifyOtpMutation.mutate({ email, otp, walletAddress });
+    verifyOtpMutation.mutate({ 
+      email, 
+      otp, 
+      walletAddress,
+      sponsorCode: sponsorAddress || referralCode 
+    });
   };
 
   const handleResendOTP = async () => {

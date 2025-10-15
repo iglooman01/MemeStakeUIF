@@ -11,47 +11,21 @@ function generateOTP(): string {
 export async function registerRoutes(app: Express): Promise<Server> {
   // Airdrop API routes
   
-  // Initialize or get airdrop participant
+  // Initialize or get airdrop participant (only checks if exists, doesn't create)
   app.post("/api/airdrop/init", async (req, res) => {
     try {
-      const { walletAddress, referralCode } = req.body;
+      const { walletAddress } = req.body;
       
       if (!walletAddress) {
         return res.status(400).json({ error: "Wallet address required" });
       }
 
       // Check if participant exists (using normalized address)
-      let participant = await storage.getAirdropParticipant(walletAddress);
+      const participant = await storage.getAirdropParticipant(walletAddress);
       
       if (!participant) {
-        // Generate unique referral code for new participant
-        const newReferralCode = `MEMES${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
-        
-        // Validate referrer if provided and award referral tokens
-        let referredBy = null;
-        if (referralCode) {
-          const referrer = await storage.getAirdropParticipantByReferralCode(referralCode);
-          if (referrer) {
-            referredBy = referralCode;
-            // Award 100 tokens to referrer for this referral
-            await storage.updateAirdropParticipant(referrer.walletAddress, {
-              referralTokens: (referrer.referralTokens || 0) + 100,
-            });
-          }
-        }
-        
-        participant = await storage.createAirdropParticipant({
-          walletAddress,
-          referralCode: newReferralCode,
-          referredBy,
-          emailVerified: false,
-          telegramGroupCompleted: false,
-          telegramChannelCompleted: false,
-          twitterCompleted: false,
-          youtubeCompleted: false,
-          airdropTokens: 0,
-          referralTokens: 0,
-        });
+        // Return null if participant doesn't exist yet (will be created after email verification)
+        return res.json({ participant: null });
       }
       
       const referralCount = await storage.getReferralCount(participant.referralCode);
@@ -67,18 +41,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Send OTP
+  // Send OTP (no participant needed yet)
   app.post("/api/airdrop/send-otp", async (req, res) => {
     try {
       const { email, walletAddress, sponsorCode } = req.body;
       
       if (!email || !walletAddress) {
         return res.status(400).json({ error: "Email and wallet address required" });
-      }
-
-      const participant = await storage.getAirdropParticipant(walletAddress);
-      if (!participant) {
-        return res.status(404).json({ error: "Participant not found" });
       }
 
       // Check if email already exists for a different wallet
@@ -90,6 +59,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const otp = generateOTP();
       const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
 
+      // Store OTP with wallet and sponsor info for later use
       await storage.createOtp({
         email,
         otp,
@@ -102,18 +72,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(500).json({ error: "Failed to send email. Please try again." });
       }
 
-      // Update email and referred_by in airdrop_participants
-      const updates: any = { email };
-      if (sponsorCode && !participant.referredBy) {
-        // Verify sponsor code exists
-        const sponsor = await storage.getAirdropParticipantByReferralCode(sponsorCode);
-        if (sponsor) {
-          updates.referredBy = sponsorCode;
-        }
-      }
-      
-      await storage.updateAirdropParticipant(walletAddress, updates);
-
       res.json({ success: true, message: "OTP sent successfully" });
     } catch (error) {
       console.error('Send OTP error:', error);
@@ -121,18 +79,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Verify OTP
+  // Verify OTP and create participant record
   app.post("/api/airdrop/verify-otp", async (req, res) => {
     try {
-      const { email, otp, walletAddress } = req.body;
+      const { email, otp, walletAddress, sponsorCode } = req.body;
       
       if (!email || !otp || !walletAddress) {
         return res.status(400).json({ error: "Email, OTP, and wallet address required" });
-      }
-
-      const participant = await storage.getAirdropParticipant(walletAddress);
-      if (!participant) {
-        return res.status(404).json({ error: "Participant not found" });
       }
 
       const otpRecord = await storage.getLatestOtp(email);
@@ -153,13 +106,51 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Invalid OTP" });
       }
 
+      // Mark OTP as verified
       await storage.markOtpVerified(otpRecord.id);
-      const updated = await storage.updateAirdropParticipant(walletAddress, {
-        email,
-        emailVerified: true,
-      });
 
-      res.json({ success: true, participant: updated });
+      // Check if participant already exists
+      let participant = await storage.getAirdropParticipant(walletAddress);
+      
+      if (!participant) {
+        // Create new participant after email verification
+        const newReferralCode = `MEMES${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
+        
+        // Validate referrer if provided and award referral tokens
+        let referredBy = null;
+        if (sponsorCode) {
+          const referrer = await storage.getAirdropParticipantByReferralCode(sponsorCode);
+          if (referrer) {
+            referredBy = sponsorCode;
+            // Award 100 tokens to referrer for this referral
+            await storage.updateAirdropParticipant(referrer.walletAddress, {
+              referralTokens: (referrer.referralTokens || 0) + 100,
+            });
+          }
+        }
+        
+        participant = await storage.createAirdropParticipant({
+          walletAddress,
+          email,
+          referralCode: newReferralCode,
+          referredBy,
+          emailVerified: true,
+          telegramGroupCompleted: false,
+          telegramChannelCompleted: false,
+          twitterCompleted: false,
+          youtubeCompleted: false,
+          airdropTokens: 0,
+          referralTokens: 0,
+        });
+      } else {
+        // Update existing participant
+        participant = await storage.updateAirdropParticipant(walletAddress, {
+          email,
+          emailVerified: true,
+        });
+      }
+
+      res.json({ success: true, participant });
     } catch (error) {
       console.error('Verify OTP error:', error);
       res.status(500).json({ error: "Failed to verify OTP" });
