@@ -16,7 +16,7 @@ export async function sendOTPEmail(email: string, otp: string): Promise<boolean>
       },
       body: JSON.stringify({
         from: {
-          address: 'noreply@memestake.com',
+          address: 'noreply@memestake.io',
           display_name: 'MEMES STAKE'
         },
         to: {
