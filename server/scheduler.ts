@@ -200,13 +200,13 @@ export async function runAirdropExportScheduler(): Promise<void> {
   }
 }
 
-// Run scheduler every minute
+// Run scheduler every 30 seconds
 export function startAirdropExportScheduler(): void {
-  console.log('🚀 Airdrop export scheduler started (runs every minute)');
+  console.log('🚀 Airdrop export scheduler started (runs every 30 seconds)');
   
   // Run immediately on start
   runAirdropExportScheduler();
   
-  // Then run every minute
-  setInterval(runAirdropExportScheduler, 60 * 1000);
+  // Then run every 30 seconds
+  setInterval(runAirdropExportScheduler, 30 * 1000);
 }
