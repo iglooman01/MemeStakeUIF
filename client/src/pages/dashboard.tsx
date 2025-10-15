@@ -1101,8 +1101,6 @@ export default function Dashboard() {
 
   // Listen for wallet account changes
   useEffect(() => {
-    if (!window.ethereum) return;
-
     const handleAccountsChanged = async (accounts: string[]) => {
       console.log('Wallet account changed:', accounts);
       
@@ -1243,13 +1241,36 @@ export default function Dashboard() {
       }
     };
 
-    // Add event listener
-    window.ethereum.on('accountsChanged', handleAccountsChanged);
+    // Add event listeners for all wallet providers
+    const providers = [];
+    
+    if (window.ethereum) {
+      providers.push({ provider: window.ethereum, name: 'MetaMask/Default' });
+      window.ethereum.on('accountsChanged', handleAccountsChanged);
+    }
+    
+    if ((window as any).trustwallet) {
+      providers.push({ provider: (window as any).trustwallet, name: 'Trust Wallet' });
+      (window as any).trustwallet.on('accountsChanged', handleAccountsChanged);
+    }
+    
+    if ((window as any).safepalProvider) {
+      providers.push({ provider: (window as any).safepalProvider, name: 'SafePal' });
+      (window as any).safepalProvider.on('accountsChanged', handleAccountsChanged);
+    }
 
-    // Cleanup listener on unmount
+    console.log('Wallet change listeners registered for:', providers.map(p => p.name).join(', '));
+
+    // Cleanup listeners on unmount
     return () => {
-      if (window.ethereum.removeListener) {
+      if (window.ethereum?.removeListener) {
         window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
+      }
+      if ((window as any).trustwallet?.removeListener) {
+        (window as any).trustwallet.removeListener('accountsChanged', handleAccountsChanged);
+      }
+      if ((window as any).safepalProvider?.removeListener) {
+        (window as any).safepalProvider.removeListener('accountsChanged', handleAccountsChanged);
       }
     };
   }, []);
