@@ -62,7 +62,7 @@ export default function Dashboard() {
   const [isFetchingBalance, setIsFetchingBalance] = useState(false);
   const [contractWalletBalance, setContractWalletBalance] = useState<string>('');
   const [totalStakedAmount, setTotalStakedAmount] = useState(0);
-  const [showAirdropContent, setShowAirdropContent] = useState(true);
+  const [showAirdropContent, setShowAirdropContent] = useState(false);
   const [isLoadingStakes, setIsLoadingStakes] = useState(false);
   const [pendingStakingRewards, setPendingStakingRewards] = useState(0);
   const [accruedToday, setAccruedToday] = useState(0);
