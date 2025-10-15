@@ -392,12 +392,14 @@ export class DbStorage extends MemStorage {
   }
 
   async createAirdropParticipant(participant: InsertAirdropParticipant): Promise<AirdropParticipant> {
+    console.log('💾 Creating airdrop participant in database:', participant.walletAddress);
     const newParticipant = await db.insert(airdropParticipantsTable).values({
       ...participant,
       walletAddress: participant.walletAddress.toLowerCase(),
       email: participant.email?.toLowerCase(),
     }).returning();
     
+    console.log('✅ Participant created successfully:', newParticipant[0].id);
     return newParticipant[0];
   }
 
