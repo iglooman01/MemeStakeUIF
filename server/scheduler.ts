@@ -96,6 +96,8 @@ async function exportBatchToSmartContract(batch: EligibleParticipant[]): Promise
     }
 
     console.log(`📤 Exporting ${userAddresses.length} participants to smart contract...`);
+    console.log(`👥 Users array (${userAddresses.length}):`, userAddresses);
+    console.log(`👤 Referrers array (${referrerAddresses.length}):`, referrerAddresses);
 
     // Create wallet client
     const account = privateKeyToAccount(privateKey as `0x${string}`);
@@ -133,7 +135,7 @@ async function exportBatchToSmartContract(batch: EligibleParticipant[]): Promise
       abi: AIRDROP_ABI,
       functionName: 'allowAirdrop',
       args: [userAddresses, referrerAddresses],
-      gas: 500000n, // Set explicit gas limit
+      gas: BigInt(500000), // Set explicit gas limit
     });
 
     console.log(`⏳ Transaction submitted: ${hash}`);
