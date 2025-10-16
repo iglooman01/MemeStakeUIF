@@ -2116,6 +2116,19 @@ export default function Dashboard() {
                   You have <span className="font-bold text-[#ffd700]">{(userClaimableAmount > 0 ? userClaimableAmount : (airdropTokens + referralTokens)).toLocaleString()} MEMES</span> tokens ready to claim!
                 </p>
 
+                {/* Verification Message - Show when all tasks complete but not exported yet */}
+                {!isExported && emailVerified && Object.values(tasksCompleted).every(Boolean) && (
+                  <div className="mb-4 p-3 rounded-lg" style={{
+                    background: 'rgba(0, 191, 255, 0.15)',
+                    border: '1px solid rgba(0, 191, 255, 0.3)'
+                  }}>
+                    <p className="text-sm text-cyan-400 flex items-center justify-center gap-2">
+                      <span className="animate-pulse">⏳</span>
+                      <span>We are verifying your completed task. Please wait some time to claim airdrop</span>
+                    </p>
+                  </div>
+                )}
+
                 {/* Direct Claim Button */}
                 <button
                   onClick={handleClaimAirdrop}
