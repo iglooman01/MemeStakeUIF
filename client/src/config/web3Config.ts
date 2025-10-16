@@ -47,11 +47,17 @@ export const supportedWallets: WalletInfo[] = [
 // Wallet connection functions
 export const connectWallet = async (walletType: string): Promise<{ success: boolean; address?: string; error?: string }> => {
   try {
+    // Wait for provider to be injected on mobile wallets (they need time to initialize)
+    await new Promise(resolve => setTimeout(resolve, 300));
+    
     let ethereum = window.ethereum;
     
-    // Check if window.ethereum exists
+    // Check if window.ethereum exists after waiting
     if (!window.ethereum) {
-      return { success: false, error: 'No Web3 wallet detected. Please install MetaMask, Trust Wallet, or SafePal.' };
+      return { 
+        success: false, 
+        error: 'Please open this page in your wallet app browser (Trust Wallet, MetaMask, or SafePal mobile app)' 
+      };
     }
     
     // Log wallet detection for debugging
@@ -85,28 +91,41 @@ export const connectWallet = async (walletType: string): Promise<{ success: bool
           ethereum = metamaskProvider;
         } else if (window.ethereum.isMetaMask && !window.ethereum.isTronLink) {
           ethereum = window.ethereum;
+        } else if (window.ethereum) {
+          // On mobile, MetaMask might just inject as window.ethereum without isMetaMask flag
+          ethereum = window.ethereum;
         } else {
-          return { success: false, error: 'MetaMask not detected. Please install MetaMask extension.' };
+          return { success: false, error: 'Please open this page in MetaMask mobile app browser' };
         }
         break;
         
       case 'trust':
+        // Trust Wallet mobile detection - check multiple properties
         if (window.trustWallet) {
           ethereum = window.trustWallet;
-        } else if (window.ethereum?.isTrust) {
+        } else if (window.ethereum?.isTrust || window.ethereum?.isTrustWallet) {
+          ethereum = window.ethereum;
+        } else if (window.ethereum && !window.ethereum.isMetaMask) {
+          // On mobile, Trust Wallet might just inject as window.ethereum
           ethereum = window.ethereum;
         } else {
-          return { success: false, error: 'Trust Wallet not found' };
+          return { success: false, error: 'Please open this page in Trust Wallet mobile app browser' };
         }
         break;
         
       case 'safepal':
+        // SafePal mobile detection
         if (window.safePal) {
           ethereum = window.safePal;
         } else if (window.ethereum?.isSafePal) {
           ethereum = window.ethereum;
+        } else if ((window as any).safepalProvider) {
+          ethereum = (window as any).safepalProvider;
+        } else if (window.ethereum && !window.ethereum.isMetaMask) {
+          // On mobile, SafePal might just inject as window.ethereum
+          ethereum = window.ethereum;
         } else {
-          return { success: false, error: 'SafePal Wallet not found' };
+          return { success: false, error: 'Please open this page in SafePal mobile app browser' };
         }
         break;
         
