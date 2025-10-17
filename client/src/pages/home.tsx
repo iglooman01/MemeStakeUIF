@@ -707,7 +707,7 @@ export default function Home() {
         } else {
           // If API doesn't return data, manually set to known count
           console.log('⚠️ No token holder data from API, using manual count');
-          setTokenHolders(11); // Manual count as verified by user
+          setTokenHolders(1011); // Manual count as verified by user (11 + 1000)
         }
       } catch (error) {
         console.error('Error fetching token holders:', error);
