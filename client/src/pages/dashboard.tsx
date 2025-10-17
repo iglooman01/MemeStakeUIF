@@ -133,6 +133,25 @@ export default function Dashboard() {
     refetchInterval: 5000, // Refetch every 5 seconds
   });
 
+  // Fetch total tokens purchased from transactions
+  const { data: totalPurchasedTokens = 0 } = useQuery<number>({
+    queryKey: ['/api/transactions', walletAddress, 'Token Purchase'],
+    enabled: !!walletAddress,
+    queryFn: async () => {
+      const response = await fetch(`/api/transactions/${walletAddress}/type/Token Purchase`);
+      if (!response.ok) return 0;
+      const transactions = await response.json();
+      
+      // Sum up all token purchase amounts
+      const total = transactions.reduce((sum: number, tx: any) => {
+        return sum + parseFloat(tx.amount || 0);
+      }, 0);
+      
+      return total;
+    },
+    refetchInterval: 5000, // Refetch every 5 seconds
+  });
+
   const participant = airdropData?.participant;
   const emailVerified = participant?.emailVerified || false;
   const tasksCompleted = {
@@ -2790,7 +2809,7 @@ export default function Dashboard() {
                 </div>
               </div>
               
-              {/* Wallet Address Badge - Compact */}
+              {/* Total Tokens Purchased Badge - Compact */}
               {walletAddress && (
                 <div className="mt-2 p-2 rounded-lg backdrop-blur-sm" style={{
                   background: 'rgba(0, 191, 255, 0.2)',
@@ -2798,9 +2817,9 @@ export default function Dashboard() {
                 }}>
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="text-xs font-semibold mb-0.5" style={{color: '#00bfff'}}>Wallet</div>
-                      <div className="text-xs font-mono font-bold text-white">
-                        {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
+                      <div className="text-xs font-semibold mb-0.5" style={{color: '#00bfff'}}>Total Purchased</div>
+                      <div className="text-sm font-bold text-white">
+                        {totalPurchasedTokens.toLocaleString()} $MEMES
                       </div>
                     </div>
                     <Coins className="w-4 h-4" style={{color: '#00bfff'}} />
