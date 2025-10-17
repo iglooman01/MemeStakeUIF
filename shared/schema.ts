@@ -124,6 +124,7 @@ export const transactions = pgTable("transactions", {
   tokenSymbol: text("token_symbol").notNull().default("MEMES"), // Token involved in transaction
   transactionHash: text("transaction_hash").notNull(), // Allow duplicate hashes for multiple transaction types in same blockchain tx
   blockNumber: integer("block_number"),
+  penalty: text("penalty"), // Penalty amount for early unstake (only for Capital Withdraw transactions)
   status: text("status").notNull().default("pending"), // "pending", "confirmed", "failed"
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });

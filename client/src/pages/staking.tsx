@@ -389,27 +389,12 @@ export default function Staking() {
           console.log('✅ Claim staking rewards transaction saved:', claimTransaction);
         }
 
-        // 2. If there's a penalty, save penalty transaction
-        if (penaltyAmount > 0) {
-          console.log('Saving penalty transaction:', penaltyAmount);
-          
-          const penaltyResponse = await apiRequest('POST', '/api/transactions', {
-            walletAddress: walletAddress,
-            transactionType: 'Penalty',
-            amount: penaltyAmount.toFixed(2),
-            tokenSymbol: 'MEMES',
-            transactionHash: txHash,
-            status: 'pending'
-          });
-          const penaltyTransaction = await penaltyResponse.json();
-          console.log('✅ Penalty transaction saved:', penaltyTransaction);
-        }
-
-        // 3. Save capital withdraw transaction
+        // 2. Save capital withdraw transaction with penalty amount
         console.log('Attempting to save capital withdraw transaction:', {
           walletAddress,
           transactionType: 'Capital Withdraw',
           amount: stakeAmountValue,
+          penalty: penaltyAmount > 0 ? penaltyAmount.toFixed(2) : null,
           tokenSymbol: 'MEMES',
           transactionHash: txHash
         });
@@ -418,6 +403,7 @@ export default function Staking() {
           walletAddress: walletAddress,
           transactionType: 'Capital Withdraw',
           amount: stakeAmountValue,
+          penalty: penaltyAmount > 0 ? penaltyAmount.toFixed(2) : null,
           tokenSymbol: 'MEMES',
           transactionHash: txHash,
           status: 'pending'
