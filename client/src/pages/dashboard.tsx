@@ -1832,27 +1832,32 @@ export default function Dashboard() {
     }, 1000);
   };
 
-  // Airdrop countdown timer
+  // Airdrop countdown timer - October 27, 2025 at 09:30:30
   useEffect(() => {
-    const targetDate = new Date();
-    targetDate.setDate(targetDate.getDate() + 30); // 30 days from now
-    targetDate.setHours(15, 0, 0, 0); // 3 PM
-    
-    const timer = setInterval(() => {
-      const now = new Date().getTime();
-      const distance = targetDate.getTime() - now;
+    const calculateTimeRemaining = () => {
+      // Target date: October 27, 2025 at 09:30:30
+      const targetDate = new Date('2025-10-27T09:30:30');
+      const now = new Date();
+      const diff = targetDate.getTime() - now.getTime();
       
-      if (distance > 0) {
-        setAirdropTime({
-          days: Math.floor(distance / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-          minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
-          seconds: Math.floor((distance % (1000 * 60)) / 1000)
-        });
-      } else {
+      if (diff <= 0) {
         setAirdropTime({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        return;
       }
-    }, 1000);
+      
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+      
+      setAirdropTime({ days, hours, minutes, seconds });
+    };
+    
+    // Calculate immediately
+    calculateTimeRemaining();
+    
+    // Update every second
+    const timer = setInterval(calculateTimeRemaining, 1000);
     
     return () => clearInterval(timer);
   }, []);
