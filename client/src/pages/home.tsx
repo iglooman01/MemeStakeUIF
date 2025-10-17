@@ -722,11 +722,11 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  // Countdown timer for specific date: October 20, 2025 at 09:30:30
+  // Countdown timer for specific date: October 27, 2025 at 09:30:30
   useEffect(() => {
     const calculateTimeRemaining = () => {
-      // Target date: October 20, 2025 at 09:30:30
-      const targetDate = new Date('2025-10-20T09:30:30');
+      // Target date: October 27, 2025 at 09:30:30
+      const targetDate = new Date('2025-10-27T09:30:30');
       const now = new Date();
       const diff = targetDate.getTime() - now.getTime();
       
