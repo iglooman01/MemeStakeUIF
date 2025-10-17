@@ -1511,13 +1511,14 @@ export default function Dashboard() {
           setEstimatedTokens(amount / TOKEN_PRICE);
         }
       } else {
-        // For BNB, use simple calculation
-        setEstimatedTokens(amount / TOKEN_PRICE);
+        // For BNB, first convert to USD then to MEME tokens
+        const usdValue = amount * bnbPrice;
+        setEstimatedTokens(usdValue / TOKEN_PRICE);
       }
     };
 
     calculateEstimatedTokens();
-  }, [buyAmount, paymentMethod]);
+  }, [buyAmount, paymentMethod, bnbPrice]);
 
   // Fetch sponsor address from contract
   useEffect(() => {
