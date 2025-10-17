@@ -685,6 +685,20 @@ export default function Dashboard() {
           description: `Transaction submitted. Hash: ${hash.slice(0, 10)}...`,
         });
 
+        // Save transaction to database
+        try {
+          await apiRequest('POST', '/api/transactions', {
+            walletAddress: walletAddress.toLowerCase(),
+            transactionType: 'Token Purchase',
+            amount: tokensToGet.toString(),
+            tokenSymbol: 'MEMES',
+            transactionHash: hash,
+            status: 'confirmed'
+          });
+        } catch (err) {
+          console.error('Failed to save transaction:', err);
+        }
+
         // Wait a bit then show success modal and refresh balances
         setTimeout(() => {
           setIsPurchasing(false);
@@ -777,6 +791,20 @@ export default function Dashboard() {
           title: "✅ Purchase Successful!",
           description: `Transaction submitted. Hash: ${hash.slice(0, 10)}...`,
         });
+
+        // Save transaction to database
+        try {
+          await apiRequest('POST', '/api/transactions', {
+            walletAddress: walletAddress.toLowerCase(),
+            transactionType: 'Token Purchase',
+            amount: tokensToGet.toString(),
+            tokenSymbol: 'MEMES',
+            transactionHash: hash,
+            status: 'confirmed'
+          });
+        } catch (err) {
+          console.error('Failed to save transaction:', err);
+        }
 
         // Wait a bit then show success modal and refresh balances
         setTimeout(() => {
