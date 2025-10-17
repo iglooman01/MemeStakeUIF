@@ -313,6 +313,7 @@ export class MemStorage implements IStorage {
       tokenSymbol: transaction.tokenSymbol || "MEMES",
       transactionHash: transaction.transactionHash,
       blockNumber: transaction.blockNumber || null,
+      penalty: transaction.penalty || null,
       status: transaction.status || "pending",
       createdAt: now,
     };
@@ -466,6 +467,7 @@ export class DbStorage extends MemStorage {
       tokenSymbol: transaction.tokenSymbol || 'MEMES',
       transactionHash: transaction.transactionHash,
       blockNumber: transaction.blockNumber,
+      penalty: transaction.penalty || null,
       status: transaction.status || 'pending',
     }).returning();
     
