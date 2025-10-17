@@ -722,21 +722,32 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  // Static countdown for Phase 2: Staking Program
+  // Countdown timer for specific date: October 20, 2025 at 09:30:30
   useEffect(() => {
-    // Set fixed countdown values for Phase 2 Staking Program
-    setAirdropTime({ days: 30, hours: 12, minutes: 0, seconds: 4 });
+    const calculateTimeRemaining = () => {
+      // Target date: October 20, 2025 at 09:30:30
+      const targetDate = new Date('2025-10-20T09:30:30');
+      const now = new Date();
+      const diff = targetDate.getTime() - now.getTime();
+      
+      if (diff <= 0) {
+        setAirdropTime({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        return;
+      }
+      
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+      
+      setAirdropTime({ days, hours, minutes, seconds });
+    };
     
-    // Optional: Create a subtle seconds animation for the last number
-    const timer = setInterval(() => {
-      setAirdropTime(prev => ({
-        ...prev,
-        seconds: prev.seconds > 0 ? prev.seconds - 1 : 59,
-        minutes: prev.seconds === 0 && prev.minutes > 0 ? prev.minutes - 1 : prev.minutes,
-        hours: prev.seconds === 0 && prev.minutes === 0 && prev.hours > 0 ? prev.hours - 1 : prev.hours,
-        days: prev.seconds === 0 && prev.minutes === 0 && prev.hours === 0 && prev.days > 0 ? prev.days - 1 : prev.days
-      }));
-    }, 1000);
+    // Calculate immediately
+    calculateTimeRemaining();
+    
+    // Update every second
+    const timer = setInterval(calculateTimeRemaining, 1000);
     
     return () => clearInterval(timer);
   }, []);
