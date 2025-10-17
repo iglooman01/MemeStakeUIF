@@ -270,11 +270,23 @@ export default function Staking() {
     return diffDays;
   };
 
-  const getPenaltyInfo = (daysStaked: number) => {
+  const getPenaltyInfo = (daysStaked: number, amountStaked: number, totalRewardsClaimed: number) => {
     if (daysStaked >= PENALTY_FREE_DAYS) {
       return { hasPenalty: false, text: '✅ No Penalty', color: '#00ff88' };
     } else {
-      return { hasPenalty: true, text: `⚠️ ${PENALTY_PERCENTAGE}% Penalty`, color: '#ffa500' };
+      // Check if totalRewardsClaimed is less than the amount staked
+      if (totalRewardsClaimed < amountStaked) {
+        // Calculate actual penalty: 20% of (amount staked - totalRewardsClaimed)
+        const penaltyAmount = 0.20 * (amountStaked - totalRewardsClaimed);
+        return { 
+          hasPenalty: true, 
+          text: `⚠️ ${penaltyAmount.toLocaleString()} MEME`, 
+          color: '#ffa500' 
+        };
+      } else {
+        // No penalty if rewards claimed >= staked amount
+        return { hasPenalty: false, text: '✅ No Penalty', color: '#00ff88' };
+      }
     }
   };
 
@@ -1114,7 +1126,8 @@ export default function Staking() {
                           const startTime = Number(stake.details.startTime);
                           const dateStaked = new Date(startTime * 1000).toLocaleDateString();
                           const daysStaked = Math.floor((Date.now() / 1000 - startTime) / (24 * 60 * 60));
-                          const penaltyInfo = getPenaltyInfo(daysStaked);
+                          const totalRewardsClaimed = Number(stake.details.totalRewardsClaimed || 0) / 1e18;
+                          const penaltyInfo = getPenaltyInfo(daysStaked, stakedAmount, totalRewardsClaimed);
                           
                           return (
                             <tr 
