@@ -334,11 +334,11 @@ export default function Staking() {
 
       // Get stake amount from activeStakes
       const stake = activeStakes.find(s => Number(s.stakeId) === stakeId);
-      const stakeAmountValue = stake ? (Number(stake.details.amount) / 1e18).toString() : '0';
-
+      
       // Calculate pending rewards for this specific stake
       let pendingRewards = 0;
       let penaltyAmount = 0;
+      let actualAmountReceived = 0;
       
       if (stake && stake.details) {
         const stakeAmount = Number(stake.details.amount) / 1e18;
@@ -355,7 +355,13 @@ export default function Staking() {
         
         // Calculate penalty if staking time < 90 days
         if (daysStaked < PENALTY_FREE_DAYS && totalRewardsClaimed < stakeAmount) {
-          penaltyAmount = 0.20 * (stakeAmount - totalRewardsClaimed);
+          const amountSubjectToPenalty = stakeAmount - totalRewardsClaimed;
+          penaltyAmount = 0.20 * amountSubjectToPenalty;
+          // Actual amount received = (staked - claimed) - penalty
+          actualAmountReceived = amountSubjectToPenalty - penaltyAmount;
+        } else {
+          // No penalty - user receives full amount
+          actualAmountReceived = stakeAmount;
         }
         
         console.log('Withdraw capital calculation:', {
@@ -367,7 +373,8 @@ export default function Staking() {
           currentTime,
           daysElapsed,
           pendingRewards,
-          penaltyAmount
+          penaltyAmount,
+          actualAmountReceived
         });
       }
 
@@ -393,7 +400,7 @@ export default function Staking() {
         console.log('Attempting to save capital withdraw transaction:', {
           walletAddress,
           transactionType: 'Capital Withdraw',
-          amount: stakeAmountValue,
+          amount: actualAmountReceived.toFixed(2),
           penalty: penaltyAmount > 0 ? penaltyAmount.toFixed(2) : null,
           tokenSymbol: 'MEMES',
           transactionHash: txHash
@@ -402,7 +409,7 @@ export default function Staking() {
         const response = await apiRequest('POST', '/api/transactions', {
           walletAddress: walletAddress,
           transactionType: 'Capital Withdraw',
-          amount: stakeAmountValue,
+          amount: actualAmountReceived.toFixed(2),
           penalty: penaltyAmount > 0 ? penaltyAmount.toFixed(2) : null,
           tokenSymbol: 'MEMES',
           transactionHash: txHash,
