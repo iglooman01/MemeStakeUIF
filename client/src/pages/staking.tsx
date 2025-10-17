@@ -416,6 +416,11 @@ export default function Staking() {
         title: "🎉 Withdrawal Successful!",
         description: `Successfully withdrew capital! TX: ${txHash.slice(0, 10)}...`,
       });
+
+      // Refresh the page after successful unstake
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
     } catch (error: any) {
       console.error('Error withdrawing capital:', error);
       setIsUnstaking(false);
