@@ -1832,11 +1832,11 @@ export default function Dashboard() {
     }, 1000);
   };
 
-  // Airdrop countdown timer - October 27, 2025 at 09:30:30
+  // Airdrop countdown timer - October 27, 2026 at 09:30:30
   useEffect(() => {
     const calculateTimeRemaining = () => {
-      // Target date: October 27, 2025 at 09:30:30
-      const targetDate = new Date('2025-10-27T09:30:30');
+      // Target date: October 27, 2026 at 09:30:30
+      const targetDate = new Date('2026-10-27T09:30:30');
       const now = new Date();
       const diff = targetDate.getTime() - now.getTime();
       
