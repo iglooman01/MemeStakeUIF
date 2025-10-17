@@ -338,23 +338,36 @@ export default function Staking() {
 
       // Calculate pending rewards for this specific stake
       let pendingRewards = 0;
+      let penaltyAmount = 0;
+      
       if (stake && stake.details) {
         const stakeAmount = Number(stake.details.amount) / 1e18;
+        const totalRewardsClaimed = Number(stake.details.totalRewardsClaimed || 0) / 1e18;
+        const startTime = Number(stake.details.startTime);
         const lastClaimTime = Number(stake.details.lastClaimTime);
         const currentTime = Math.floor(Date.now() / 1000);
         const timeDiff = currentTime - lastClaimTime;
         const daysElapsed = timeDiff / 86400; // 86400 seconds in a day
+        const daysStaked = Math.floor((currentTime - startTime) / 86400);
         
         // Calculate pending rewards: 1% daily, so daysElapsed * 0.01 * stakeAmount
         pendingRewards = daysElapsed * 0.01 * stakeAmount;
         
-        console.log('Pending rewards for stake:', {
+        // Calculate penalty if staking time < 90 days
+        if (daysStaked < PENALTY_FREE_DAYS && totalRewardsClaimed < stakeAmount) {
+          penaltyAmount = 0.20 * (stakeAmount - totalRewardsClaimed);
+        }
+        
+        console.log('Withdraw capital calculation:', {
           stakeId,
           stakeAmount,
+          totalRewardsClaimed,
+          daysStaked,
           lastClaimTime,
           currentTime,
           daysElapsed,
-          pendingRewards
+          pendingRewards,
+          penaltyAmount
         });
       }
 
@@ -376,7 +389,23 @@ export default function Staking() {
           console.log('✅ Claim staking rewards transaction saved:', claimTransaction);
         }
 
-        // 2. Save capital withdraw transaction
+        // 2. If there's a penalty, save penalty transaction
+        if (penaltyAmount > 0) {
+          console.log('Saving penalty transaction:', penaltyAmount);
+          
+          const penaltyResponse = await apiRequest('POST', '/api/transactions', {
+            walletAddress: walletAddress,
+            transactionType: 'Penalty',
+            amount: penaltyAmount.toFixed(2),
+            tokenSymbol: 'MEMES',
+            transactionHash: txHash,
+            status: 'pending'
+          });
+          const penaltyTransaction = await penaltyResponse.json();
+          console.log('✅ Penalty transaction saved:', penaltyTransaction);
+        }
+
+        // 3. Save capital withdraw transaction
         console.log('Attempting to save capital withdraw transaction:', {
           walletAddress,
           transactionType: 'Capital Withdraw',
