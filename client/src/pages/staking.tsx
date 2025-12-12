@@ -29,6 +29,8 @@ export default function Staking() {
   const [estimatedGas, setEstimatedGas] = useState('0.0012');
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [activeStakes, setActiveStakes] = useState<any[]>([]);
+  const [transfersUnlocked, setTransfersUnlocked] = useState<boolean>(false);
+  const [isCheckingTransfers, setIsCheckingTransfers] = useState(true);
   const { toast } = useToast();
 
   const APY = 365;
@@ -128,6 +130,41 @@ export default function Staking() {
       }
     };
   }, [walletAddress]);
+
+  // Check transfersUnlocked from MEMES Token contract
+  useEffect(() => {
+    const checkTransfersUnlocked = async () => {
+      try {
+        setIsCheckingTransfers(true);
+        
+        const publicClient = createPublicClient({
+          chain: bscTestnet,
+          transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
+        });
+
+        const isUnlocked = await publicClient.readContract({
+          address: CONTRACTS.MEMES_TOKEN.address as `0x${string}`,
+          abi: CONTRACTS.MEMES_TOKEN.abi,
+          functionName: 'transfersUnlocked',
+          args: []
+        }) as boolean;
+
+        console.log('📊 Transfers Unlocked:', isUnlocked);
+        setTransfersUnlocked(isUnlocked);
+      } catch (error) {
+        console.error('Error checking transfersUnlocked:', error);
+        setTransfersUnlocked(false);
+      } finally {
+        setIsCheckingTransfers(false);
+      }
+    };
+
+    checkTransfersUnlocked();
+    
+    // Refresh every 30 seconds
+    const interval = setInterval(checkTransfersUnlocked, 30000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Fetch real blockchain data
   const fetchStakingData = async () => {
@@ -1088,14 +1125,28 @@ export default function Staking() {
                       <p className="text-xs text-gray-400 mt-2">Minimum stake: 500,000 $MEMES ($50 worth)</p>
                     </div>
 
+                    {/* Staking Disabled Notice */}
+                    {!transfersUnlocked && !isCheckingTransfers && (
+                      <div className="p-3 rounded-lg text-sm" style={{background: 'rgba(255, 0, 0, 0.1)', border: '1px solid rgba(255, 0, 0, 0.3)'}}>
+                        <div className="font-semibold mb-1" style={{color: '#ff4444'}}>⛔ Staking Currently Disabled</div>
+                        <p className="text-gray-300 text-xs">Token transfers are currently locked. Staking will be enabled once transfers are unlocked.</p>
+                      </div>
+                    )}
+
                     <Button 
                       onClick={handleStake}
-                      disabled={isProcessing || !stakeAmount}
+                      disabled={isProcessing || !stakeAmount || !transfersUnlocked || isCheckingTransfers}
                       className="w-full"
-                      style={{background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)', color: '#000'}}
+                      style={{
+                        background: (!transfersUnlocked || isCheckingTransfers) 
+                          ? 'linear-gradient(135deg, #666 0%, #444 100%)' 
+                          : 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)', 
+                        color: (!transfersUnlocked || isCheckingTransfers) ? '#999' : '#000',
+                        cursor: (!transfersUnlocked || isCheckingTransfers) ? 'not-allowed' : 'pointer'
+                      }}
                       data-testid="button-stake"
                     >
-                      {isProcessing ? '⏳ Staking...' : '💎 Stake Tokens'}
+                      {isCheckingTransfers ? '⏳ Checking...' : isProcessing ? '⏳ Staking...' : !transfersUnlocked ? '🔒 Staking Locked' : '💎 Stake Tokens'}
                     </Button>
                   </>
                 //)
