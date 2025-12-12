@@ -17,6 +17,7 @@ declare global {
     ethereum?: any;
     trustWallet?: any;
     safePal?: any;
+    tokenpocket?: any;
   }
 }
 
@@ -66,10 +67,12 @@ export const connectWallet = async (walletType: string): Promise<{ success: bool
       isTronLink: window.ethereum?.isTronLink,
       isMetaMask: window.ethereum?.isMetaMask,
       isTrust: window.ethereum?.isTrust,
+      isTokenPocket: window.ethereum?.isTokenPocket,
       providers: window.ethereum?.providers?.map((p: any) => ({
         isMetaMask: p.isMetaMask,
         isTronLink: p.isTronLink,
-        isTrust: p.isTrust
+        isTrust: p.isTrust,
+        isTokenPocket: p.isTokenPocket
       }))
     });
     
@@ -83,14 +86,32 @@ export const connectWallet = async (walletType: string): Promise<{ success: bool
       case 'metamask':
         // For MetaMask, check if there are multiple providers
         if (window.ethereum.providers && window.ethereum.providers.length > 0) {
-          // Find MetaMask provider (exclude TronLink)
-          const metamaskProvider = window.ethereum.providers.find((p: any) => p.isMetaMask && !p.isTronLink);
+          // Find the REAL MetaMask provider (exclude TronLink, TokenPocket, and other wallets that fake isMetaMask)
+          const metamaskProvider = window.ethereum.providers.find((p: any) => 
+            p.isMetaMask && 
+            !p.isTronLink && 
+            !p.isTokenPocket && 
+            !p.isTrust &&
+            !p.isBraveWallet &&
+            !p.isCoinbaseWallet
+          );
           if (!metamaskProvider) {
-            return { success: false, error: 'MetaMask not found. Please install MetaMask extension.' };
+            // Fallback: try to find any provider that claims to be MetaMask
+            const fallbackProvider = window.ethereum.providers.find((p: any) => p.isMetaMask);
+            if (fallbackProvider) {
+              ethereum = fallbackProvider;
+            } else {
+              return { success: false, error: 'MetaMask not found. Please install MetaMask extension or disable conflicting wallet extensions.' };
+            }
+          } else {
+            ethereum = metamaskProvider;
           }
-          ethereum = metamaskProvider;
-        } else if (window.ethereum.isMetaMask && !window.ethereum.isTronLink) {
+        } else if (window.ethereum.isMetaMask && !window.ethereum.isTronLink && !window.ethereum.isTokenPocket) {
+          // Single provider that is MetaMask (not TokenPocket pretending to be MetaMask)
           ethereum = window.ethereum;
+        } else if (window.ethereum.isTokenPocket) {
+          // TokenPocket is hijacking - show error
+          return { success: false, error: 'TokenPocket detected. Please disable TokenPocket extension or use TokenPocket wallet directly. To use MetaMask, disable TokenPocket first.' };
         } else if (window.ethereum) {
           // On mobile, MetaMask might just inject as window.ethereum without isMetaMask flag
           ethereum = window.ethereum;
