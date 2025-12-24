@@ -726,7 +726,7 @@ export default function Home() {
   useEffect(() => {
     const calculateTimeRemaining = () => {
       // Target date: October 27, 2025 at 09:30:30
-      const targetDate = new Date('2025-10-27T09:30:30');
+      const targetDate = new Date('2026-01-08T09:30:30');
       const now = new Date();
       const diff = targetDate.getTime() - now.getTime();
       
@@ -946,14 +946,66 @@ export default function Home() {
       >
         <div className="container relative z-10">
           <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 sm:mb-8 leading-tight px-4" style={{fontFamily: 'Space Grotesk, Inter, sans-serif', fontWeight: '800'}} data-testid="text-hero-headline">
-              Stake Memes. <span style={{color: '#ffd700'}}>Earn Big.</span>
-            </h1>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-5xl font-bold mb-6 sm:mb-8 leading-tight px-4" style={{fontFamily: 'Space Grotesk, Inter, sans-serif', fontWeight: '800'}} data-testid="text-hero-headline">
+              Worlds First AI Driven Meme Staking Platform Launching In
+            </h2>
+
+            {/* Attractive One-Line Countdown */}
+            <div className="flex items-center justify-center mb-8">
+              <div className="glass-card px-4 sm:px-6 md:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl border-2 glow-effect" 
+                   style={{
+                     background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(0, 191, 255, 0.1) 100%)',
+                     border: '2px solid rgba(255, 215, 0, 0.3)',
+                     boxShadow: '0 0 30px rgba(255, 215, 0, 0.2), 0 0 60px rgba(0, 191, 255, 0.1)'
+                   }}>
+                <div className="flex items-center space-x-3 sm:space-x-4 md:space-x-6 text-center">
+                  <div className="flex items-center space-x-1 sm:space-x-2">
+                    <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold" 
+                          style={{color: '#ffd700'}}>
+                      {String(airdropTime.days).padStart(2, '0')}
+                    </span>
+                    <span className="text-xs sm:text-sm md:text-base font-medium" style={{color: '#ffd700'}}>DAYS</span>
+                  </div>
+
+                  <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl animate-pulse" style={{color: '#ffd700'}}>:</div>
+
+                  <div className="flex items-center space-x-1 sm:space-x-2">
+                    <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold"
+                          style={{color: '#ffd700'}}>
+                      {String(airdropTime.hours).padStart(2, '0')}
+                    </span>
+                    <span className="text-xs sm:text-sm md:text-base font-medium" style={{color: '#ffd700'}}>HRS</span>
+                  </div>
+
+                  <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl animate-pulse" style={{color: '#ffd700'}}>:</div>
+
+                  <div className="flex items-center space-x-1 sm:space-x-2">
+                    <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold"
+                          style={{color: '#ffd700'}}>
+                      {String(airdropTime.minutes).padStart(2, '0')}
+                    </span>
+                    <span className="text-xs sm:text-sm md:text-base font-medium" style={{color: '#ffd700'}}>MIN</span>
+                  </div>
+
+                  <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl animate-pulse" style={{color: '#ffd700'}}>:</div>
+
+                  <div className="flex items-center space-x-1 sm:space-x-2">
+                    <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold"
+                          style={{color: '#ffd700'}}>
+                      {String(airdropTime.seconds).padStart(2, '0')}
+                    </span>
+                    <span className="text-xs sm:text-sm md:text-base font-medium" style={{color: '#ffd700'}}>S</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <h3 className="text-4xl md:text-3xl font-bold mb-4 bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-400 bg-clip-text text-transparent" style={{fontFamily: 'Space Grotesk, Inter, sans-serif'}}>Connect Wallet To Claim Free 10,000 $MEMES Tokens</h3>
             <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-8 sm:mb-12 leading-relaxed max-w-3xl mx-auto px-4" style={{fontFamily: 'Inter, sans-serif'}} data-testid="text-hero-subtitle">
               <span style={{color: '#ffd700', fontWeight: '700'}}>From LOLs to APYs</span>
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <Button 
+              {/* <Button 
                 size="lg" 
                 className="text-lg px-8 py-4" 
                 onClick={handleStakingClick}
@@ -967,7 +1019,7 @@ export default function Home() {
                 data-testid="button-start-staking"
               >
                 🚀 Start Staking
-              </Button>
+              </Button> */}
               <Button asChild variant="outline" size="lg" className="text-lg px-8 py-4" data-testid="button-learn-more">
                 <a href="#faq">📄 Learn More</a>
               </Button>
@@ -1025,7 +1077,7 @@ export default function Home() {
               Connect Your Wallet & Get Airdrop
             </h2>
             <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-              Join thousands of holders and claim your share of <span className="font-bold" style={{color: '#ffd700'}}>1,000 $MEMES</span> tokens!
+              Join thousands of holders and claim your share of <span className="font-bold" style={{color: '#ffd700'}}>10,000 $MEMES</span> tokens!
             </p>
           </div>
 
@@ -1055,7 +1107,7 @@ export default function Home() {
                   <div className="grid md:grid-cols-2 gap-4 text-sm">
                     <div className="text-center p-3 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)'}}>
                       <div className="font-semibold" style={{color: '#ffd700'}}>Airdrop Is Live</div>
-                      <div className="text-muted-foreground">Distribution of 10M MEME tokens</div>
+                      <div className="text-muted-foreground">Distribution of 100B MEME tokens</div>
                     </div>
                     <div className="text-center p-3 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
                       <div className="font-semibold" style={{color: '#ffd700'}}>Staking Program Is Live</div>
@@ -1064,55 +1116,7 @@ export default function Home() {
                   </div>
                 </div>
                 
-                {/* Attractive One-Line Countdown */}
-                <div className="flex items-center justify-center mb-8">
-                  <div className="glass-card px-4 sm:px-6 md:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl border-2 glow-effect" 
-                       style={{
-                         background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(0, 191, 255, 0.1) 100%)',
-                         border: '2px solid rgba(255, 215, 0, 0.3)',
-                         boxShadow: '0 0 30px rgba(255, 215, 0, 0.2), 0 0 60px rgba(0, 191, 255, 0.1)'
-                       }}>
-                    <div className="flex items-center space-x-3 sm:space-x-4 md:space-x-6 text-center">
-                      <div className="flex items-center space-x-1 sm:space-x-2">
-                        <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold" 
-                              style={{color: '#ffd700'}}>
-                          {String(airdropTime.days).padStart(2, '0')}
-                        </span>
-                        <span className="text-xs sm:text-sm md:text-base font-medium" style={{color: '#ffd700'}}>DAYS</span>
-                      </div>
-                      
-                      <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl animate-pulse" style={{color: '#ffd700'}}>:</div>
-                      
-                      <div className="flex items-center space-x-1 sm:space-x-2">
-                        <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold"
-                              style={{color: '#ffd700'}}>
-                          {String(airdropTime.hours).padStart(2, '0')}
-                        </span>
-                        <span className="text-xs sm:text-sm md:text-base font-medium" style={{color: '#ffd700'}}>HRS</span>
-                      </div>
-                      
-                      <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl animate-pulse" style={{color: '#ffd700'}}>:</div>
-                      
-                      <div className="flex items-center space-x-1 sm:space-x-2">
-                        <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold"
-                              style={{color: '#ffd700'}}>
-                          {String(airdropTime.minutes).padStart(2, '0')}
-                        </span>
-                        <span className="text-xs sm:text-sm md:text-base font-medium" style={{color: '#ffd700'}}>MIN</span>
-                      </div>
-                      
-                      <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl animate-pulse" style={{color: '#ffd700'}}>:</div>
-                      
-                      <div className="flex items-center space-x-1 sm:space-x-2">
-                        <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold"
-                              style={{color: '#ffd700'}}>
-                          {String(airdropTime.seconds).padStart(2, '0')}
-                        </span>
-                        <span className="text-xs sm:text-sm md:text-base font-medium" style={{color: '#ffd700'}}>S</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+               
                 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
                   {walletConnected ? (
@@ -1172,7 +1176,7 @@ export default function Home() {
       </section>
 
       {/* Staking Dashboard */}
-      <section id="staking-dashboard" className="section-padding" data-testid="section-staking-dashboard">
+      {/*<section id="staking-dashboard" className="section-padding" data-testid="section-staking-dashboard">
         <div className="container">
           <div className="text-center mb-16">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 px-4">Your Staking Dashboard</h2>
@@ -1185,7 +1189,7 @@ export default function Home() {
             
           </div>
         </div>
-      </section>
+      </section>*/}
 
 
       {/* Tokenomics Section */}
@@ -1199,18 +1203,18 @@ export default function Home() {
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-8">
               <div className="inline-flex items-center justify-center w-24 h-24 rounded-full" style={{background: '#ffd700'}}>
-                <span className="text-2xl font-bold text-black">50B</span>
+                <span className="text-2xl font-bold text-black">1T</span>
               </div>
-              <div className="text-lg sm:text-xl font-semibold mt-3">Total Supply: 50,000,000,000 $MEMES</div>
-              <div className="text-sm text-muted-foreground mt-2">Sale Price: $0.0001 per $MEMES</div>
+              <div className="text-lg sm:text-xl font-semibold mt-3">Total Supply: 1,000,000,000,000 $MEMES</div>
+              {/*<div className="text-sm text-muted-foreground mt-2">Sale Price: $0.0001 per $MEMES</div>*/}
             </div>
             
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 px-4 mb-8">
               <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
                 <div className="text-2xl mb-2">🚀</div>
                 <div className="text-base font-semibold" style={{color: '#ffd700'}}>Public Sale - 50%</div>
-                <div className="text-sm text-muted-foreground">25B tokens available</div>
-                <div className="text-xs text-cyan-400 mt-1">Target: $2,500,000</div>
+                <div className="text-sm text-muted-foreground">500B tokens available</div>
+                <div className="text-xs text-cyan-400 mt-1">Target: $50,000,000</div>
               </div>
               
               <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
@@ -1223,7 +1227,7 @@ export default function Home() {
               <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 105, 180, 0.1)', border: '1px solid rgba(255, 105, 180, 0.3)'}}>
                 <div className="text-2xl mb-2">🎁</div>
                 <div className="text-base font-semibold" style={{color: '#ffd700'}}>Referral Pool - 10%</div>
-                <div className="text-sm text-muted-foreground">5B tokens</div>
+                <div className="text-sm text-muted-foreground">100B tokens</div>
                 <div className="text-xs text-cyan-400 mt-1">3-level system</div>
               </div>
               
@@ -1362,7 +1366,7 @@ export default function Home() {
               <div className="rounded p-4 font-mono text-sm overflow-x-auto" style={{background: 'white', border: '1px solid #e5e7eb'}}>
                 <div className="text-green-600">// memes Contract</div>
                 <div className="text-black">contract MemesEverywhere {'{'}</div>
-                <div className="text-black">&nbsp;&nbsp;uint256 public totalSupply = 50e9; // 50 Billion</div>
+                <div className="text-black">&nbsp;&nbsp;uint256 public totalSupply = 1e12; // 1 Trillion</div>
                 <div className="text-black">&nbsp;&nbsp;uint256 public stakingRewards; // 365% APY</div>
                 <div className="text-black">&nbsp;&nbsp;mapping(address =&gt; uint256) stakes;</div>
                 <div className="text-black">&nbsp;&nbsp;</div>
