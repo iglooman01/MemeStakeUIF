@@ -822,47 +822,7 @@ export default function Home() {
                 <FaTelegram className="text-lg" />
               </a>
 
-              {/* Connect Wallet / Wallet Info - Top Right Corner */}
-              {walletConnected ? (
-                <div className="flex items-center gap-2">
-                  <div className="flex flex-col items-end">
-                    <span className="text-xs text-gray-400">{connectedWalletType}</span>
-                    <span className="text-sm text-white font-mono">
-                      {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
-                    </span>
-                  </div>
-                  <Button 
-                    onClick={handleDisconnectWallet}
-                    size="sm"
-                    variant="outline"
-                    className="text-xs px-3 py-2"
-                    style={{
-                      background: 'rgba(255, 255, 255, 0.1)',
-                      borderColor: 'rgba(255, 215, 0, 0.3)',
-                      color: 'white'
-                    }}
-                    data-testid="button-disconnect-wallet"
-                  >
-                    Disconnect
-                  </Button>
-                </div>
-              ) : (
-                <Button 
-                  onClick={() => setWalletModalOpen(true)}
-                  className="px-3 sm:px-6 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-300 hover:scale-105"
-                  style={{
-                    background: '#ffd700',
-                    color: '#0a0e1a',
-                    fontWeight: '600',
-                    fontFamily: 'Space Grotesk, sans-serif',
-                    border: '1px solid rgba(255, 215, 0, 0.3)',
-                    boxShadow: '0 4px 15px rgba(255, 215, 0, 0.2)'
-                  }}
-                  data-testid="button-get-started"
-                >
-                  {t.getStarted}
-                </Button>
-              )}
+              
 
               {/* Mobile Menu Toggle */}
               <button
@@ -880,11 +840,11 @@ export default function Home() {
       </header>
 
       {/* Airdrop Notification Banner */}
-      <div className="w-full py-2 px-4 text-center" style={{background: '#000000', borderBottom: '1px solid rgba(255, 215, 0, 0.2)'}} data-testid="airdrop-notification">
+     {/* <div className="w-full py-2 px-4 text-center" style={{background: '#000000', borderBottom: '1px solid rgba(255, 215, 0, 0.2)'}} data-testid="airdrop-notification">
         <p className="text-xs sm:text-sm text-white/80">
           🎁 <span style={{color: '#ffd700'}}>Limited Airdrop:</span> Connect your wallet now to claim free $MEME tokens • Staking rewards 365% APY (1% daily)
         </p>
-      </div>
+      </div> */}
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
@@ -1001,10 +961,51 @@ export default function Home() {
             </div>
 
             <h3 className="text-4xl md:text-3xl font-bold mb-4 bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-400 bg-clip-text text-transparent" style={{fontFamily: 'Space Grotesk, Inter, sans-serif'}}>Connect Wallet To Claim Free 10,000 $MEMES Tokens</h3>
-            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-8 sm:mb-12 leading-relaxed max-w-3xl mx-auto px-4" style={{fontFamily: 'Inter, sans-serif'}} data-testid="text-hero-subtitle">
+            {/*<p className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-8 sm:mb-12 leading-relaxed max-w-3xl mx-auto px-4" style={{fontFamily: 'Inter, sans-serif'}} data-testid="text-hero-subtitle">
               <span style={{color: '#ffd700', fontWeight: '700'}}>From LOLs to APYs</span>
-            </p>
+            </p> */}            
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              {/* Connect Wallet / Wallet Info - Top Right Corner */}
+              {walletConnected ? (
+                <div className="flex items-center gap-2">
+                  <div className="flex flex-col items-end">
+                    <span className="text-xs text-gray-400">{connectedWalletType}</span>
+                    <span className="text-sm text-white font-mono">
+                      {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
+                    </span>
+                  </div>
+                  <Button 
+                    onClick={handleDisconnectWallet}
+                    size="sm"
+                    variant="outline"
+                    className="text-xs px-3 py-2"
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.1)',
+                      borderColor: 'rgba(255, 215, 0, 0.3)',
+                      color: 'white'
+                    }}
+                    data-testid="button-disconnect-wallet"
+                  >
+                    Disconnect
+                  </Button>
+                </div>
+              ) : (
+                <Button 
+                  onClick={() => setWalletModalOpen(true)}
+                  className="px-3 sm:px-6 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-300 hover:scale-105"
+                  style={{
+                    background: '#ffd700',
+                    color: '#0a0e1a',
+                    fontWeight: '600',
+                    fontFamily: 'Space Grotesk, sans-serif',
+                    border: '1px solid rgba(255, 215, 0, 0.3)',
+                    boxShadow: '0 4px 15px rgba(255, 215, 0, 0.2)'
+                  }}
+                  data-testid="button-get-started"
+                >
+                  {t.getStarted}
+                </Button>
+              )}
               {/* <Button 
                 size="lg" 
                 className="text-lg px-8 py-4" 
