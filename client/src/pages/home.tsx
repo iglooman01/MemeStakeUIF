@@ -1241,8 +1241,8 @@ export default function Home() {
             </div>
 
             {/* Purchase Info */}
-            <div className="grid md:grid-cols-2 gap-4 px-4">
-              <div className="p-4 rounded-lg bg-black/30 border border-yellow-500/30">
+            <div className="grid md:grid-cols-1 gap-4 px-4">
+              {/*<div className="p-4 rounded-lg bg-black/30 border border-yellow-500/30">
                 <div className="text-center">
                   <div className="text-lg font-semibold mb-2" style={{color: '#ffd700'}}>💰 Purchase Limits</div>
                   <div className="space-y-2 text-sm">
@@ -1251,12 +1251,12 @@ export default function Home() {
                     <div className="text-cyan-400 font-mono">$100 = 1,000,000 $MEMES</div>
                   </div>
                 </div>
-              </div>
+              </div>*/}
               <div className="p-4 rounded-lg bg-black/30 border border-cyan-500/30">
                 <div className="text-center">
-                  <div className="text-lg font-semibold mb-2" style={{color: '#ffd700'}}>📊 Token Economics</div>
+                  <div className="text-lg font-semibold mb-2" style={{color: '#ffd700'}}>📊 Tokenomics</div>
                   <div className="space-y-2 text-sm">
-                    <div>Price: <span className="text-white font-bold">$0.0001</span></div>
+                    {/*<div>Price: <span className="text-white font-bold">$0.0001</span></div>*/}
                     <div>Network: <span className="text-white font-bold">BSC (BEP-20)</span></div>
                     <div className="text-cyan-400">Fully audited contract</div>
                   </div>
