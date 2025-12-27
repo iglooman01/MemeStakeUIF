@@ -11,8 +11,8 @@ export function Footer() {
 
   const socialIcons = [
     { name: "Telegram", icon: "✈️", href: "https://t.me/memstakeofficial" },
-    { name: "Twitter", icon: "🐦", href: "https://twitter.com/memestake" },
-    { name: "YouTube", icon: "📺", href: "https://youtube.com/@memestake" },
+    { name: "Twitter", icon: "🐦", href: "https://x.com/memestake86" },
+    { name: "YouTube", icon: "📺", href: "https://youtube.com/@memestake86?si=0bljj-3rnPz9IPh1" },
     { name: "Discord", icon: "💬", href: "https://discord.gg/memestake" }
   ];
 

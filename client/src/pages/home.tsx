@@ -1822,7 +1822,7 @@ export default function Home() {
             {/* Social Media Icons */}
             <div className="flex items-center gap-4">
               <a
-                href="https://t.me/memeseverywhere"
+                href="https://t.me/memestakegroup"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group p-3 rounded-full transition-all duration-300 hover:scale-110"
@@ -1836,7 +1836,7 @@ export default function Home() {
               </a>
 
               <a
-                href="https://twitter.com/memeseverywhere"
+                href="https://x.com/memestake86"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group p-3 rounded-full transition-all duration-300 hover:scale-110"
@@ -1850,7 +1850,7 @@ export default function Home() {
               </a>
 
               <a
-                href="https://youtube.com/@memeseverywhere"
+                href="https://youtube.com/@memestake86?si=0bljj-3rnPz9IPh1"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group p-3 rounded-full transition-all duration-300 hover:scale-110"

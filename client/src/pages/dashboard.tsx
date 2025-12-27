@@ -2520,7 +2520,7 @@ export default function Dashboard() {
                         </div>
                         <Button
                           onClick={() => {
-                            window.open('https://t.me/memesstake', '_blank');
+                            window.open('https://t.me/memestakegroup', '_blank');
                             handleCompleteTask('telegram_group');
                           }}
                           disabled={tasksCompleted.telegram_group || tasksPending.telegram_group}
@@ -2543,7 +2543,7 @@ export default function Dashboard() {
                         </div>
                         <Button
                           onClick={() => {
-                            window.open('https://t.me/memesstakechannel', '_blank');
+                            window.open('https://t.me/memstakeofficial', '_blank');
                             handleCompleteTask('telegram_channel');
                           }}
                           disabled={tasksCompleted.telegram_channel || tasksPending.telegram_channel}
@@ -2566,7 +2566,7 @@ export default function Dashboard() {
                         </div>
                         <Button
                           onClick={() => {
-                            window.open('https://twitter.com/memesstake', '_blank');
+                            window.open('https://x.com/memestake86', '_blank');
                             handleCompleteTask('twitter');
                           }}
                           disabled={tasksCompleted.twitter || tasksPending.twitter}
@@ -2591,7 +2591,7 @@ export default function Dashboard() {
                         </div>
                         <Button
                           onClick={() => {
-                            window.open('https://youtube.com/@memesstake', '_blank');
+                            window.open('https://youtube.com/@memestake86?si=0bljj-3rnPz9IPh1', '_blank');
                             handleCompleteTask('youtube');
                           }}
                           disabled={tasksCompleted.youtube || tasksPending.youtube}
@@ -3557,7 +3557,7 @@ export default function Dashboard() {
             </a>
 
             <a
-              href="https://twitter.com/memestake_official"
+              href="https://x.com/memestake86"
               target="_blank"
               rel="noopener noreferrer"
               className="p-3 sm:p-4 rounded-xl transition-all hover:scale-105"

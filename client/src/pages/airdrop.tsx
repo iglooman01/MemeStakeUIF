@@ -425,7 +425,7 @@ export default function Airdrop() {
               <span>{completedTasks.includes('telegram-channel') ? '✅' : isEmailVerified ? '🔗' : '🔒'}</span>
             </Button>
             <Button
-              onClick={() => completeTask('twitter', 'Follow on Twitter/X', 'https://twitter.com/memestake_official')}
+              onClick={() => completeTask('twitter', 'Follow on Twitter/X', 'https://x.com/memestake86')}
               className="w-full justify-between"
               variant="outline"
               disabled={!isEmailVerified}
@@ -435,7 +435,7 @@ export default function Airdrop() {
               <span>{completedTasks.includes('twitter') ? '✅' : isEmailVerified ? '🔗' : '🔒'}</span>
             </Button>
             <Button
-              onClick={() => completeTask('youtube', 'Subscribe YouTube', 'https://youtube.com/@memestake')}
+              onClick={() => completeTask('youtube', 'Subscribe YouTube', 'https://youtube.com/@memestake86?si=0bljj-3rnPz9IPh1')}
               className="w-full justify-between"
               variant="outline"
               disabled={!isEmailVerified}
@@ -668,7 +668,7 @@ export default function Airdrop() {
             </a>
             
             <a
-              href="https://twitter.com/memestake_official"
+              href="https://x.com/memestake86"
               target="_blank"
               rel="noopener noreferrer"
               className="p-4 rounded-lg text-center transition-all hover:scale-105"
