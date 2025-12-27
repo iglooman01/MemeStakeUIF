@@ -1890,7 +1890,7 @@ export default function Home() {
             {/* Copyright */}
             <div className="text-center">
               <p className="text-sm text-gray-500">
-                © {new Date().getFullYear()} <span className="font-semibold" style={{color: '#ffd700'}}>memes</span>. All rights reserved.
+                © {new Date().getFullYear()} <span className="font-semibold" style={{color: '#ffd700'}}>$memes</span>. All rights reserved.
               </p>
               <p className="text-xs text-gray-600 mt-2">
                 Built on Binance Smart Chain • Powered by Community
