@@ -321,7 +321,7 @@ export default function Whitepaper() {
               <div className="text-sm text-gray-300">DAO Governance + DEX Liquidity</div>
             </div>
             <div className="p-4 rounded-lg" style={{ background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.2)' }}>
-              <div className="font-bold mb-1" style={{ color: '#00bfff' }}>2026</div>
+              <div className="font-bold mb-1" style={{ color: '#00bfff' }}>Q4 2026</div>
               <div className="text-sm text-gray-300">Lending & Global Expansion</div>
             </div>
           </div>
