@@ -212,7 +212,7 @@ export default function Home() {
     },
     {
       question: "How do staking rewards work?", 
-      answer: "Stake $MEMES tokens to earn 365% APY (1% daily rewards). Staking launches immediately after the airdrop ends. Plus, earn referral bonuses at 3 levels: Level 1 - 10,000 $MEMES, Level 2 - 10,000 $MEMES, Level 3 - 10,000 $MEMES tokens distributed across your referral network."
+      answer: "Stake $MEMES tokens to earn 365% APY (1% daily rewards). Staking program coming soon! Plus, earn referral bonuses at 3 levels: Level 1 - 10,000 $MEMES, Level 2 - 10,000 $MEMES, Level 3 - 10,000 $MEMES tokens distributed across your referral network."
     },
     {
       question: "How does the referral system work?",
@@ -1111,8 +1111,8 @@ export default function Home() {
                       <div className="text-muted-foreground">Distribution of 100B MEME tokens</div>
                     </div>
                     <div className="text-center p-3 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
-                      <div className="font-semibold" style={{color: '#ffd700'}}>Staking Program Is Live</div>
-                      <div className="text-muted-foreground">Starts immediately after airdrop</div>
+                      <div className="font-semibold" style={{color: '#ffd700'}}>Staking Program</div>
+                      <div className="text-muted-foreground">Coming soon!</div>
                     </div>
                   </div>
                 </div>
@@ -1167,7 +1167,7 @@ export default function Home() {
                 <div className="text-center">
                   <div className="inline-flex items-center space-x-2 px-6 py-3 rounded-full" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
                     <span className="text-lg">💎</span>
-                    <span className="text-sm font-medium" style={{color: '#ffd700'}}>Staking rewards 365% APY (1% daily) start after airdrop completion</span>
+                    <span className="text-sm font-medium" style={{color: '#ffd700'}}>Staking rewards 365% APY (1% daily) - Coming soon!</span>
                   </div>
                 </div>
               </div>
@@ -1222,7 +1222,7 @@ export default function Home() {
                 <div className="text-2xl mb-2">💎</div>
                 <div className="text-base font-semibold" style={{color: '#ffd700'}}>Staking Rewards</div>
                 <div className="text-sm text-muted-foreground">365% APY (1% daily)</div>
-                <div className="text-xs text-cyan-400 mt-1">Starts after airdrop</div>
+                <div className="text-xs text-cyan-400 mt-1">Coming soon!</div>
               </div>
               
               <div className="text-center p-4 rounded-lg" style={{background: 'rgba(255, 105, 180, 0.1)', border: '1px solid rgba(255, 105, 180, 0.3)'}}>
