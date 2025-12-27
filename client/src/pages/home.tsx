@@ -907,7 +907,7 @@ export default function Home() {
         <div className="container relative z-10">
           <div className="text-center max-w-4xl mx-auto">
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-5xl font-bold mb-6 sm:mb-8 leading-tight px-4" style={{fontFamily: 'Space Grotesk, Inter, sans-serif', fontWeight: '800'}} data-testid="text-hero-headline">
-              Worlds First AI Driven Meme Staking Platform Launching In
+              Worlds First AI Driven $Meme Staking Platform Launching In
             </h2>
 
             {/* Attractive One-Line Countdown */}
