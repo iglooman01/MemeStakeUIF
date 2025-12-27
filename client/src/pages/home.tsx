@@ -1108,7 +1108,7 @@ export default function Home() {
                   <div className="grid md:grid-cols-2 gap-4 text-sm">
                     <div className="text-center p-3 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)'}}>
                       <div className="font-semibold" style={{color: '#ffd700'}}>Airdrop Is Live</div>
-                      <div className="text-muted-foreground">Distribution of 100B MEME tokens</div>
+                      <div className="text-muted-foreground">Distribution of 100 Billion $MEME Tokens</div>
                     </div>
                     <div className="text-center p-3 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
                       <div className="font-semibold" style={{color: '#ffd700'}}>Staking Program</div>
