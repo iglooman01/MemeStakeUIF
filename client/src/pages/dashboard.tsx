@@ -2118,40 +2118,79 @@ export default function Dashboard() {
         ) : (isExported || userClaimableAmount > 0) ? (
           // Show claim button when user is exported OR has claimable amount (bypass email/tasks)
           <>
-            {/* Yellow Banner - Clickable */}
+            {/* Yellow Banner - Clickable - SUPER ATTRACTIVE */}
             <Card 
-              className="p-4 sm:p-5 cursor-pointer transition-transform hover:scale-[1.02]" 
+              className="p-4 sm:p-6 cursor-pointer transition-all duration-300 hover:scale-[1.03] relative overflow-hidden" 
               style={{
-                background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)',
-                border: '2px solid #ffed4e',
-                boxShadow: '0 8px 32px rgba(255, 215, 0, 0.5)'
+                background: 'linear-gradient(135deg, #ffd700 0%, #ff8c00 30%, #ffd700 50%, #ffed4e 70%, #ffd700 100%)',
+                backgroundSize: '300% 300%',
+                animation: 'gradientShift 3s ease infinite',
+                border: '3px solid #ffed4e',
+                boxShadow: '0 0 30px rgba(255, 215, 0, 0.8), 0 0 60px rgba(255, 140, 0, 0.5), 0 0 90px rgba(255, 215, 0, 0.3), inset 0 0 30px rgba(255, 255, 255, 0.2)'
               }}
               onClick={() => setShowAirdropContent(!showAirdropContent)}
               data-testid="banner-claim-airdrop"
             >
-              <div className="flex items-center justify-center gap-3">
-                <span className="text-3xl sm:text-4xl">🎁</span>
-                <h2 className="text-xl sm:text-2xl font-bold tracking-wide" style={{color: '#000'}}>
-                  CLAIM YOUR AIRDROP NOW!
-                </h2>
-                <span className="text-2xl sm:text-3xl" style={{
+              {/* Animated sparkle effects */}
+              <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                <div className="absolute top-2 left-[10%] text-2xl animate-bounce" style={{animationDelay: '0s', animationDuration: '1.5s'}}>✨</div>
+                <div className="absolute top-3 right-[15%] text-xl animate-bounce" style={{animationDelay: '0.3s', animationDuration: '1.8s'}}>💎</div>
+                <div className="absolute bottom-2 left-[20%] text-lg animate-bounce" style={{animationDelay: '0.6s', animationDuration: '1.6s'}}>⭐</div>
+                <div className="absolute bottom-3 right-[10%] text-2xl animate-bounce" style={{animationDelay: '0.9s', animationDuration: '1.4s'}}>🔥</div>
+                <div className="absolute top-1/2 left-[5%] text-lg animate-ping" style={{animationDuration: '2s'}}>💰</div>
+                <div className="absolute top-1/2 right-[5%] text-lg animate-ping" style={{animationDelay: '1s', animationDuration: '2s'}}>🚀</div>
+              </div>
+              
+              {/* Shine sweep effect */}
+              <div 
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.6) 50%, transparent 100%)',
+                  animation: 'shine 2s infinite',
+                  transform: 'skewX(-20deg)'
+                }}
+              />
+              
+              <div className="flex items-center justify-center gap-3 relative z-10">
+                <span className="text-4xl sm:text-5xl animate-bounce" style={{animationDuration: '1s'}}>🎁</span>
+                <div className="text-center">
+                  <h2 className="text-xl sm:text-3xl font-black tracking-wider" style={{
+                    color: '#000',
+                    textShadow: '2px 2px 4px rgba(255,255,255,0.5), -1px -1px 2px rgba(255,255,255,0.3)'
+                  }}>
+                    🎉 CLAIM YOUR FREE AIRDROP! 🎉
+                  </h2>
+                  <p className="text-sm sm:text-base font-bold mt-1" style={{color: 'rgba(0,0,0,0.7)'}}>
+                    💰 FREE MEMES Tokens Waiting For You! 💰
+                  </p>
+                </div>
+                <span className="text-3xl sm:text-4xl" style={{
                   transform: showAirdropContent ? 'rotate(180deg)' : 'rotate(0deg)',
                   transition: 'transform 0.3s ease',
                   display: 'inline-block'
-                }}>▲</span>
+                }}>▼</span>
               </div>
               
-              {/* Progress Bar */}
+              {/* Urgency badge */}
               {!showAirdropContent && (
-                <div className="mt-3">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-semibold" style={{color: '#000'}}>Overall Progress</span>
-                    <span className="text-sm font-bold" style={{color: '#000'}}>100%</span>
+                <div className="mt-4 flex flex-col items-center gap-2 relative z-10">
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full animate-pulse" style={{
+                    background: 'rgba(0,0,0,0.8)',
+                    boxShadow: '0 4px 15px rgba(0,0,0,0.3)'
+                  }}>
+                    <span className="text-lg">⚡</span>
+                    <span className="text-sm sm:text-base font-bold text-white">LIMITED TIME - CLICK TO CLAIM NOW!</span>
+                    <span className="text-lg">⚡</span>
                   </div>
-                  <div className="w-full h-2 bg-black/20 rounded-full overflow-hidden">
+                  <div className="w-full max-w-xs h-3 bg-black/30 rounded-full overflow-hidden">
                     <div 
-                      className="h-full bg-black transition-all duration-500"
-                      style={{ width: '100%' }}
+                      className="h-full rounded-full transition-all duration-500"
+                      style={{ 
+                        width: '100%',
+                        background: 'linear-gradient(90deg, #00ff88, #00bfff, #00ff88)',
+                        backgroundSize: '200% 100%',
+                        animation: 'gradientShift 1s linear infinite'
+                      }}
                     />
                   </div>
                 </div>
@@ -2238,43 +2277,80 @@ export default function Dashboard() {
         ) : (
           // Show email verification and task completion process when userClaimableAmount <= 0
           <>
-            {/* Yellow Banner - Clickable */}
+            {/* Yellow Banner - Clickable - SUPER ATTRACTIVE */}
             <Card 
-              className="p-4 sm:p-5 cursor-pointer transition-transform hover:scale-[1.02]" 
+              className="p-4 sm:p-6 cursor-pointer transition-all duration-300 hover:scale-[1.03] relative overflow-hidden" 
               style={{
-                background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)',
-                border: '2px solid #ffed4e',
-                boxShadow: '0 8px 32px rgba(255, 215, 0, 0.5)'
+                background: 'linear-gradient(135deg, #ffd700 0%, #ff8c00 30%, #ffd700 50%, #ffed4e 70%, #ffd700 100%)',
+                backgroundSize: '300% 300%',
+                animation: 'gradientShift 3s ease infinite',
+                border: '3px solid #ffed4e',
+                boxShadow: '0 0 30px rgba(255, 215, 0, 0.8), 0 0 60px rgba(255, 140, 0, 0.5), 0 0 90px rgba(255, 215, 0, 0.3), inset 0 0 30px rgba(255, 255, 255, 0.2)'
               }}
               onClick={() => setShowAirdropContent(!showAirdropContent)}
               data-testid="banner-claim-airdrop"
             >
-              <div className="flex items-center justify-center gap-3">
-                <span className="text-3xl sm:text-4xl">🎁</span>
-                <h2 className="text-xl sm:text-2xl font-bold tracking-wide" style={{color: '#000'}}>
-                  CLAIM YOUR AIRDROP NOW!
-                </h2>
-                <span className="text-2xl sm:text-3xl" style={{
+              {/* Animated sparkle effects */}
+              <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                <div className="absolute top-2 left-[10%] text-2xl animate-bounce" style={{animationDelay: '0s', animationDuration: '1.5s'}}>✨</div>
+                <div className="absolute top-3 right-[15%] text-xl animate-bounce" style={{animationDelay: '0.3s', animationDuration: '1.8s'}}>💎</div>
+                <div className="absolute bottom-2 left-[20%] text-lg animate-bounce" style={{animationDelay: '0.6s', animationDuration: '1.6s'}}>⭐</div>
+                <div className="absolute bottom-3 right-[10%] text-2xl animate-bounce" style={{animationDelay: '0.9s', animationDuration: '1.4s'}}>🔥</div>
+                <div className="absolute top-1/2 left-[5%] text-lg animate-ping" style={{animationDuration: '2s'}}>💰</div>
+                <div className="absolute top-1/2 right-[5%] text-lg animate-ping" style={{animationDelay: '1s', animationDuration: '2s'}}>🚀</div>
+              </div>
+              
+              {/* Shine sweep effect */}
+              <div 
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.6) 50%, transparent 100%)',
+                  animation: 'shine 2s infinite',
+                  transform: 'skewX(-20deg)'
+                }}
+              />
+              
+              <div className="flex items-center justify-center gap-3 relative z-10">
+                <span className="text-4xl sm:text-5xl animate-bounce" style={{animationDuration: '1s'}}>🎁</span>
+                <div className="text-center">
+                  <h2 className="text-xl sm:text-3xl font-black tracking-wider" style={{
+                    color: '#000',
+                    textShadow: '2px 2px 4px rgba(255,255,255,0.5), -1px -1px 2px rgba(255,255,255,0.3)'
+                  }}>
+                    🎉 CLAIM YOUR FREE AIRDROP! 🎉
+                  </h2>
+                  <p className="text-sm sm:text-base font-bold mt-1" style={{color: 'rgba(0,0,0,0.7)'}}>
+                    💰 FREE MEMES Tokens Waiting For You! 💰
+                  </p>
+                </div>
+                <span className="text-3xl sm:text-4xl" style={{
                   transform: showAirdropContent ? 'rotate(180deg)' : 'rotate(0deg)',
                   transition: 'transform 0.3s ease',
                   display: 'inline-block'
-                }}>▲</span>
+                }}>▼</span>
               </div>
               
-              {/* Progress Bar */}
+              {/* Progress Bar with urgency */}
               {!showAirdropContent && (
-                <div className="mt-3">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-semibold" style={{color: '#000'}}>Overall Progress</span>
-                    <span className="text-sm font-bold" style={{color: '#000'}}>
-                      {Math.round(((emailVerified ? 1 : 0) + Object.values(tasksCompleted).filter(Boolean).length) / 5 * 100)}%
+                <div className="mt-4 flex flex-col items-center gap-2 relative z-10">
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full animate-pulse" style={{
+                    background: 'rgba(0,0,0,0.8)',
+                    boxShadow: '0 4px 15px rgba(0,0,0,0.3)'
+                  }}>
+                    <span className="text-lg">⚡</span>
+                    <span className="text-sm sm:text-base font-bold text-white">
+                      {Math.round(((emailVerified ? 1 : 0) + Object.values(tasksCompleted).filter(Boolean).length) / 5 * 100)}% Complete - CLICK TO CONTINUE!
                     </span>
+                    <span className="text-lg">⚡</span>
                   </div>
-                  <div className="w-full h-2 bg-black/20 rounded-full overflow-hidden">
+                  <div className="w-full max-w-xs h-3 bg-black/30 rounded-full overflow-hidden">
                     <div 
-                      className="h-full bg-black transition-all duration-500"
+                      className="h-full rounded-full transition-all duration-500"
                       style={{ 
-                        width: `${Math.round(((emailVerified ? 1 : 0) + Object.values(tasksCompleted).filter(Boolean).length) / 5 * 100)}%` 
+                        width: `${Math.round(((emailVerified ? 1 : 0) + Object.values(tasksCompleted).filter(Boolean).length) / 5 * 100)}%`,
+                        background: 'linear-gradient(90deg, #00ff88, #00bfff, #00ff88)',
+                        backgroundSize: '200% 100%',
+                        animation: 'gradientShift 1s linear infinite'
                       }}
                     />
                   </div>
