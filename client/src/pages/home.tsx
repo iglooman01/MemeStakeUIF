@@ -1815,11 +1815,11 @@ export default function Home() {
                   style={{boxShadow: '0 4px 15px rgba(255, 215, 0, 0.3)'}}
                 />
                 <h3 className="text-2xl font-bold bg-gradient-to-r from-yellow-400 to-cyan-400 bg-clip-text text-transparent">
-                  memes
+                  $memes
                 </h3>
               </div>
               <p className="text-sm text-gray-400 max-w-md mx-auto">
-                The ultimate meme token platform with staking, airdrops, and community rewards
+                The ultimate $meme token platform with staking, airdrops, and community rewards
               </p>
             </div>
 
