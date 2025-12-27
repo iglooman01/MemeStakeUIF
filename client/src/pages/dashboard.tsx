@@ -1953,15 +1953,15 @@ export default function Dashboard() {
 
             {/* Wallet Info & Disconnect */}
             <div className="flex items-center space-x-3">
-              {/* Telegram Link */}
+              {/* Telegram Channel Link */}
               <a
-                href="https://t.me/memestakegroup"
+                href="https://t.me/memstakeofficial"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center p-2 rounded-lg transition-all duration-300 hover:scale-110"
                 style={{background: 'rgba(0, 191, 255, 0.15)', border: '1px solid rgba(0, 191, 255, 0.4)'}}
-                title="Join our Telegram"
-                data-testid="header-telegram-link"
+                title="Official Telegram Channel"
+                data-testid="header-telegram-channel-link"
               >
                 <SiTelegram className="w-5 h-5" style={{color: '#00bfff'}} />
               </a>
