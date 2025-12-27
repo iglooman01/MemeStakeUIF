@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { FaTwitter, FaTelegram, FaMedium, FaYoutube } from "react-icons/fa";
+import { FaTwitter, FaTelegram, FaYoutube } from "react-icons/fa";
 import { connectWallet, supportedWallets } from "../config/web3Config";
 import memeStakeLogo from "@assets/ChatGPT Image Oct 9, 2025, 11_08_34 AM_1759988345567.png";
 import heroBackground from "@assets/6284998693224123196_1759928362887.jpg";
@@ -1863,19 +1863,6 @@ export default function Home() {
                 <FaYoutube className="text-2xl transition-colors group-hover:text-[#FF0000]" style={{color: '#FF0000'}} />
               </a>
 
-              <a
-                href="https://medium.com/@memeseverywhere"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group p-3 rounded-full transition-all duration-300 hover:scale-110"
-                style={{
-                  background: 'rgba(255, 255, 255, 0.2)',
-                  border: '2px solid rgba(255, 255, 255, 0.3)'
-                }}
-                data-testid="footer-link-medium"
-              >
-                <FaMedium className="text-2xl transition-colors group-hover:text-white" style={{color: '#ccc'}} />
-              </a>
             </div>
 
             {/* Divider */}
