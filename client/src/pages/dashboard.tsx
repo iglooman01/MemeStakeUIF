@@ -3172,7 +3172,7 @@ export default function Dashboard() {
         {/* My Airdrop/Staking Earning - Compact */}
         <Card className="p-3 sm:p-4 glass-card">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-base font-semibold">👥 3-Level Referrals</h3>
+            <h3 className="text-base font-semibold">👥 3-Level Referrals (10K each level)</h3>
             <div className="text-xs px-2 py-0.5 rounded-full" style={{background: 'rgba(255, 215, 0, 0.2)', color: '#ffd700'}}>
               Staking
             </div>
@@ -3350,7 +3350,7 @@ export default function Dashboard() {
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="w-5 h-5 mt-0.5 flex-shrink-0" style={{color: '#00ff88'}} />
-                      <span>3-level referral system (Level 1: 5%, Level 2: 3%, Level 3: 2%)</span>
+                      <span>3-level referral system (Level 1: 10K, Level 2: 10K, Level 3: 10K tokens)</span>
                     </li>
                   </ul>
                   <div className="mt-4 p-3 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.3)'}}>
@@ -3485,7 +3485,7 @@ export default function Dashboard() {
                   <AccordionItem value="item-2" style={{borderColor: 'rgba(255, 215, 0, 0.3)'}}>
                     <AccordionTrigger className="text-white hover:text-[#ffd700]">How do I earn rewards?</AccordionTrigger>
                     <AccordionContent className="text-gray-400">
-                      You can earn rewards through airdrops by completing social tasks, staking your MEMES tokens for up to 250% APY, and referring friends through our 3-level referral program.
+                      You can earn rewards through airdrops by completing social tasks, staking your MEMES tokens for up to 365% APY, and referring friends through our 3-level referral program (10,000 $MEMES per level).
                     </AccordionContent>
                   </AccordionItem>
                   

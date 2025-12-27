@@ -212,11 +212,11 @@ export default function Home() {
     },
     {
       question: "How do staking rewards work?", 
-      answer: "Stake $MEMES tokens to earn 365% APY (1% daily rewards). Staking launches immediately after the airdrop ends. Plus, earn referral bonuses at 3 levels: 5% (Level 1), 3% (Level 2), and 2% (Level 3) from your network's staking rewards."
+      answer: "Stake $MEMES tokens to earn 365% APY (1% daily rewards). Staking launches immediately after the airdrop ends. Plus, earn referral bonuses at 3 levels: Level 1 - 10,000 $MEMES, Level 2 - 10,000 $MEMES, Level 3 - 10,000 $MEMES tokens distributed across your referral network."
     },
     {
       question: "How does the referral system work?",
-      answer: "Earn passive income through our 3-level referral system! Get 5% from direct invites (Level 1), 3% from Level 2, and 2% from Level 3. Referral rewards apply to BOTH token purchases and staking rewards. Total referral pool is 5 billion $MEMES (10% of supply)."
+      answer: "Earn passive income through our 3-level referral system! Level 1 - 10,000 $MEMES, Level 2 - 10,000 $MEMES, Level 3 - 10,000 $MEMES tokens will be distributed across your three referral levels. Total referral pool is 5 billion $MEMES (10% of supply)."
     },
     {
       question: "What are the purchase limits?",
@@ -1420,7 +1420,7 @@ export default function Home() {
                 <ul className="text-sm text-muted-foreground space-y-1">
                   <li>• 50B total supply at $0.0001/token</li>
                   <li>• 365% APY staking (1% daily)</li>
-                  <li>• 3-level referral system (5%/3%/2%)</li>
+                  <li>• 3-level referral system (Level 1: 10K, Level 2: 10K, Level 3: 10K tokens)</li>
                   <li>• Public sale & airdrop details</li>
                   <li>• BSC network deployment</li>
                 </ul>

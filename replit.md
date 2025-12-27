@@ -12,7 +12,7 @@ MemeStake is a full-stack web application for a cryptocurrency staking platform 
 - **Staking APY**: 350% APY (1% daily rewards)
 - **Minimum Staking Period**: 50 days for penalty-free unstake
 - **Early Unstake Penalty**: All earned rewards deducted if unstaked before 50 days
-- **Referral System**: 3-level structure (5% / 3% / 2%) applicable to token purchases and staking rewards.
+- **Referral System**: 3-level token distribution (Level 1: 10,000 $MEMES, Level 2: 10,000 $MEMES, Level 3: 10,000 $MEMES)
 - **Token Purchase Methods**: BNB and USDT (BEP20)
 
 # User Preferences
