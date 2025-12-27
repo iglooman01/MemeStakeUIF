@@ -1349,13 +1349,9 @@ export default function Home() {
           <div className="grid lg:grid-cols-2 items-center gap-8 lg:gap-12 px-4">
             <div>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">About $memes</h2>
-              <p className="text-base sm:text-lg text-muted-foreground mb-6">
-                We're building the future of meme tokens by combining viral culture with serious DeFi technology. 
-                Our mission is to create sustainable value for holders while maintaining the fun and community spirit that makes memes special.
-              </p>
-              <p className="text-sm sm:text-base text-muted-foreground mb-8">
-                Founded by experienced DeFi developers and meme enthusiasts, memes represents a new generation 
-                of projects that prioritize transparency, community rewards, and long-term sustainability.
+              <h3 className="text-xl sm:text-2xl font-bold mb-4" style={{color: '#ffd700'}}>Our Mission</h3>
+              <p className="text-base sm:text-lg text-muted-foreground mb-8">
+                $memes is revolutionizing the meme coin ecosystem by combining decentralized airdrops with innovative staking mechanisms. We deliver tokens direct in your wallet while building the strongest $meme community in crypto.
               </p>
               <Button asChild data-testid="button-learn-about">
                 <a href="#about">Learn About Us</a>
