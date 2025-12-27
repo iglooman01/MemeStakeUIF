@@ -1873,7 +1873,10 @@ export default function Dashboard() {
   }, [resendCooldown]);
 
   const handleStakeTokens = () => {
-    setLocation('/staking');
+    toast({
+      title: "Staking Program Launching Soon!!",
+      description: "Stay tuned for our staking program launch.",
+    });
   };
 
   return (
