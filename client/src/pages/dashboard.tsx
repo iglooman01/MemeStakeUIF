@@ -2706,169 +2706,6 @@ export default function Dashboard() {
           </div>
         </Card>
 
-        {/* Buy MEMES Tokens Section - Coming Soon */}
-        <Card className="p-3 sm:p-4 glass-card relative overflow-hidden" style={{border: '2px solid rgba(255, 215, 0, 0.3)', boxShadow: '0 4px 20px rgba(255, 215, 0, 0.1)'}}>
-          {/* Coming Soon Overlay */}
-          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center backdrop-blur-sm cursor-not-allowed" style={{background: 'rgba(0, 0, 0, 0.7)'}}>
-            <div className="text-center">
-              <div className="text-4xl mb-3">🚀</div>
-              <div className="text-2xl font-bold mb-2" style={{color: '#ffd700'}}>Coming Soon</div>
-              <div className="text-sm text-gray-400 max-w-xs px-4">Token sale will be live soon. Stay tuned!</div>
-            </div>
-          </div>
-          <div className="text-center mb-3 sm:mb-4 opacity-30 pointer-events-none">
-            <h3 className="text-lg sm:text-xl font-bold mb-2" style={{color: '#ffd700'}}>🛒 Buy $MEMES Tokens</h3>
-            
-            {/* Live Price Display */}
-            <div className="flex items-center justify-center gap-4 mt-4">
-              <div className="px-4 py-2 rounded-lg backdrop-blur-sm" style={{
-                background: 'rgba(255, 215, 0, 0.15)',
-                border: '1px solid rgba(255, 215, 0, 0.3)'
-              }}>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                  <span className="text-xs font-semibold text-gray-400">BNB Price:</span>
-                  <span className="text-sm font-bold" style={{color: '#ffd700'}}>
-                    ${bnbPrice.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
-                  </span>
-                </div>
-              </div>
-              
-              <div className="px-4 py-2 rounded-lg backdrop-blur-sm" style={{
-                background: 'rgba(0, 191, 255, 0.15)',
-                border: '1px solid rgba(0, 191, 255, 0.3)'
-              }}>
-                <div className="flex items-center gap-2">
-                  <Coins className="w-3 h-3" style={{color: '#00bfff'}} />
-                  <span className="text-xs font-semibold text-gray-400">MEMES Price:</span>
-                  <span className="text-sm font-bold" style={{color: '#00bfff'}}>
-                    $0.0001
-                  </span>
-                </div>
-              </div>
-            </div>
-            
-            <p className="text-xs text-gray-500 mt-3">Minimum $50 • Auto-updates every 5 minutes</p>
-          </div>
-          
-          <div className="space-y-5 opacity-30 pointer-events-none">
-            {/* Payment Method Selection */}
-            <div className="grid grid-cols-2 gap-3">
-              <button
-                onClick={() => setPaymentMethod('bnb')}
-                className={`p-4 rounded-lg font-semibold text-sm transition-all ${paymentMethod === 'bnb' ? 'transform scale-105' : ''}`}
-                style={{
-                  background: paymentMethod === 'bnb' ? '#ffd700' : 'rgba(255, 255, 255, 0.05)',
-                  border: `2px solid ${paymentMethod === 'bnb' ? '#ffd700' : 'rgba(255, 255, 255, 0.1)'}`,
-                  color: paymentMethod === 'bnb' ? '#000' : '#999'
-                }}
-                data-testid="toggle-bnb"
-              >
-                <div className="text-xl mb-1">💎</div>
-                <div>Pay with BNB</div>
-              </button>
-              <button
-                onClick={() => setPaymentMethod('usdt')}
-                className={`p-4 rounded-lg font-semibold text-sm transition-all ${paymentMethod === 'usdt' ? 'transform scale-105' : ''}`}
-                style={{
-                  background: paymentMethod === 'usdt' ? '#00bfff' : 'rgba(255, 255, 255, 0.05)',
-                  border: `2px solid ${paymentMethod === 'usdt' ? '#00bfff' : 'rgba(255, 255, 255, 0.1)'}`,
-                  color: paymentMethod === 'usdt' ? '#000' : '#999'
-                }}
-                data-testid="toggle-usdt"
-              >
-                <div className="text-xl mb-1">💵</div>
-                <div>Pay with USDT</div>
-              </button>
-            </div>
-
-            {/* Amount Input */}
-            <div>
-              <label className="block text-sm font-semibold mb-2 text-gray-300">
-                Amount ({paymentMethod.toUpperCase()})
-              </label>
-              <input
-                type="number"
-                value={buyAmount}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  if (value === '' || parseFloat(value) >= 0) {
-                    setBuyAmount(value);
-                  }
-                }}
-                min="0"
-                placeholder={paymentMethod === 'bnb' ? '0.1' : '50'}
-                className="w-full px-4 py-4 rounded-lg text-xl font-bold text-white"
-                style={{
-                  background: 'rgba(0, 0, 0, 0.4)',
-                  border: '2px solid rgba(255, 215, 0, 0.3)',
-                  outline: 'none'
-                }}
-                data-testid="input-buy-amount"
-              />
-              <div className="flex justify-between mt-2 text-xs text-gray-500">
-                <span>Min: {paymentMethod === 'bnb' ? '0.1 BNB' : '50 USDT'}</span>
-                <span>No Max Limit</span>
-              </div>
-              {buyAmount && parseFloat(buyAmount) > 0 && usdAmount < MIN_PURCHASE_USD && (
-                <div className="mt-2 p-2 rounded text-xs font-semibold text-center" style={{
-                  background: 'rgba(255, 0, 0, 0.15)',
-                  border: '1px solid rgba(255, 0, 0, 0.3)',
-                  color: '#ff6b6b'
-                }}>
-                  ⚠️ Minimum purchase is $50
-                </div>
-              )}
-            </div>
-
-            {/* You Will Receive */}
-            <div className="p-5 rounded-lg text-center" style={{
-              background: 'rgba(0, 255, 136, 0.1)',
-              border: '2px solid rgba(0, 255, 136, 0.3)'
-            }}>
-              <div className="text-xs text-gray-400 mb-1">You Will Receive</div>
-              <div className="text-3xl font-black mb-1" style={{color: '#00ff88'}}>
-                {tokensToGet.toLocaleString()}
-              </div>
-              <div className="text-lg font-bold" style={{color: '#ffd700'}}>$MEMES</div>
-              <div className="text-xs text-gray-500 mt-1">
-                ≈ ${usdAmount.toFixed(2)} USD
-              </div>
-            </div>
-
-            {/* Buy Button */}
-            <Button 
-              onClick={handleBuyTokens}
-              disabled={!buyAmount || parseFloat(buyAmount) <= 0 || usdAmount < MIN_PURCHASE_USD || isPurchasing}
-              className="w-full py-6 text-lg font-bold rounded-lg transition-all hover:opacity-90"
-              style={{
-                background: '#ffd700',
-                color: '#000'
-              }}
-              data-testid="button-buy-tokens"
-            >
-              {isPurchasing ? (
-                <span className="flex items-center justify-center gap-2">
-                  <span className="animate-spin">⏳</span> Processing...
-                </span>
-              ) : tokensToGet > 0 ? (
-                `🚀 Buy Now - $${usdAmount.toFixed(2)}`
-              ) : (
-                'Enter Amount'
-              )}
-            </Button>
-
-            {/* Security Info */}
-            <div className="flex items-center justify-center gap-4 pt-3 text-xs text-gray-500">
-              <span>🔒 Secure</span>
-              <span>•</span>
-              <span>⚡ Instant</span>
-              <span>•</span>
-              <span>✓ Verified</span>
-            </div>
-          </div>
-        </Card>
-
         {/* Main Dashboard Grid - Compact */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
           
@@ -3731,6 +3568,169 @@ export default function Dashboard() {
               <div className="font-bold mb-1 text-sm" style={{color: '#00ff88'}}>Twitter/X</div>
               <div className="text-xs text-gray-400">Follow</div>
             </a>
+          </div>
+        </Card>
+
+        {/* Buy MEMES Tokens Section - Coming Soon */}
+        <Card className="p-3 sm:p-4 glass-card relative overflow-hidden" style={{border: '2px solid rgba(255, 215, 0, 0.3)', boxShadow: '0 4px 20px rgba(255, 215, 0, 0.1)'}}>
+          {/* Coming Soon Overlay */}
+          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center backdrop-blur-sm cursor-not-allowed" style={{background: 'rgba(0, 0, 0, 0.7)'}}>
+            <div className="text-center">
+              <div className="text-4xl mb-3">🚀</div>
+              <div className="text-2xl font-bold mb-2" style={{color: '#ffd700'}}>Coming Soon</div>
+              <div className="text-sm text-gray-400 max-w-xs px-4">Token sale will be live soon. Stay tuned!</div>
+            </div>
+          </div>
+          <div className="text-center mb-3 sm:mb-4 opacity-30 pointer-events-none">
+            <h3 className="text-lg sm:text-xl font-bold mb-2" style={{color: '#ffd700'}}>🛒 Buy $MEMES Tokens</h3>
+            
+            {/* Live Price Display */}
+            <div className="flex items-center justify-center gap-4 mt-4">
+              <div className="px-4 py-2 rounded-lg backdrop-blur-sm" style={{
+                background: 'rgba(255, 215, 0, 0.15)',
+                border: '1px solid rgba(255, 215, 0, 0.3)'
+              }}>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                  <span className="text-xs font-semibold text-gray-400">BNB Price:</span>
+                  <span className="text-sm font-bold" style={{color: '#ffd700'}}>
+                    ${bnbPrice.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                  </span>
+                </div>
+              </div>
+              
+              <div className="px-4 py-2 rounded-lg backdrop-blur-sm" style={{
+                background: 'rgba(0, 191, 255, 0.15)',
+                border: '1px solid rgba(0, 191, 255, 0.3)'
+              }}>
+                <div className="flex items-center gap-2">
+                  <Coins className="w-3 h-3" style={{color: '#00bfff'}} />
+                  <span className="text-xs font-semibold text-gray-400">MEMES Price:</span>
+                  <span className="text-sm font-bold" style={{color: '#00bfff'}}>
+                    $0.0001
+                  </span>
+                </div>
+              </div>
+            </div>
+            
+            <p className="text-xs text-gray-500 mt-3">Minimum $50 • Auto-updates every 5 minutes</p>
+          </div>
+          
+          <div className="space-y-5 opacity-30 pointer-events-none">
+            {/* Payment Method Selection */}
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                onClick={() => setPaymentMethod('bnb')}
+                className={`p-4 rounded-lg font-semibold text-sm transition-all ${paymentMethod === 'bnb' ? 'transform scale-105' : ''}`}
+                style={{
+                  background: paymentMethod === 'bnb' ? '#ffd700' : 'rgba(255, 255, 255, 0.05)',
+                  border: `2px solid ${paymentMethod === 'bnb' ? '#ffd700' : 'rgba(255, 255, 255, 0.1)'}`,
+                  color: paymentMethod === 'bnb' ? '#000' : '#999'
+                }}
+                data-testid="toggle-bnb"
+              >
+                <div className="text-xl mb-1">💎</div>
+                <div>Pay with BNB</div>
+              </button>
+              <button
+                onClick={() => setPaymentMethod('usdt')}
+                className={`p-4 rounded-lg font-semibold text-sm transition-all ${paymentMethod === 'usdt' ? 'transform scale-105' : ''}`}
+                style={{
+                  background: paymentMethod === 'usdt' ? '#00bfff' : 'rgba(255, 255, 255, 0.05)',
+                  border: `2px solid ${paymentMethod === 'usdt' ? '#00bfff' : 'rgba(255, 255, 255, 0.1)'}`,
+                  color: paymentMethod === 'usdt' ? '#000' : '#999'
+                }}
+                data-testid="toggle-usdt"
+              >
+                <div className="text-xl mb-1">💵</div>
+                <div>Pay with USDT</div>
+              </button>
+            </div>
+
+            {/* Amount Input */}
+            <div>
+              <label className="block text-sm font-semibold mb-2 text-gray-300">
+                Amount ({paymentMethod.toUpperCase()})
+              </label>
+              <input
+                type="number"
+                value={buyAmount}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (value === '' || parseFloat(value) >= 0) {
+                    setBuyAmount(value);
+                  }
+                }}
+                min="0"
+                placeholder={paymentMethod === 'bnb' ? '0.1' : '50'}
+                className="w-full px-4 py-4 rounded-lg text-xl font-bold text-white"
+                style={{
+                  background: 'rgba(0, 0, 0, 0.4)',
+                  border: '2px solid rgba(255, 215, 0, 0.3)',
+                  outline: 'none'
+                }}
+                data-testid="input-buy-amount"
+              />
+              <div className="flex justify-between mt-2 text-xs text-gray-500">
+                <span>Min: {paymentMethod === 'bnb' ? '0.1 BNB' : '50 USDT'}</span>
+                <span>No Max Limit</span>
+              </div>
+              {buyAmount && parseFloat(buyAmount) > 0 && usdAmount < MIN_PURCHASE_USD && (
+                <div className="mt-2 p-2 rounded text-xs font-semibold text-center" style={{
+                  background: 'rgba(255, 0, 0, 0.15)',
+                  border: '1px solid rgba(255, 0, 0, 0.3)',
+                  color: '#ff6b6b'
+                }}>
+                  ⚠️ Minimum purchase is $50
+                </div>
+              )}
+            </div>
+
+            {/* You Will Receive */}
+            <div className="p-5 rounded-lg text-center" style={{
+              background: 'rgba(0, 255, 136, 0.1)',
+              border: '2px solid rgba(0, 255, 136, 0.3)'
+            }}>
+              <div className="text-xs text-gray-400 mb-1">You Will Receive</div>
+              <div className="text-3xl font-black mb-1" style={{color: '#00ff88'}}>
+                {tokensToGet.toLocaleString()}
+              </div>
+              <div className="text-lg font-bold" style={{color: '#ffd700'}}>$MEMES</div>
+              <div className="text-xs text-gray-500 mt-1">
+                ≈ ${usdAmount.toFixed(2)} USD
+              </div>
+            </div>
+
+            {/* Buy Button */}
+            <Button 
+              onClick={handleBuyTokens}
+              disabled={!buyAmount || parseFloat(buyAmount) <= 0 || usdAmount < MIN_PURCHASE_USD || isPurchasing}
+              className="w-full py-6 text-lg font-bold rounded-lg transition-all hover:opacity-90"
+              style={{
+                background: '#ffd700',
+                color: '#000'
+              }}
+              data-testid="button-buy-tokens"
+            >
+              {isPurchasing ? (
+                <span className="flex items-center justify-center gap-2">
+                  <span className="animate-spin">⏳</span> Processing...
+                </span>
+              ) : tokensToGet > 0 ? (
+                `🚀 Buy Now - $${usdAmount.toFixed(2)}`
+              ) : (
+                'Enter Amount'
+              )}
+            </Button>
+
+            {/* Security Info */}
+            <div className="flex items-center justify-center gap-4 pt-3 text-xs text-gray-500">
+              <span>🔒 Secure</span>
+              <span>•</span>
+              <span>⚡ Instant</span>
+              <span>•</span>
+              <span>✓ Verified</span>
+            </div>
           </div>
         </Card>
 
