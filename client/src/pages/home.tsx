@@ -842,7 +842,7 @@ export default function Home() {
       {/* Airdrop Notification Banner */}
      {/* <div className="w-full py-2 px-4 text-center" style={{background: '#000000', borderBottom: '1px solid rgba(255, 215, 0, 0.2)'}} data-testid="airdrop-notification">
         <p className="text-xs sm:text-sm text-white/80">
-          🎁 <span style={{color: '#ffd700'}}>Limited Airdrop:</span> Connect your wallet now to claim free $MEME tokens • Staking rewards 365% APY (1% daily)
+          🎁 <span style={{color: '#ffd700'}}>Limited Airdrop:</span> Connect your wallet now to claim free $MEMES tokens • Staking rewards 365% APY (1% daily)
         </p>
       </div> */}
 
@@ -1108,7 +1108,7 @@ export default function Home() {
                   <div className="grid md:grid-cols-2 gap-4 text-sm">
                     <div className="text-center p-3 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)'}}>
                       <div className="font-semibold" style={{color: '#ffd700'}}>Airdrop Is Live</div>
-                      <div className="text-muted-foreground">Distribution of 100 Billion $MEME Tokens</div>
+                      <div className="text-muted-foreground">Distribution of 100 Billion $MEMES Tokens</div>
                     </div>
                     <div className="text-center p-3 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
                       <div className="font-semibold" style={{color: '#ffd700'}}>Staking Program</div>
