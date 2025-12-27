@@ -1348,7 +1348,7 @@ export default function Home() {
         <div className="container">
           <div className="grid lg:grid-cols-2 items-center gap-8 lg:gap-12 px-4">
             <div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">About memes</h2>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">About $memes</h2>
               <p className="text-base sm:text-lg text-muted-foreground mb-6">
                 We're building the future of meme tokens by combining viral culture with serious DeFi technology. 
                 Our mission is to create sustainable value for holders while maintaining the fun and community spirit that makes memes special.
