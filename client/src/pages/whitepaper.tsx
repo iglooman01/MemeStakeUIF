@@ -305,19 +305,19 @@ export default function Whitepaper() {
           <h3 className="text-2xl font-bold mb-4" style={{ color: '#00ff88' }}>9. Roadmap</h3>
           <div className="space-y-4">
             <div className="p-4 rounded-lg" style={{ background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)' }}>
-              <div className="font-bold mb-1" style={{ color: '#ffd700' }}>Q1 2025</div>
+              <div className="font-bold mb-1" style={{ color: '#ffd700' }}>Q4 2025</div>
               <div className="text-sm text-gray-300">Platform & Sale Launch</div>
             </div>
             <div className="p-4 rounded-lg" style={{ background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.2)' }}>
-              <div className="font-bold mb-1" style={{ color: '#00bfff' }}>Q2 2025</div>
+              <div className="font-bold mb-1" style={{ color: '#00bfff' }}>Q1 2026</div>
               <div className="text-sm text-gray-300">Meme Coin Staking + Daily Rewards</div>
             </div>
             <div className="p-4 rounded-lg" style={{ background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.2)' }}>
-              <div className="font-bold mb-1" style={{ color: '#00ff88' }}>Q3 2025</div>
+              <div className="font-bold mb-1" style={{ color: '#00ff88' }}>Q3 2026</div>
               <div className="text-sm text-gray-300">Cross-Bridge & NFT Staking</div>
             </div>
             <div className="p-4 rounded-lg" style={{ background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.2)' }}>
-              <div className="font-bold mb-1" style={{ color: '#ffd700' }}>Q4 2025</div>
+              <div className="font-bold mb-1" style={{ color: '#ffd700' }}>2026</div>
               <div className="text-sm text-gray-300">DAO Governance + DEX Liquidity</div>
             </div>
             <div className="p-4 rounded-lg" style={{ background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.2)' }}>
