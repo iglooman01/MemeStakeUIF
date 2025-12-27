@@ -2630,9 +2630,17 @@ export default function Dashboard() {
           </div>
         </Card>
 
-        {/* Buy MEMES Tokens Section - Compact */}
-        <Card className="p-3 sm:p-4 glass-card" style={{border: '2px solid #ffd700', boxShadow: '0 4px 20px rgba(255, 215, 0, 0.2)'}}>
-          <div className="text-center mb-3 sm:mb-4">
+        {/* Buy MEMES Tokens Section - Coming Soon */}
+        <Card className="p-3 sm:p-4 glass-card relative overflow-hidden" style={{border: '2px solid rgba(255, 215, 0, 0.3)', boxShadow: '0 4px 20px rgba(255, 215, 0, 0.1)'}}>
+          {/* Coming Soon Overlay */}
+          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center backdrop-blur-sm cursor-not-allowed" style={{background: 'rgba(0, 0, 0, 0.7)'}}>
+            <div className="text-center">
+              <div className="text-4xl mb-3">🚀</div>
+              <div className="text-2xl font-bold mb-2" style={{color: '#ffd700'}}>Coming Soon</div>
+              <div className="text-sm text-gray-400 max-w-xs px-4">Token sale will be live soon. Stay tuned!</div>
+            </div>
+          </div>
+          <div className="text-center mb-3 sm:mb-4 opacity-30 pointer-events-none">
             <h3 className="text-lg sm:text-xl font-bold mb-2" style={{color: '#ffd700'}}>🛒 Buy $MEMES Tokens</h3>
             
             {/* Live Price Display */}
@@ -2667,7 +2675,7 @@ export default function Dashboard() {
             <p className="text-xs text-gray-500 mt-3">Minimum $50 • Auto-updates every 5 minutes</p>
           </div>
           
-          <div className="space-y-5">
+          <div className="space-y-5 opacity-30 pointer-events-none">
             {/* Payment Method Selection */}
             <div className="grid grid-cols-2 gap-3">
               <button
