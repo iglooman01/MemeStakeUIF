@@ -3112,7 +3112,7 @@ export default function Dashboard() {
                   </div>
                   <span className="text-xs font-semibold">Level 1</span>
                 </div>
-                <span className="text-xs px-1.5 py-0.5 rounded" style={{background: 'rgba(255, 215, 0, 0.2)', color: '#ffd700'}}>5%</span>
+                <span className="text-xs px-1.5 py-0.5 rounded" style={{background: 'rgba(255, 215, 0, 0.2)', color: '#ffd700'}}>👥 0 Members</span>
               </div>
               <div className="grid grid-cols-2 gap-2">
                 <div>
@@ -3147,7 +3147,7 @@ export default function Dashboard() {
                   </div>
                   <span className="text-xs font-semibold">Level 2</span>
                 </div>
-                <span className="text-xs px-1.5 py-0.5 rounded" style={{background: 'rgba(0, 191, 255, 0.2)', color: '#00bfff'}}>3%</span>
+                <span className="text-xs px-1.5 py-0.5 rounded" style={{background: 'rgba(0, 191, 255, 0.2)', color: '#00bfff'}}>👥 0 Members</span>
               </div>
               <div className="grid grid-cols-2 gap-2">
                 <div>
@@ -3182,7 +3182,7 @@ export default function Dashboard() {
                   </div>
                   <span className="text-xs font-semibold">Level 3</span>
                 </div>
-                <span className="text-xs px-1.5 py-0.5 rounded" style={{background: 'rgba(0, 255, 136, 0.2)', color: '#00ff88'}}>2%</span>
+                <span className="text-xs px-1.5 py-0.5 rounded" style={{background: 'rgba(0, 255, 136, 0.2)', color: '#00ff88'}}>👥 0 Members</span>
               </div>
               <div className="grid grid-cols-2 gap-2">
                 <div>
