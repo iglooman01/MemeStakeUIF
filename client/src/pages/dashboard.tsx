@@ -23,7 +23,7 @@ export default function Dashboard() {
   const [location, setLocation] = useLocation();
   const [airdropTime, setAirdropTime] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [tokenBalance, setTokenBalance] = useState(0);
-  const [stakingRewards, setStakingRewards] = useState(0);
+  const [airdropRewards, setAirdropRewards] = useState(0);
   const [isLoadingBalances, setIsLoadingBalances] = useState(false);
   const [walletAddress, setWalletAddress] = useState<string>('');
   const [walletType, setWalletType] = useState<string>('');
@@ -74,6 +74,9 @@ export default function Dashboard() {
   const [level2StakingRewards, setLevel2StakingRewards] = useState(0);
   const [level3AirdropRewards, setLevel3AirdropRewards] = useState(0);
   const [level3StakingRewards, setLevel3StakingRewards] = useState(0);
+  const [level1ReferralCount, setLevel1ReferralCount] = useState(0);
+  const [level2ReferralCount, setLevel2ReferralCount] = useState(0);
+  const [level3ReferralCount, setLevel3ReferralCount] = useState(0);
   const [bnbPrice, setBnbPrice] = useState(600); // Default BNB price in USD
   const [currentChainId, setCurrentChainId] = useState<string | null>(null);
   const [isCheckingNetwork, setIsCheckingNetwork] = useState(false);
@@ -1183,6 +1186,9 @@ export default function Dashboard() {
           setLevel1StakingRewards(0);
           setLevel2StakingRewards(0);
           setLevel3StakingRewards(0);
+          setLevel1ReferralCount(0);
+          setLevel2ReferralCount(0);
+          setLevel3ReferralCount(0);
           
           // Show notification to user
           toast({
@@ -1359,6 +1365,9 @@ export default function Dashboard() {
           setLevel1StakingRewards(0);
           setLevel2StakingRewards(0);
           setLevel3StakingRewards(0);
+          setLevel1ReferralCount(0);
+          setLevel2ReferralCount(0);
+          setLevel3ReferralCount(0);
           
           // Invalidate queries
           queryClient.invalidateQueries({ queryKey: ['/api/airdrop/status'] });
@@ -1641,11 +1650,11 @@ export default function Dashboard() {
         setPresaleReferralRewards(0);
       }
 
-      // Fetch referral rewards from staking contract using getTotalRewardsByReferralLevel
+      // Fetch referral rewards from airdrop contract using getTotalRewardsByReferralLevel
       try {
         const rewardsByLevel = await publicClient.readContract({
-          address: CONTRACTS.MEMES_STAKE.address as `0x${string}`,
-          abi: CONTRACTS.MEMES_STAKE.abi,
+          address: CONTRACTS.MEMES_AIRDROP.address as `0x${string}`,
+          abi: CONTRACTS.MEMES_AIRDROP.abi,
           functionName: 'getTotalRewardsByReferralLevel',
           args: [walletAddress as `0x${string}`]
         }) as any[];
@@ -1664,19 +1673,53 @@ export default function Dashboard() {
         console.log('Level 2 rewards:', level2Rewards);
         console.log('Level 3 rewards:', level3Rewards);
 
-        setStakingRewards(totalRewards);
+        setAirdropRewards(totalRewards);
         setReferralEarnings(totalRewards); // Set total referral earnings
         setLevel1AirdropRewards(level1Rewards);
         setLevel2AirdropRewards(level2Rewards);
         setLevel3AirdropRewards(level3Rewards);
       } catch (rewardsError) {
         console.error('Error fetching referral rewards:', rewardsError);
-        setStakingRewards(0);
+        setAirdropRewards(0);
         setReferralEarnings(0); // Reset referral earnings on error
         setLevel1AirdropRewards(0);
         setLevel2AirdropRewards(0);
         setLevel3AirdropRewards(0);
       }
+
+      // Fetch referral count from airdrop contract using getReferralCounts
+      try {
+        const referralCountByLevel = await publicClient.readContract({
+          address: CONTRACTS.MEMES_AIRDROP.address as `0x${string}`,
+          abi: CONTRACTS.MEMES_AIRDROP.abi,
+          functionName: 'getReferralCounts',
+          args: [walletAddress as `0x${string}`]
+        }) as any[];
+
+        console.log('Rewards by referral level raw response:', referralCountByLevel);
+
+        // Contract returns tuple: [level1, level2, level3]
+        // Access by index        
+        const level1Count = Number(referralCountByLevel[1] || 0) ;
+        const level2Count = Number(referralCountByLevel[2] || 0) ;
+        const level3Count = Number(referralCountByLevel[3] || 0) ;
+
+        
+        console.log('Level 1 rewards:', level1Count);
+        console.log('Level 2 rewards:', level2Count);
+        console.log('Level 3 rewards:', level3Count);
+        
+        setLevel1ReferralCount(level1Count);
+        setLevel2ReferralCount(level2Count);
+        setLevel3ReferralCount(level3Count);
+      } catch (countError) {
+        console.error('Error fetching referral rewards:', countError);
+        
+        setLevel1ReferralCount(0);
+        setLevel2ReferralCount(0);
+        setLevel3ReferralCount(0);
+      }
+      
 
       // Fetch total staked amount and pending rewards from staking contract
       try {
@@ -3096,7 +3139,7 @@ export default function Dashboard() {
         {/* My Airdrop/Staking Earning - Compact */}
         <Card className="p-3 sm:p-4 glass-card">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-base font-semibold">👥 3-Level Referrals (10K each level)</h3>
+            <h3 className="text-base font-semibold">👥 3-Level Referrals (100K each level)</h3>
           </div>
           
           <div className="space-y-2">
@@ -3109,7 +3152,11 @@ export default function Dashboard() {
                   </div>
                   <span className="text-xs font-semibold">Level 1</span>
                 </div>
-                <span className="text-xs px-1.5 py-0.5 rounded" style={{background: 'rgba(255, 215, 0, 0.2)', color: '#ffd700'}}>👥 0 Members</span>
+                <span className="text-xs px-1.5 py-0.5 rounded" style={{background: 'rgba(255, 215, 0, 0.2)', color: '#ffd700'}}>👥    {isLoadingBalances ? (
+                    <span className="animate-pulse text-xs">...</span>
+                  ) : (
+                    level1ReferralCount.toLocaleString()
+                  )} Members</span>
               </div>
               <div className="grid grid-cols-2 gap-2">
                 <div>
@@ -3144,7 +3191,11 @@ export default function Dashboard() {
                   </div>
                   <span className="text-xs font-semibold">Level 2</span>
                 </div>
-                <span className="text-xs px-1.5 py-0.5 rounded" style={{background: 'rgba(0, 191, 255, 0.2)', color: '#00bfff'}}>👥 0 Members</span>
+                <span className="text-xs px-1.5 py-0.5 rounded" style={{background: 'rgba(0, 191, 255, 0.2)', color: '#00bfff'}}>👥 {isLoadingBalances ? (
+                    <span className="animate-pulse text-xs">...</span>
+                  ) : (
+                    level2ReferralCount.toLocaleString()
+                  )} Members</span>
               </div>
               <div className="grid grid-cols-2 gap-2">
                 <div>
@@ -3179,7 +3230,11 @@ export default function Dashboard() {
                   </div>
                   <span className="text-xs font-semibold">Level 3</span>
                 </div>
-                <span className="text-xs px-1.5 py-0.5 rounded" style={{background: 'rgba(0, 255, 136, 0.2)', color: '#00ff88'}}>👥 0 Members</span>
+                <span className="text-xs px-1.5 py-0.5 rounded" style={{background: 'rgba(0, 255, 136, 0.2)', color: '#00ff88'}}>👥 {isLoadingBalances ? (
+                    <span className="animate-pulse text-xs">...</span>
+                  ) : (
+                    level3ReferralCount.toLocaleString()
+                  )} Members</span>
               </div>
               <div className="grid grid-cols-2 gap-2">
                 <div>

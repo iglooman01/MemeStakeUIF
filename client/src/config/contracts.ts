@@ -1485,545 +1485,613 @@ export const CONTRACTS = {
   },
 
   MEMES_AIRDROP: {
-    address: "0x90b60C5BAfC6c3246007CA53e2ba2A1A70c6AFB8",
+    address: "0xb66f4e740b2B9cAA12da3cce543a6f42dE5501EB",
     abi: [
       {
-        inputs: [
+        "inputs": [
           {
-            internalType: "address",
-            name: "_tokenAddress",
-            type: "address",
+            "internalType": "address",
+            "name": "_tokenAddress",
+            "type": "address"
           },
           {
-            internalType: "uint256",
-            name: "_airdropAmount",
-            type: "uint256",
+            "internalType": "uint256",
+            "name": "_airdropAmount",
+            "type": "uint256"
           },
           {
-            internalType: "uint256",
-            name: "decimals",
-            type: "uint256",
+            "internalType": "uint256",
+            "name": "decimals",
+            "type": "uint256"
           },
           {
-            internalType: "address",
-            name: "_defaultReferrer",
-            type: "address",
-          },
+            "internalType": "address",
+            "name": "_defaultReferrer",
+            "type": "address"
+          }
         ],
-        stateMutability: "nonpayable",
-        type: "constructor",
+        "stateMutability": "nonpayable",
+        "type": "constructor"
       },
       {
-        inputs: [
+        "inputs": [
           {
-            internalType: "address",
-            name: "owner",
-            type: "address",
-          },
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          }
         ],
-        name: "OwnableInvalidOwner",
-        type: "error",
+        "name": "OwnableInvalidOwner",
+        "type": "error"
       },
       {
-        inputs: [
+        "inputs": [
           {
-            internalType: "address",
-            name: "account",
-            type: "address",
-          },
+            "internalType": "address",
+            "name": "account",
+            "type": "address"
+          }
         ],
-        name: "OwnableUnauthorizedAccount",
-        type: "error",
+        "name": "OwnableUnauthorizedAccount",
+        "type": "error"
       },
       {
-        inputs: [],
-        name: "ReentrancyGuardReentrantCall",
-        type: "error",
+        "inputs": [],
+        "name": "ReentrancyGuardReentrantCall",
+        "type": "error"
       },
       {
-        anonymous: false,
-        inputs: [
+        "anonymous": false,
+        "inputs": [
           {
-            indexed: true,
-            internalType: "address",
-            name: "user",
-            type: "address",
+            "indexed": true,
+            "internalType": "address",
+            "name": "user",
+            "type": "address"
           },
           {
-            indexed: false,
-            internalType: "uint256",
-            name: "amount",
-            type: "uint256",
-          },
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          }
         ],
-        name: "AirdropClaimed",
-        type: "event",
+        "name": "AirdropClaimed",
+        "type": "event"
       },
       {
-        anonymous: false,
-        inputs: [
+        "anonymous": false,
+        "inputs": [
           {
-            indexed: false,
-            internalType: "uint256",
-            name: "oldAmount",
-            type: "uint256",
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "oldAmount",
+            "type": "uint256"
           },
           {
-            indexed: false,
-            internalType: "uint256",
-            name: "newAmount",
-            type: "uint256",
-          },
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "newAmount",
+            "type": "uint256"
+          }
         ],
-        name: "AirdropUpdated",
-        type: "event",
+        "name": "AirdropUpdated",
+        "type": "event"
       },
       {
-        anonymous: false,
-        inputs: [
+        "anonymous": false,
+        "inputs": [
           {
-            indexed: false,
-            internalType: "address[]",
-            name: "users",
-            type: "address[]",
-          },
+            "indexed": false,
+            "internalType": "address[]",
+            "name": "users",
+            "type": "address[]"
+          }
         ],
-        name: "AirdropUsers",
-        type: "event",
+        "name": "AirdropUsers",
+        "type": "event"
       },
       {
-        anonymous: false,
-        inputs: [
+        "inputs": [
           {
-            indexed: true,
-            internalType: "address",
-            name: "user",
-            type: "address",
+            "internalType": "address[]",
+            "name": "users",
+            "type": "address[]"
           },
           {
-            indexed: false,
-            internalType: "uint256",
-            name: "amount",
-            type: "uint256",
-          },
+            "internalType": "address[]",
+            "name": "referrers",
+            "type": "address[]"
+          }
         ],
-        name: "CommissionClaimed",
-        type: "event",
+        "name": "allowAirdrop",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
       },
       {
-        anonymous: false,
-        inputs: [
-          {
-            indexed: true,
-            internalType: "address",
-            name: "previousOwner",
-            type: "address",
-          },
-          {
-            indexed: true,
-            internalType: "address",
-            name: "newOwner",
-            type: "address",
-          },
-        ],
-        name: "OwnershipTransferred",
-        type: "event",
+        "inputs": [],
+        "name": "claimAirdrop",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
       },
       {
-        inputs: [],
-        name: "airdropAmount",
-        outputs: [
-          {
-            internalType: "uint256",
-            name: "",
-            type: "uint256",
-          },
-        ],
-        stateMutability: "view",
-        type: "function",
+        "inputs": [],
+        "name": "claimComm",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
       },
       {
-        inputs: [
+        "anonymous": false,
+        "inputs": [
           {
-            internalType: "address[]",
-            name: "users",
-            type: "address[]",
+            "indexed": true,
+            "internalType": "address",
+            "name": "user",
+            "type": "address"
           },
           {
-            internalType: "address[]",
-            name: "referrers",
-            type: "address[]",
-          },
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          }
         ],
-        name: "allowAirdrop",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
+        "name": "CommissionClaimed",
+        "type": "event"
       },
       {
-        inputs: [],
-        name: "claimAirdrop",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "previousOwner",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "newOwner",
+            "type": "address"
+          }
+        ],
+        "name": "OwnershipTransferred",
+        "type": "event"
       },
       {
-        inputs: [],
-        name: "claimComm",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
+        "inputs": [],
+        "name": "renounceOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
       },
       {
-        inputs: [],
-        name: "defaultReferrer",
-        outputs: [
+        "inputs": [
           {
-            internalType: "address",
-            name: "",
-            type: "address",
-          },
+            "internalType": "uint256",
+            "name": "tokenAmount",
+            "type": "uint256"
+          }
         ],
-        stateMutability: "view",
-        type: "function",
+        "name": "rescueTokens",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
       },
       {
-        inputs: [
+        "inputs": [
           {
-            internalType: "address",
-            name: "",
-            type: "address",
-          },
+            "internalType": "address",
+            "name": "newOwner",
+            "type": "address"
+          }
         ],
-        name: "hasClaimed",
-        outputs: [
-          {
-            internalType: "bool",
-            name: "",
-            type: "bool",
-          },
-        ],
-        stateMutability: "view",
-        type: "function",
+        "name": "transferOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
       },
       {
-        inputs: [],
-        name: "owner",
-        outputs: [
+        "inputs": [
           {
-            internalType: "address",
-            name: "",
-            type: "address",
-          },
+            "internalType": "address",
+            "name": "_defaultReferrer",
+            "type": "address"
+          }
         ],
-        stateMutability: "view",
-        type: "function",
+        "name": "updateDefaultReferrer",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
       },
       {
-        inputs: [],
-        name: "referralPer",
-        outputs: [
+        "inputs": [
           {
-            internalType: "uint256",
-            name: "",
-            type: "uint256",
-          },
+            "internalType": "uint256",
+            "name": "_referralPer",
+            "type": "uint256"
+          }
         ],
-        stateMutability: "view",
-        type: "function",
+        "name": "updateReferralPer",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
       },
       {
-        inputs: [
+        "inputs": [
           {
-            internalType: "address",
-            name: "",
-            type: "address",
-          },
+            "internalType": "uint256[3]",
+            "name": "_referrerComm",
+            "type": "uint256[3]"
+          }
         ],
-        name: "referrer",
-        outputs: [
-          {
-            internalType: "address",
-            name: "",
-            type: "address",
-          },
-        ],
-        stateMutability: "view",
-        type: "function",
+        "name": "updatereferrerComm",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
       },
       {
-        inputs: [
+        "inputs": [
           {
-            internalType: "uint256",
-            name: "",
-            type: "uint256",
-          },
+            "internalType": "uint256",
+            "name": "_airdropAmount",
+            "type": "uint256"
+          }
         ],
-        name: "referrerComm",
-        outputs: [
-          {
-            internalType: "uint256",
-            name: "",
-            type: "uint256",
-          },
-        ],
-        stateMutability: "view",
-        type: "function",
+        "name": "updateTokenAmount",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
       },
       {
-        inputs: [],
-        name: "renounceOwnership",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
+        "inputs": [],
+        "name": "airdropAmount",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
       },
       {
-        inputs: [
+        "inputs": [],
+        "name": "defaultReferrer",
+        "outputs": [
           {
-            internalType: "uint256",
-            name: "tokenAmount",
-            type: "uint256",
-          },
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
         ],
-        name: "rescueTokens",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
+        "stateMutability": "view",
+        "type": "function"
       },
       {
-        inputs: [],
-        name: "tokenAddress",
-        outputs: [
+        "inputs": [
           {
-            internalType: "contract IERC20",
-            name: "",
-            type: "address",
-          },
+            "internalType": "address",
+            "name": "user",
+            "type": "address"
+          }
         ],
-        stateMutability: "view",
-        type: "function",
+        "name": "getReferralCounts",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "level1",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "level2",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "level3",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
       },
       {
-        inputs: [],
-        name: "tokenDecimal",
-        outputs: [
+        "inputs": [
           {
-            internalType: "uint256",
-            name: "",
-            type: "uint256",
-          },
+            "internalType": "address",
+            "name": "_user",
+            "type": "address"
+          }
         ],
-        stateMutability: "view",
-        type: "function",
+        "name": "getTotalRewardsByReferralLevel",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "totalRewardsByreferral",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "level1Total",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "level2Total",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "level3Total",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
       },
       {
-        inputs: [
+        "inputs": [
           {
-            internalType: "address",
-            name: "",
-            type: "address",
-          },
-          {
-            internalType: "uint256",
-            name: "",
-            type: "uint256",
-          },
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
         ],
-        name: "totalAirdropClaimedRewardsByReferralLevel",
-        outputs: [
+        "name": "hasClaimed",
+        "outputs": [
           {
-            internalType: "uint256",
-            name: "",
-            type: "uint256",
-          },
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
         ],
-        stateMutability: "view",
-        type: "function",
+        "stateMutability": "view",
+        "type": "function"
       },
       {
-        inputs: [
+        "inputs": [],
+        "name": "owner",
+        "outputs": [
           {
-            internalType: "address",
-            name: "",
-            type: "address",
-          },
-          {
-            internalType: "uint256",
-            name: "",
-            type: "uint256",
-          },
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
         ],
-        name: "totalAirdropRewardsByReferralLevel",
-        outputs: [
-          {
-            internalType: "uint256",
-            name: "",
-            type: "uint256",
-          },
-        ],
-        stateMutability: "view",
-        type: "function",
+        "stateMutability": "view",
+        "type": "function"
       },
       {
-        inputs: [
+        "inputs": [
           {
-            internalType: "address",
-            name: "newOwner",
-            type: "address",
+            "internalType": "address",
+            "name": "",
+            "type": "address"
           },
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
         ],
-        name: "transferOwnership",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
+        "name": "referralCountByLevel",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
       },
       {
-        inputs: [
+        "inputs": [],
+        "name": "referralPer",
+        "outputs": [
           {
-            internalType: "address",
-            name: "_defaultReferrer",
-            type: "address",
-          },
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
         ],
-        name: "updateDefaultReferrer",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
+        "stateMutability": "view",
+        "type": "function"
       },
       {
-        inputs: [
+        "inputs": [
           {
-            internalType: "uint256",
-            name: "_referralPer",
-            type: "uint256",
-          },
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
         ],
-        name: "updateReferralPer",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
+        "name": "referrer",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
       },
       {
-        inputs: [
+        "inputs": [
           {
-            internalType: "uint256",
-            name: "_airdropAmount",
-            type: "uint256",
-          },
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
         ],
-        name: "updateTokenAmount",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
+        "name": "referrerComm",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
       },
       {
-        inputs: [
+        "inputs": [],
+        "name": "tokenAddress",
+        "outputs": [
           {
-            internalType: "uint256[3]",
-            name: "_referrerComm",
-            type: "uint256[3]",
-          },
+            "internalType": "contract IERC20",
+            "name": "",
+            "type": "address"
+          }
         ],
-        name: "updatereferrerComm",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
+        "stateMutability": "view",
+        "type": "function"
       },
       {
-        inputs: [
+        "inputs": [],
+        "name": "tokenDecimal",
+        "outputs": [
           {
-            internalType: "address",
-            name: "",
-            type: "address",
-          },
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
         ],
-        name: "userClaimable",
-        outputs: [
-          {
-            internalType: "uint256",
-            name: "",
-            type: "uint256",
-          },
-        ],
-        stateMutability: "view",
-        type: "function",
+        "stateMutability": "view",
+        "type": "function"
       },
       {
-        inputs: [
+        "inputs": [
           {
-            internalType: "address",
-            name: "",
-            type: "address",
+            "internalType": "address",
+            "name": "",
+            "type": "address"
           },
-        ],
-        name: "userClaimed",
-        outputs: [
           {
-            internalType: "uint256",
-            name: "",
-            type: "uint256",
-          },
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
         ],
-        stateMutability: "view",
-        type: "function",
+        "name": "totalAirdropClaimedRewardsByReferralLevel",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
       },
       {
-        inputs: [
+        "inputs": [
           {
-            internalType: "address",
-            name: "",
-            type: "address",
+            "internalType": "address",
+            "name": "",
+            "type": "address"
           },
-        ],
-        name: "userReferralCol",
-        outputs: [
           {
-            internalType: "uint256",
-            name: "",
-            type: "uint256",
-          },
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
         ],
-        stateMutability: "view",
-        type: "function",
+        "name": "totalAirdropRewardsByReferralLevel",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
       },
       {
-        inputs: [
+        "inputs": [
           {
-            internalType: "address",
-            name: "",
-            type: "address",
-          },
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
         ],
-        name: "userReferrals",
-        outputs: [
+        "name": "userClaimable",
+        "outputs": [
           {
-            internalType: "uint256",
-            name: "",
-            type: "uint256",
-          },
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
         ],
-        stateMutability: "view",
-        type: "function",
+        "stateMutability": "view",
+        "type": "function"
       },
       {
-        inputs: [
+        "inputs": [
           {
-            internalType: "address",
-            name: "user",
-            type: "address",
-          },
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
         ],
-        name: "viewCommision",
-        outputs: [
+        "name": "userClaimed",
+        "outputs": [
           {
-            internalType: "uint256",
-            name: "",
-            type: "uint256",
-          },
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
         ],
-        stateMutability: "view",
-        type: "function",
+        "stateMutability": "view",
+        "type": "function"
       },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "name": "userReferralCol",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "user",
+            "type": "address"
+          }
+        ],
+        "name": "viewCommision",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      }
     ],
   },
   // Presale Contract
