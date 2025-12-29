@@ -10,7 +10,7 @@ import { CONTRACTS } from "@/config/contracts";
 import { createPublicClient, createWalletClient, http, custom, parseEther, parseUnits } from "viem";
 import { bscTestnet } from "viem/chains";
 import { Home, BookOpen, Coins, Copy, CheckCircle2, Users, TrendingUp, Shield, Rocket, Trophy, Zap, Lock, Gift, AlertTriangle } from "lucide-react";
-import { SiTelegram, SiX } from "react-icons/si";
+import { SiTelegram, SiX, SiYoutube } from "react-icons/si";
 import {
   Accordion,
   AccordionContent,
@@ -3919,6 +3919,100 @@ export default function Dashboard() {
           </div>
         </div>
       )}
+
+      {/* Footer */}
+      <footer className="relative mt-20 py-12 border-t" style={{
+        borderColor: 'rgba(255, 215, 0, 0.2)',
+        background: 'linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.9) 100%)'
+      }}>
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col items-center gap-8">
+            {/* Logo & Brand */}
+            <div className="text-center">
+              <div className="flex items-center justify-center gap-3 mb-3">
+                <img 
+                  src={memeStakeLogo} 
+                  alt="memes Logo" 
+                  className="w-12 h-12 rounded-full"
+                  style={{boxShadow: '0 4px 15px rgba(255, 215, 0, 0.3)'}}
+                />
+                <h3 className="text-2xl font-bold bg-gradient-to-r from-yellow-400 to-cyan-400 bg-clip-text text-transparent">
+                  $memes
+                </h3>
+              </div>
+              <p className="text-sm text-gray-400 max-w-md mx-auto">
+                The ultimate $memes token platform with staking, airdrops, and community rewards
+              </p>
+            </div>
+
+            {/* Social Media Icons */}
+            <div className="flex items-center gap-4">
+              <a
+                href="https://t.me/memestakegroup"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group p-3 rounded-full transition-all duration-300 hover:scale-110"
+                style={{
+                  background: 'rgba(0, 136, 204, 0.2)',
+                  border: '2px solid rgba(0, 136, 204, 0.3)'
+                }}
+                data-testid="footer-link-telegram"
+              >
+                <SiTelegram className="text-2xl transition-colors group-hover:text-[#0088cc]" style={{color: '#00bfff'}} />
+              </a>
+
+              <a
+                href="https://x.com/memestake86"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group p-3 rounded-full transition-all duration-300 hover:scale-110"
+                style={{
+                  background: 'rgba(29, 161, 242, 0.2)',
+                  border: '2px solid rgba(29, 161, 242, 0.3)'
+                }}
+                data-testid="footer-link-twitter"
+              >
+                <SiX className="text-2xl transition-colors group-hover:text-[#1DA1F2]" style={{color: '#1DA1F2'}} />
+              </a>
+
+              <a
+                href="https://youtube.com/@memestake86?si=0bljj-3rnPz9IPh1"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group p-3 rounded-full transition-all duration-300 hover:scale-110"
+                style={{
+                  background: 'rgba(255, 0, 0, 0.2)',
+                  border: '2px solid rgba(255, 0, 0, 0.3)'
+                }}
+                data-testid="footer-link-youtube"
+              >
+                <SiYoutube className="text-2xl transition-colors group-hover:text-[#FF0000]" style={{color: '#FF0000'}} />
+              </a>
+            </div>
+
+            {/* Divider */}
+            <div className="w-full max-w-2xl h-px" style={{
+              background: 'linear-gradient(90deg, transparent 0%, rgba(255, 215, 0, 0.3) 50%, transparent 100%)'
+            }}></div>
+
+            {/* Copyright */}
+            <div className="text-center">
+              <p className="text-sm text-gray-500">
+                © {new Date().getFullYear()} <span className="font-semibold" style={{color: '#ffd700'}}>$memes</span>. All rights reserved.
+              </p>
+              <p className="text-xs text-gray-600 mt-2">
+                Built on Binance Smart Chain • Powered by Community
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Background glow effect */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute -bottom-20 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full opacity-20 blur-3xl"
+               style={{background: 'radial-gradient(circle, #ffd700 0%, transparent 70%)'}}></div>
+        </div>
+      </footer>
     </div>
   );
 }
