@@ -156,6 +156,9 @@ export default function Home() {
   const [connectedWalletType, setConnectedWalletType] = useState<string>('');
   const [welcomeModalOpen, setWelcomeModalOpen] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
+  const [cryptoNews, setCryptoNews] = useState<any[]>([]);
+  const [showNewsSection, setShowNewsSection] = useState(false);
+  const [isLoadingNews, setIsLoadingNews] = useState(false);
   const { toast } = useToast();
   
   // Check for existing wallet connection on component mount
@@ -1514,6 +1517,141 @@ export default function Home() {
             
             {formErrors.newsletter && (
               <div className="text-destructive text-sm mt-2" data-testid="error-newsletter">{formErrors.newsletter}</div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Why $MEMES & Market News Section */}
+      <section className="section-padding" style={{background: 'linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(15,10,35,0.95) 100%)'}} data-testid="section-why-memes">
+        <div className="container">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{color: '#ffd700'}}>
+              🚀 Why $MEMES?
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-6">
+              Join the revolution of community-driven meme tokens with real utility, high staking rewards, and an active ecosystem.
+            </p>
+            
+            {/* Why Choose MEMES Grid */}
+            <div className="grid md:grid-cols-3 gap-4 mb-8 max-w-4xl mx-auto">
+              <div className="p-4 rounded-xl" style={{background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)'}}>
+                <div className="text-3xl mb-2">💰</div>
+                <div className="font-bold mb-1" style={{color: '#ffd700'}}>365% APY</div>
+                <div className="text-xs text-gray-400">High-yield staking rewards</div>
+              </div>
+              <div className="p-4 rounded-xl" style={{background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)'}}>
+                <div className="text-3xl mb-2">🎁</div>
+                <div className="font-bold mb-1" style={{color: '#00bfff'}}>Free Airdrop</div>
+                <div className="text-xs text-gray-400">100,000 $MEMES tokens</div>
+              </div>
+              <div className="p-4 rounded-xl" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.3)'}}>
+                <div className="text-3xl mb-2">👥</div>
+                <div className="font-bold mb-1" style={{color: '#00ff88'}}>Community</div>
+                <div className="text-xs text-gray-400">3-level referral system</div>
+              </div>
+            </div>
+
+            {/* Know More About Market Button */}
+            <Button
+              onClick={async () => {
+                setIsLoadingNews(true);
+                try {
+                  const response = await fetch('/api/crypto-news');
+                  const data = await response.json();
+                  setCryptoNews(data.news || []);
+                  setShowNewsSection(true);
+                } catch (error) {
+                  console.error('Failed to fetch news:', error);
+                } finally {
+                  setIsLoadingNews(false);
+                }
+              }}
+              className="mb-6"
+              style={{background: 'linear-gradient(135deg, #00bfff 0%, #0088cc 100%)', color: '#fff'}}
+              disabled={isLoadingNews}
+              data-testid="button-load-news"
+            >
+              {isLoadingNews ? (
+                <>
+                  <span className="animate-spin mr-2">⏳</span>
+                  Loading News...
+                </>
+              ) : (
+                <>
+                  📰 Know More About $MEMES Market
+                </>
+              )}
+            </Button>
+
+            {/* News Section - Only shows when button is clicked */}
+            {showNewsSection && cryptoNews.length > 0 && (
+              <div className="mt-8" data-testid="section-crypto-news">
+                <h3 className="text-xl font-bold mb-4" style={{color: '#00bfff'}}>
+                  📊 Latest Crypto Market News
+                </h3>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {cryptoNews.map((article: any, index: number) => (
+                    <a
+                      key={article.id || index}
+                      href={article.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block p-4 rounded-xl transition-all hover:scale-105 text-left"
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.05)',
+                        border: '1px solid rgba(255, 255, 255, 0.1)'
+                      }}
+                      data-testid={`news-article-${index}`}
+                    >
+                      {article.imageUrl && (
+                        <div className="w-full h-32 rounded-lg mb-3 overflow-hidden">
+                          <img 
+                            src={article.imageUrl} 
+                            alt={article.title}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).src = 'https://images.cryptocompare.com/news/default/cryptocompare.png';
+                            }}
+                          />
+                        </div>
+                      )}
+                      <div className="text-xs text-gray-500 mb-1">{article.source}</div>
+                      <h4 className="font-semibold text-sm mb-2 line-clamp-2" style={{color: '#ffd700'}}>
+                        {article.title}
+                      </h4>
+                      <p className="text-xs text-gray-400 line-clamp-2">
+                        {article.body}
+                      </p>
+                      <div className="text-xs mt-2" style={{color: '#00bfff'}}>
+                        Read more →
+                      </div>
+                    </a>
+                  ))}
+                </div>
+                
+                {/* Refresh News Button */}
+                <Button
+                  onClick={async () => {
+                    setIsLoadingNews(true);
+                    try {
+                      const response = await fetch('/api/crypto-news');
+                      const data = await response.json();
+                      setCryptoNews(data.news || []);
+                    } catch (error) {
+                      console.error('Failed to fetch news:', error);
+                    } finally {
+                      setIsLoadingNews(false);
+                    }
+                  }}
+                  variant="outline"
+                  className="mt-6"
+                  disabled={isLoadingNews}
+                  data-testid="button-refresh-news"
+                >
+                  {isLoadingNews ? 'Refreshing...' : '🔄 Refresh News'}
+                </Button>
+              </div>
             )}
           </div>
         </div>

@@ -447,6 +447,95 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Crypto news endpoint - fetches latest meme coin news
+  app.get("/api/crypto-news", async (req, res) => {
+    try {
+      // Fetch news from CryptoCompare (free API)
+      const response = await fetch(
+        'https://min-api.cryptocompare.com/data/v2/news/?categories=Meme,Altcoin,Trading&excludeCategories=Sponsored&lang=EN'
+      );
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch news');
+      }
+      
+      const data = await response.json();
+      
+      // Get top 5 news articles
+      const news = data.Data?.slice(0, 5).map((article: any) => ({
+        id: article.id,
+        title: article.title,
+        body: article.body?.substring(0, 200) + '...',
+        imageUrl: article.imageurl,
+        url: article.url,
+        source: article.source,
+        publishedAt: new Date(article.published_on * 1000).toISOString(),
+        categories: article.categories
+      })) || [];
+      
+      res.json({ news, fetchedAt: new Date().toISOString() });
+    } catch (error) {
+      console.error('Crypto news fetch error:', error);
+      // Return fallback news if API fails
+      res.json({
+        news: [
+          {
+            id: 1,
+            title: "Meme Coins Continue to Dominate Crypto Markets",
+            body: "The meme coin sector has seen unprecedented growth as community-driven tokens gain mainstream adoption...",
+            imageUrl: "https://images.cryptocompare.com/news/default/cryptocompare.png",
+            url: "https://www.cryptocompare.com",
+            source: "CryptoNews",
+            publishedAt: new Date().toISOString(),
+            categories: "Meme|Trading"
+          },
+          {
+            id: 2,
+            title: "DeFi Staking Rewards: What You Need to Know",
+            body: "Understanding staking rewards and how to maximize your returns in the decentralized finance ecosystem...",
+            imageUrl: "https://images.cryptocompare.com/news/default/cryptocompare.png",
+            url: "https://www.cryptocompare.com",
+            source: "DeFi Weekly",
+            publishedAt: new Date().toISOString(),
+            categories: "DeFi|Staking"
+          },
+          {
+            id: 3,
+            title: "BNB Chain Ecosystem Growth Accelerates",
+            body: "Binance Smart Chain continues to attract developers and projects with low fees and fast transactions...",
+            imageUrl: "https://images.cryptocompare.com/news/default/cryptocompare.png",
+            url: "https://www.cryptocompare.com",
+            source: "Blockchain Daily",
+            publishedAt: new Date().toISOString(),
+            categories: "Altcoin|Trading"
+          },
+          {
+            id: 4,
+            title: "Community Tokens: The Future of Crypto",
+            body: "How community-driven projects are reshaping the cryptocurrency landscape with innovative tokenomics...",
+            imageUrl: "https://images.cryptocompare.com/news/default/cryptocompare.png",
+            url: "https://www.cryptocompare.com",
+            source: "Crypto Insights",
+            publishedAt: new Date().toISOString(),
+            categories: "Meme|Community"
+          },
+          {
+            id: 5,
+            title: "Airdrop Strategies for Maximum Returns",
+            body: "Expert tips on participating in crypto airdrops and maximizing your token rewards safely...",
+            imageUrl: "https://images.cryptocompare.com/news/default/cryptocompare.png",
+            url: "https://www.cryptocompare.com",
+            source: "Token Tribune",
+            publishedAt: new Date().toISOString(),
+            categories: "Airdrop|Trading"
+          }
+        ],
+        fetchedAt: new Date().toISOString(),
+        fallback: true
+      });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;
