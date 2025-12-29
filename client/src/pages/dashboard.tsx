@@ -80,8 +80,12 @@ export default function Dashboard() {
   const [bnbPrice, setBnbPrice] = useState(600); // Default BNB price in USD
   const [currentChainId, setCurrentChainId] = useState<string | null>(null);
   const [isCheckingNetwork, setIsCheckingNetwork] = useState(false);
+  const [bnbWalletBalance, setBnbWalletBalance] = useState<number>(0);
   
   const { toast } = useToast();
+  
+  // Minimum BNB required for gas fees (0.001 BNB)
+  const MIN_GAS_FEE_BNB = 0.001;
   
   const BSC_TESTNET_CHAIN_ID = '0x61'; // 97 in decimal
 
@@ -413,11 +417,31 @@ export default function Dashboard() {
       return;
     }
 
+    // Check if all tasks are completed
+    if (!allTasksCompleted) {
+      toast({
+        title: "❌ Tasks Incomplete",
+        description: "Complete all social media tasks before claiming your airdrop",
+        variant: "destructive"
+      });
+      return;
+    }
+
     // Check if user has claimable amount (allow if exported even if contract amount is 0)
     if (!isExported && userClaimableAmount <= 0) {
       toast({
         title: "❌ No Claimable Tokens",
         description: "You don't have any tokens to claim",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Check BNB balance for gas fees
+    if (bnbWalletBalance < MIN_GAS_FEE_BNB) {
+      toast({
+        title: "⚠️ Insufficient Gas Fee",
+        description: "Please add BNB to claim your airdrop. Minimum 0.001 BNB required for gas fees.",
         variant: "destructive"
       });
       return;
@@ -1850,6 +1874,19 @@ export default function Dashboard() {
         setUserClaimableAmount(0);
         setUserClaimedAmount(0);
       }
+
+      // Fetch BNB balance for gas fee check
+      try {
+        const bnbBalance = await publicClient.getBalance({
+          address: walletAddress as `0x${string}`
+        });
+        const bnbBalanceInEther = Number(bnbBalance) / 1e18;
+        console.log('BNB wallet balance:', bnbBalanceInEther);
+        setBnbWalletBalance(bnbBalanceInEther);
+      } catch (bnbError) {
+        console.error('Error fetching BNB balance:', bnbError);
+        setBnbWalletBalance(0);
+      }
     } catch (error) {
       console.error('Error fetching balances:', error);
     } finally {
@@ -2119,33 +2156,64 @@ export default function Dashboard() {
         
         {/* Airdrop Claim/Success Section */}
         {airdropClaimed ? (
-          // Show success message when already claimed
+          // Show success message when already claimed - PERMANENT STATE
           <Card className="p-4 sm:p-5 glass-card">
             <div className="text-center space-y-4">
+              <div className="w-16 h-16 mx-auto rounded-full flex items-center justify-center" style={{
+                background: 'rgba(0, 255, 136, 0.2)',
+                border: '3px solid #00ff88'
+              }}>
+                <span className="text-3xl">✅</span>
+              </div>
+              
               <h3 className="text-2xl sm:text-3xl font-bold" style={{color: '#00ff88'}}>
-                🎉 You've already claimed your airdrop!
+                Airdrop Claimed Successfully!
               </h3>
               
               <div className="space-y-3">
-                <p className="text-base sm:text-lg">
-                  ✅ <span className="font-bold" style={{color: '#ffd700'}}>{userClaimableAmount.toLocaleString()} MEMES</span> tokens have been sent to your wallet.
+                <p className="text-lg sm:text-xl font-bold" style={{color: '#ffd700'}}>
+                  Your airdrop reward is 100,000 $MEMES tokens
                 </p>
                 
+                <p className="text-sm text-gray-400">
+                  Tokens have been sent to your connected wallet
+                </p>
+                
+                {/* Transaction Hash Button */}
                 {airdropTxHash && (
-                  <p className="text-sm">
-                    🔗 Check your transaction on BscScan:{' '}
-                    <a
-                      href={`https://testnet.bscscan.com/tx/${airdropTxHash}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-mono underline hover:text-[#00bfff]"
-                      style={{color: '#ffd700'}}
-                      data-testid="link-airdrop-tx"
+                  <div className="mt-4">
+                    <button
+                      onClick={() => window.open(`https://testnet.bscscan.com/tx/${airdropTxHash}`, '_blank')}
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
+                      style={{
+                        background: 'rgba(0, 191, 255, 0.2)',
+                        border: '1px solid #00bfff',
+                        color: '#00bfff'
+                      }}
+                      data-testid="button-view-tx-hash"
                     >
-                      {airdropTxHash.slice(0, 10)}...{airdropTxHash.slice(-8)}
-                    </a>
-                  </p>
+                      <span>🔗</span>
+                      <span>Transaction Hash</span>
+                    </button>
+                  </div>
                 )}
+                
+                {/* Token Contract Link */}
+                <div className="mt-2">
+                  <button
+                    onClick={() => window.open(`https://testnet.bscscan.com/token/${CONTRACTS.MEMES_TOKEN.address}`, '_blank')}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
+                    style={{
+                      background: 'rgba(255, 215, 0, 0.2)',
+                      border: '1px solid #ffd700',
+                      color: '#ffd700'
+                    }}
+                    data-testid="button-view-token-contract"
+                  >
+                    <span>📄</span>
+                    <span>$MEMES Token Contract</span>
+                  </button>
+                </div>
                 
                 <div className="mt-6 p-4 rounded-lg" style={{
                   background: 'rgba(255, 215, 0, 0.1)',
@@ -2161,7 +2229,7 @@ export default function Dashboard() {
               </div>
             </div>
           </Card>
-        ) : (isExported || userClaimableAmount > 0) ? (
+        ) : (isExported || userClaimableAmount > 0) && allTasksCompleted ? (
           // Show claim button when user is exported OR has claimable amount (bypass email/tasks)
           <>
             {/* Yellow Banner - Clickable - SUPER ATTRACTIVE */}
@@ -2251,11 +2319,11 @@ export default function Dashboard() {
                   <span style={{ color: '#ffd700' }}>Claim Your MEMES Airdrop</span>
                 </h3>
                 <p className="text-sm text-muted-foreground mb-4">
-                  You have <span className="font-bold text-[#ffd700]">{(userClaimableAmount > 0 ? userClaimableAmount : (airdropTokens + referralTokens)).toLocaleString()} MEMES</span> tokens ready to claim!
+                  You have <span className="font-bold text-[#ffd700]">100,000 MEMES</span> tokens ready to claim!
                 </p>
 
                 {/* Verification Message - Show when all tasks complete but not exported yet */}
-                {!isExported && emailVerified && Object.values(tasksCompleted).every(Boolean) && (
+                {!isExported && allTasksCompleted && (
                   <div className="mb-4 p-3 rounded-lg" style={{
                     background: 'rgba(0, 191, 255, 0.15)',
                     border: '1px solid rgba(0, 191, 255, 0.3)'
@@ -2267,39 +2335,62 @@ export default function Dashboard() {
                   </div>
                 )}
 
+                {/* Gas Fee Warning */}
+                {bnbWalletBalance < MIN_GAS_FEE_BNB && (
+                  <div className="mb-4 p-3 rounded-lg" style={{
+                    background: 'rgba(255, 68, 68, 0.15)',
+                    border: '1px solid rgba(255, 68, 68, 0.5)'
+                  }}>
+                    <p className="text-sm flex items-center justify-center gap-2" style={{color: '#ff4444'}}>
+                      <span>⚠️</span>
+                      <span>Insufficient gas fee. Please add BNB to claim your airdrop.</span>
+                    </p>
+                  </div>
+                )}
+
                 {/* Direct Claim Button */}
                 <button
                   onClick={handleClaimAirdrop}
-                  disabled={isClaimingAirdrop}
+                  disabled={isClaimingAirdrop || bnbWalletBalance < MIN_GAS_FEE_BNB}
                   className="w-full py-3 sm:py-4 px-4 sm:px-6 rounded-xl font-bold text-base sm:text-lg relative overflow-hidden transition-all duration-500 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
                   style={{
-                    background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 25%, #ffd700 50%, #ffed4e 75%, #ffd700 100%)',
+                    background: bnbWalletBalance < MIN_GAS_FEE_BNB 
+                      ? 'linear-gradient(135deg, #666 0%, #888 50%, #666 100%)'
+                      : 'linear-gradient(135deg, #ffd700 0%, #ffed4e 25%, #ffd700 50%, #ffed4e 75%, #ffd700 100%)',
                     backgroundSize: '200% 200%',
-                    animation: 'gradientShift 3s ease infinite',
-                    color: '#000',
-                    boxShadow: '0 8px 32px rgba(255, 215, 0, 0.6), 0 0 60px rgba(255, 215, 0, 0.3)',
-                    border: '2px solid rgba(255, 237, 78, 0.8)'
+                    animation: bnbWalletBalance >= MIN_GAS_FEE_BNB ? 'gradientShift 3s ease infinite' : 'none',
+                    color: bnbWalletBalance < MIN_GAS_FEE_BNB ? '#fff' : '#000',
+                    boxShadow: bnbWalletBalance >= MIN_GAS_FEE_BNB 
+                      ? '0 8px 32px rgba(255, 215, 0, 0.6), 0 0 60px rgba(255, 215, 0, 0.3)'
+                      : 'none',
+                    border: bnbWalletBalance >= MIN_GAS_FEE_BNB 
+                      ? '2px solid rgba(255, 237, 78, 0.8)'
+                      : '2px solid rgba(255, 68, 68, 0.5)'
                   }}
                   data-testid="button-claim-airdrop"
                 >
-                  {/* Animated shine effect */}
-                  <span 
-                    className="absolute inset-0 w-full h-full"
-                    style={{
-                      background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
-                      animation: 'shine 2s infinite',
-                      transform: 'skewX(-20deg)'
-                    }}
-                  />
+                  {/* Animated shine effect - only when enabled */}
+                  {bnbWalletBalance >= MIN_GAS_FEE_BNB && (
+                    <span 
+                      className="absolute inset-0 w-full h-full"
+                      style={{
+                        background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
+                        animation: 'shine 2s infinite',
+                        transform: 'skewX(-20deg)'
+                      }}
+                    />
+                  )}
                   
-                  {/* Pulsing glow effect */}
-                  <span 
-                    className="absolute inset-0 rounded-2xl"
-                    style={{
-                      background: 'radial-gradient(circle, rgba(255, 215, 0, 0.4) 0%, transparent 70%)',
-                      animation: 'pulse 2s ease-in-out infinite'
-                    }}
-                  />
+                  {/* Pulsing glow effect - only when enabled */}
+                  {bnbWalletBalance >= MIN_GAS_FEE_BNB && (
+                    <span 
+                      className="absolute inset-0 rounded-2xl"
+                      style={{
+                        background: 'radial-gradient(circle, rgba(255, 215, 0, 0.4) 0%, transparent 70%)',
+                        animation: 'pulse 2s ease-in-out infinite'
+                      }}
+                    />
+                  )}
                   
                   {/* Button content */}
                   <span className="flex items-center justify-center gap-3 relative z-10">
@@ -2307,6 +2398,11 @@ export default function Dashboard() {
                       <>
                         <span className="text-2xl">⏳</span>
                         <span className="tracking-wider">CLAIMING...</span>
+                      </>
+                    ) : bnbWalletBalance < MIN_GAS_FEE_BNB ? (
+                      <>
+                        <span className="text-2xl">⚠️</span>
+                        <span className="tracking-wider">ADD BNB FOR GAS</span>
                       </>
                     ) : (
                       <>
