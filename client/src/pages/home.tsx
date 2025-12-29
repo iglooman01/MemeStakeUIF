@@ -1318,7 +1318,7 @@ export default function Home() {
                   <span className="text-primary text-xl">+</span>
                 </summary>
                 <p className="text-sm text-muted-foreground mt-3">
-                  Total supply: 50 billion $MEMES. Public sale: 50% (25B tokens at $0.0001 each). Staking rewards: 365% APY (1% daily). Referral pool: 10% (5B tokens) with 3-level structure. All details are in the Tokenomics section and whitepaper.
+                  Total supply: 1 trillion $MEMES. Public sale: 50% (500B tokens at $0.0001 each). Staking rewards: 365% APY (1% daily). Referral pool: 10% (100B tokens) with 3-level structure. All details are in the Tokenomics section and whitepaper.
                 </p>
               </details>
               
