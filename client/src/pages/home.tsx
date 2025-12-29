@@ -227,7 +227,7 @@ export default function Home() {
     },
     {
       question: "What is the total supply and token price?",
-      answer: "Total supply is 50 billion $MEMES tokens. Public sale offers 25 billion tokens (50% of supply) at $0.0001 per token. The raise target is $2,500,000 if all tokens are sold."
+      answer: "Total supply is 1 trillion $MEMES tokens. Public sale offers 500 billion tokens (50% of supply) at $0.0001 per token. The raise target is $50,000,000 if all tokens are sold."
     }
   ];
 
@@ -1417,9 +1417,9 @@ export default function Home() {
                   Complete breakdown of $MEMES token distribution, sale pricing, and reward mechanisms.
                 </p>
                 <ul className="text-sm text-muted-foreground space-y-1">
-                  <li>• 50B total supply at $0.0001/token</li>
+                  <li>• 1T total supply at $0.0001/token</li>
                   <li>• 365% APY staking (1% daily)</li>
-                  <li>• 3-level referral system (Level 1: 10K, Level 2: 10K, Level 3: 10K tokens)</li>
+                  <li>• 3-level referral system (Level 1: 100K, Level 2: 100K, Level 3: 100K tokens)</li>
                   <li>• Public sale & airdrop details</li>
                   <li>• BSC network deployment</li>
                 </ul>

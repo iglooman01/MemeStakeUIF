@@ -199,15 +199,15 @@ export default function Whitepaper() {
               <div className="grid grid-cols-3 gap-2 text-center">
                 <div className="p-2 rounded" style={{ background: 'rgba(255, 215, 0, 0.2)' }}>
                   <div className="font-bold" style={{ color: '#ffd700' }}>Level 1</div>
-                  <div className="text-sm text-gray-300">10,000 $MEMES</div>
+                  <div className="text-sm text-gray-300">1,00,000 $MEMES</div>
                 </div>
                 <div className="p-2 rounded" style={{ background: 'rgba(0, 191, 255, 0.2)' }}>
                   <div className="font-bold" style={{ color: '#00bfff' }}>Level 2</div>
-                  <div className="text-sm text-gray-300">10,000 $MEMES</div>
+                  <div className="text-sm text-gray-300">1,00,000 $MEMES</div>
                 </div>
                 <div className="p-2 rounded" style={{ background: 'rgba(0, 255, 136, 0.2)' }}>
                   <div className="font-bold" style={{ color: '#00ff88' }}>Level 3</div>
-                  <div className="text-sm text-gray-300">10,000 $MEMES</div>
+                  <div className="text-sm text-gray-300">1,00,000 $MEMES</div>
                 </div>
               </div>
               <div className="text-xs text-gray-400 mt-2">Tokens distributed across three referral levels</div>
