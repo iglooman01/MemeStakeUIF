@@ -129,9 +129,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
             // Try to award tokens to referrer if they exist in database
             const referrer = await storage.getAirdropParticipant(sponsorCode);
             if (referrer) {
-              console.log('💰 Awarding 100 tokens to referrer');
+              console.log('💰 Awarding 10,000 tokens to referrer');
               await storage.updateAirdropParticipant(referrer.walletAddress, {
-                referralTokens: (referrer.referralTokens || 0) + 100,
+                referralTokens: (referrer.referralTokens || 0) + 10000,
               });
             }
           } else {
@@ -141,9 +141,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
             if (referrer) {
               referredBy = referrer.walletAddress;
               console.log('✅ Found referrer wallet, setting referred_by to:', referredBy);
-              // Award 100 tokens to referrer
+              // Award 10,000 tokens to referrer
               await storage.updateAirdropParticipant(referrer.walletAddress, {
-                referralTokens: (referrer.referralTokens || 0) + 100,
+                referralTokens: (referrer.referralTokens || 0) + 10000,
               });
             } else {
               console.log('❌ Referral code not found:', sponsorCode);
