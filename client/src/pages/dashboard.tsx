@@ -3322,7 +3322,7 @@ export default function Dashboard() {
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="w-5 h-5 mt-0.5 flex-shrink-0" style={{color: '#00ff88'}} />
-                      <span>Complete social tasks (Follow, Like, Retweet) - Earn 250 $MEMES per task</span>
+                      <span>Complete social tasks (Follow, Like, Retweet) - Earn 25,000 $MEMES per task</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="w-5 h-5 mt-0.5 flex-shrink-0" style={{color: '#00ff88'}} />
@@ -3330,7 +3330,7 @@ export default function Dashboard() {
                     </li>
                   </ul>
                   <div className="mt-4 p-3 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.3)'}}>
-                    <div className="text-sm font-bold mb-1" style={{color: '#00ff88'}}>💎 Max Airdrop Rewards: 1,000 $MEMES</div>
+                    <div className="text-sm font-bold mb-1" style={{color: '#00ff88'}}>💎 Max Airdrop Rewards: 100,000 $MEMES</div>
                     <div className="text-xs text-gray-500">Complete all 4 social tasks to unlock maximum rewards</div>
                   </div>
                 </div>
