@@ -3627,14 +3627,22 @@ export default function Dashboard() {
 
         {/* Buy MEMES Tokens Section - Coming Soon */}
         <Card className="p-3 sm:p-4 glass-card relative overflow-hidden" style={{border: '2px solid rgba(255, 215, 0, 0.3)', boxShadow: '0 4px 20px rgba(255, 215, 0, 0.1)'}}>
-          {/* Coming Soon Overlay */}
-          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center backdrop-blur-sm cursor-not-allowed" style={{background: 'rgba(0, 0, 0, 0.7)'}}>
-            <div className="text-center">
+          {/* Coming Soon Overlay - Clickable */}
+          <a 
+            href="https://t.me/memstakeofficial"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="absolute inset-0 z-10 flex flex-col items-center justify-center backdrop-blur-sm cursor-pointer transition-all hover:backdrop-blur-md" 
+            style={{background: 'rgba(0, 0, 0, 0.7)'}}
+            data-testid="link-coming-soon-buy"
+          >
+            <div className="text-center transition-transform hover:scale-105">
               <div className="text-4xl mb-3">🚀</div>
               <div className="text-2xl font-bold mb-2" style={{color: '#ffd700'}}>Coming Soon</div>
               <div className="text-sm text-gray-400 max-w-xs px-4">Token sale will be live soon. Stay tuned!</div>
+              <div className="mt-3 text-xs font-semibold" style={{color: '#00bfff'}}>Click to join our channel for updates →</div>
             </div>
-          </div>
+          </a>
           <div className="text-center mb-3 sm:mb-4 opacity-30 pointer-events-none">
             <h3 className="text-lg sm:text-xl font-bold mb-2" style={{color: '#ffd700'}}>🛒 Buy $MEMES Tokens</h3>
             
