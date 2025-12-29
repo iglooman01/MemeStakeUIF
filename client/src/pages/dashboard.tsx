@@ -2156,76 +2156,35 @@ export default function Dashboard() {
         
         {/* Airdrop Claim/Success Section */}
         {airdropClaimed ? (
-          // Show success message when already claimed - PERMANENT STATE
+          // FINAL STATE UI - Show ONLY this after successful claim
           <Card className="p-4 sm:p-5 glass-card">
             <div className="text-center space-y-4">
-              <div className="w-16 h-16 mx-auto rounded-full flex items-center justify-center" style={{
+              <div className="w-14 h-14 mx-auto rounded-full flex items-center justify-center" style={{
                 background: 'rgba(0, 255, 136, 0.2)',
-                border: '3px solid #00ff88'
+                border: '2px solid #00ff88'
               }}>
-                <span className="text-3xl">✅</span>
+                <span className="text-2xl">✅</span>
               </div>
               
-              <h3 className="text-2xl sm:text-3xl font-bold" style={{color: '#00ff88'}}>
-                Airdrop Claimed Successfully!
-              </h3>
+              <p className="text-lg sm:text-xl font-bold" style={{color: '#ffd700'}}>
+                You got 100,000 $MEMES airdrop rewards.
+              </p>
               
-              <div className="space-y-3">
-                <p className="text-lg sm:text-xl font-bold" style={{color: '#ffd700'}}>
-                  Your airdrop reward is 100,000 $MEMES tokens
-                </p>
-                
-                <p className="text-sm text-gray-400">
-                  Tokens have been sent to your connected wallet
-                </p>
-                
-                {/* Transaction Hash Button */}
-                {airdropTxHash && (
-                  <div className="mt-4">
-                    <button
-                      onClick={() => window.open(`https://testnet.bscscan.com/tx/${airdropTxHash}`, '_blank')}
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
-                      style={{
-                        background: 'rgba(0, 191, 255, 0.2)',
-                        border: '1px solid #00bfff',
-                        color: '#00bfff'
-                      }}
-                      data-testid="button-view-tx-hash"
-                    >
-                      <span>🔗</span>
-                      <span>Transaction Hash</span>
-                    </button>
-                  </div>
-                )}
-                
-                {/* Token Contract Link */}
-                <div className="mt-2">
-                  <button
-                    onClick={() => window.open(`https://testnet.bscscan.com/token/${CONTRACTS.MEMES_TOKEN.address}`, '_blank')}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
-                    style={{
-                      background: 'rgba(255, 215, 0, 0.2)',
-                      border: '1px solid #ffd700',
-                      color: '#ffd700'
-                    }}
-                    data-testid="button-view-token-contract"
-                  >
-                    <span>📄</span>
-                    <span>$MEMES Token Contract</span>
-                  </button>
-                </div>
-                
-                <div className="mt-6 p-4 rounded-lg" style={{
-                  background: 'rgba(255, 215, 0, 0.1)',
-                  border: '1px solid rgba(255, 215, 0, 0.3)'
-                }}>
-                  <p className="text-base sm:text-lg font-bold mb-2" style={{color: '#ffd700'}}>
-                    💰 Want to earn more MEMES tokens?
-                  </p>
-                  <p className="text-sm text-gray-400">
-                    Invite your friends using your referral link and build your team to earn extra rewards!
-                  </p>
-                </div>
+              {/* Tx Hash Button - ONLY button shown */}
+              <div className="mt-4">
+                <button
+                  onClick={() => window.open(`https://testnet.bscscan.com/tx/${airdropTxHash}`, '_blank')}
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded text-sm font-medium transition-all hover:scale-105"
+                  style={{
+                    background: 'rgba(0, 191, 255, 0.15)',
+                    border: '1px solid rgba(0, 191, 255, 0.5)',
+                    color: '#00bfff'
+                  }}
+                  data-testid="button-tx-hash"
+                >
+                  <span>🔗</span>
+                  <span>Tx Hash</span>
+                </button>
               </div>
             </div>
           </Card>
