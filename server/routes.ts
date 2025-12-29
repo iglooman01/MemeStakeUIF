@@ -53,7 +53,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Check if email already exists for a different wallet
       const existingEmail = await storage.getAirdropParticipantByEmail(email);
       if (existingEmail && existingEmail.walletAddress.toLowerCase() !== walletAddress.toLowerCase()) {
-        return res.status(400).json({ error: "This email is already registered with another wallet" });
+        return res.status(400).json({ error: "This email is already used." });
       }
 
       const otp = generateOTP();
