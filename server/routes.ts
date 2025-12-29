@@ -234,10 +234,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Invalid task ID" });
       }
 
-      // Calculate new airdrop tokens (250 per task)
+      // Calculate new airdrop tokens (25,000 per task = 100,000 total for 4 tasks)
       let newAirdropTokens = participant.airdropTokens;
       if (!participant[taskField]) {
-        newAirdropTokens += 250;
+        newAirdropTokens += 25000;
       }
 
       const updated = await storage.updateAirdropParticipant(walletAddress, {
