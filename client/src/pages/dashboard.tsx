@@ -3581,8 +3581,7 @@ export default function Dashboard() {
 
         {/* Join Our Community - Compact */}
         <Card className="p-3 sm:p-4 glass-card text-center" style={{background: 'linear-gradient(135deg, rgba(15, 10, 35, 0.95), rgba(30, 15, 60, 0.95))', border: '2px solid rgba(0, 191, 255, 0.3)'}}>
-          <h2 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3" style={{color: '#00bfff'}}>Join Our Community</h2>
-          <p className="text-gray-400 mb-3 sm:mb-4 text-xs sm:text-sm">47,000+ members • Real-time updates</p>
+          <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4" style={{color: '#00bfff'}}>Join Our Community</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-3">
             <a

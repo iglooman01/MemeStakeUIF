@@ -635,12 +635,9 @@ export default function Airdrop() {
 
         {/* Join Our Community */}
         <Card className="p-6 mb-6 glass-card">
-          <h2 className="text-2xl font-bold mb-4 text-center" style={{color: '#ffd700'}}>
+          <h2 className="text-2xl font-bold mb-6 text-center" style={{color: '#ffd700'}}>
             🌟 Join Our Community
           </h2>
-          <p className="text-center text-muted-foreground mb-6">
-            Connect with 47,000+ members! Get real-time updates, share strategies, and never miss an opportunity.
-          </p>
           
           <div className="grid md:grid-cols-3 gap-4">
             <a
