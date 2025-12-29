@@ -3,9 +3,10 @@
 MemeStake is a full-stack web application for a cryptocurrency staking platform built around meme culture. It features a React frontend and an Express.js backend, offering multilingual support, theme switching, and Web3 wallet integration (MetaMask, Trust Wallet, SafePal). The platform allows users to purchase and stake $MEMES tokens, earn daily rewards (350% APY / 1% daily), and benefit from a 3-level referral system. Key capabilities include real-time rewards tracking, a comprehensive staking interface, and an airdrop claiming mechanism. The project aims to provide an accessible and engaging staking experience for meme token enthusiasts.
 
 ## $MEMES Token Information
-- **Total Supply**: 50,000,000,000 $MEMES tokens
+- **Total Supply**: 1,000,000,000,000 $MEMES tokens
 - **Token Price**: $0.0001 per $MEMES
-- **Public Sale**: 25 Billion tokens (50% of supply)
+- **Airdrop**: 100 Billion tokens (10% of supply)
+- **Public Sale**: 500 Billion tokens (50% of supply)
 - **Network**: Binance Smart Chain Testnet (BSC Testnet / BEP-20)
 
 ## Staking & Rewards
