@@ -148,7 +148,6 @@ export default function Home() {
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [airdropTime, setAirdropTime] = useState({ days: 30, hours: 12, minutes: 0, seconds: 4 });
-  const [totalParticipants, setTotalParticipants] = useState(0);
   const [verifiedParticipants, setVerifiedParticipants] = useState(0);
   const [walletModalOpen, setWalletModalOpen] = useState(false);
   const [selectedWallet, setSelectedWallet] = useState<string>('');
@@ -695,7 +694,6 @@ export default function Home() {
         const data = await response.json();
         
         if (response.ok) {
-          setTotalParticipants(data.totalParticipants || 0);
           setVerifiedParticipants(data.verifiedParticipants || 0);
         }
       } catch (error) {
@@ -1020,8 +1018,8 @@ export default function Home() {
                 <div className="w-3 h-3 rounded-full mr-2" style={{background: '#00ff88', animation: 'pulse 1s infinite'}}></div>
                 <span className="text-sm font-medium" style={{color: '#ffd700'}}>🔴 LIVE DATA</span>
               </div>
-              <div className="flex justify-center gap-4 flex-wrap">
-                {/* Total Participants */}
+              <div className="flex justify-center">
+                {/* Total Participants - Email Verified Users Only */}
                 <div className="glass-card p-4 sm:p-6 rounded-xl sm:rounded-2xl border-2 relative overflow-hidden" 
                      style={{
                        background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(0, 191, 255, 0.1) 100%)',
@@ -1031,27 +1029,9 @@ export default function Home() {
                   <div className="text-center">
                     <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2" 
                          style={{color: '#ffd700'}}>
-                      {totalParticipants.toLocaleString()}
-                    </div>
-                    <div className="text-sm sm:text-base md:text-lg font-semibold text-white mb-1">🏆 Total Participants</div>
-                    <div className="text-xs sm:text-sm" style={{color: '#00ff88'}}>📊 Connected Wallets</div>
-                  </div>
-                </div>
-                
-                {/* Verified Users */}
-                <div className="glass-card p-4 sm:p-6 rounded-xl sm:rounded-2xl border-2 relative overflow-hidden" 
-                     style={{
-                       background: 'linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 191, 255, 0.1) 100%)',
-                       border: '2px solid rgba(0, 255, 136, 0.3)',
-                       boxShadow: '0 0 20px rgba(0, 255, 136, 0.2)'
-                     }}>
-                  <div className="text-center">
-                    <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2" 
-                         style={{color: '#00ff88'}}>
                       {verifiedParticipants.toLocaleString()}
                     </div>
-                    <div className="text-sm sm:text-base md:text-lg font-semibold text-white mb-1">✅ Verified Users</div>
-                    <div className="text-xs sm:text-sm" style={{color: '#00bfff'}}>📧 Email Verified</div>
+                    <div className="text-sm sm:text-base md:text-lg font-semibold text-white">🏆 Total Participants</div>
                   </div>
                 </div>
               </div>
