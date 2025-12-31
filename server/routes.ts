@@ -283,6 +283,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get participant stats (for homepage)
+  app.get("/api/airdrop/stats", async (req, res) => {
+    try {
+      const stats = await storage.getParticipantStats();
+      res.json(stats);
+    } catch (error) {
+      console.error('Get stats error:', error);
+      res.status(500).json({ error: "Failed to get stats" });
+    }
+  });
+
   // Admin authentication
   app.post("/api/admin/login", async (req, res) => {
     try {

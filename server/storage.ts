@@ -166,6 +166,14 @@ export class MemStorage implements IStorage {
     ).length;
   }
 
+  async getParticipantStats(): Promise<{ totalParticipants: number; verifiedParticipants: number }> {
+    const allParticipants = Array.from(this.airdropParticipants.values());
+    return {
+      totalParticipants: allParticipants.length,
+      verifiedParticipants: allParticipants.filter(p => p.emailVerified).length
+    };
+  }
+
   // OTP methods
   async createOtp(otp: InsertOtpVerification): Promise<OtpVerification> {
     const id = randomUUID();

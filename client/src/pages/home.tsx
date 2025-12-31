@@ -148,7 +148,8 @@ export default function Home() {
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [airdropTime, setAirdropTime] = useState({ days: 30, hours: 12, minutes: 0, seconds: 4 });
-  const [tokenHolders, setTokenHolders] = useState(0);
+  const [totalParticipants, setTotalParticipants] = useState(0);
+  const [verifiedParticipants, setVerifiedParticipants] = useState(0);
   const [walletModalOpen, setWalletModalOpen] = useState(false);
   const [selectedWallet, setSelectedWallet] = useState<string>('');
   const [walletConnected, setWalletConnected] = useState(false);
@@ -686,41 +687,25 @@ export default function Home() {
 
   const walletOptions = supportedWallets;
 
-  // Fetch actual token holders from BSCScan API
+  // Fetch participant stats from database API
   useEffect(() => {
-    const fetchTokenHolders = async () => {
+    const fetchParticipantStats = async () => {
       try {
-        // MEMES token address from contracts
-        const tokenAddress = '0xC4df861DB4d97Dc1ad3fD7F09D40487070dcd137';
-        
-        // Fetch token holder list from BSCScan Testnet API
-        // Use a large offset to get all holders (max 10000)
-        const response = await fetch(
-          `https://api-testnet.bscscan.com/api?module=token&action=tokenholderlist&contractaddress=${tokenAddress}&page=1&offset=100`
-        );
-        
+        const response = await fetch('/api/airdrop/stats');
         const data = await response.json();
-        console.log('📊 BSCScan API Response:', data);
         
-        // Count actual unique holders from the result
-        if (data.status === '1' && data.result && Array.isArray(data.result)) {
-          const uniqueHolders = new Set(data.result.map((holder: any) => holder.TokenHolderAddress.toLowerCase()));
-          setTokenHolders(uniqueHolders.size);
-          console.log('✅ Token holders fetched:', uniqueHolders.size);
-        } else {
-          // If API doesn't return data, manually set to known count
-          console.log('⚠️ No token holder data from API, using manual count');
-          setTokenHolders(1011); // Manual count as verified by user (11 + 1000)
+        if (response.ok) {
+          setTotalParticipants(data.totalParticipants || 0);
+          setVerifiedParticipants(data.verifiedParticipants || 0);
         }
       } catch (error) {
-        console.error('Error fetching token holders:', error);
-        setTokenHolders(0);
+        console.error('Error fetching participant stats:', error);
       }
     };
 
-    fetchTokenHolders();
-    // Refresh every 60 seconds
-    const interval = setInterval(fetchTokenHolders, 60000);
+    fetchParticipantStats();
+    // Refresh every 30 seconds
+    const interval = setInterval(fetchParticipantStats, 30000);
     
     return () => clearInterval(interval);
   }, []);
@@ -1035,7 +1020,8 @@ export default function Home() {
                 <div className="w-3 h-3 rounded-full mr-2" style={{background: '#00ff88', animation: 'pulse 1s infinite'}}></div>
                 <span className="text-sm font-medium" style={{color: '#ffd700'}}>🔴 LIVE DATA</span>
               </div>
-              <div className="flex justify-center relative">
+              <div className="flex justify-center gap-4 flex-wrap">
+                {/* Total Participants */}
                 <div className="glass-card p-4 sm:p-6 rounded-xl sm:rounded-2xl border-2 relative overflow-hidden" 
                      style={{
                        background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(0, 191, 255, 0.1) 100%)',
@@ -1045,10 +1031,27 @@ export default function Home() {
                   <div className="text-center">
                     <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2" 
                          style={{color: '#ffd700'}}>
-                      {tokenHolders.toLocaleString()}
+                      {totalParticipants.toLocaleString()}
                     </div>
-                    <div className="text-sm sm:text-base md:text-lg font-semibold text-white mb-1">🏆 Total Token Holders</div>
-                    <div className="text-xs sm:text-sm" style={{color: '#00ff88'}}>📊 Real-time Data from Blockchain</div>
+                    <div className="text-sm sm:text-base md:text-lg font-semibold text-white mb-1">🏆 Total Participants</div>
+                    <div className="text-xs sm:text-sm" style={{color: '#00ff88'}}>📊 Connected Wallets</div>
+                  </div>
+                </div>
+                
+                {/* Verified Users */}
+                <div className="glass-card p-4 sm:p-6 rounded-xl sm:rounded-2xl border-2 relative overflow-hidden" 
+                     style={{
+                       background: 'linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 191, 255, 0.1) 100%)',
+                       border: '2px solid rgba(0, 255, 136, 0.3)',
+                       boxShadow: '0 0 20px rgba(0, 255, 136, 0.2)'
+                     }}>
+                  <div className="text-center">
+                    <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2" 
+                         style={{color: '#00ff88'}}>
+                      {verifiedParticipants.toLocaleString()}
+                    </div>
+                    <div className="text-sm sm:text-base md:text-lg font-semibold text-white mb-1">✅ Verified Users</div>
+                    <div className="text-xs sm:text-sm" style={{color: '#00bfff'}}>📧 Email Verified</div>
                   </div>
                 </div>
               </div>
