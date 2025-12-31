@@ -2707,9 +2707,28 @@ export default function Dashboard() {
                   )}
                 </div>
 
-                {/* Claim Button (shown when all tasks completed) */}
+                {/* Congratulations + Claim Button (shown when all tasks completed) */}
                 {allTasksCompleted && (
-                  <div className="mt-6 text-center">
+                  <div className="mt-6">
+                    {/* Congratulations Message */}
+                    <div className="text-center p-4 rounded-xl mb-4" style={{
+                      background: 'linear-gradient(135deg, rgba(0, 255, 136, 0.15) 0%, rgba(0, 191, 255, 0.15) 100%)',
+                      border: '2px solid rgba(0, 255, 136, 0.5)',
+                      boxShadow: '0 0 20px rgba(0, 255, 136, 0.3)'
+                    }}>
+                      <div className="text-4xl mb-2">🎉</div>
+                      <h3 className="text-xl sm:text-2xl font-bold mb-2" style={{color: '#00ff88'}}>
+                        Congratulations!
+                      </h3>
+                      <p className="text-sm sm:text-base mb-2" style={{color: '#00ff88'}}>
+                        Task completed successfully.
+                      </p>
+                      <p className="text-base sm:text-lg font-bold" style={{color: '#ffd700'}}>
+                        You are eligible for 100,000 MEMES tokens airdrop.
+                      </p>
+                    </div>
+
+                    {/* Claim Button */}
                     <button
                       onClick={handleClaimAirdrop}
                       disabled={isClaimingAirdrop}
@@ -2753,7 +2772,7 @@ export default function Dashboard() {
                         ) : (
                           <>
                             <span className="text-2xl">🎁</span>
-                            <span className="tracking-wider">CLAIM NOW</span>
+                            <span className="tracking-wider">Claim your airdrop reward now!</span>
                           </>
                         )}
                       </span>
