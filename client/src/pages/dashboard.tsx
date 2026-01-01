@@ -1383,15 +1383,15 @@ export default function Dashboard() {
           setAccruedToday(0);
           setReferralEarnings(0);
           setPresaleReferralRewards(0);
-          setLevel1AirdropRewards(0);
-          setLevel2AirdropRewards(0);
-          setLevel3AirdropRewards(0);
-          setLevel1StakingRewards(0);
-          setLevel2StakingRewards(0);
-          setLevel3StakingRewards(0);
-          setLevel1ReferralCount(0);
-          setLevel2ReferralCount(0);
-          setLevel3ReferralCount(0);
+          //setLevel1AirdropRewards(0);
+          //setLevel2AirdropRewards(0);
+         // setLevel3AirdropRewards(0);
+          //setLevel1StakingRewards(0);
+          //setLevel2StakingRewards(0);
+          //setLevel3StakingRewards(0);
+          //setLevel1ReferralCount(0);
+          //setLevel2ReferralCount(0);
+          //setLevel3ReferralCount(0);
           
           // Invalidate queries
           queryClient.invalidateQueries({ queryKey: ['/api/airdrop/status'] });
@@ -1720,18 +1720,18 @@ export default function Dashboard() {
           args: [walletAddress as `0x${string}`]
         }) as any[];
 
-        console.log('Rewards by referral level raw response:', referralCountByLevel);
+        console.log('count by referral level raw response:', referralCountByLevel);
 
         // Contract returns tuple: [level1, level2, level3]
         // Access by index        
-        const level1Count = Number(referralCountByLevel[1] || 0) ;
-        const level2Count = Number(referralCountByLevel[2] || 0) ;
-        const level3Count = Number(referralCountByLevel[3] || 0) ;
+        const level1Count = Number(referralCountByLevel[0] || 0) ;
+        const level2Count = Number(referralCountByLevel[1] || 0) ;
+        const level3Count = Number(referralCountByLevel[2] || 0) ;
 
         
-        console.log('Level 1 rewards:', level1Count);
-        console.log('Level 2 rewards:', level2Count);
-        console.log('Level 3 rewards:', level3Count);
+        console.log('Level 1 count:', level1Count);
+        console.log('Level 2 count:', level2Count);
+        console.log('Level 3 count:', level3Count);
         
         setLevel1ReferralCount(level1Count);
         setLevel2ReferralCount(level2Count);
