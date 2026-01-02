@@ -1,11 +1,15 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { sendOTPEmail } from "./maileroo";
+import { sendWelcomeEmail } from "./maileroo";
 import { z } from "zod";
 
-function generateOTP(): string {
-  return Math.floor(100000 + Math.random() * 900000).toString();
+const puzzleStore = new Map<string, { num1: number; num2: number; answer: number; expiresAt: Date }>();
+
+function generateMathPuzzle(): { num1: number; num2: number; answer: number } {
+  const num1 = Math.floor(Math.random() * 10) + 1;
+  const num2 = Math.floor(Math.random() * 10) + 1;
+  return { num1, num2, answer: num1 + num2 };
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -41,14 +45,62 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Send OTP (no participant needed yet)
-  app.post("/api/airdrop/send-otp", async (req, res) => {
+  // Generate math puzzle for email verification
+  app.post("/api/airdrop/get-puzzle", async (req, res) => {
     try {
-      const { email, walletAddress, sponsorCode } = req.body;
+      const { walletAddress } = req.body;
       
-      if (!email || !walletAddress) {
-        return res.status(400).json({ error: "Email and wallet address required" });
+      if (!walletAddress) {
+        return res.status(400).json({ error: "Wallet address required" });
       }
+
+      const puzzle = generateMathPuzzle();
+      const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes
+      
+      puzzleStore.set(walletAddress.toLowerCase(), {
+        num1: puzzle.num1,
+        num2: puzzle.num2,
+        answer: puzzle.answer,
+        expiresAt
+      });
+
+      res.json({ 
+        success: true, 
+        puzzle: { num1: puzzle.num1, num2: puzzle.num2 }
+      });
+    } catch (error) {
+      console.error('Get puzzle error:', error);
+      res.status(500).json({ error: "Failed to generate puzzle" });
+    }
+  });
+
+  // Verify puzzle and register email
+  app.post("/api/airdrop/verify-puzzle", async (req, res) => {
+    try {
+      const { email, puzzleAnswer, walletAddress, sponsorCode } = req.body;
+      
+      if (!email || puzzleAnswer === undefined || !walletAddress) {
+        return res.status(400).json({ error: "Email, puzzle answer, and wallet address required" });
+      }
+
+      // Validate puzzle answer
+      const storedPuzzle = puzzleStore.get(walletAddress.toLowerCase());
+      
+      if (!storedPuzzle) {
+        return res.status(400).json({ error: "Puzzle expired. Please refresh and try again." });
+      }
+
+      if (new Date() > storedPuzzle.expiresAt) {
+        puzzleStore.delete(walletAddress.toLowerCase());
+        return res.status(400).json({ error: "Puzzle expired. Please refresh and try again." });
+      }
+
+      if (parseInt(puzzleAnswer) !== storedPuzzle.answer) {
+        return res.status(400).json({ error: "Incorrect answer. Please try again." });
+      }
+
+      // Puzzle verified, remove from store
+      puzzleStore.delete(walletAddress.toLowerCase());
 
       // Check if email already exists for a different wallet
       const existingEmail = await storage.getAirdropParticipantByEmail(email);
@@ -56,64 +108,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "This email is already used." });
       }
 
-      const otp = generateOTP();
-      const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
-
-      // Store OTP with wallet and sponsor info for later use
-      await storage.createOtp({
-        email,
-        otp,
-        expiresAt,
-        verified: false,
-      });
-
-      const emailSent = await sendOTPEmail(email, otp);
-      if (!emailSent) {
-        return res.status(500).json({ error: "Failed to send email. Please try again." });
-      }
-
-      res.json({ success: true, message: "OTP sent successfully" });
-    } catch (error) {
-      console.error('Send OTP error:', error);
-      res.status(500).json({ error: "Failed to send OTP" });
-    }
-  });
-
-  // Verify OTP and create participant record
-  app.post("/api/airdrop/verify-otp", async (req, res) => {
-    try {
-      const { email, otp, walletAddress, sponsorCode } = req.body;
-      
-      if (!email || !otp || !walletAddress) {
-        return res.status(400).json({ error: "Email, OTP, and wallet address required" });
-      }
-
-      const otpRecord = await storage.getLatestOtp(email);
-      
-      if (!otpRecord) {
-        return res.status(404).json({ error: "OTP not found" });
-      }
-
-      if (otpRecord.verified) {
-        return res.status(400).json({ error: "OTP already used" });
-      }
-
-      if (new Date() > otpRecord.expiresAt) {
-        return res.status(400).json({ error: "OTP expired" });
-      }
-
-      if (otpRecord.otp !== otp) {
-        return res.status(400).json({ error: "Invalid OTP" });
-      }
-
-      // Mark OTP as verified
-      await storage.markOtpVerified(otpRecord.id);
+      // Check if this is a new user (for welcome email)
+      const existingParticipant = await storage.getAirdropParticipant(walletAddress);
+      const isNewUser = !existingParticipant;
 
       // Check if participant already exists
-      let participant = await storage.getAirdropParticipant(walletAddress);
+      let participant = existingParticipant;
       
       if (!participant) {
-        // Create new participant after email verification
+        // Create new participant after puzzle verification
         const newReferralCode = `MEMES${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
         
         // Set referred_by from sponsor address/code
@@ -172,10 +175,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
+      // Send welcome email only to new users
+      if (isNewUser) {
+        sendWelcomeEmail(email).catch(err => {
+          console.error('Failed to send welcome email:', err);
+        });
+      }
+
       res.json({ success: true, participant });
     } catch (error) {
-      console.error('Verify OTP error:', error);
-      res.status(500).json({ error: "Failed to verify OTP" });
+      console.error('Verify puzzle error:', error);
+      res.status(500).json({ error: "Failed to verify email" });
     }
   });
 
