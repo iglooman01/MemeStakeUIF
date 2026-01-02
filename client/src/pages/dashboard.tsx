@@ -43,11 +43,10 @@ export default function Dashboard() {
   // Airdrop claim section state
   const [showAirdropClaim, setShowAirdropClaim] = useState(false);
   const [email, setEmail] = useState('');
-  const [otp, setOtp] = useState('');
-  const [showOtpInput, setShowOtpInput] = useState(false);
-  const [resendCooldown, setResendCooldown] = useState(0);
-  const [isSendingOtp, setIsSendingOtp] = useState(false);
-  const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
+  const [puzzle, setPuzzle] = useState<{ num1: number; num2: number } | null>(null);
+  const [puzzleAnswer, setPuzzleAnswer] = useState('');
+  const [isLoadingPuzzle, setIsLoadingPuzzle] = useState(false);
+  const [isVerifyingEmail, setIsVerifyingEmail] = useState(false);
   const [tasksPending, setTasksPending] = useState<Record<string, boolean>>({
     telegram_group: false,
     telegram_channel: false,
@@ -205,16 +204,6 @@ export default function Dashboard() {
     }
   }, [walletAddress]);
 
-  // Resend OTP cooldown timer
-  useEffect(() => {
-    if (resendCooldown > 0) {
-      const timer = setTimeout(() => {
-        setResendCooldown(resendCooldown - 1);
-      }, 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [resendCooldown]);
-
   const copyReferralLink = () => {
     navigator.clipboard.writeText(referralLink);
     toast({
@@ -223,51 +212,53 @@ export default function Dashboard() {
     });
   };
 
-  // Send OTP mutation
-  const sendOtpMutation = useMutation({
-    mutationFn: async (data: { email: string; walletAddress: string; sponsorCode?: string }) => {
-      const res = await apiRequest('POST', '/api/airdrop/send-otp', data);
-      return await res.json();
-    },
-    onSuccess: () => {
-      setShowOtpInput(true);
-      setIsSendingOtp(false);
+  // Fetch puzzle for email verification
+  const fetchPuzzle = async () => {
+    if (!walletAddress) return;
+    setIsLoadingPuzzle(true);
+    try {
+      const res = await apiRequest('POST', '/api/airdrop/get-puzzle', { walletAddress });
+      const data = await res.json();
+      if (data.success) {
+        setPuzzle(data.puzzle);
+        setPuzzleAnswer('');
+      }
+    } catch (error) {
+      console.error('Failed to fetch puzzle:', error);
       toast({
-        title: "📧 OTP Sent!",
-        description: `Verification code sent to ${email}`,
-      });
-    },
-    onError: (error: any) => {
-      setIsSendingOtp(false);
-      toast({
-        title: "❌ Failed to Send OTP",
-        description: error.message || "Please try again",
+        title: "❌ Error",
+        description: "Failed to load verification puzzle",
         variant: "destructive",
       });
     }
-  });
+    setIsLoadingPuzzle(false);
+  };
 
-  // Verify OTP mutation
-  const verifyOtpMutation = useMutation({
-    mutationFn: async (data: { email: string; otp: string; walletAddress: string; sponsorCode?: string }) => {
-      const res = await apiRequest('POST', '/api/airdrop/verify-otp', data);
+  // Verify puzzle mutation
+  const verifyPuzzleMutation = useMutation({
+    mutationFn: async (data: { email: string; puzzleAnswer: string; walletAddress: string; sponsorCode?: string }) => {
+      const res = await apiRequest('POST', '/api/airdrop/verify-puzzle', data);
       return await res.json();
     },
     onSuccess: () => {
-      setIsVerifyingOtp(false);
+      setIsVerifyingEmail(false);
+      setPuzzle(null);
+      setPuzzleAnswer('');
       queryClient.invalidateQueries({ queryKey: ['/api/airdrop/status', walletAddress] });
       toast({
         title: "✅ Email Verified!",
-        description: "You can now claim your airdrop tokens",
+        description: "Welcome email sent! You can now claim your airdrop tokens.",
       });
     },
     onError: (error: any) => {
-      setIsVerifyingOtp(false);
+      setIsVerifyingEmail(false);
       toast({
         title: "❌ Verification Failed",
-        description: error.message || "Invalid OTP",
+        description: error.message || "Please try again",
         variant: "destructive",
       });
+      // Refresh puzzle on error
+      fetchPuzzle();
     }
   });
 
@@ -316,7 +307,7 @@ export default function Dashboard() {
   });
 
   // Airdrop claim handlers
-  const handleSendOTP = async () => {
+  const handleGetPuzzle = async () => {
     if (!email || !email.includes('@')) {
       toast({
         title: "❌ Invalid Email",
@@ -324,47 +315,32 @@ export default function Dashboard() {
       });
       return;
     }
-    
-    setIsSendingOtp(true);
-    sendOtpMutation.mutate({ 
-      email, 
-      walletAddress, 
-      sponsorCode: sponsorAddress || referralCode 
-    });
-    setResendCooldown(60); // Start 60 second cooldown
+    await fetchPuzzle();
   };
 
-  const handleVerifyOTP = async () => {
-    if (!otp || otp.length !== 6) {
+  const handleVerifyEmail = async () => {
+    if (!puzzle) {
       toast({
-        title: "❌ Invalid OTP",
-        description: "Please enter the 6-digit verification code",
+        title: "❌ No Puzzle",
+        description: "Please get a verification puzzle first",
       });
       return;
     }
     
-    setIsVerifyingOtp(true);
-    verifyOtpMutation.mutate({ 
-      email, 
-      otp, 
+    if (!puzzleAnswer || puzzleAnswer.trim() === '') {
+      toast({
+        title: "❌ Invalid Answer",
+        description: "Please solve the math puzzle",
+      });
+      return;
+    }
+    
+    setIsVerifyingEmail(true);
+    verifyPuzzleMutation.mutate({ 
+      email,
+      puzzleAnswer,
       walletAddress,
       sponsorCode: sponsorAddress || referralCode 
-    });
-  };
-
-  const handleResendOTP = async () => {
-    if (resendCooldown > 0) return;
-    
-    setIsSendingOtp(true);
-    sendOtpMutation.mutate({ 
-      email, 
-      walletAddress,
-      sponsorCode: sponsorAddress || referralCode
-    });
-    setResendCooldown(60);
-    toast({
-      title: "📧 OTP Resent",
-      description: "Check your email for the new verification code",
     });
   };
 
@@ -1942,16 +1918,6 @@ export default function Dashboard() {
     return () => clearInterval(timer);
   }, []);
 
-  // Resend OTP cooldown timer
-  useEffect(() => {
-    if (resendCooldown > 0) {
-      const timer = setTimeout(() => {
-        setResendCooldown(resendCooldown - 1);
-      }, 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [resendCooldown]);
-
   const handleStakeTokens = () => {
     toast({
       title: "Staking Program Launching Soon!!",
@@ -2510,7 +2476,7 @@ export default function Dashboard() {
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="Enter your email"
                           className="w-full px-3 py-2 rounded bg-black/30 border border-white/20 text-white placeholder-gray-400 focus:border-cyan-500 focus:outline-none"
-                          disabled={showOtpInput}
+                          disabled={!!puzzle}
                           data-testid="input-email"
                         />
                       </div>
@@ -2524,58 +2490,65 @@ export default function Dashboard() {
                             onChange={(e) => setSponsorAddress(e.target.value)}
                             placeholder="Sponsor code (optional)"
                             className="w-full px-3 py-2 rounded bg-black/30 border border-white/20 text-white placeholder-gray-400 focus:border-gold-500 focus:outline-none"
-                            disabled={showOtpInput}
+                            disabled={!!puzzle}
                             data-testid="input-sponsor-code"
                           />
                         </div>
                       )}
 
-                      {/* OTP Input (shown after OTP sent) */}
-                      {showOtpInput && (
-                        <div>
-                          <input
-                            type="text"
-                            value={otp}
-                            onChange={(e) => setOtp(e.target.value)}
-                            placeholder="Enter 6-digit OTP"
-                            maxLength={6}
-                            className="w-full px-3 py-2 rounded bg-black/30 border border-white/20 text-white placeholder-gray-400 focus:border-green-500 focus:outline-none text-center text-lg tracking-widest"
-                            data-testid="input-otp"
-                          />
+                      {/* Math Puzzle Section */}
+                      {puzzle && (
+                        <div className="p-3 rounded-lg" style={{ background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)' }}>
+                          <p className="text-sm mb-2" style={{ color: '#ffd700' }}>
+                            🧮 Solve this puzzle to verify:
+                          </p>
+                          <div className="flex items-center gap-3">
+                            <span className="text-xl font-bold" style={{ color: '#fff' }}>
+                              {puzzle.num1} + {puzzle.num2} =
+                            </span>
+                            <input
+                              type="number"
+                              value={puzzleAnswer}
+                              onChange={(e) => setPuzzleAnswer(e.target.value)}
+                              placeholder="?"
+                              className="w-20 px-3 py-2 rounded bg-black/30 border border-white/20 text-white text-center text-lg font-bold focus:border-green-500 focus:outline-none"
+                              data-testid="input-puzzle-answer"
+                            />
+                          </div>
                         </div>
                       )}
 
                       {/* Action Buttons */}
                       <div className="flex gap-2">
-                        {!showOtpInput ? (
+                        {!puzzle ? (
                           <Button
-                            onClick={handleSendOTP}
-                            disabled={isSendingOtp || !email}
+                            onClick={handleGetPuzzle}
+                            disabled={isLoadingPuzzle || !email}
                             className="w-full"
                             style={{ background: '#00bfff', color: '#000' }}
-                            data-testid="button-send-otp"
+                            data-testid="button-get-puzzle"
                           >
-                            {isSendingOtp ? '⏳ Sending...' : '📧 Send OTP'}
+                            {isLoadingPuzzle ? '⏳ Loading...' : '🔐 Get Verification Puzzle'}
                           </Button>
                         ) : (
                           <>
                             <Button
-                              onClick={handleVerifyOTP}
-                              disabled={isVerifyingOtp || !otp}
+                              onClick={handleVerifyEmail}
+                              disabled={isVerifyingEmail || !puzzleAnswer}
                               className="flex-1"
                               style={{ background: '#00ff88', color: '#000' }}
-                              data-testid="button-verify-otp"
+                              data-testid="button-verify-email"
                             >
-                              {isVerifyingOtp ? '⏳ Verifying...' : '✅ Verify'}
+                              {isVerifyingEmail ? '⏳ Verifying...' : '✅ Verify Email'}
                             </Button>
                             <Button
-                              onClick={handleResendOTP}
-                              disabled={resendCooldown > 0}
+                              onClick={fetchPuzzle}
+                              disabled={isLoadingPuzzle}
                               variant="outline"
                               className="flex-1"
-                              data-testid="button-resend-otp"
+                              data-testid="button-new-puzzle"
                             >
-                              {resendCooldown > 0 ? `⏰ ${resendCooldown}s` : '🔄 Resend'}
+                              {isLoadingPuzzle ? '⏳...' : '🔄 New Puzzle'}
                             </Button>
                           </>
                         )}
