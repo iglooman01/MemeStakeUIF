@@ -46,7 +46,7 @@ export async function sendWelcomeEmail(email: string): Promise<boolean> {
               <ul style="color: #ccc; font-size: 14px;">
                 <li>💰 <strong style="color: #00ff88;">365% APY</strong> - Earn 1% daily on your staked $MEMES</li>
                 <li>🎁 <strong style="color: #ffd700;">100,000 $MEMES Airdrop</strong> - Complete tasks to claim</li>
-                <li>👥 <strong style="color: #00bfff;">Referral Rewards</strong> - Earn 10,000 $MEMES per referral</li>
+                <li>👥 <strong style="color: #00bfff;">Referral Rewards</strong> - Earn 100,000 $MEMES per referral</li>
               </ul>
             </div>
 
@@ -56,19 +56,25 @@ export async function sendWelcomeEmail(email: string): Promise<boolean> {
               </a>
             </div>
 
+            <div style="background: rgba(0, 255, 136, 0.1); border: 1px solid #00ff88; border-radius: 8px; padding: 20px; margin: 20px 0; text-align: center;">
+              <p style="font-size: 16px; color: #00ff88; margin: 0;">
+                🎯 Refer more users and earn more rewards. Invite all your contacts to our Telegram group.
+              </p>
+            </div>
+
             <div style="border-top: 1px solid #333; padding-top: 20px; margin-top: 20px;">
               <p style="text-align: center; font-size: 14px; color: #888;">
                 Follow us for updates and announcements:
               </p>
               <p style="text-align: center; font-size: 14px;">
-                <a href="https://t.me/maboroshistake" style="color: #00bfff; margin: 0 10px;">Telegram</a> |
-                <a href="https://twitter.com/maboroshistake" style="color: #00bfff; margin: 0 10px;">Twitter</a> |
-                <a href="https://youtube.com/@maboroshistake" style="color: #00bfff; margin: 0 10px;">YouTube</a>
+                <a href="https://t.me/memestakegroup" target="_blank" style="color: #00bfff; margin: 0 10px;">Telegram</a> |
+                <a href="https://x.com/memaboroshi" target="_blank" style="color: #00bfff; margin: 0 10px;">Twitter</a> |
+                <a href="https://www.youtube.com/@memestake" target="_blank" style="color: #00bfff; margin: 0 10px;">YouTube</a>
               </p>
             </div>
 
             <p style="text-align: center; font-size: 12px; color: #666; margin-top: 20px;">
-              © 2024 MEMES STAKE. All rights reserved.<br>
+              © 2026 MEMES STAKE. All rights reserved.<br>
               <a href="https://memestake.io" style="color: #ffd700;">memestake.io</a>
             </p>
           </div>
