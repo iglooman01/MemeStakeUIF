@@ -111,7 +111,7 @@ export function LiveJoinNotification() {
               </div>
               <div className="flex-1 min-w-0">
                 <div className="text-sm font-bold text-white truncate" data-testid={`country-${notification.id}`}>
-                  {notification.country}
+                  User from {notification.country}
                 </div>
                 <div className="text-xs truncate" style={{ color: '#00ff88' }} data-testid={`message-${notification.id}`}>
                   {notification.message}
