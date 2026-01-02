@@ -34,7 +34,7 @@ const mockCountries = [
 
 const messages = [
   'joined the airdrop!',
-  'just signed up!',
+  'claimed airdrop!',
   'claimed tokens!',
   'joined memes!',
   'connected wallet!',
