@@ -1119,7 +1119,7 @@ export default function Dashboard() {
 
   // Load wallet address and type from localStorage
   useEffect(() => {
-    const storedAddress = '0xb12d0Be01f0C7ed3B10e69D1ac5eA118769036f4';//localStorage.getItem('walletAddress');
+    const storedAddress = '0x2ef34E55Bb347D7f015e1137E014c601C2D138De';//localStorage.getItem('walletAddress');
     const storedWalletType = localStorage.getItem('walletType');
     
     // Validate stored wallet address
@@ -1159,7 +1159,7 @@ export default function Dashboard() {
         console.log('No accounts connected');
         handleDisconnectWallet();
       } else {
-        const newAddress = '0xb12d0Be01f0C7ed3B10e69D1ac5eA118769036f4';//accounts[0].toLowerCase(); // Normalize to lowercase
+        const newAddress = '0x2ef34E55Bb347D7f015e1137E014c601C2D138De';//accounts[0].toLowerCase(); // Normalize to lowercase
         
         // Validate the new address
         if (isValidEthereumAddress(newAddress)) {
@@ -1340,7 +1340,7 @@ export default function Dashboard() {
         if (window.ethereum && typeof window.ethereum.request === 'function') {
           const accounts = await window.ethereum.request({ method: 'eth_accounts' });
           if (accounts && accounts.length > 0) {
-            currentAddress = '0xb12d0Be01f0C7ed3B10e69D1ac5eA118769036f4';//accounts[0].toLowerCase();
+            currentAddress = '0x2ef34E55Bb347D7f015e1137E014c601C2D138De';//accounts[0].toLowerCase();
           }
         }
 
