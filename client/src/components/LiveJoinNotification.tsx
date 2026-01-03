@@ -63,9 +63,9 @@ export function LiveJoinNotification() {
       setQueue((prev) => [...prev, notification]);
     };
 
-    const interval = setInterval(showNotification, 6000);
+    const interval = setInterval(showNotification, 20000);
     
-    setTimeout(showNotification, 2000);
+    setTimeout(showNotification, 7000);
 
     return () => clearInterval(interval);
   }, []);
@@ -78,7 +78,7 @@ export function LiveJoinNotification() {
 
       setTimeout(() => {
         setNotifications([]);
-      }, 4000);
+      }, 13000);
     }
   }, [queue, notifications]);
 
@@ -95,7 +95,7 @@ export function LiveJoinNotification() {
             initial={{ opacity: 0, x: 100, y: -20 }}
             animate={{ opacity: 1, x: 0, y: 0 }}
             exit={{ opacity: 0, x: 100 }}
-            transition={{ duration: 0.4, ease: 'easeOut' }}
+            transition={{ duration: 1.3, ease: 'easeOut' }}
             className="pointer-events-auto mb-3"
           >
             <div 
