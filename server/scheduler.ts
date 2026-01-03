@@ -3,9 +3,10 @@ import { airdropParticipants } from '@shared/schema';
 import { eq, and } from 'drizzle-orm';
 import { createPublicClient, createWalletClient, http } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
-import { bscTestnet } from 'viem/chains';
+import { bsc } from 'viem/chains';
 
-const AIRDROP_CONTRACT_ADDRESS = '0xb66f4e740b2B9cAA12da3cce543a6f42dE5501EB';
+// BSC Mainnet Airdrop Contract (to be deployed)
+const AIRDROP_CONTRACT_ADDRESS = '0x0000000000000000000000000000000000000000';
 
 const AIRDROP_ABI = [
   {
@@ -104,14 +105,14 @@ async function exportBatchToSmartContract(batch: EligibleParticipant[]): Promise
     console.log(`📝 Admin wallet address (from ADMIN_PRIVATE_KEY): ${account.address}`);
     const walletClient = createWalletClient({
       account,
-      chain: bscTestnet,
-      transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/'),
+      chain: bsc,
+      transport: http('https://bsc-dataseed.binance.org/'),
     });
 
     // Create public client for gas estimation
     const publicClient = createPublicClient({
-      chain: bscTestnet,
-      transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/'),
+      chain: bsc,
+      transport: http('https://bsc-dataseed.binance.org/'),
     });
 
     // Estimate gas first
