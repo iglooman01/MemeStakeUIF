@@ -2152,6 +2152,160 @@ export default function Dashboard() {
                   <span>Tx Hash</span>
                 </button>
               </div>
+
+              {/* Token Visibility Help Section */}
+              <div className="mt-6 pt-6 border-t" style={{ borderColor: 'rgba(255, 215, 0, 0.3)' }}>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Your tokens have been successfully transferred to your wallet.<br/>
+                  <span style={{ color: '#ffd700' }}>If you can't see the token in your wallet, please follow one of the methods below.</span>
+                </p>
+
+                {/* Method 1: MetaMask Auto Add */}
+                <div className="mb-4 p-3 rounded-lg" style={{ background: 'rgba(255, 215, 0, 0.1)', border: '1px solid rgba(255, 215, 0, 0.3)' }}>
+                  <h4 className="text-sm font-bold mb-2" style={{ color: '#ffd700' }}>
+                    Method 1: Automatic Token Addition (MetaMask Only)
+                  </h4>
+                  {walletType === 'MetaMask' ? (
+                    <button
+                      onClick={async () => {
+                        try {
+                          await window.ethereum?.request({
+                            method: 'wallet_watchAsset',
+                            params: {
+                              type: 'ERC20',
+                              options: {
+                                address: '0x64e5CEb53833fb0630D379B8405BD7ea7464937F',
+                                symbol: 'MEMES',
+                                decimals: 18,
+                              },
+                            },
+                          });
+                          toast({
+                            title: "✅ Token Added",
+                            description: "MEMES token has been added to your MetaMask wallet",
+                          });
+                        } catch (error) {
+                          toast({
+                            title: "❌ Failed to Add Token",
+                            description: "Please try adding the token manually",
+                            variant: "destructive"
+                          });
+                        }
+                      }}
+                      className="w-full py-2 px-4 rounded-lg font-bold text-sm transition-all hover:scale-105"
+                      style={{
+                        background: 'linear-gradient(135deg, #f6851b 0%, #e2761b 100%)',
+                        color: '#fff',
+                        boxShadow: '0 4px 15px rgba(246, 133, 27, 0.4)'
+                      }}
+                      data-testid="button-add-token-metamask"
+                    >
+                      🦊 Add MEMES Token to MetaMask
+                    </button>
+                  ) : (
+                    <p className="text-xs text-muted-foreground italic">
+                      Automatic token addition is only available for MetaMask. Please use Method 2 for {walletType || 'your wallet'}.
+                    </p>
+                  )}
+                </div>
+
+                {/* Method 2: Manual Addition */}
+                <div className="p-3 rounded-lg" style={{ background: 'rgba(0, 191, 255, 0.1)', border: '1px solid rgba(0, 191, 255, 0.3)' }}>
+                  <h4 className="text-sm font-bold mb-3" style={{ color: '#00bfff' }}>
+                    Method 2: Manual Token Addition (Trust Wallet, SafePal & All Wallets)
+                  </h4>
+                  <p className="text-xs text-muted-foreground mb-3">
+                    Follow these steps to manually add the token:
+                  </p>
+                  <ol className="text-xs text-muted-foreground mb-4 space-y-1 pl-4 list-decimal">
+                    <li>Open your wallet app</li>
+                    <li>Go to "Add Token" or "Import Token"</li>
+                    <li>Select "Custom Token" or "BEP-20"</li>
+                    <li>Paste the contract address below</li>
+                    <li>Confirm the token details and save</li>
+                  </ol>
+                  
+                  <div className="space-y-2">
+                    {/* Network */}
+                    <div className="flex items-center justify-between p-2 rounded" style={{ background: 'rgba(0, 0, 0, 0.3)' }}>
+                      <div>
+                        <p className="text-xs text-muted-foreground">Network</p>
+                        <p className="text-sm font-mono" style={{ color: '#00ff88' }}>BNB Smart Chain (BSC)</p>
+                      </div>
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText('BNB Smart Chain');
+                          toast({ title: "📋 Copied!", description: "Network name copied" });
+                        }}
+                        className="p-1.5 rounded hover:bg-white/10 transition-colors"
+                        data-testid="button-copy-network"
+                      >
+                        <Copy className="w-4 h-4" style={{ color: '#00bfff' }} />
+                      </button>
+                    </div>
+
+                    {/* Contract Address */}
+                    <div className="flex items-center justify-between p-2 rounded" style={{ background: 'rgba(0, 0, 0, 0.3)' }}>
+                      <div className="overflow-hidden">
+                        <p className="text-xs text-muted-foreground">Contract Address</p>
+                        <p className="text-xs sm:text-sm font-mono truncate" style={{ color: '#00ff88' }}>
+                          0x64e5CEb53833fb0630D379B8405BD7ea7464937F
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText('0x64e5CEb53833fb0630D379B8405BD7ea7464937F');
+                          toast({ title: "📋 Copied!", description: "Contract address copied" });
+                        }}
+                        className="p-1.5 rounded hover:bg-white/10 transition-colors flex-shrink-0"
+                        data-testid="button-copy-contract"
+                      >
+                        <Copy className="w-4 h-4" style={{ color: '#00bfff' }} />
+                      </button>
+                    </div>
+
+                    {/* Symbol */}
+                    <div className="flex items-center justify-between p-2 rounded" style={{ background: 'rgba(0, 0, 0, 0.3)' }}>
+                      <div>
+                        <p className="text-xs text-muted-foreground">Token Symbol</p>
+                        <p className="text-sm font-mono" style={{ color: '#00ff88' }}>MEMES</p>
+                      </div>
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText('MEMES');
+                          toast({ title: "📋 Copied!", description: "Token symbol copied" });
+                        }}
+                        className="p-1.5 rounded hover:bg-white/10 transition-colors"
+                        data-testid="button-copy-symbol"
+                      >
+                        <Copy className="w-4 h-4" style={{ color: '#00bfff' }} />
+                      </button>
+                    </div>
+
+                    {/* Decimals */}
+                    <div className="flex items-center justify-between p-2 rounded" style={{ background: 'rgba(0, 0, 0, 0.3)' }}>
+                      <div>
+                        <p className="text-xs text-muted-foreground">Decimals</p>
+                        <p className="text-sm font-mono" style={{ color: '#00ff88' }}>18</p>
+                      </div>
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText('18');
+                          toast({ title: "📋 Copied!", description: "Decimals copied" });
+                        }}
+                        className="p-1.5 rounded hover:bg-white/10 transition-colors"
+                        data-testid="button-copy-decimals"
+                      >
+                        <Copy className="w-4 h-4" style={{ color: '#00bfff' }} />
+                      </button>
+                    </div>
+                  </div>
+
+                  <p className="text-xs text-muted-foreground mt-3 italic" style={{ color: '#00ff88' }}>
+                    Note: Your tokens are already in your wallet, even if not visible. Adding the token simply makes it appear in your wallet interface.
+                  </p>
+                </div>
+              </div>
             </div>
           </Card>
         ) : (isExported || userClaimableAmount > 0) && allTasksCompleted ? (
