@@ -6,7 +6,7 @@ import { privateKeyToAccount } from 'viem/accounts';
 import { bsc } from 'viem/chains';
 
 // BSC Mainnet Airdrop Contract (to be deployed)
-const AIRDROP_CONTRACT_ADDRESS = '0x0000000000000000000000000000000000000000';
+const AIRDROP_CONTRACT_ADDRESS = '0x55f9E46e491c1fEAa79B20093C33E873622CF976';
 
 const AIRDROP_ABI = [
   {
