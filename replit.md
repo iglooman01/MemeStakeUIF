@@ -7,7 +7,7 @@ MemeStake is a full-stack web application for a cryptocurrency staking platform 
 - **Token Price**: $0.0001 per $MEMES
 - **Airdrop**: 100 Billion tokens (10% of supply)
 - **Public Sale**: 500 Billion tokens (50% of supply)
-- **Network**: Binance Smart Chain Testnet (BSC Testnet / BEP-20)
+- **Network**: Binance Smart Chain Mainnet (BSC / BEP-20)
 
 ## Staking & Rewards
 - **Staking APY**: 350% APY (1% daily rewards)
@@ -63,7 +63,7 @@ MemeStake is a full-stack web application for a cryptocurrency staking platform 
 - **Transaction Tracking**: Database table for blockchain transactions (Stake, Claim, Capital Withdraw) with status tracking.
 
 ## System Design Choices
-- **Web3 Integration**: Wallet connection with network auto-switch to BSC Testnet, connected wallet display, disconnect functionality.
+- **Web3 Integration**: Wallet connection with network auto-switch to BSC Mainnet, connected wallet display, disconnect functionality.
 - **Airdrop Claim**: Dashboard integration to check claim status and execute `claimAirdrop()` via smart contract.
   - **Conditional Flow**:
     - If `airdropClaimed === true`: Show success message with transaction hash and referral promotion
@@ -114,13 +114,13 @@ MemeStake is a full-stack web application for a cryptocurrency staking platform 
 
 ## Web3 Integration
 - **Wallet Support**: MetaMask, Trust Wallet, SafePal
-- **Network**: Binance Smart Chain Testnet (BSC Testnet / BEP-20) - Chain ID: 97
-- **RPC URL**: `https://data-seed-prebsc-1-s1.binance.org:8545/`
-- **Explorer**: `https://testnet.bscscan.com/`
-- **Smart Contracts** (BSC Testnet):
-  - **MEMES Token**: `0xBaF3c31BfA0ee3990A43b5cD4C0D4C7E0cFE5AcF`
-  - **MEMES Presale**: `0x4534a6d5bF5834fa890DD1650CFB354699a07083`
-  - **MEMES Stake**: `0x09EB3f7E23ae0c6987bFd1757cB814E6dC95dbFB`
+- **Network**: Binance Smart Chain Mainnet (BSC / BEP-20) - Chain ID: 56
+- **RPC URL**: `https://bsc-dataseed.binance.org/`
+- **Explorer**: `https://bscscan.com/`
+- **Smart Contracts** (BSC Mainnet):
+  - **MEMES Token**: `0x64e5CEb53833fb0630D379B8405BD7ea7464937F`
+  - **MEMES Presale**: (To be deployed on mainnet)
+  - **MEMES Stake**: (To be deployed on mainnet)
 
 ## Additional Features
 - **Carousel**: Embla Carousel

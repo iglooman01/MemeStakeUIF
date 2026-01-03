@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Search, User, Wallet, TrendingUp, Users, Newspaper, Mail, LogOut, Trash2, Edit } from "lucide-react";
 import { createPublicClient, http } from 'viem';
-import { bscTestnet } from 'viem/chains';
+import { bsc } from 'viem/chains';
 import { CONTRACTS } from '../config/contracts';
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation } from "@tanstack/react-query";
@@ -75,8 +75,8 @@ export default function Admin() {
     setIsLoading(true);
     try {
       const publicClient = createPublicClient({
-        chain: bscTestnet,
-        transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
+        chain: bsc,
+        transport: http('https://bsc-dataseed.binance.org/')
       });
 
       const tokenBalance = await publicClient.readContract({

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import memeStakeLogo from "@assets/ChatGPT Image Oct 9, 2025, 11_08_34 AM_1759988345567.png";
 import { createPublicClient, http } from 'viem';
-import { bscTestnet } from 'viem/chains';
+import { bsc } from 'viem/chains';
 import { CONTRACTS } from '@/config/contracts';
 import { useQuery } from '@tanstack/react-query';
 
@@ -51,8 +51,8 @@ export default function IncomeHistory() {
 
         // Create public client inside useEffect to avoid recreation on every render
         const publicClient = createPublicClient({
-          chain: bscTestnet,
-          transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
+          chain: bsc,
+          transport: http('https://bsc-dataseed.binance.org/')
         });
 
         // 1. Staking Rewards = sum of totalRewardsClaimed from all user stakes

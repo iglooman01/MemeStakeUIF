@@ -8,7 +8,7 @@ import { apiRequest, queryClient } from "@/lib/queryClient";
 import memeStakeLogo from "@assets/ChatGPT Image Oct 9, 2025, 11_08_34 AM_1759988345567.png";
 import { CONTRACTS } from "@/config/contracts";
 import { createPublicClient, createWalletClient, http, custom, parseEther, parseUnits } from "viem";
-import { bscTestnet } from "viem/chains";
+import { bsc } from "viem/chains";
 import { Home, BookOpen, Coins, Copy, CheckCircle2, Users, TrendingUp, Shield, Rocket, Trophy, Zap, Lock, Gift, AlertTriangle } from "lucide-react";
 import { SiTelegram, SiX, SiYoutube } from "react-icons/si";
 import {
@@ -86,7 +86,7 @@ export default function Dashboard() {
   // Minimum BNB required for gas fees (0.001 BNB)
   const MIN_GAS_FEE_BNB = 0.001;
   
-  const BSC_TESTNET_CHAIN_ID = '0x61'; // 97 in decimal
+  const BSC_MAINNET_CHAIN_ID = '0x38'; // 56 in decimal
 
   // Helper function to validate Ethereum address
   const isValidEthereumAddress = (address: string): boolean => {
@@ -428,8 +428,8 @@ export default function Dashboard() {
 
       // Check if airdrop contract has enough MEMES tokens
       const publicClient = createPublicClient({
-        chain: bscTestnet,
-        transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
+        chain: bsc,
+        transport: http('https://bsc-dataseed.binance.org/')
       });
 
       const airdropContractBalance = await publicClient.readContract({
@@ -464,19 +464,19 @@ export default function Dashboard() {
       if (normalizedWalletType === 'metamask' && window.ethereum) {
         walletClient = createWalletClient({
           account: walletAddress as `0x${string}`,
-          chain: bscTestnet,
+          chain: bsc,
           transport: custom(window.ethereum)
         });
       } else if (normalizedWalletType === 'trustwallet' && (window as any).trustwallet) {
         walletClient = createWalletClient({
           account: walletAddress as `0x${string}`,
-          chain: bscTestnet,
+          chain: bsc,
           transport: custom((window as any).trustwallet)
         });
       } else if (normalizedWalletType === 'safepal' && (window as any).safepalProvider) {
         walletClient = createWalletClient({
           account: walletAddress as `0x${string}`,
-          chain: bscTestnet,
+          chain: bsc,
           transport: custom((window as any).safepalProvider)
         });
       } else {
@@ -642,8 +642,8 @@ export default function Dashboard() {
 
       // Create public client for checking balances
       const publicClient = createPublicClient({
-        chain: bscTestnet,
-        transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
+        chain: bsc,
+        transport: http('https://bsc-dataseed.binance.org/')
       });
 
       // Check if Presale contract has enough MEMES tokens
@@ -670,7 +670,7 @@ export default function Dashboard() {
 
       // Create wallet client
       const walletClient = createWalletClient({
-        chain: bscTestnet,
+        chain: bsc,
         transport: custom(window.ethereum)
       });
 
@@ -893,19 +893,19 @@ export default function Dashboard() {
       if (normalizedWalletType === 'metamask' && window.ethereum) {
         walletClient = createWalletClient({
           account: walletAddress as `0x${string}`,
-          chain: bscTestnet,
+          chain: bsc,
           transport: custom(window.ethereum)
         });
       } else if (normalizedWalletType === 'trustwallet' && (window as any).trustwallet) {
         walletClient = createWalletClient({
           account: walletAddress as `0x${string}`,
-          chain: bscTestnet,
+          chain: bsc,
           transport: custom((window as any).trustwallet)
         });
       } else if (normalizedWalletType === 'safepal' && (window as any).safepalProvider) {
         walletClient = createWalletClient({
           account: walletAddress as `0x${string}`,
-          chain: bscTestnet,
+          chain: bsc,
           transport: custom((window as any).safepalProvider)
         });
       } else {
@@ -965,8 +965,8 @@ export default function Dashboard() {
 
       // Wait for transaction confirmation
       const publicClient = createPublicClient({
-        chain: bscTestnet,
-        transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
+        chain: bsc,
+        transport: http('https://bsc-dataseed.binance.org/')
       });
 
       await publicClient.waitForTransactionReceipt({ hash });
@@ -1030,8 +1030,8 @@ export default function Dashboard() {
     }
   };
 
-  // Switch to BSC Testnet with better error handling
-  const switchToBscTestnet = async () => {
+  // Switch to BSC Mainnet with better error handling
+  const switchToBscMainnet = async () => {
     if (!window.ethereum) {
       toast({
         title: "❌ No Wallet Found",
@@ -1047,13 +1047,13 @@ export default function Dashboard() {
       // First try to switch
       await window.ethereum.request({
         method: 'wallet_switchEthereumChain',
-        params: [{ chainId: BSC_TESTNET_CHAIN_ID }],
+        params: [{ chainId: BSC_MAINNET_CHAIN_ID }],
       });
       
-      setCurrentChainId(BSC_TESTNET_CHAIN_ID);
+      setCurrentChainId(BSC_MAINNET_CHAIN_ID);
       toast({
         title: "✅ Network Switched",
-        description: "Successfully switched to BSC Testnet",
+        description: "Successfully switched to BSC Mainnet",
       });
       
       setIsCheckingNetwork(false);
@@ -1065,22 +1065,22 @@ export default function Dashboard() {
           await window.ethereum.request({
             method: 'wallet_addEthereumChain',
             params: [{
-              chainId: BSC_TESTNET_CHAIN_ID,
-              chainName: 'BNB Smart Chain Testnet',
+              chainId: BSC_MAINNET_CHAIN_ID,
+              chainName: 'BNB Smart Chain',
               nativeCurrency: {
                 name: 'BNB',
-                symbol: 'tBNB',
+                symbol: 'BNB',
                 decimals: 18,
               },
-              rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/'],
-              blockExplorerUrls: ['https://testnet.bscscan.com/'],
+              rpcUrls: ['https://bsc-dataseed.binance.org/'],
+              blockExplorerUrls: ['https://bscscan.com/'],
             }],
           });
           
-          setCurrentChainId(BSC_TESTNET_CHAIN_ID);
+          setCurrentChainId(BSC_MAINNET_CHAIN_ID);
           toast({
             title: "✅ Network Added",
-            description: "BSC Testnet added and switched successfully",
+            description: "BSC Mainnet added and switched successfully",
           });
           
           setIsCheckingNetwork(false);
@@ -1089,7 +1089,7 @@ export default function Dashboard() {
           console.error('Error adding network:', addError);
           toast({
             title: "❌ Network Setup Failed",
-            description: "Could not add BSC Testnet. Please add it manually in your wallet settings.",
+            description: "Could not add BSC Mainnet. Please add it manually in your wallet settings.",
             variant: "destructive"
           });
           setIsCheckingNetwork(false);
@@ -1099,7 +1099,7 @@ export default function Dashboard() {
         // User rejected the request
         toast({
           title: "❌ Request Rejected",
-          description: "You need to switch to BSC Testnet to use this app",
+          description: "You need to switch to BSC Mainnet to use this app",
           variant: "destructive"
         });
         setIsCheckingNetwork(false);
@@ -1108,7 +1108,7 @@ export default function Dashboard() {
         console.error('Network switch error:', switchError);
         toast({
           title: "⚠️ Network Switch Issue",
-          description: "Please manually switch to BSC Testnet in your wallet",
+          description: "Please manually switch to BSC Mainnet in your wallet",
           variant: "destructive"
         });
         setIsCheckingNetwork(false);
@@ -1202,8 +1202,8 @@ export default function Dashboard() {
             const fetchNewWalletData = async () => {
               try {
                 const publicClient = createPublicClient({
-                  chain: bscTestnet,
-                  transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
+                  chain: bsc,
+                  transport: http('https://bsc-dataseed.binance.org/')
                 });
 
                 // Fetch balance
@@ -1383,8 +1383,8 @@ export default function Dashboard() {
           setTimeout(async () => {
             try {
               const publicClient = createPublicClient({
-                chain: bscTestnet,
-                transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
+                chain: bsc,
+                transport: http('https://bsc-dataseed.binance.org/')
               });
 
               const balance = await publicClient.readContract({
@@ -1496,8 +1496,8 @@ export default function Dashboard() {
         try {
           // Create public client for reading contract
           const publicClient = createPublicClient({
-            chain: bscTestnet,
-            transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
+            chain: bsc,
+            transport: http('https://bsc-dataseed.binance.org/')
           });
 
           // Convert amount to wei (assuming 18 decimals for USDT)
@@ -1542,8 +1542,8 @@ export default function Dashboard() {
       try {
         // Create public client for reading contract
         const publicClient = createPublicClient({
-          chain: bscTestnet,
-          transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
+          chain: bsc,
+          transport: http('https://bsc-dataseed.binance.org/')
         });
 
         // 1. Check referrerOf[connectedWallet] from contract
@@ -1613,8 +1613,8 @@ export default function Dashboard() {
     try {
       // Create public client for reading contract
       const publicClient = createPublicClient({
-        chain: bscTestnet,
-        transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
+        chain: bsc,
+        transport: http('https://bsc-dataseed.binance.org/')
       });
 
       // Fetch MEME token balance
@@ -2088,7 +2088,7 @@ export default function Dashboard() {
         </Card>
 
         {/* Wrong Network Warning - Compact */}
-        {walletAddress && currentChainId && currentChainId !== BSC_TESTNET_CHAIN_ID && (
+        {walletAddress && currentChainId && currentChainId !== BSC_MAINNET_CHAIN_ID && (
           <Card className="p-3 border-2 animate-pulse" style={{
             borderColor: 'rgba(255, 0, 0, 0.5)',
             background: 'rgba(255, 0, 0, 0.1)'
@@ -2099,12 +2099,12 @@ export default function Dashboard() {
                 <div>
                   <h3 className="font-bold text-sm" style={{color: '#ff4444'}}>Wrong Network</h3>
                   <p className="text-xs text-muted-foreground">
-                    Switch to BSC Testnet (Chain ID: 97)
+                    Switch to BSC Mainnet (Chain ID: 56)
                   </p>
                 </div>
               </div>
               <Button 
-                onClick={switchToBscTestnet}
+                onClick={switchToBscMainnet}
                 disabled={isCheckingNetwork}
                 size="sm"
                 className="text-xs whitespace-nowrap"
@@ -2139,7 +2139,7 @@ export default function Dashboard() {
               {/* Tx Hash Button - ONLY button shown */}
               <div className="mt-4">
                 <button
-                  onClick={() => window.open(`https://testnet.bscscan.com/tx/${airdropTxHash}`, '_blank')}
+                  onClick={() => window.open(`https://bscscan.com/tx/${airdropTxHash}`, '_blank')}
                   className="inline-flex items-center gap-2 px-3 py-1.5 rounded text-sm font-medium transition-all hover:scale-105"
                   style={{
                     background: 'rgba(0, 191, 255, 0.15)',

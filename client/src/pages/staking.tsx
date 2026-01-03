@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import memeStakeLogo from "@assets/ChatGPT Image Oct 9, 2025, 11_08_34 AM_1759988345567.png";
 import { createPublicClient, http } from 'viem';
-import { bscTestnet } from 'viem/chains';
+import { bsc } from 'viem/chains';
 import { CONTRACTS } from '@/config/contracts';
 import { apiRequest } from '@/lib/queryClient';
 
@@ -51,13 +51,13 @@ export default function Staking() {
         // Check network
         if (window.ethereum) {
           try {
-            const BSC_TESTNET_CHAIN_ID = '0x61';
+            const BSC_MAINNET_CHAIN_ID = '0x38';
             const chainId = await window.ethereum.request({ method: 'eth_chainId' });
             
-            if (chainId !== BSC_TESTNET_CHAIN_ID) {
+            if (chainId !== BSC_MAINNET_CHAIN_ID) {
               toast({
                 title: "⚠️ Wrong Network",
-                description: "Please switch to BSC Testnet to use staking",
+                description: "Please switch to BSC Mainnet to use staking",
                 variant: "destructive"
               });
             }
@@ -138,8 +138,8 @@ export default function Staking() {
         setIsCheckingTransfers(true);
         
         const publicClient = createPublicClient({
-          chain: bscTestnet,
-          transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
+          chain: bsc,
+          transport: http('https://bsc-dataseed.binance.org/')
         });
 
         const isUnlocked = await publicClient.readContract({
@@ -174,8 +174,8 @@ export default function Staking() {
       setIsLoadingData(true);
 
       const publicClient = createPublicClient({
-        chain: bscTestnet,
-        transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
+        chain: bsc,
+        transport: http('https://bsc-dataseed.binance.org/')
       });
 
       // 1. Fetch staked amount using getActiveStakesWithId to access lastClaim
@@ -790,8 +790,8 @@ export default function Staking() {
 
       // Check reward fund balance first
       const publicClient = createPublicClient({
-        chain: bscTestnet,
-        transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
+        chain: bsc,
+        transport: http('https://bsc-dataseed.binance.org/')
       });
 
       const rewardFundBalance = await publicClient.readContract({

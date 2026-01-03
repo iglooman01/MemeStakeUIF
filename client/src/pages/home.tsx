@@ -496,14 +496,14 @@ export default function Home() {
         
         // Check network and prompt to switch if needed
         try {
-          const BSC_TESTNET_CHAIN_ID = '0x61'; // 97 in hex
+          const BSC_MAINNET_CHAIN_ID = '0x38'; // 56 in hex
           const chainId = await window.ethereum.request({ method: 'eth_chainId' });
           
-          if (chainId !== BSC_TESTNET_CHAIN_ID) {
+          if (chainId !== BSC_MAINNET_CHAIN_ID) {
             // Wrong network - ask user to switch
             toast({
               title: "⚠️ Wrong Network",
-              description: "Please switch to BSC Testnet to continue",
+              description: "Please switch to BSC Mainnet to continue",
               variant: "destructive"
             });
             
@@ -511,12 +511,12 @@ export default function Home() {
               // Try to switch network
               await window.ethereum.request({
                 method: 'wallet_switchEthereumChain',
-                params: [{ chainId: BSC_TESTNET_CHAIN_ID }],
+                params: [{ chainId: BSC_MAINNET_CHAIN_ID }],
               });
               
               toast({
                 title: "✅ Network Switched",
-                description: "Successfully switched to BSC Testnet. Redirecting...",
+                description: "Successfully switched to BSC Mainnet. Redirecting...",
               });
               
               setIsConnecting(false);
@@ -530,21 +530,21 @@ export default function Home() {
                   await window.ethereum.request({
                     method: 'wallet_addEthereumChain',
                     params: [{
-                      chainId: BSC_TESTNET_CHAIN_ID,
-                      chainName: 'BNB Smart Chain Testnet',
+                      chainId: BSC_MAINNET_CHAIN_ID,
+                      chainName: 'BNB Smart Chain',
                       nativeCurrency: {
                         name: 'BNB',
-                        symbol: 'tBNB',
+                        symbol: 'BNB',
                         decimals: 18,
                       },
-                      rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/'],
-                      blockExplorerUrls: ['https://testnet.bscscan.com/'],
+                      rpcUrls: ['https://bsc-dataseed.binance.org/'],
+                      blockExplorerUrls: ['https://bscscan.com/'],
                     }],
                   });
                   
                   toast({
                     title: "✅ Network Added",
-                    description: "BSC Testnet added successfully. Redirecting...",
+                    description: "BSC Mainnet added successfully. Redirecting...",
                   });
                   
                   setIsConnecting(false);
@@ -554,7 +554,7 @@ export default function Home() {
                 } catch (addError) {
                   toast({
                     title: "❌ Network Setup Failed",
-                    description: "Please manually switch to BSC Testnet in your wallet",
+                    description: "Please manually switch to BSC Mainnet in your wallet",
                     variant: "destructive"
                   });
                   setIsConnecting(false);
@@ -564,7 +564,7 @@ export default function Home() {
                 // User rejected or other error
                 toast({
                   title: "⚠️ Network Switch Required",
-                  description: "Please manually switch to BSC Testnet to use the app",
+                  description: "Please manually switch to BSC Mainnet to use the app",
                 });
                 setIsConnecting(false);
                 setLocation('/dashboard'); // Still redirect, network warning will show there

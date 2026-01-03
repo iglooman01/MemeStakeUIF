@@ -7,7 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Progress } from "@/components/ui/progress";
 import memeStakeLogo from "@assets/ChatGPT Image Oct 9, 2025, 11_08_34 AM_1759988345567.png";
 import { createPublicClient, http } from 'viem';
-import { bscTestnet } from 'viem/chains';
+import { bsc } from 'viem/chains';
 import { CONTRACTS } from '@/config/contracts';
 
 export default function Airdrop() {
@@ -41,13 +41,13 @@ export default function Airdrop() {
         // Check network
         if (window.ethereum) {
           try {
-            const BSC_TESTNET_CHAIN_ID = '0x61';
+            const BSC_MAINNET_CHAIN_ID = '0x38';
             const chainId = await window.ethereum.request({ method: 'eth_chainId' });
             
-            if (chainId !== BSC_TESTNET_CHAIN_ID) {
+            if (chainId !== BSC_MAINNET_CHAIN_ID) {
               toast({
                 title: "⚠️ Wrong Network",
-                description: "Please switch to BSC Testnet to claim airdrop",
+                description: "Please switch to BSC Mainnet to claim airdrop",
                 variant: "destructive"
               });
             }
@@ -142,8 +142,8 @@ export default function Airdrop() {
 
       try {
         const publicClient = createPublicClient({
-          chain: bscTestnet,
-          transport: http('https://data-seed-prebsc-1-s1.binance.org:8545/')
+          chain: bsc,
+          transport: http('https://bsc-dataseed.binance.org/')
         });
 
         const claimed = await publicClient.readContract({

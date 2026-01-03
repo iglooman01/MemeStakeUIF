@@ -2,9 +2,9 @@
 // Contract addresses and ABIs for memes platform
 
 export const CONTRACTS = {
-  // Token Contract
+  // Token Contract (BSC Mainnet)
   MEMES_TOKEN: {
-    address: "0x74Ca4B54119a3872f0a87252b64877F14787ec83",
+    address: "0x64e5CEb53833fb0630D379B8405BD7ea7464937F",
     abi: [
         {
           "inputs": [],

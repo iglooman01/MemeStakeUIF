@@ -1,14 +1,14 @@
-// BSC Testnet Configuration for wallet connections (for testing)
+// BSC Mainnet Configuration for wallet connections
 export const BSC_NETWORK = {
-  chainId: '0x61', // 97 in decimal (BSC Testnet)
-  chainName: 'BNB Smart Chain Testnet',
+  chainId: '0x38', // 56 in decimal (BSC Mainnet)
+  chainName: 'BNB Smart Chain',
   nativeCurrency: {
     name: 'BNB',
-    symbol: 'tBNB', 
+    symbol: 'BNB', 
     decimals: 18,
   },
-  rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/'],
-  blockExplorerUrls: ['https://testnet.bscscan.com/'],
+  rpcUrls: ['https://bsc-dataseed.binance.org/'],
+  blockExplorerUrls: ['https://bscscan.com/'],
 }
 
 // Wallet connection interface
@@ -78,7 +78,7 @@ export const connectWallet = async (walletType: string): Promise<{ success: bool
     
     // If only TronLink is detected, show error
     if (window.ethereum.isTronLink && !window.ethereum.providers) {
-      return { success: false, error: 'TronLink is not compatible with BSC Testnet. Please install MetaMask, Trust Wallet, or SafePal extension.' };
+      return { success: false, error: 'TronLink is not compatible with BSC. Please install MetaMask, Trust Wallet, or SafePal extension.' };
     }
     
     // Handle different wallet types
@@ -172,7 +172,7 @@ export const connectWallet = async (walletType: string): Promise<{ success: bool
       currentChainId = null;
     }
 
-    // Only switch network if not already on BSC Testnet
+    // Only switch network if not already on BSC Mainnet
     if (currentChainId !== BSC_NETWORK.chainId) {
       try {
         await ethereum.request({
