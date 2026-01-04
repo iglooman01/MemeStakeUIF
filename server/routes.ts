@@ -1,10 +1,28 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { sendWelcomeEmail } from "./maileroo";
+import { sendWelcomeEmail, sendOtpEmail } from "./maileroo";
 import { z } from "zod";
+import crypto from "crypto";
 
 const puzzleStore = new Map<string, { num1: number; num2: number; answer: number; expiresAt: Date }>();
+const otpStore = new Map<string, { otp: string; hashedOtp: string; expiresAt: Date; walletAddress: string }>();
+
+// Email normalization to detect Gmail +alias abuse
+function normalizeEmail(email: string): string {
+  email = email.toLowerCase().trim();
+  const [local, domain] = email.split("@");
+  
+  // Handle Gmail and Google aliases
+  if (domain === "gmail.com" || domain === "googlemail.com") {
+    // Remove dots and everything after + sign
+    const normalizedLocal = local.split("+")[0].replace(/\./g, "");
+    return `${normalizedLocal}@gmail.com`;
+  }
+  
+  // For other domains, just remove the +alias part
+  return `${local.split("+")[0]}@${domain}`;
+}
 
 function generateMathPuzzle(): { num1: number; num2: number; answer: number } {
   const num1 = Math.floor(Math.random() * 10) + 1;
@@ -12,9 +30,267 @@ function generateMathPuzzle(): { num1: number; num2: number; answer: number } {
   return { num1, num2, answer: num1 + num2 };
 }
 
+function generateOtp(): string {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
+function hashOtp(otp: string): string {
+  return crypto.createHash('sha256').update(otp).digest('hex');
+}
+
 export async function registerRoutes(app: Express): Promise<Server> {
   // Airdrop API routes
   
+  // Get current verification mode (0 = OTP, 1 = Puzzle)
+  app.get("/api/airdrop/verification-mode", async (req, res) => {
+    try {
+      const mode = await storage.getVerificationMode();
+      const masterWallet = await storage.getMasterWallet();
+      res.json({ mode, masterWallet });
+    } catch (error) {
+      console.error('Get verification mode error:', error);
+      res.status(500).json({ error: "Failed to get verification mode" });
+    }
+  });
+
+  // Set verification mode (master wallet only)
+  app.post("/api/airdrop/verification-mode", async (req, res) => {
+    try {
+      const { mode, walletAddress } = req.body;
+      
+      if (mode === undefined || !walletAddress) {
+        return res.status(400).json({ error: "Mode and wallet address required" });
+      }
+
+      if (mode !== 0 && mode !== 1) {
+        return res.status(400).json({ error: "Mode must be 0 (OTP) or 1 (Puzzle)" });
+      }
+
+      const success = await storage.setVerificationMode(mode, walletAddress);
+      
+      if (!success) {
+        return res.status(403).json({ error: "Only master wallet can change verification mode" });
+      }
+
+      res.json({ success: true, mode });
+    } catch (error) {
+      console.error('Set verification mode error:', error);
+      res.status(500).json({ error: "Failed to set verification mode" });
+    }
+  });
+
+  // Send OTP for email verification
+  app.post("/api/airdrop/send-otp", async (req, res) => {
+    try {
+      const { email, walletAddress, sponsorCode } = req.body;
+      
+      if (!email || !walletAddress) {
+        return res.status(400).json({ error: "Email and wallet address required" });
+      }
+
+      // Normalize email to prevent +alias abuse
+      const normalizedEmail = normalizeEmail(email);
+      
+      // Check if email already exists for a different wallet (using normalized email)
+      const existingEmail = await storage.getAirdropParticipantByEmail(normalizedEmail);
+      if (existingEmail && existingEmail.walletAddress.toLowerCase() !== walletAddress.toLowerCase()) {
+        return res.status(409).json({ error: "You are already registered with us." });
+      }
+
+      // Check wallet uniqueness
+      const existingWallet = await storage.getAirdropParticipant(walletAddress);
+      if (existingWallet && existingWallet.emailVerified) {
+        return res.status(409).json({ error: "This wallet is already registered." });
+      }
+
+      // Rate limiting: max 3 OTPs per hour
+      const resendCount = await storage.getOtpResendCount(normalizedEmail);
+      if (resendCount >= 3) {
+        return res.status(429).json({ error: "Too many OTP requests. Please wait an hour before trying again." });
+      }
+
+      // Generate OTP
+      const otp = generateOtp();
+      const hashedOtp = hashOtp(otp);
+      const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes
+
+      // Store OTP
+      otpStore.set(normalizedEmail, {
+        otp,
+        hashedOtp,
+        expiresAt,
+        walletAddress: walletAddress.toLowerCase()
+      });
+
+      // Increment resend count
+      await storage.incrementOtpResendCount(normalizedEmail);
+
+      // Send OTP email
+      const sent = await sendOtpEmail(email, otp);
+      
+      if (!sent) {
+        return res.status(500).json({ error: "Failed to send OTP email" });
+      }
+
+      console.log(`📧 OTP sent to ${normalizedEmail} (original: ${email})`);
+
+      res.json({ 
+        success: true, 
+        message: "OTP sent. Please check your inbox or spam folder.",
+        normalizedEmail // For debugging, remove in production
+      });
+    } catch (error) {
+      console.error('Send OTP error:', error);
+      res.status(500).json({ error: "Failed to send OTP" });
+    }
+  });
+
+  // Resend OTP
+  app.post("/api/airdrop/resend-otp", async (req, res) => {
+    try {
+      const { email, walletAddress } = req.body;
+      
+      if (!email || !walletAddress) {
+        return res.status(400).json({ error: "Email and wallet address required" });
+      }
+
+      const normalizedEmail = normalizeEmail(email);
+
+      // Rate limiting: max 3 OTPs per hour
+      const resendCount = await storage.getOtpResendCount(normalizedEmail);
+      if (resendCount >= 3) {
+        return res.status(429).json({ error: "Too many OTP requests. Please wait an hour before trying again." });
+      }
+
+      // Generate new OTP
+      const otp = generateOtp();
+      const hashedOtp = hashOtp(otp);
+      const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
+
+      // Store OTP
+      otpStore.set(normalizedEmail, {
+        otp,
+        hashedOtp,
+        expiresAt,
+        walletAddress: walletAddress.toLowerCase()
+      });
+
+      await storage.incrementOtpResendCount(normalizedEmail);
+
+      const sent = await sendOtpEmail(email, otp);
+      
+      if (!sent) {
+        return res.status(500).json({ error: "Failed to send OTP email" });
+      }
+
+      res.json({ 
+        success: true, 
+        message: "OTP resent. Please check your spam/junk folder if you don't see it."
+      });
+    } catch (error) {
+      console.error('Resend OTP error:', error);
+      res.status(500).json({ error: "Failed to resend OTP" });
+    }
+  });
+
+  // Verify OTP and register user
+  app.post("/api/airdrop/verify-otp", async (req, res) => {
+    try {
+      const { email, otp, walletAddress, sponsorCode } = req.body;
+      
+      if (!email || !otp || !walletAddress) {
+        return res.status(400).json({ error: "Email, OTP, and wallet address required" });
+      }
+
+      const normalizedEmail = normalizeEmail(email);
+      const storedOtp = otpStore.get(normalizedEmail);
+
+      if (!storedOtp) {
+        return res.status(400).json({ error: "OTP expired or not found. Please request a new one." });
+      }
+
+      if (new Date() > storedOtp.expiresAt) {
+        otpStore.delete(normalizedEmail);
+        return res.status(400).json({ error: "OTP expired. Please request a new one." });
+      }
+
+      // Verify wallet matches
+      if (storedOtp.walletAddress !== walletAddress.toLowerCase()) {
+        return res.status(400).json({ error: "Wallet address mismatch." });
+      }
+
+      // Verify OTP (compare hashed)
+      if (hashOtp(otp) !== storedOtp.hashedOtp) {
+        return res.status(400).json({ error: "Invalid OTP. Please try again." });
+      }
+
+      // OTP verified, remove from store
+      otpStore.delete(normalizedEmail);
+      await storage.resetOtpResendCount(normalizedEmail);
+
+      // Check if participant exists
+      let participant = await storage.getAirdropParticipant(walletAddress);
+      const isNewUser = !participant;
+
+      if (!participant) {
+        // Create new participant
+        const newReferralCode = `MEMES${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
+        
+        let referredBy = null;
+        if (sponsorCode) {
+          if (sponsorCode.startsWith('0x')) {
+            referredBy = sponsorCode.toLowerCase();
+            const referrer = await storage.getAirdropParticipant(sponsorCode);
+            if (referrer) {
+              await storage.updateAirdropParticipant(referrer.walletAddress, {
+                referralTokens: (referrer.referralTokens || 0) + 100000,
+              });
+            }
+          } else {
+            const referrer = await storage.getAirdropParticipantByReferralCode(sponsorCode);
+            if (referrer) {
+              referredBy = referrer.walletAddress;
+              await storage.updateAirdropParticipant(referrer.walletAddress, {
+                referralTokens: (referrer.referralTokens || 0) + 100000,
+              });
+            }
+          }
+        }
+        
+        participant = await storage.createAirdropParticipant({
+          walletAddress,
+          email: normalizedEmail,
+          referralCode: newReferralCode,
+          referredBy,
+          emailVerified: true,
+          telegramGroupCompleted: false,
+          telegramChannelCompleted: false,
+          twitterCompleted: false,
+          youtubeCompleted: false,
+          airdropTokens: 0,
+          referralTokens: 0,
+        });
+      } else {
+        participant = await storage.updateAirdropParticipant(walletAddress, {
+          email: normalizedEmail,
+          emailVerified: true,
+        });
+      }
+
+      // Send welcome email
+      if (isNewUser) {
+        sendWelcomeEmail(email).catch(err => {
+          console.error('Failed to send welcome email:', err);
+        });
+      }
+
+      res.json({ success: true, participant });
+    } catch (error) {
+      console.error('Verify OTP error:', error);
+      res.status(500).json({ error: "Failed to verify OTP" });
+    }
+  });
+
   // Initialize or get airdrop participant (only checks if exists, doesn't create)
   app.post("/api/airdrop/init", async (req, res) => {
     try {
@@ -83,6 +359,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Email, puzzle answer, and wallet address required" });
       }
 
+      // Normalize email to prevent +alias abuse
+      const normalizedEmail = normalizeEmail(email);
+
       // Validate puzzle answer
       const storedPuzzle = puzzleStore.get(walletAddress.toLowerCase());
       console.log("storedPuzzle : ", storedPuzzle);
@@ -102,10 +381,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Puzzle verified, remove from store
       puzzleStore.delete(walletAddress.toLowerCase());
 
-      // Check if email already exists for a different wallet
-      const existingEmail = await storage.getAirdropParticipantByEmail(email);
+      // Check if email already exists for a different wallet (using normalized email)
+      const existingEmail = await storage.getAirdropParticipantByEmail(normalizedEmail);
       if (existingEmail && existingEmail.walletAddress.toLowerCase() !== walletAddress.toLowerCase()) {
-        return res.status(400).json({ error: "This email is already used." });
+        return res.status(409).json({ error: "You are already registered with us." });
       }
 
       // Check if this is a new user (for welcome email)
@@ -156,7 +435,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         
         participant = await storage.createAirdropParticipant({
           walletAddress,
-          email,
+          email: normalizedEmail,
           referralCode: newReferralCode,
           referredBy,
           emailVerified: true,
@@ -170,12 +449,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       } else {
         // Update existing participant
         participant = await storage.updateAirdropParticipant(walletAddress, {
-          email,
+          email: normalizedEmail,
           emailVerified: true,
         });
       }
 
-      // Send welcome email only to new users
+      // Send welcome email only to new users (use original email for delivery)
       if (isNewUser) {
         sendWelcomeEmail(email).catch(err => {
           console.error('Failed to send welcome email:', err);

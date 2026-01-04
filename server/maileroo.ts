@@ -94,3 +94,74 @@ export async function sendWelcomeEmail(email: string): Promise<boolean> {
     return false;
   }
 }
+
+export async function sendOtpEmail(email: string, otp: string): Promise<boolean> {
+  if (!MAILEROO_API_KEY) {
+    console.error("MAILEROO_API_KEY not configured");
+    return false;
+  }
+
+  console.log(`📧 Sending OTP email to ${email}`);
+
+  try {
+    const response = await fetch(MAILEROO_API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-Key": MAILEROO_API_KEY,
+      },
+      body: JSON.stringify({
+        from: {
+          address: "noreply@memestake.io",
+          display_name: "MEMES STAKE",
+        },
+        to: {
+          address: email,
+        },
+        subject: "Your MEMES STAKE Verification Code 🔐",
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #000; color: #fff; padding: 20px;">
+            <h1 style="color: #ffd700; text-align: center;">🔐 Email Verification</h1>
+            
+            <div style="background: rgba(255, 215, 0, 0.1); border: 1px solid #ffd700; border-radius: 8px; padding: 30px; margin: 20px 0; text-align: center;">
+              <p style="font-size: 16px; color: #ccc; margin-bottom: 20px;">
+                Your verification code is:
+              </p>
+              <div style="background: #111; border: 2px solid #ffd700; border-radius: 8px; padding: 20px; display: inline-block;">
+                <span style="font-size: 32px; font-weight: bold; color: #ffd700; letter-spacing: 8px;">${otp}</span>
+              </div>
+              <p style="font-size: 14px; color: #888; margin-top: 20px;">
+                This code expires in <strong style="color: #ff4444;">5 minutes</strong>
+              </p>
+            </div>
+
+            <div style="background: rgba(255, 68, 68, 0.1); border: 1px solid #ff4444; border-radius: 8px; padding: 15px; margin: 20px 0;">
+              <p style="font-size: 14px; color: #ff4444; margin: 0; text-align: center;">
+                ⚠️ If you didn't request this code, please ignore this email.
+              </p>
+            </div>
+
+            <div style="border-top: 1px solid #333; padding-top: 20px; margin-top: 20px;">
+              <p style="text-align: center; font-size: 12px; color: #666;">
+                © 2026 MEMES STAKE. All rights reserved.<br>
+                <a href="https://memestake.io" style="color: #ffd700;">memestake.io</a>
+              </p>
+            </div>
+          </div>
+        `,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Maileroo API error:", errorText);
+      return false;
+    }
+
+    console.log(`✅ OTP email sent successfully to ${email}`);
+    return true;
+  } catch (error) {
+    console.error("Error sending OTP email:", error);
+    return false;
+  }
+}
