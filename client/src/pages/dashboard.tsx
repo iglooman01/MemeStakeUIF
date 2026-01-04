@@ -76,6 +76,13 @@ export default function Dashboard() {
   const [puzzleAnswer, setPuzzleAnswer] = useState("");
   const [isLoadingPuzzle, setIsLoadingPuzzle] = useState(false);
   const [isVerifyingEmail, setIsVerifyingEmail] = useState(false);
+  
+  // Dual verification mode state
+  const [verificationMode, setVerificationMode] = useState<number>(1); // 0 = OTP, 1 = Puzzle
+  const [otp, setOtp] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
+  const [isSendingOtp, setIsSendingOtp] = useState(false);
+  const [isResendingOtp, setIsResendingOtp] = useState(false);
   const [tasksPending, setTasksPending] = useState<Record<string, boolean>>({
     telegram_group: false,
     telegram_channel: false,
@@ -245,6 +252,119 @@ export default function Dashboard() {
       });
     }
   }, [walletAddress]);
+
+  // Fetch verification mode
+  useEffect(() => {
+    const fetchVerificationMode = async () => {
+      try {
+        const res = await fetch("/api/airdrop/verification-mode");
+        const data = await res.json();
+        setVerificationMode(data.mode);
+      } catch (error) {
+        console.error("Failed to fetch verification mode:", error);
+      }
+    };
+    fetchVerificationMode();
+  }, []);
+
+  // Send OTP function
+  const sendOtp = async () => {
+    if (!email || !walletAddress) return;
+    setIsSendingOtp(true);
+    try {
+      const res = await apiRequest("POST", "/api/airdrop/send-otp", {
+        email,
+        walletAddress,
+        sponsorCode: referralCode || undefined,
+      });
+      const data = await res.json();
+      if (data.success) {
+        setOtpSent(true);
+        toast({
+          title: "📧 OTP Sent!",
+          description: "Check your inbox or spam folder for the verification code.",
+        });
+      } else {
+        toast({
+          title: "❌ Error",
+          description: data.error || "Failed to send OTP",
+          variant: "destructive",
+        });
+      }
+    } catch (error: any) {
+      toast({
+        title: "❌ Error",
+        description: error.message || "Failed to send OTP",
+        variant: "destructive",
+      });
+    }
+    setIsSendingOtp(false);
+  };
+
+  // Resend OTP function
+  const resendOtp = async () => {
+    if (!email || !walletAddress) return;
+    setIsResendingOtp(true);
+    try {
+      const res = await apiRequest("POST", "/api/airdrop/resend-otp", {
+        email,
+        walletAddress,
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast({
+          title: "📧 OTP Resent!",
+          description: "Check your spam/junk folder if you don't see it.",
+        });
+      } else {
+        toast({
+          title: "❌ Error",
+          description: data.error || "Failed to resend OTP",
+          variant: "destructive",
+        });
+      }
+    } catch (error: any) {
+      toast({
+        title: "❌ Error",
+        description: error.message || "Failed to resend OTP",
+        variant: "destructive",
+      });
+    }
+    setIsResendingOtp(false);
+  };
+
+  // Verify OTP mutation
+  const verifyOtpMutation = useMutation({
+    mutationFn: async (data: {
+      email: string;
+      otp: string;
+      walletAddress: string;
+      sponsorCode?: string;
+    }) => {
+      const res = await apiRequest("POST", "/api/airdrop/verify-otp", data);
+      return await res.json();
+    },
+    onSuccess: () => {
+      setIsVerifyingEmail(false);
+      setOtp("");
+      setOtpSent(false);
+      queryClient.invalidateQueries({
+        queryKey: ["/api/airdrop/status", walletAddress],
+      });
+      toast({
+        title: "✅ Email Verified!",
+        description: "Welcome email sent! You can now claim your airdrop tokens.",
+      });
+    },
+    onError: (error: any) => {
+      setIsVerifyingEmail(false);
+      toast({
+        title: "❌ Verification Failed",
+        description: error.message || "Invalid OTP. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
 
   const copyReferralLink = () => {
     navigator.clipboard.writeText(referralLink);
@@ -3170,7 +3290,7 @@ export default function Dashboard() {
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="Enter your email"
                             className="w-full px-3 py-2 rounded bg-black/30 border border-white/20 text-white placeholder-gray-400 focus:border-cyan-500 focus:outline-none"
-                            disabled={!!puzzle}
+                            disabled={!!puzzle || otpSent}
                             data-testid="input-email"
                           />
                         </div>
@@ -3186,87 +3306,174 @@ export default function Dashboard() {
                               }
                               placeholder="Sponsor code (optional)"
                               className="w-full px-3 py-2 rounded bg-black/30 border border-white/20 text-white placeholder-gray-400 focus:border-gold-500 focus:outline-none"
-                              disabled={!!puzzle}
+                              disabled={!!puzzle || otpSent}
                               data-testid="input-sponsor-code"
                             />
                           </div>
                         )}
 
-                        {/* Math Puzzle Section */}
-                        {puzzle && (
-                          <div
-                            className="p-3 rounded-lg"
-                            style={{
-                              background: "rgba(255, 215, 0, 0.1)",
-                              border: "1px solid rgba(255, 215, 0, 0.3)",
-                            }}
-                          >
-                            <p
-                              className="text-sm mb-2"
-                              style={{ color: "#ffd700" }}
-                            >
-                              🧮 Solve this puzzle to verify:
-                            </p>
-                            <div className="flex items-center gap-3">
-                              <span
-                                className="text-xl font-bold"
-                                style={{ color: "#fff" }}
+                        {/* OTP Mode (mode === 0) */}
+                        {verificationMode === 0 && (
+                          <>
+                            {otpSent && (
+                              <div
+                                className="p-3 rounded-lg"
+                                style={{
+                                  background: "rgba(255, 215, 0, 0.1)",
+                                  border: "1px solid rgba(255, 215, 0, 0.3)",
+                                }}
                               >
-                                {puzzle.num1} + {puzzle.num2} =
-                              </span>
-                              <input
-                                type="number"
-                                value={puzzleAnswer}
-                                onChange={(e) =>
-                                  setPuzzleAnswer(e.target.value)
-                                }
-                                placeholder="?"
-                                className="w-20 px-3 py-2 rounded bg-black/30 border border-white/20 text-white text-center text-lg font-bold focus:border-green-500 focus:outline-none"
-                                data-testid="input-puzzle-answer"
-                              />
+                                <p
+                                  className="text-sm mb-2"
+                                  style={{ color: "#ffd700" }}
+                                >
+                                  🔑 Enter the 6-digit code sent to your email:
+                                </p>
+                                <input
+                                  type="text"
+                                  value={otp}
+                                  onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                                  placeholder="Enter 6-digit OTP"
+                                  className="w-full px-3 py-2 rounded bg-black/30 border border-white/20 text-white text-center text-xl font-bold tracking-widest focus:border-gold-500 focus:outline-none"
+                                  maxLength={6}
+                                  data-testid="input-otp"
+                                />
+                                <p className="text-xs text-yellow-500 mt-2">
+                                  ⚠️ If you didn't receive the OTP, please check your spam/junk folder.
+                                </p>
+                              </div>
+                            )}
+
+                            {/* OTP Action Buttons */}
+                            <div className="flex gap-2">
+                              {!otpSent ? (
+                                <Button
+                                  onClick={sendOtp}
+                                  disabled={isSendingOtp || !email}
+                                  className="w-full"
+                                  style={{ background: "#00bfff", color: "#000" }}
+                                  data-testid="button-send-otp"
+                                >
+                                  {isSendingOtp
+                                    ? "⏳ Sending..."
+                                    : "📧 Send Verification Code"}
+                                </Button>
+                              ) : (
+                                <>
+                                  <Button
+                                    onClick={() => {
+                                      setIsVerifyingEmail(true);
+                                      verifyOtpMutation.mutate({
+                                        email,
+                                        otp,
+                                        walletAddress,
+                                        sponsorCode: referralCode || sponsorAddress || undefined,
+                                      });
+                                    }}
+                                    disabled={isVerifyingEmail || otp.length !== 6}
+                                    className="flex-1"
+                                    style={{ background: "#00ff88", color: "#000" }}
+                                    data-testid="button-verify-otp"
+                                  >
+                                    {isVerifyingEmail
+                                      ? "⏳ Verifying..."
+                                      : "✅ Verify OTP"}
+                                  </Button>
+                                  <Button
+                                    onClick={resendOtp}
+                                    disabled={isResendingOtp}
+                                    variant="outline"
+                                    className="flex-1"
+                                    data-testid="button-resend-otp"
+                                  >
+                                    {isResendingOtp ? "⏳..." : "🔄 Resend OTP"}
+                                  </Button>
+                                </>
+                              )}
                             </div>
-                          </div>
+                          </>
                         )}
 
-                        {/* Action Buttons */}
-                        <div className="flex gap-2">
-                          {!puzzle ? (
-                            <Button
-                              onClick={handleGetPuzzle}
-                              disabled={isLoadingPuzzle || !email}
-                              className="w-full"
-                              style={{ background: "#00bfff", color: "#000" }}
-                              data-testid="button-get-puzzle"
-                            >
-                              {isLoadingPuzzle
-                                ? "⏳ Loading..."
-                                : "🔐 Get Verification Puzzle"}
-                            </Button>
-                          ) : (
-                            <>
-                              <Button
-                                onClick={handleVerifyEmail}
-                                disabled={isVerifyingEmail || !puzzleAnswer}
-                                className="flex-1"
-                                style={{ background: "#00ff88", color: "#000" }}
-                                data-testid="button-verify-email"
+                        {/* Puzzle Mode (mode === 1) */}
+                        {verificationMode === 1 && (
+                          <>
+                            {/* Math Puzzle Section */}
+                            {puzzle && (
+                              <div
+                                className="p-3 rounded-lg"
+                                style={{
+                                  background: "rgba(255, 215, 0, 0.1)",
+                                  border: "1px solid rgba(255, 215, 0, 0.3)",
+                                }}
                               >
-                                {isVerifyingEmail
-                                  ? "⏳ Verifying..."
-                                  : "✅ Verify Email"}
-                              </Button>
-                              <Button
-                                onClick={fetchPuzzle}
-                                disabled={isLoadingPuzzle}
-                                variant="outline"
-                                className="flex-1"
-                                data-testid="button-new-puzzle"
-                              >
-                                {isLoadingPuzzle ? "⏳..." : "🔄 New Puzzle"}
-                              </Button>
-                            </>
-                          )}
-                        </div>
+                                <p
+                                  className="text-sm mb-2"
+                                  style={{ color: "#ffd700" }}
+                                >
+                                  🧮 Solve this puzzle to verify:
+                                </p>
+                                <div className="flex items-center gap-3">
+                                  <span
+                                    className="text-xl font-bold"
+                                    style={{ color: "#fff" }}
+                                  >
+                                    {puzzle.num1} + {puzzle.num2} =
+                                  </span>
+                                  <input
+                                    type="number"
+                                    value={puzzleAnswer}
+                                    onChange={(e) =>
+                                      setPuzzleAnswer(e.target.value)
+                                    }
+                                    placeholder="?"
+                                    className="w-20 px-3 py-2 rounded bg-black/30 border border-white/20 text-white text-center text-lg font-bold focus:border-green-500 focus:outline-none"
+                                    data-testid="input-puzzle-answer"
+                                  />
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Puzzle Action Buttons */}
+                            <div className="flex gap-2">
+                              {!puzzle ? (
+                                <Button
+                                  onClick={handleGetPuzzle}
+                                  disabled={isLoadingPuzzle || !email}
+                                  className="w-full"
+                                  style={{ background: "#00bfff", color: "#000" }}
+                                  data-testid="button-get-puzzle"
+                                >
+                                  {isLoadingPuzzle
+                                    ? "⏳ Loading..."
+                                    : "🔐 Get Verification Puzzle"}
+                                </Button>
+                              ) : (
+                                <>
+                                  <Button
+                                    onClick={handleVerifyEmail}
+                                    disabled={isVerifyingEmail || !puzzleAnswer}
+                                    className="flex-1"
+                                    style={{ background: "#00ff88", color: "#000" }}
+                                    data-testid="button-verify-email"
+                                  >
+                                    {isVerifyingEmail
+                                      ? "⏳ Verifying..."
+                                      : "✅ Verify Email"}
+                                  </Button>
+                                  <Button
+                                    onClick={fetchPuzzle}
+                                    disabled={isLoadingPuzzle}
+                                    variant="outline"
+                                    className="flex-1"
+                                    data-testid="button-new-puzzle"
+                                  >
+                                    {isLoadingPuzzle ? "⏳..." : "🔄 New Puzzle"}
+                                  </Button>
+                                </>
+                              )}
+                            </div>
+                          </>
+                        )}
                       </div>
                     ) : (
                       <p className="text-sm text-gray-400">
