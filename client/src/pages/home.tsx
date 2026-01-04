@@ -173,6 +173,25 @@ export default function Home() {
       setConnectedWalletType(savedWalletType);
     }
   }, []);
+
+  // Track page view for analytics
+  useEffect(() => {
+    const trackPageView = async () => {
+      try {
+        await fetch("/api/analytics/track-pageview", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            path: "/",
+            walletAddress: localStorage.getItem('walletAddress') || undefined,
+          }),
+        });
+      } catch (error) {
+        console.error("Error tracking page view:", error);
+      }
+    };
+    trackPageView();
+  }, []);
   
   const testimonials = [
     {
