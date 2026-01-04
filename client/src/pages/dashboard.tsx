@@ -41,6 +41,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { LiveJoinNotification } from "@/components/LiveJoinNotification";
+import { NewsBar } from "@/components/NewsBar";
 
 export default function Dashboard() {
   const [location, setLocation] = useLocation();
@@ -2225,6 +2226,9 @@ export default function Dashboard() {
     >
       {/* Live Join Notifications */}
       <LiveJoinNotification />
+
+      {/* Scrolling News Bar */}
+      <NewsBar />
 
       {/* Header */}
       <header
