@@ -19,7 +19,10 @@ import {
   Trash2,
   Edit,
   Check,
-  X
+  X,
+  Settings,
+  Mail,
+  Puzzle
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation } from "@tanstack/react-query";
@@ -37,6 +40,7 @@ export default function AdminAnalytics() {
   const [newTickerMessage, setNewTickerMessage] = useState("");
   const [editingTickerId, setEditingTickerId] = useState<string | null>(null);
   const [editingMessage, setEditingMessage] = useState("");
+  const [verificationMode, setVerificationMode] = useState<number>(1);
 
   useEffect(() => {
     const checkWallet = async () => {
@@ -113,6 +117,50 @@ export default function AdminAnalytics() {
       return res.json();
     },
     enabled: isAuthorized && !!walletAddress,
+  });
+
+  const { data: verificationModeData } = useQuery({
+    queryKey: ["/api/airdrop/verification-mode"],
+    queryFn: async () => {
+      const res = await fetch("/api/airdrop/verification-mode");
+      if (!res.ok) throw new Error("Failed to fetch verification mode");
+      return res.json();
+    },
+    enabled: isAuthorized,
+  });
+
+  useEffect(() => {
+    if (verificationModeData?.mode !== undefined) {
+      setVerificationMode(verificationModeData.mode);
+    }
+  }, [verificationModeData]);
+
+  const switchVerificationModeMutation = useMutation({
+    mutationFn: async (newMode: number) => {
+      const message = `Switch verification mode to ${newMode === 0 ? 'OTP' : 'Puzzle'}`;
+      const signature = await window.ethereum.request({
+        method: 'personal_sign',
+        params: [message, walletAddress],
+      });
+      const res = await fetch("/api/airdrop/set-verification-mode", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ wallet: walletAddress, mode: newMode, signature, message }),
+      });
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.message || "Failed to switch verification mode");
+      }
+      return res.json();
+    },
+    onSuccess: (data) => {
+      setVerificationMode(data.mode);
+      queryClient.invalidateQueries({ queryKey: ["/api/airdrop/verification-mode"] });
+      toast({ title: `Verification mode switched to ${data.mode === 0 ? 'OTP (Email)' : 'Puzzle'}` });
+    },
+    onError: (error: any) => {
+      toast({ title: error.message || "Failed to switch verification mode", variant: "destructive" });
+    },
   });
 
   const createTickerMutation = useMutation({
@@ -252,6 +300,10 @@ export default function AdminAnalytics() {
             <TabsTrigger value="news" className="data-[state=active]:bg-[#ffd700] data-[state=active]:text-black">
               <Megaphone className="w-4 h-4 mr-2" />
               News
+            </TabsTrigger>
+            <TabsTrigger value="settings" className="data-[state=active]:bg-[#ffd700] data-[state=active]:text-black">
+              <Settings className="w-4 h-4 mr-2" />
+              Settings
             </TabsTrigger>
           </TabsList>
 
@@ -569,6 +621,96 @@ export default function AdminAnalytics() {
                   <p className="text-sm mt-2">Default message will be shown: "Congratulations! We are live. Complete your task and claim your reward."</p>
                 </div>
               )}
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="settings" className="space-y-6">
+            <h2 className="text-xl font-bold" style={{ color: '#00bfff' }}>System Settings</h2>
+            <p className="text-gray-400">Configure system-wide settings for the MEMES STAKE platform.</p>
+            
+            <Card className="p-6 bg-black/50 border border-white/20">
+              <h3 className="text-lg font-semibold mb-4" style={{ color: '#ffd700' }}>Airdrop Verification Mode</h3>
+              <p className="text-gray-400 mb-6">
+                Switch between verification methods for airdrop claims. OTP mode sends email verification codes, 
+                while Puzzle mode uses math puzzles for verification.
+              </p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div 
+                  className={`p-6 rounded-lg border-2 cursor-pointer transition-all ${verificationMode === 0 ? 'border-[#00ff88] bg-[#00ff88]/10' : 'border-white/20 hover:border-white/40'}`}
+                  onClick={() => {
+                    if (verificationMode !== 0 && !switchVerificationModeMutation.isPending) {
+                      switchVerificationModeMutation.mutate(0);
+                    }
+                  }}
+                >
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="p-3 rounded-lg" style={{ background: 'rgba(0, 191, 255, 0.2)' }}>
+                      <Mail className="w-6 h-6" style={{ color: '#00bfff' }} />
+                    </div>
+                    <div>
+                      <h4 className="text-lg font-bold text-white">OTP Mode</h4>
+                      <p className="text-sm text-gray-400">Email verification codes</p>
+                    </div>
+                    {verificationMode === 0 && (
+                      <div className="ml-auto">
+                        <Check className="w-6 h-6" style={{ color: '#00ff88' }} />
+                      </div>
+                    )}
+                  </div>
+                  <ul className="text-sm text-gray-400 space-y-1">
+                    <li>6-digit code sent to email</li>
+                    <li>5-minute expiration</li>
+                    <li>Max 3 sends per hour</li>
+                  </ul>
+                </div>
+
+                <div 
+                  className={`p-6 rounded-lg border-2 cursor-pointer transition-all ${verificationMode === 1 ? 'border-[#00ff88] bg-[#00ff88]/10' : 'border-white/20 hover:border-white/40'}`}
+                  onClick={() => {
+                    if (verificationMode !== 1 && !switchVerificationModeMutation.isPending) {
+                      switchVerificationModeMutation.mutate(1);
+                    }
+                  }}
+                >
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="p-3 rounded-lg" style={{ background: 'rgba(255, 215, 0, 0.2)' }}>
+                      <Puzzle className="w-6 h-6" style={{ color: '#ffd700' }} />
+                    </div>
+                    <div>
+                      <h4 className="text-lg font-bold text-white">Puzzle Mode</h4>
+                      <p className="text-sm text-gray-400">Math puzzle verification</p>
+                    </div>
+                    {verificationMode === 1 && (
+                      <div className="ml-auto">
+                        <Check className="w-6 h-6" style={{ color: '#00ff88' }} />
+                      </div>
+                    )}
+                  </div>
+                  <ul className="text-sm text-gray-400 space-y-1">
+                    <li>Simple math puzzles</li>
+                    <li>Instant verification</li>
+                    <li>No email required</li>
+                  </ul>
+                </div>
+              </div>
+
+              {switchVerificationModeMutation.isPending && (
+                <div className="mt-4 text-center">
+                  <div className="animate-spin w-6 h-6 border-4 border-gold-500 border-t-transparent rounded-full mx-auto" style={{ borderColor: '#ffd700', borderTopColor: 'transparent' }}></div>
+                  <p className="text-sm text-gray-400 mt-2">Switching verification mode...</p>
+                </div>
+              )}
+              
+              <div className="mt-6 p-4 rounded-lg bg-black/30 border border-white/10">
+                <p className="text-sm text-gray-400">
+                  <strong style={{ color: '#ffd700' }}>Current Mode:</strong>{' '}
+                  <span style={{ color: '#00ff88' }}>{verificationMode === 0 ? 'OTP (Email)' : 'Puzzle'}</span>
+                </p>
+                <p className="text-xs text-gray-500 mt-1">
+                  Switching modes requires wallet signature for security. This affects all new airdrop verifications.
+                </p>
+              </div>
             </Card>
           </TabsContent>
         </Tabs>
