@@ -85,7 +85,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Validate puzzle answer
       const storedPuzzle = puzzleStore.get(walletAddress.toLowerCase());
-      
+      console.log("storedPuzzle : ", storedPuzzle);
       if (!storedPuzzle) {
         return res.status(400).json({ error: "Puzzle expired. Please refresh and try again." });
       }
@@ -132,9 +132,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
             // Try to award tokens to referrer if they exist in database
             const referrer = await storage.getAirdropParticipant(sponsorCode);
             if (referrer) {
-              console.log('💰 Awarding 10,000 tokens to referrer');
+              console.log('💰 Awarding 1,00,000 tokens to referrer');
               await storage.updateAirdropParticipant(referrer.walletAddress, {
-                referralTokens: (referrer.referralTokens || 0) + 10000,
+                referralTokens: (referrer.referralTokens || 0) + 100000,
               });
             }
           } else {
@@ -144,9 +144,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
             if (referrer) {
               referredBy = referrer.walletAddress;
               console.log('✅ Found referrer wallet, setting referred_by to:', referredBy);
-              // Award 10,000 tokens to referrer
+              // Award 1,00,000 tokens to referrer
               await storage.updateAirdropParticipant(referrer.walletAddress, {
-                referralTokens: (referrer.referralTokens || 0) + 10000,
+                referralTokens: (referrer.referralTokens || 0) + 100000,
               });
             } else {
               console.log('❌ Referral code not found:', sponsorCode);
