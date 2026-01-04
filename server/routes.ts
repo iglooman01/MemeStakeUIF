@@ -583,6 +583,186 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // ========== MASTER WALLET ANALYTICS ROUTES ==========
+  const MASTER_WALLET = "0xb79f08d7b6903db05afca56aee75a2c7cdc78e56";
+
+  // Verify master wallet middleware
+  const verifyMasterWallet = (walletAddress: string): boolean => {
+    return walletAddress?.toLowerCase() === MASTER_WALLET.toLowerCase();
+  };
+
+  // Track page views (called from frontend)
+  app.post("/api/analytics/track-pageview", async (req, res) => {
+    try {
+      const { path, walletAddress } = req.body;
+      const ip = (req.headers['x-forwarded-for'] as string)?.split(',')[0] || req.ip || 'unknown';
+      const userAgent = req.headers['user-agent'];
+      
+      // Get country from IP using geoip-lite
+      let country = 'Unknown';
+      try {
+        const geoip = await import('geoip-lite');
+        const geo = geoip.default.lookup(ip);
+        if (geo) {
+          country = geo.country || 'Unknown';
+        }
+      } catch (e) {
+        console.error('GeoIP lookup failed:', e);
+      }
+      
+      await storage.trackPageView({
+        ipAddress: ip,
+        userAgent,
+        country,
+        path: path || '/',
+        walletAddress,
+      });
+      
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Track page view error:', error);
+      res.status(500).json({ error: "Failed to track page view" });
+    }
+  });
+
+  // Get user analytics (master wallet only)
+  app.get("/api/admin/analytics/users", async (req, res) => {
+    try {
+      const { wallet } = req.query;
+      
+      if (!wallet || !verifyMasterWallet(wallet as string)) {
+        return res.status(403).json({ error: "Access denied. Master wallet required." });
+      }
+
+      const analytics = await storage.getUserAnalytics();
+      res.json(analytics);
+    } catch (error) {
+      console.error('Get user analytics error:', error);
+      res.status(500).json({ error: "Failed to get user analytics" });
+    }
+  });
+
+  // Get traffic analytics (master wallet only)
+  app.get("/api/admin/analytics/traffic", async (req, res) => {
+    try {
+      const { wallet } = req.query;
+      
+      if (!wallet || !verifyMasterWallet(wallet as string)) {
+        return res.status(403).json({ error: "Access denied. Master wallet required." });
+      }
+
+      const analytics = await storage.getTrafficAnalytics();
+      res.json(analytics);
+    } catch (error) {
+      console.error('Get traffic analytics error:', error);
+      res.status(500).json({ error: "Failed to get traffic analytics" });
+    }
+  });
+
+  // Get country analytics (master wallet only)
+  app.get("/api/admin/analytics/countries", async (req, res) => {
+    try {
+      const { wallet, days } = req.query;
+      
+      if (!wallet || !verifyMasterWallet(wallet as string)) {
+        return res.status(403).json({ error: "Access denied. Master wallet required." });
+      }
+
+      const daysNum = parseInt(days as string) || 30;
+      const analytics = await storage.getCountryAnalytics(daysNum);
+      res.json(analytics);
+    } catch (error) {
+      console.error('Get country analytics error:', error);
+      res.status(500).json({ error: "Failed to get country analytics" });
+    }
+  });
+
+  // Export all user data to Excel (master wallet only)
+  app.get("/api/admin/export/users", async (req, res) => {
+    try {
+      const { wallet } = req.query;
+      
+      if (!wallet || !verifyMasterWallet(wallet as string)) {
+        return res.status(403).json({ error: "Access denied. Master wallet required." });
+      }
+
+      const XLSX = await import('xlsx');
+      const participants = await storage.getAllParticipantsForExport();
+      
+      // Transform data for Excel
+      const excelData = participants.map(p => ({
+        'Email ID': p.email || '',
+        'Normalized Email': p.normalizedEmail || '',
+        'Wallet Address': p.walletAddress,
+        'Verification Status': p.emailVerified ? 'Verified' : 'Unverified',
+        'Country': p.country || 'Unknown',
+        'Registration Date': p.createdAt ? new Date(p.createdAt).toISOString() : '',
+        'Verification Date': p.verifiedAt ? new Date(p.verifiedAt).toISOString() : '',
+        'Token Holder': (p.airdropTokens || 0) > 0 || (p.referralTokens || 0) > 0 ? 'Yes' : 'No',
+        'Airdrop Tokens': p.airdropTokens || 0,
+        'Referral Tokens': p.referralTokens || 0,
+        'Referred By': p.referredBy || '',
+        'Referral Code': p.referralCode || '',
+        'Exported': p.exported ? 'Yes' : 'No',
+      }));
+
+      // Create workbook
+      const workbook = XLSX.utils.book_new();
+      const worksheet = XLSX.utils.json_to_sheet(excelData);
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Users');
+
+      // Generate buffer
+      const buffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
+
+      res.setHeader('Content-Disposition', 'attachment; filename=memestake_users_export.xlsx');
+      res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      res.send(buffer);
+    } catch (error) {
+      console.error('Export users error:', error);
+      res.status(500).json({ error: "Failed to export users" });
+    }
+  });
+
+  // Export all emails only (master wallet only)
+  app.get("/api/admin/export/emails", async (req, res) => {
+    try {
+      const { wallet } = req.query;
+      
+      if (!wallet || !verifyMasterWallet(wallet as string)) {
+        return res.status(403).json({ error: "Access denied. Master wallet required." });
+      }
+
+      const XLSX = await import('xlsx');
+      const participants = await storage.getAllParticipantsForExport();
+      
+      // Transform data for Excel (emails only)
+      const excelData = participants
+        .filter(p => p.email)
+        .map(p => ({
+          'Email': p.email || '',
+          'Wallet Address': p.walletAddress,
+          'Verified': p.emailVerified ? 'Yes' : 'No',
+        }));
+
+      // Create workbook
+      const workbook = XLSX.utils.book_new();
+      const worksheet = XLSX.utils.json_to_sheet(excelData);
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Emails');
+
+      // Generate buffer
+      const buffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
+
+      res.setHeader('Content-Disposition', 'attachment; filename=memestake_emails_export.xlsx');
+      res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      res.send(buffer);
+    } catch (error) {
+      console.error('Export emails error:', error);
+      res.status(500).json({ error: "Failed to export emails" });
+    }
+  });
+
+  // ========== END ANALYTICS ROUTES ==========
+
   // Admin authentication
   app.post("/api/admin/login", async (req, res) => {
     try {

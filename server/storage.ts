@@ -71,6 +71,23 @@ export interface IStorage {
   getOtpResendCount(email: string): Promise<number>;
   incrementOtpResendCount(email: string): Promise<void>;
   resetOtpResendCount(email: string): Promise<void>;
+  
+  // Analytics methods (admin dashboard)
+  getUserAnalytics(): Promise<{
+    totalUsers: number;
+    verifiedUsers: number;
+    unverifiedUsers: number;
+    tokenHolders: number;
+  }>;
+  getTrafficAnalytics(): Promise<{
+    totalPageViews: number;
+    uniqueUsersLast24h: number;
+  }>;
+  getCountryAnalytics(days: number): Promise<{ country: string; count: number }[]>;
+  getAllParticipantsForExport(): Promise<AirdropParticipant[]>;
+  
+  // Page view tracking
+  trackPageView(data: { ipAddress: string; userAgent?: string; country?: string; path: string; walletAddress?: string }): Promise<void>;
 }
 
 export class MemStorage implements IStorage {
@@ -422,6 +439,42 @@ export class MemStorage implements IStorage {
   async resetOtpResendCount(email: string): Promise<void> {
     this.otpResendCounts.delete(email.toLowerCase());
   }
+
+  // Analytics methods (stub implementation for MemStorage)
+  async getUserAnalytics(): Promise<{
+    totalUsers: number;
+    verifiedUsers: number;
+    unverifiedUsers: number;
+    tokenHolders: number;
+  }> {
+    const allParticipants = Array.from(this.airdropParticipants.values());
+    const verifiedUsers = allParticipants.filter(p => p.emailVerified).length;
+    return {
+      totalUsers: allParticipants.length,
+      verifiedUsers,
+      unverifiedUsers: allParticipants.length - verifiedUsers,
+      tokenHolders: allParticipants.filter(p => p.airdropTokens > 0 || p.referralTokens > 0).length,
+    };
+  }
+
+  async getTrafficAnalytics(): Promise<{
+    totalPageViews: number;
+    uniqueUsersLast24h: number;
+  }> {
+    return { totalPageViews: 0, uniqueUsersLast24h: 0 };
+  }
+
+  async getCountryAnalytics(days: number): Promise<{ country: string; count: number }[]> {
+    return [];
+  }
+
+  async getAllParticipantsForExport(): Promise<AirdropParticipant[]> {
+    return Array.from(this.airdropParticipants.values());
+  }
+
+  async trackPageView(data: { ipAddress: string; userAgent?: string; country?: string; path: string; walletAddress?: string }): Promise<void> {
+    // No-op for MemStorage
+  }
 }
 
 // Database Storage - Uses PostgreSQL for persistent storage
@@ -431,9 +484,10 @@ import {
   airdropParticipants as airdropParticipantsTable,
   otpVerifications as otpVerificationsTable,
   verificationSettings as verificationSettingsTable,
+  pageViews as pageViewsTable,
   type VerificationSettings
 } from '@shared/schema';
-import { eq, and, desc } from 'drizzle-orm';
+import { eq, and, desc, gte, sql, count } from 'drizzle-orm';
 
 export class DbStorage extends MemStorage {
   // Override airdrop participant methods to use PostgreSQL database
@@ -651,6 +705,98 @@ export class DbStorage extends MemStorage {
     } catch (error) {
       console.error('Error getting master wallet:', error);
       return "0xb79f08d7b6903db05afca56aee75a2c7cdc78e56";
+    }
+  }
+
+  // Override analytics methods to use database
+  async getUserAnalytics(): Promise<{
+    totalUsers: number;
+    verifiedUsers: number;
+    unverifiedUsers: number;
+    tokenHolders: number;
+  }> {
+    try {
+      const allParticipants = await db.select().from(airdropParticipantsTable);
+      const verifiedUsers = allParticipants.filter(p => p.emailVerified).length;
+      const tokenHolders = allParticipants.filter(p => (p.airdropTokens || 0) > 0 || (p.referralTokens || 0) > 0).length;
+      
+      return {
+        totalUsers: allParticipants.length,
+        verifiedUsers,
+        unverifiedUsers: allParticipants.length - verifiedUsers,
+        tokenHolders,
+      };
+    } catch (error) {
+      console.error('Error getting user analytics:', error);
+      return { totalUsers: 0, verifiedUsers: 0, unverifiedUsers: 0, tokenHolders: 0 };
+    }
+  }
+
+  async getTrafficAnalytics(): Promise<{
+    totalPageViews: number;
+    uniqueUsersLast24h: number;
+  }> {
+    try {
+      const allPageViews = await db.select().from(pageViewsTable);
+      const last24h = new Date(Date.now() - 24 * 60 * 60 * 1000);
+      
+      const recentViews = allPageViews.filter(pv => pv.createdAt >= last24h);
+      const uniqueIps = new Set(recentViews.map(pv => pv.ipAddress));
+      
+      return {
+        totalPageViews: allPageViews.length,
+        uniqueUsersLast24h: uniqueIps.size,
+      };
+    } catch (error) {
+      console.error('Error getting traffic analytics:', error);
+      return { totalPageViews: 0, uniqueUsersLast24h: 0 };
+    }
+  }
+
+  async getCountryAnalytics(days: number): Promise<{ country: string; count: number }[]> {
+    try {
+      const cutoffDate = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
+      const participants = await db.select()
+        .from(airdropParticipantsTable)
+        .where(gte(airdropParticipantsTable.createdAt, cutoffDate));
+      
+      const countryMap = new Map<string, number>();
+      for (const p of participants) {
+        const country = p.country || 'Unknown';
+        countryMap.set(country, (countryMap.get(country) || 0) + 1);
+      }
+      
+      return Array.from(countryMap.entries())
+        .map(([country, count]) => ({ country, count }))
+        .sort((a, b) => b.count - a.count);
+    } catch (error) {
+      console.error('Error getting country analytics:', error);
+      return [];
+    }
+  }
+
+  async getAllParticipantsForExport(): Promise<AirdropParticipant[]> {
+    try {
+      return await db.select()
+        .from(airdropParticipantsTable)
+        .orderBy(desc(airdropParticipantsTable.createdAt));
+    } catch (error) {
+      console.error('Error getting participants for export:', error);
+      return [];
+    }
+  }
+
+  async trackPageView(data: { ipAddress: string; userAgent?: string; country?: string; path: string; walletAddress?: string }): Promise<void> {
+    try {
+      await db.insert(pageViewsTable).values({
+        ipAddress: data.ipAddress,
+        userAgent: data.userAgent || null,
+        country: data.country || null,
+        path: data.path,
+        walletAddress: data.walletAddress || null,
+      });
+    } catch (error) {
+      console.error('Error tracking page view:', error);
     }
   }
 }
