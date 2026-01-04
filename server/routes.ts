@@ -833,6 +833,106 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // ========== NEWS TICKER ROUTES (Dashboard scrolling news) ==========
+  
+  // Public: Get active news ticker message
+  app.get("/api/news-ticker", async (req, res) => {
+    try {
+      const ticker = await storage.getActiveNewsTicker();
+      if (ticker) {
+        res.json({ message: ticker.message });
+      } else {
+        // Default message if no active ticker
+        res.json({ message: "🎉 Congratulations! We are live. Complete your task and claim your reward." });
+      }
+    } catch (error) {
+      console.error('Get news ticker error:', error);
+      res.json({ message: "🎉 Congratulations! We are live. Complete your task and claim your reward." });
+    }
+  });
+
+  // Master wallet: Get all news tickers
+  app.get("/api/admin/news-ticker", async (req, res) => {
+    try {
+      const { wallet } = req.query;
+      
+      if (!wallet || !verifyMasterWallet(wallet as string)) {
+        return res.status(403).json({ error: "Access denied. Master wallet required." });
+      }
+
+      const tickers = await storage.getAllNewsTickers();
+      res.json(tickers);
+    } catch (error) {
+      console.error('Get all news tickers error:', error);
+      res.status(500).json({ error: "Failed to get news tickers" });
+    }
+  });
+
+  // Master wallet: Create news ticker
+  app.post("/api/admin/news-ticker", async (req, res) => {
+    try {
+      const { wallet, message, isActive } = req.body;
+      
+      if (!wallet || !verifyMasterWallet(wallet)) {
+        return res.status(403).json({ error: "Access denied. Master wallet required." });
+      }
+
+      const ticker = await storage.createNewsTicker({ 
+        message, 
+        isActive: isActive !== undefined ? isActive : true 
+      });
+      res.json(ticker);
+    } catch (error) {
+      console.error('Create news ticker error:', error);
+      res.status(500).json({ error: "Failed to create news ticker" });
+    }
+  });
+
+  // Master wallet: Update news ticker
+  app.put("/api/admin/news-ticker/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { wallet, message, isActive } = req.body;
+      
+      if (!wallet || !verifyMasterWallet(wallet)) {
+        return res.status(403).json({ error: "Access denied. Master wallet required." });
+      }
+
+      const updates: any = {};
+      if (message !== undefined) updates.message = message;
+      if (isActive !== undefined) updates.isActive = isActive;
+
+      const ticker = await storage.updateNewsTicker(id, updates);
+      if (!ticker) {
+        return res.status(404).json({ error: "News ticker not found" });
+      }
+      res.json(ticker);
+    } catch (error) {
+      console.error('Update news ticker error:', error);
+      res.status(500).json({ error: "Failed to update news ticker" });
+    }
+  });
+
+  // Master wallet: Delete news ticker
+  app.delete("/api/admin/news-ticker/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { wallet } = req.body;
+      
+      if (!wallet || !verifyMasterWallet(wallet)) {
+        return res.status(403).json({ error: "Access denied. Master wallet required." });
+      }
+
+      await storage.deleteNewsTicker(id);
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Delete news ticker error:', error);
+      res.status(500).json({ error: "Failed to delete news ticker" });
+    }
+  });
+
+  // ========== END NEWS TICKER ROUTES ==========
+
   // Email subscription routes
   app.post("/api/subscribe", async (req, res) => {
     try {
