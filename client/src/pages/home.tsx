@@ -234,11 +234,11 @@ export default function Home() {
     },
     {
       question: "How do staking rewards work?", 
-      answer: "Stake $MEMES tokens to earn 365% APY (1% daily rewards). Staking program coming soon! Plus, earn referral bonuses at 3 levels: Level 1 - 1,00,000 $MEMES, Level 2 - 1,00,000 $MEMES, Level 3 - 1,00,000 $MEMES tokens distributed across your referral network."
+      answer: "Stake $MEMES tokens to earn 365% APY (1% daily rewards). Staking program coming soon! Plus, earn referral bonuses at 3 levels: Level 1 - 100,000 $MEMES, Level 2 - 100,000 $MEMES, Level 3 - 100,000 $MEMES tokens distributed across your referral network."
     },
     {
       question: "How does the referral system work?",
-      answer: "Earn passive income through our 3-level referral system! Level 1 - 1,00,000 $MEMES, Level 2 - 1,00,000 $MEMES, Level 3 - 1,00,000 $MEMES tokens will be distributed across your three referral levels. Total referral pool is 5 billion $MEMES (10% of supply)."
+      answer: "Earn passive income through our 3-level referral system! Level 1 - 100,000 $MEMES, Level 2 - 100,000 $MEMES, Level 3 - 100,000 $MEMES tokens will be distributed across your three referral levels. Total referral pool is 5 billion $MEMES (10% of supply)."
     },
     {
       question: "What are the purchase limits?",
@@ -965,7 +965,7 @@ export default function Home() {
               </div>
             </div>
 
-            <h3 className="text-4xl md:text-3xl font-bold mb-4 bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-400 bg-clip-text text-transparent" style={{fontFamily: 'Space Grotesk, Inter, sans-serif'}}>Connect Wallet To Claim Free 1,00,000 $MEMES Tokens</h3>
+            <h3 className="text-4xl md:text-3xl font-bold mb-4 bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-400 bg-clip-text text-transparent" style={{fontFamily: 'Space Grotesk, Inter, sans-serif'}}>Connect Wallet To Claim Free 100,000 $MEMES Tokens</h3>
             {/*<p className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-8 sm:mb-12 leading-relaxed max-w-3xl mx-auto px-4" style={{fontFamily: 'Inter, sans-serif'}} data-testid="text-hero-subtitle">
               <span style={{color: '#ffd700', fontWeight: '700'}}>From LOLs to APYs</span>
             </p> */}            
@@ -1083,7 +1083,7 @@ export default function Home() {
               Connect Your Wallet & Get Airdrop
             </h2>
             <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-              Join thousands of holders and claim your share of <span className="font-bold" style={{color: '#ffd700'}}>1,00,000 $MEMES</span> tokens!
+              Join thousands of holders and claim your share of <span className="font-bold" style={{color: '#ffd700'}}>100,000 $MEMES</span> tokens!
             </p>
           </div>
 
