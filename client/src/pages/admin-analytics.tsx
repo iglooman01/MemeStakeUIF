@@ -137,19 +137,14 @@ export default function AdminAnalytics() {
 
   const switchVerificationModeMutation = useMutation({
     mutationFn: async (newMode: number) => {
-      const message = `Switch verification mode to ${newMode === 0 ? 'OTP' : 'Puzzle'}`;
-      const signature = await window.ethereum.request({
-        method: 'personal_sign',
-        params: [message, walletAddress],
-      });
-      const res = await fetch("/api/airdrop/set-verification-mode", {
+      const res = await fetch("/api/airdrop/verification-mode", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ wallet: walletAddress, mode: newMode, signature, message }),
+        body: JSON.stringify({ walletAddress: walletAddress, mode: newMode }),
       });
       if (!res.ok) {
         const error = await res.json();
-        throw new Error(error.message || "Failed to switch verification mode");
+        throw new Error(error.message || error.error || "Failed to switch verification mode");
       }
       return res.json();
     },
