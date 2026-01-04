@@ -731,7 +731,7 @@ export default function Home() {
   useEffect(() => {
     const calculateTimeRemaining = () => {
       // Target date: October 27, 2025 at 09:30:30
-      const targetDate = new Date('2026-01-19T09:30:30');
+      const targetDate = new Date('2026-01-21T09:30:30');
       const now = new Date();
       const diff = targetDate.getTime() - now.getTime();
       

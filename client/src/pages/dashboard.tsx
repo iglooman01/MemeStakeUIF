@@ -2179,7 +2179,7 @@ export default function Dashboard() {
   useEffect(() => {
     const calculateTimeRemaining = () => {
       // Target date: January 25, 2026 at 09:30:30
-      const targetDate = new Date("2026-01-19T09:30:30");
+      const targetDate = new Date("2026-01-21T09:30:30");
       const now = new Date();
       const diff = targetDate.getTime() - now.getTime();
 
