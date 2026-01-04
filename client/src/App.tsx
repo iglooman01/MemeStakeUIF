@@ -11,6 +11,7 @@ import IncomeHistory from "@/pages/income-history";
 import Whitepaper from "@/pages/whitepaper";
 import Admin from "@/pages/admin";
 import AdminLogin from "@/pages/admin-login";
+import AdminAnalytics from "@/pages/admin-analytics";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -24,6 +25,7 @@ function Router() {
       <Route path="/whitepaper" component={Whitepaper} />
       <Route path="/kb-admin-login" component={AdminLogin} />
       <Route path="/kb-admin-007" component={Admin} />
+      <Route path="/admin-analytics" component={AdminAnalytics} />
       <Route component={NotFound} />
     </Switch>
   );

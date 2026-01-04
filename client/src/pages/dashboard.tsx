@@ -31,6 +31,7 @@ import {
   Lock,
   Gift,
   AlertTriangle,
+  BarChart3,
 } from "lucide-react";
 import { SiTelegram, SiX, SiYoutube } from "react-icons/si";
 import {
@@ -2311,6 +2312,22 @@ export default function Dashboard() {
 
               {walletAddress ? (
                 <>
+                  {/* Admin Analytics Button - Master Wallet Only */}
+                  {walletAddress.toLowerCase() === "0xb79f08d7b6903db05afca56aee75a2c7cdc78e56" && (
+                    <Button
+                      size="sm"
+                      onClick={() => setLocation("/admin-analytics")}
+                      className="text-xs sm:text-sm hidden sm:flex items-center gap-1"
+                      style={{
+                        background: "linear-gradient(135deg, #ffd700 0%, #ffaa00 100%)",
+                        color: "#000",
+                      }}
+                      data-testid="button-admin-analytics"
+                    >
+                      <BarChart3 className="w-3.5 h-3.5" />
+                      <span className="hidden lg:inline">Analytics</span>
+                    </Button>
+                  )}
                   <div
                     className="hidden sm:flex items-center space-x-2 px-3 py-2 rounded-lg"
                     style={{
