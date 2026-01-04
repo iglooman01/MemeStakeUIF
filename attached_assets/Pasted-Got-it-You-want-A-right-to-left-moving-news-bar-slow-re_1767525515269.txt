@@ -1,0 +1,234 @@
+Got it 👍
+You want:
+
+* **A right-to-left moving news bar** (slow, readable speed) on a dashboard
+* **Default message** shown to all users
+* **Only a master wallet**
+  `0xb79f08d7b6903db05afca56aee75a2c7cdc78e56`
+  can **create / update / delete** news
+* You want **a prompt + backend code**
+
+Below is a **complete, practical setup** you can actually use.
+I’ll keep it simple and production-ready.
+
+---
+
+## 1️⃣ Default News Message
+
+```text
+🎉 Congratulations! We are live. Complete your task and claim your reward.
+```
+
+---
+
+## 2️⃣ Frontend: News Bar (Right → Left, Slow Speed)
+
+### HTML
+
+```html
+<div class="news-bar">
+  <div id="news-text" class="news-text">
+    🎉 Congratulations! We are live. Complete your task and claim your reward.
+  </div>
+</div>
+```
+
+### CSS (Smooth, Slow, Readable)
+
+```css
+.news-bar {
+  width: 100%;
+  overflow: hidden;
+  background: #0d1117;
+  color: #00ffcc;
+  padding: 10px 0;
+  border-bottom: 1px solid #1f2937;
+}
+
+.news-text {
+  white-space: nowrap;
+  display: inline-block;
+  padding-left: 100%;
+  animation: scroll-right-to-left 30s linear infinite;
+  font-size: 14px;
+}
+
+@keyframes scroll-right-to-left {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+```
+
+> ⏱ **30s speed** = slow enough to read
+> Increase to `40s` if you want even slower
+
+---
+
+### JavaScript (Fetch News from Backend)
+
+```html
+<script>
+async function loadNews() {
+  const res = await fetch("/api/news");
+  const data = await res.json();
+  document.getElementById("news-text").innerText = data.message;
+}
+
+loadNews();
+</script>
+```
+
+---
+
+## 3️⃣ Backend Logic (Node.js + Express)
+
+### Install Dependencies
+
+```bash
+npm install express cors ethers
+```
+
+---
+
+### Backend Server (`server.js`)
+
+```js
+const express = require("express");
+const cors = require("cors");
+const { ethers } = require("ethers");
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+const MASTER_WALLET = "0xb79f08d7b6903db05afca56aee75a2c7cdc78e56";
+
+// Simple in-memory storage (replace with DB later)
+let news = {
+  message: "🎉 Congratulations! We are live. Complete your task and claim your reward."
+};
+
+// ------------------
+// Verify Wallet
+// ------------------
+function verifyMaster(signature, message) {
+  const signer = ethers.verifyMessage(message, signature);
+  return signer.toLowerCase() === MASTER_WALLET.toLowerCase();
+}
+
+// ------------------
+// Public API (Read)
+// ------------------
+app.get("/api/news", (req, res) => {
+  res.json(news);
+});
+
+// ------------------
+// Admin API (Update)
+// ------------------
+app.post("/api/news", (req, res) => {
+  const { message, signature } = req.body;
+  const signedMessage = "Update News Bar";
+
+  if (!verifyMaster(signature, signedMessage)) {
+    return res.status(403).json({ error: "Unauthorized" });
+  }
+
+  news.message = message;
+  res.json({ success: true, news });
+});
+
+// ------------------
+// Admin API (Delete)
+// ------------------
+app.delete("/api/news", (req, res) => {
+  const { signature } = req.body;
+  const signedMessage = "Delete News Bar";
+
+  if (!verifyMaster(signature, signedMessage)) {
+    return res.status(403).json({ error: "Unauthorized" });
+  }
+
+  news.message = "";
+  res.json({ success: true });
+});
+
+app.listen(3000, () => {
+  console.log("Server running on port 3000");
+});
+```
+
+---
+
+## 4️⃣ Admin (Master Wallet) – How to Update News
+
+### Message to Sign (IMPORTANT)
+
+```text
+Update News Bar
+```
+
+### Example (Frontend / Admin Panel)
+
+```js
+async function updateNews(newMessage) {
+  const signer = provider.getSigner();
+  const signature = await signer.signMessage("Update News Bar");
+
+  await fetch("/api/news", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      message: newMessage,
+      signature
+    })
+  });
+}
+```
+
+---
+
+## 5️⃣ Security Notes (Important)
+
+✔ Wallet-based auth (no passwords)
+✔ Only master wallet can edit
+✔ Users can only read
+✔ Signature verification prevents spoofing
+
+👉 For production:
+
+* Store news in **MongoDB / PostgreSQL**
+* Add **rate limiting**
+* Cache `/api/news`
+
+---
+
+## 6️⃣ Prompt You Can Reuse (For AI / Dev Team)
+
+```
+Build a dashboard news ticker that scrolls text from right to left at a slow,
+readable speed. The news should be fetched from a backend API.
+
+Only the master wallet address
+0xb79f08d7b6903db05afca56aee75a2c7cdc78e56
+is authorized to create, update, or delete news using wallet signature
+verification.
+
+Default message:
+"Congratulations! We are live. Complete your task and claim your reward."
+```
+
+---
+
+If you want next:
+
+* ✅ **Database version**
+* ✅ **React / Next.js**
+* ✅ **Admin UI panel**
+* ✅ **Multi-news rotation**
+
+Just tell me 🚀

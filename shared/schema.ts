@@ -168,3 +168,21 @@ export const verificationSettings = pgTable("verification_settings", {
 });
 
 export type VerificationSettings = typeof verificationSettings.$inferSelect;
+
+// News ticker table - for scrolling news bar on dashboard
+export const newsTicker = pgTable("news_ticker", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  message: text("message").notNull(),
+  isActive: boolean("is_active").notNull().default(true),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+export const insertNewsTickerSchema = createInsertSchema(newsTicker).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type InsertNewsTicker = z.infer<typeof insertNewsTickerSchema>;
+export type NewsTicker = typeof newsTicker.$inferSelect;
