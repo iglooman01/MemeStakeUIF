@@ -332,7 +332,7 @@ export default function Admin() {
                       <div className="text-sm text-gray-400">Token Balance</div>
                     </div>
                     <div className="text-2xl font-bold" style={{color: '#ffd700'}} data-testid="text-token-balance">
-                      {userDetails.tokenBalance.toLocaleString()} $MEMES
+                      {userDetails.tokenBalance.toLocaleString('en-US')} $MEMES
                     </div>
                   </Card>
 
@@ -347,7 +347,7 @@ export default function Admin() {
                       <div className="text-sm text-gray-400">Total Staked</div>
                     </div>
                     <div className="text-2xl font-bold" style={{color: '#00bfff'}} data-testid="text-total-staked">
-                      {userDetails.totalStaked.toLocaleString()} $MEMES
+                      {userDetails.totalStaked.toLocaleString('en-US')} $MEMES
                     </div>
                   </Card>
 
@@ -362,7 +362,7 @@ export default function Admin() {
                       <div className="text-sm text-gray-400">Pending Rewards</div>
                     </div>
                     <div className="text-2xl font-bold" style={{color: '#00ff88'}} data-testid="text-pending-rewards">
-                      {userDetails.pendingRewards.toLocaleString()} $MEMES
+                      {userDetails.pendingRewards.toLocaleString('en-US')} $MEMES
                     </div>
                   </Card>
                 </div>
@@ -379,25 +379,25 @@ export default function Admin() {
                     <div className="p-4 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)'}}>
                       <div className="text-sm text-gray-400 mb-2">Total Referral</div>
                       <div className="text-xl font-bold" style={{color: '#ffd700'}} data-testid="text-total-referral">
-                        {userDetails.referralRewards.toLocaleString()}
+                        {userDetails.referralRewards.toLocaleString('en-US')}
                       </div>
                     </div>
                     <div className="p-4 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
                       <div className="text-sm text-gray-400 mb-2">Level 1 (5%)</div>
                       <div className="text-xl font-bold" style={{color: '#00bfff'}} data-testid="text-level1-rewards">
-                        {userDetails.level1Rewards.toLocaleString()}
+                        {userDetails.level1Rewards.toLocaleString('en-US')}
                       </div>
                     </div>
                     <div className="p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)'}}>
                       <div className="text-sm text-gray-400 mb-2">Level 2 (3%)</div>
                       <div className="text-xl font-bold" style={{color: '#00ff88'}} data-testid="text-level2-rewards">
-                        {userDetails.level2Rewards.toLocaleString()}
+                        {userDetails.level2Rewards.toLocaleString('en-US')}
                       </div>
                     </div>
                     <div className="p-4 rounded-lg" style={{background: 'rgba(255, 165, 0, 0.1)'}}>
                       <div className="text-sm text-gray-400 mb-2">Level 3 (2%)</div>
                       <div className="text-xl font-bold" style={{color: '#ffa500'}} data-testid="text-level3-rewards">
-                        {userDetails.level3Rewards.toLocaleString()}
+                        {userDetails.level3Rewards.toLocaleString('en-US')}
                       </div>
                     </div>
                   </div>
@@ -424,7 +424,7 @@ export default function Admin() {
                             <div>
                               <div className="text-sm text-gray-400">Amount</div>
                               <div className="font-bold" style={{color: '#ffd700'}}>
-                                {(Number(stake.stakedAmount) / 1e18).toLocaleString()} $MEMES
+                                {(Number(stake.stakedAmount) / 1e18).toLocaleString('en-US')} $MEMES
                               </div>
                             </div>
                             <div>
@@ -436,7 +436,7 @@ export default function Admin() {
                             <div>
                               <div className="text-sm text-gray-400">Total Claimed</div>
                               <div className="text-sm" style={{color: '#00ff88'}}>
-                                {(Number(stake.totalRewardsClaimed) / 1e18).toLocaleString()} $MEMES
+                                {(Number(stake.totalRewardsClaimed) / 1e18).toLocaleString('en-US')} $MEMES
                               </div>
                             </div>
                             <div>
@@ -554,7 +554,7 @@ export default function Admin() {
                           </div>
                           <p className="text-sm text-gray-300 mb-2">{news.content}</p>
                           <div className="text-xs text-gray-400">
-                            Created: {new Date(news.createdAt).toLocaleString()}
+                            Created: {new Date(news.createdAt).toLocaleString('en-US')}
                           </div>
                         </div>
                         <div className="flex gap-2 ml-4">
@@ -631,7 +631,7 @@ export default function Admin() {
                         </div>
                       </div>
                       <div className="text-xs text-gray-400 mt-2">
-                        Subscribed: {new Date(sub.subscribedAt).toLocaleString()}
+                        Subscribed: {new Date(sub.subscribedAt).toLocaleString('en-US')}
                       </div>
                     </div>
                   ))}

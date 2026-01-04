@@ -29,7 +29,7 @@ export function CommunityStats() {
   }, []);
 
   const formatNumber = (num: number) => {
-    return num.toLocaleString();
+    return num.toLocaleString('en-US');
   };
 
   return (

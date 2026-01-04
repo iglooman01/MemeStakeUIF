@@ -317,7 +317,7 @@ export default function Staking() {
         const penaltyAmount = 0.20 * (amountStaked - totalRewardsClaimed);
         return { 
           hasPenalty: true, 
-          text: `⚠️ ${penaltyAmount.toLocaleString()} MEME`, 
+          text: `⚠️ ${penaltyAmount.toLocaleString('en-US')} MEME`, 
           color: '#ffa500' 
         };
       } else {
@@ -531,7 +531,7 @@ export default function Staking() {
     if (parseFloat(stakeAmount) < MINIMUM_STAKE) {
       toast({
         title: "❌ Minimum Stake Required",
-        description: `Minimum stake is ${MINIMUM_STAKE.toLocaleString()} $MEMES tokens ($50 worth)`,
+        description: `Minimum stake is ${MINIMUM_STAKE.toLocaleString('en-US')} $MEMES tokens ($50 worth)`,
         variant: "destructive"
       });
       return;
@@ -701,7 +701,7 @@ export default function Staking() {
 
       toast({
         title: "🎉 Staking Successful!",
-        description: `Successfully staked ${parseFloat(stakeAmount).toLocaleString()} $MEMES tokens! TX: ${stakeTxHash.slice(0, 10)}...`,
+        description: `Successfully staked ${parseFloat(stakeAmount).toLocaleString('en-US')} $MEMES tokens! TX: ${stakeTxHash.slice(0, 10)}...`,
       });
     } catch (error: any) {
       console.error('Error staking:', error);
@@ -744,7 +744,7 @@ export default function Staking() {
       
       toast({
         title: "⚠️ Early Unstake Penalty",
-        description: `Early unstake detected! All rewards (${penaltyAmount.toLocaleString()} $MEMES) deducted from principal. You will receive ${finalAmount.toLocaleString()} $MEMES.`,
+        description: `Early unstake detected! All rewards (${penaltyAmount.toLocaleString('en-US')} $MEMES) deducted from principal. You will receive ${finalAmount.toLocaleString('en-US')} $MEMES.`,
         variant: "destructive"
       });
     }
@@ -760,7 +760,7 @@ export default function Staking() {
       if (!isEarlyUnstake || daysStaked >= PENALTY_FREE_DAYS) {
         toast({
           title: "✅ Unstaking Successful!",
-          description: `Successfully unstaked ${parseFloat(unstakeAmount).toLocaleString()} $MEMES tokens`,
+          description: `Successfully unstaked ${parseFloat(unstakeAmount).toLocaleString('en-US')} $MEMES tokens`,
         });
       }
     }, 2500);
@@ -809,7 +809,7 @@ export default function Staking() {
       if (rewardFundInTokens < claimableRewards) {
         toast({
           title: "❌ Insufficient Reward Fund",
-          description: `Contract reward fund (${rewardFundInTokens.toLocaleString()} MEMES) is less than your claimable rewards (${claimableRewards.toLocaleString()} MEMES). Please contact support.`,
+          description: `Contract reward fund (${rewardFundInTokens.toLocaleString('en-US')} MEMES) is less than your claimable rewards (${claimableRewards.toLocaleString('en-US')} MEMES). Please contact support.`,
           variant: "destructive"
         });
         setIsClaiming(false);
@@ -1071,11 +1071,11 @@ export default function Staking() {
             <div className="grid grid-cols-2 gap-3 mb-6">
               <div className="p-3 rounded-lg" style={{background: 'rgba(255, 215, 0, 0.1)'}}>
                 <div className="text-xs text-muted-foreground mb-1">Wallet Balance</div>
-                <div className="font-bold" style={{color: '#ffd700'}}>{tokenBalance.toLocaleString()} $MEMES</div>
+                <div className="font-bold" style={{color: '#ffd700'}}>{tokenBalance.toLocaleString('en-US')} $MEMES</div>
               </div>
               <div className="p-3 rounded-lg" style={{background: 'rgba(0, 191, 255, 0.1)'}}>
                 <div className="text-xs text-muted-foreground mb-1">Staked Amount</div>
-                <div className="font-bold" style={{color: '#00bfff'}}>{stakedAmount.toLocaleString()} $MEMES</div>
+                <div className="font-bold" style={{color: '#00bfff'}}>{stakedAmount.toLocaleString('en-US')} $MEMES</div>
               </div>
             </div>
 
@@ -1211,7 +1211,7 @@ export default function Staking() {
                               <td className="py-3 px-2 text-gray-400">{stakeId}</td>
                               <td className="py-3 px-2">{dateStaked}</td>
                               <td className="py-3 px-2 text-right font-bold" style={{color: '#ffd700'}}>
-                                {stakedAmount.toLocaleString()} MEME
+                                {stakedAmount.toLocaleString('en-US')} MEME
                               </td>
                               <td className="py-3 px-2 text-center font-semibold" style={{color: '#00bfff'}}>
                                 {daysStaked} days
@@ -1273,7 +1273,7 @@ export default function Staking() {
                   {isLoadingData ? (
                     <span className="animate-pulse">Loading...</span>
                   ) : (
-                    `${accruedToday.toLocaleString()} $MEMES`
+                    `${accruedToday.toLocaleString('en-US')} $MEMES`
                   )}
                 </div>
               </div>
@@ -1285,7 +1285,7 @@ export default function Staking() {
                   {/*<span className="text-xs" style={{color: '#00ff88'}}>{daysStaked} days</span>*/}
                 </div>
                 <div className="text-2xl font-bold" style={{color: '#00ff88'}}>
-                  {claimableRewards.toLocaleString()} $MEMES
+                  {claimableRewards.toLocaleString('en-US')} $MEMES
                 </div>
               </div>
 
@@ -1297,7 +1297,7 @@ export default function Staking() {
                 style={{background: 'linear-gradient(135deg, #00ff88 0%, #00cc70 100%)', color: '#000'}}
                 data-testid="button-claim-rewards"
               >
-                {isClaiming ? '⏳ Claiming...' : `🎁 Claim ${claimableRewards.toLocaleString()} $MEMES`}
+                {isClaiming ? '⏳ Claiming...' : `🎁 Claim ${claimableRewards.toLocaleString('en-US')} $MEMES`}
               </Button>
             </div>
           </Card>

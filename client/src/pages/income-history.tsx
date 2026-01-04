@@ -148,7 +148,7 @@ export default function IncomeHistory() {
 
           return {
             id: tx.id,
-            date: new Date(tx.createdAt).toLocaleString(),
+            date: new Date(tx.createdAt).toLocaleString('en-US'),
             type,
             amount: parseFloat(tx.amount),
             status: tx.status === 'confirmed' ? 'claimed' : tx.status,
@@ -246,7 +246,7 @@ export default function IncomeHistory() {
               {isLoading ? (
                 <span className="animate-pulse">...</span>
               ) : (
-                grandTotal.toLocaleString()
+                grandTotal.toLocaleString('en-US')
               )}
             </div>
             <div className="text-xs text-muted-foreground mt-1">$MEMES</div>
@@ -258,7 +258,7 @@ export default function IncomeHistory() {
               {isLoading ? (
                 <span className="animate-pulse">...</span>
               ) : (
-                stakingRewards.toLocaleString()
+                stakingRewards.toLocaleString('en-US')
               )}
             </div>
             <div className="text-xs text-muted-foreground mt-1">$MEMES</div>
@@ -270,7 +270,7 @@ export default function IncomeHistory() {
               {isLoading ? (
                 <span className="animate-pulse">...</span>
               ) : (
-                referralRewards.toLocaleString()
+                referralRewards.toLocaleString('en-US')
               )}
             </div>
             <div className="text-xs text-muted-foreground mt-1">$MEMES</div>
@@ -282,7 +282,7 @@ export default function IncomeHistory() {
               {isLoading ? (
                 <span className="animate-pulse">...</span>
               ) : (
-                bonusRewards.toLocaleString()
+                bonusRewards.toLocaleString('en-US')
               )}
             </div>
             <div className="text-xs text-muted-foreground mt-1">$MEMES</div>
@@ -344,7 +344,7 @@ export default function IncomeHistory() {
                     </td>
                     <td className="py-4 px-4 text-right">
                       <span className="font-bold" style={{color: getTypeColor(record.type)}}>
-                         {record.eventType === 'Tokens Staked' ? '-' : '+'}{record.amount.toLocaleString()} $MEMES                        
+                         {record.eventType === 'Tokens Staked' ? '-' : '+'}{record.amount.toLocaleString('en-US')} $MEMES                        
                       </span>
                     </td>
                     <td className="py-4 px-4 text-center">

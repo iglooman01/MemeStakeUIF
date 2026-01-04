@@ -1048,7 +1048,7 @@ export default function Home() {
                   <div className="text-center">
                     <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2" 
                          style={{color: '#ffd700'}}>
-                      {verifiedParticipants.toLocaleString()}
+                      {verifiedParticipants.toLocaleString('en-US')}
                     </div>
                     <div className="text-sm sm:text-base md:text-lg font-semibold text-white">🏆 Total Participants</div>
                   </div>

@@ -584,7 +584,7 @@ export default function Dashboard() {
         description: (
           <div className="space-y-2 mt-2">
             <p className="text-sm">
-              ✅ {userClaimableAmount.toLocaleString()} MEMES tokens have been
+              ✅ {userClaimableAmount.toLocaleString('en-US')} MEMES tokens have been
               sent to your wallet.
             </p>
             <p className="text-sm">💰 Want to earn more MEMES tokens?</p>
@@ -722,7 +722,7 @@ export default function Dashboard() {
 
       toast({
         title: "🎉 Airdrop Claimed!",
-        description: `${userClaimableAmount.toLocaleString()} MEMES tokens have been sent to your wallet`,
+        description: `${userClaimableAmount.toLocaleString('en-US')} MEMES tokens have been sent to your wallet`,
       });
 
       // Refresh all page data after successful claim
@@ -886,7 +886,7 @@ export default function Dashboard() {
         setShowBuyPreview(false);
         toast({
           title: "❌ Insufficient Presale Tokens",
-          description: `Presale contract only has ${presaleMemesBalanceInTokens.toLocaleString()} MEMES tokens available. You're trying to buy ${estimatedTokens.toLocaleString()} tokens.`,
+          description: `Presale contract only has ${presaleMemesBalanceInTokens.toLocaleString('en-US')} MEMES tokens available. You're trying to buy ${estimatedTokens.toLocaleString('en-US')} tokens.`,
           variant: "destructive",
         });
         return;
@@ -1236,7 +1236,7 @@ export default function Dashboard() {
 
       toast({
         title: "🎉 Rewards Claimed!",
-        description: `Successfully claimed ${claimableAmount.toLocaleString()} $MEMES to your wallet`,
+        description: `Successfully claimed ${claimableAmount.toLocaleString('en-US')} $MEMES to your wallet`,
       });
 
       // Invalidate transactions query to refresh income history
@@ -3954,7 +3954,7 @@ export default function Dashboard() {
                         Total Purchased
                       </div>
                       <div className="text-sm font-bold text-white">
-                        {totalPurchasedTokens.toLocaleString()} $MEMES
+                        {totalPurchasedTokens.toLocaleString('en-US')} $MEMES
                       </div>
                     </div>
                     <Coins className="w-4 h-4" style={{ color: "#00bfff" }} />
@@ -4003,7 +4003,7 @@ export default function Dashboard() {
                     {isLoadingBalances ? (
                       <span className="animate-pulse">Loading...</span>
                     ) : (
-                      `${tokenBalance.toLocaleString()} $MEMES`
+                      `${tokenBalance.toLocaleString('en-US')} $MEMES`
                     )}
                   </div>
                 </div>
@@ -4036,7 +4036,7 @@ export default function Dashboard() {
                       {isLoadingBalances ? (
                         <span className="animate-pulse text-xs">...</span>
                       ) : (
-                        `${pendingStakingRewards.toLocaleString()}`
+                        `${pendingStakingRewards.toLocaleString('en-US')}`
                       )}
                     </div>
                   </div>
@@ -4064,7 +4064,7 @@ export default function Dashboard() {
                       className="text-sm font-bold"
                       style={{ color: "#00ff88" }}
                     >
-                      {userClaimedAmount.toLocaleString()}
+                      {userClaimedAmount.toLocaleString('en-US')}
                     </div>
                   </div>
                 </div>
@@ -4091,7 +4091,7 @@ export default function Dashboard() {
                       {isLoadingBalances ? (
                         <span className="animate-pulse text-sm">...</span>
                       ) : (
-                        `${presaleReferralRewards.toLocaleString()} $MEMES`
+                        `${presaleReferralRewards.toLocaleString('en-US')} $MEMES`
                       )}
                     </div>
                   </div>
@@ -4219,7 +4219,7 @@ export default function Dashboard() {
                     {isLoadingBalances ? (
                       <span className="animate-pulse text-xs">...</span>
                     ) : (
-                      `${totalStakedAmount.toLocaleString()}`
+                      `${totalStakedAmount.toLocaleString('en-US')}`
                     )}
                   </div>
                 </div>
@@ -4267,7 +4267,7 @@ export default function Dashboard() {
                     {isLoadingBalances ? (
                       <span className="animate-pulse text-xs">...</span>
                     ) : (
-                      `${accruedToday.toLocaleString()}`
+                      `${accruedToday.toLocaleString('en-US')}`
                     )}
                   </div>
                 </div>
@@ -4323,7 +4323,7 @@ export default function Dashboard() {
                 className="text-sm sm:text-base font-bold"
                 style={{ color: "#00bfff" }}
               >
-                {stakingEarnings.toLocaleString()}
+                {stakingEarnings.toLocaleString('en-US')}
               </div>
             </div>
 
@@ -4340,7 +4340,7 @@ export default function Dashboard() {
                 className="text-sm sm:text-base font-bold"
                 style={{ color: "#ffd700" }}
               >
-                {referralEarnings.toLocaleString()}
+                {referralEarnings.toLocaleString('en-US')}
               </div>
             </div>
 
@@ -4357,7 +4357,7 @@ export default function Dashboard() {
                 className="text-sm sm:text-base font-bold"
                 style={{ color: "#00ff88" }}
               >
-                {totalEarnings.toLocaleString()}
+                {totalEarnings.toLocaleString('en-US')}
               </div>
               <div className="text-xs text-muted-foreground mt-1">$MEMES</div>
             </div>
@@ -4407,7 +4407,7 @@ export default function Dashboard() {
                       WebkitTextFillColor: "transparent",
                     }}
                   >
-                    {claimableAmount.toLocaleString()} $MEMES
+                    {claimableAmount.toLocaleString('en-US')} $MEMES
                   </div>
                   <div className="text-xs" style={{ color: "#00ff88" }}>
                     💰 ${(claimableAmount * 0.0001).toFixed(2)} USD Value
@@ -4479,7 +4479,7 @@ export default function Dashboard() {
                   {isLoadingBalances ? (
                     <span className="animate-pulse text-xs">...</span>
                   ) : (
-                    level1ReferralCount.toLocaleString()
+                    level1ReferralCount.toLocaleString('en-US')
                   )}{" "}
                   Members
                 </span>
@@ -4496,7 +4496,7 @@ export default function Dashboard() {
                     {isLoadingBalances ? (
                       <span className="animate-pulse text-xs">...</span>
                     ) : (
-                      `${level1AirdropRewards.toLocaleString()}`
+                      `${level1AirdropRewards.toLocaleString('en-US')}`
                     )}
                   </div>
                 </div>
@@ -4511,7 +4511,7 @@ export default function Dashboard() {
                     {isLoadingBalances ? (
                       <span className="animate-pulse text-xs">...</span>
                     ) : (
-                      `${level1StakingRewards.toLocaleString()}`
+                      `${level1StakingRewards.toLocaleString('en-US')}`
                     )}
                   </div>
                 </div>
@@ -4547,7 +4547,7 @@ export default function Dashboard() {
                   {isLoadingBalances ? (
                     <span className="animate-pulse text-xs">...</span>
                   ) : (
-                    level2ReferralCount.toLocaleString()
+                    level2ReferralCount.toLocaleString('en-US')
                   )}{" "}
                   Members
                 </span>
@@ -4564,7 +4564,7 @@ export default function Dashboard() {
                     {isLoadingBalances ? (
                       <span className="animate-pulse text-xs">...</span>
                     ) : (
-                      `${level2AirdropRewards.toLocaleString()}`
+                      `${level2AirdropRewards.toLocaleString('en-US')}`
                     )}
                   </div>
                 </div>
@@ -4579,7 +4579,7 @@ export default function Dashboard() {
                     {isLoadingBalances ? (
                       <span className="animate-pulse text-xs">...</span>
                     ) : (
-                      `${level2StakingRewards.toLocaleString()}`
+                      `${level2StakingRewards.toLocaleString('en-US')}`
                     )}
                   </div>
                 </div>
@@ -4615,7 +4615,7 @@ export default function Dashboard() {
                   {isLoadingBalances ? (
                     <span className="animate-pulse text-xs">...</span>
                   ) : (
-                    level3ReferralCount.toLocaleString()
+                    level3ReferralCount.toLocaleString('en-US')
                   )}{" "}
                   Members
                 </span>
@@ -4632,7 +4632,7 @@ export default function Dashboard() {
                     {isLoadingBalances ? (
                       <span className="animate-pulse text-xs">...</span>
                     ) : (
-                      `${level3AirdropRewards.toLocaleString()}`
+                      `${level3AirdropRewards.toLocaleString('en-US')}`
                     )}
                   </div>
                 </div>
@@ -4647,7 +4647,7 @@ export default function Dashboard() {
                     {isLoadingBalances ? (
                       <span className="animate-pulse text-xs">...</span>
                     ) : (
-                      `${level3StakingRewards.toLocaleString()}`
+                      `${level3StakingRewards.toLocaleString('en-US')}`
                     )}
                   </div>
                 </div>
@@ -4663,7 +4663,7 @@ export default function Dashboard() {
                     {isLoadingBalances ? (
                       <span className="animate-pulse">Loading...</span>
                     ) : (
-                      `${(level1AirdropRewards + level2AirdropRewards + level3AirdropRewards).toLocaleString()} $MEMES`
+                      `${(level1AirdropRewards + level2AirdropRewards + level3AirdropRewards).toLocaleString('en-US')} $MEMES`
                     )}
                   </div>
                 </div>
@@ -4673,7 +4673,7 @@ export default function Dashboard() {
                     {isLoadingBalances ? (
                       <span className="animate-pulse">Loading...</span>
                     ) : (
-                      `${(level1StakingRewards + level2StakingRewards + level3StakingRewards).toLocaleString()} $MEMES`
+                      `${(level1StakingRewards + level2StakingRewards + level3StakingRewards).toLocaleString('en-US')} $MEMES`
                     )}
                   </div>
                 </div>
@@ -5582,7 +5582,7 @@ export default function Dashboard() {
                 className="text-3xl font-black mb-1"
                 style={{ color: "#00ff88" }}
               >
-                {tokensToGet.toLocaleString()}
+                {tokensToGet.toLocaleString('en-US')}
               </div>
               <div className="text-lg font-bold" style={{ color: "#ffd700" }}>
                 $MEMES
@@ -5672,7 +5672,7 @@ export default function Dashboard() {
                   className="text-2xl font-bold"
                   style={{ color: "#00bfff" }}
                 >
-                  {tokensToGet.toLocaleString()} $MEMES
+                  {tokensToGet.toLocaleString('en-US')} $MEMES
                 </div>
               </div>
 
@@ -5764,7 +5764,7 @@ export default function Dashboard() {
                   className="text-3xl font-bold"
                   style={{ color: "#00ff88" }}
                 >
-                  {purchasedTokens.toLocaleString()} $MEMES
+                  {purchasedTokens.toLocaleString('en-US')} $MEMES
                 </div>
               </div>
 

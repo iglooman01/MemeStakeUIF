@@ -456,7 +456,7 @@ export default function Airdrop() {
           <h3 className="text-xl font-semibold mb-4">3. Your Airdrop Status</h3>
           <div className="text-center py-6">
             <div className="text-5xl font-bold mb-2" style={{color: '#ffd700'}}>
-              {airdropTokens.toLocaleString()} $MEMES
+              {airdropTokens.toLocaleString('en-US')} $MEMES
             </div>
             <p className="text-muted-foreground">
               {walletAddress ? 'Ready to claim!' : '🔗 Wallet connection required for token distribution'}
@@ -478,7 +478,7 @@ export default function Airdrop() {
             </div>
             <div className="text-center p-4 rounded-lg" style={{background: 'rgba(0, 255, 136, 0.1)'}}>
               <div className="text-sm text-muted-foreground">Airdrop Tokens</div>
-              <div className="text-2xl font-bold" style={{color: '#00ff88'}}>{claimedTokens.toLocaleString()}</div>
+              <div className="text-2xl font-bold" style={{color: '#00ff88'}}>{claimedTokens.toLocaleString('en-US')}</div>
             </div>
           </div>
           <p className="text-sm text-muted-foreground mb-4">
