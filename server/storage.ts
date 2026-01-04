@@ -12,7 +12,9 @@ import {
   type EmailSubscription,
   type InsertEmailSubscription,
   type Transaction,
-  type InsertTransaction
+  type InsertTransaction,
+  type NewsTicker,
+  type InsertNewsTicker
 } from "@shared/schema";
 import { randomUUID } from "crypto";
 
@@ -88,6 +90,13 @@ export interface IStorage {
   
   // Page view tracking
   trackPageView(data: { ipAddress: string; userAgent?: string; country?: string; path: string; walletAddress?: string }): Promise<void>;
+  
+  // News ticker methods
+  getActiveNewsTicker(): Promise<NewsTicker | undefined>;
+  getAllNewsTickers(): Promise<NewsTicker[]>;
+  createNewsTicker(ticker: InsertNewsTicker): Promise<NewsTicker>;
+  updateNewsTicker(id: string, updates: Partial<NewsTicker>): Promise<NewsTicker | undefined>;
+  deleteNewsTicker(id: string): Promise<void>;
 }
 
 export class MemStorage implements IStorage {
@@ -475,6 +484,28 @@ export class MemStorage implements IStorage {
   async trackPageView(data: { ipAddress: string; userAgent?: string; country?: string; path: string; walletAddress?: string }): Promise<void> {
     // No-op for MemStorage
   }
+
+  // News ticker stub methods (MemStorage)
+  async getActiveNewsTicker(): Promise<NewsTicker | undefined> {
+    return undefined;
+  }
+
+  async getAllNewsTickers(): Promise<NewsTicker[]> {
+    return [];
+  }
+
+  async createNewsTicker(ticker: InsertNewsTicker): Promise<NewsTicker> {
+    const id = randomUUID();
+    return { ...ticker, id, createdAt: new Date(), updatedAt: new Date(), isActive: ticker.isActive ?? true };
+  }
+
+  async updateNewsTicker(id: string, updates: Partial<NewsTicker>): Promise<NewsTicker | undefined> {
+    return undefined;
+  }
+
+  async deleteNewsTicker(id: string): Promise<void> {
+    // No-op for MemStorage
+  }
 }
 
 // Database Storage - Uses PostgreSQL for persistent storage
@@ -485,6 +516,7 @@ import {
   otpVerifications as otpVerificationsTable,
   verificationSettings as verificationSettingsTable,
   pageViews as pageViewsTable,
+  newsTicker as newsTickerTable,
   type VerificationSettings
 } from '@shared/schema';
 import { eq, and, desc, gte, sql, count } from 'drizzle-orm';
@@ -797,6 +829,58 @@ export class DbStorage extends MemStorage {
       });
     } catch (error) {
       console.error('Error tracking page view:', error);
+    }
+  }
+
+  // News ticker methods
+  async getActiveNewsTicker(): Promise<NewsTicker | undefined> {
+    try {
+      const results = await db.select()
+        .from(newsTickerTable)
+        .where(eq(newsTickerTable.isActive, true))
+        .orderBy(desc(newsTickerTable.updatedAt))
+        .limit(1);
+      return results[0];
+    } catch (error) {
+      console.error('Error getting active news ticker:', error);
+      return undefined;
+    }
+  }
+
+  async getAllNewsTickers(): Promise<NewsTicker[]> {
+    try {
+      return await db.select()
+        .from(newsTickerTable)
+        .orderBy(desc(newsTickerTable.updatedAt));
+    } catch (error) {
+      console.error('Error getting all news tickers:', error);
+      return [];
+    }
+  }
+
+  async createNewsTicker(ticker: InsertNewsTicker): Promise<NewsTicker> {
+    const results = await db.insert(newsTickerTable).values(ticker).returning();
+    return results[0];
+  }
+
+  async updateNewsTicker(id: string, updates: Partial<NewsTicker>): Promise<NewsTicker | undefined> {
+    try {
+      const results = await db.update(newsTickerTable)
+        .set({ ...updates, updatedAt: new Date() })
+        .where(eq(newsTickerTable.id, id))
+        .returning();
+      return results[0];
+    } catch (error) {
+      console.error('Error updating news ticker:', error);
+      return undefined;
+    }
+  }
+
+  async deleteNewsTicker(id: string): Promise<void> {
+    try {
+      await db.delete(newsTickerTable).where(eq(newsTickerTable.id, id));
+    } catch (error) {
+      console.error('Error deleting news ticker:', error);
     }
   }
 }
