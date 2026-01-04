@@ -13,10 +13,18 @@ import {
   Download, 
   ArrowLeft,
   BarChart3,
-  Activity
+  Activity,
+  Megaphone,
+  Plus,
+  Trash2,
+  Edit,
+  Check,
+  X
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { queryClient } from "@/lib/queryClient";
+import { Input } from "@/components/ui/input";
 
 const MASTER_WALLET = "0xb79f08d7b6903db05afca56aee75a2c7cdc78e56";
 
@@ -26,6 +34,9 @@ export default function AdminAnalytics() {
   const [walletAddress, setWalletAddress] = useState<string>("");
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [selectedDays, setSelectedDays] = useState(30);
+  const [newTickerMessage, setNewTickerMessage] = useState("");
+  const [editingTickerId, setEditingTickerId] = useState<string | null>(null);
+  const [editingMessage, setEditingMessage] = useState("");
 
   useEffect(() => {
     const checkWallet = async () => {
@@ -94,6 +105,82 @@ export default function AdminAnalytics() {
     enabled: isAuthorized && !!walletAddress,
   });
 
+  const { data: newsTickers, isLoading: loadingTickers } = useQuery({
+    queryKey: ["/api/admin/news-ticker", walletAddress],
+    queryFn: async () => {
+      const res = await fetch(`/api/admin/news-ticker?wallet=${walletAddress}`);
+      if (!res.ok) throw new Error("Failed to fetch news tickers");
+      return res.json();
+    },
+    enabled: isAuthorized && !!walletAddress,
+  });
+
+  const createTickerMutation = useMutation({
+    mutationFn: async (message: string) => {
+      const res = await fetch("/api/admin/news-ticker", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ wallet: walletAddress, message, isActive: true }),
+      });
+      if (!res.ok) throw new Error("Failed to create ticker");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/news-ticker"] });
+      setNewTickerMessage("");
+      toast({ title: "News ticker created successfully" });
+    },
+    onError: () => {
+      toast({ title: "Failed to create ticker", variant: "destructive" });
+    },
+  });
+
+  const updateTickerMutation = useMutation({
+    mutationFn: async ({ id, message, isActive }: { id: string; message?: string; isActive?: boolean }) => {
+      const res = await fetch(`/api/admin/news-ticker/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ wallet: walletAddress, message, isActive }),
+      });
+      if (!res.ok) throw new Error("Failed to update ticker");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/news-ticker"] });
+      setEditingTickerId(null);
+      setEditingMessage("");
+      toast({ title: "News ticker updated successfully" });
+    },
+    onError: () => {
+      toast({ title: "Failed to update ticker", variant: "destructive" });
+    },
+  });
+
+  const deleteTickerMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const res = await fetch(`/api/admin/news-ticker/${id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ wallet: walletAddress }),
+      });
+      if (!res.ok) throw new Error("Failed to delete ticker");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/news-ticker"] });
+      toast({ title: "News ticker deleted successfully" });
+    },
+    onError: () => {
+      toast({ title: "Failed to delete ticker", variant: "destructive" });
+    },
+  });
+
+  const handleCreateTicker = () => {
+    if (newTickerMessage.trim()) {
+      createTickerMutation.mutate(newTickerMessage.trim());
+    }
+  };
+
   const handleExportUsers = () => {
     window.open(`/api/admin/export/users?wallet=${walletAddress}`, '_blank');
     toast({
@@ -161,6 +248,10 @@ export default function AdminAnalytics() {
             <TabsTrigger value="export" className="data-[state=active]:bg-[#ffd700] data-[state=active]:text-black">
               <Download className="w-4 h-4 mr-2" />
               Export
+            </TabsTrigger>
+            <TabsTrigger value="news" className="data-[state=active]:bg-[#ffd700] data-[state=active]:text-black">
+              <Megaphone className="w-4 h-4 mr-2" />
+              News
             </TabsTrigger>
           </TabsList>
 
@@ -358,6 +449,127 @@ export default function AdminAnalytics() {
                 </div>
               </Card>
             </div>
+          </TabsContent>
+
+          <TabsContent value="news" className="space-y-6">
+            <h2 className="text-xl font-bold" style={{ color: '#00bfff' }}>News Ticker Management</h2>
+            <p className="text-gray-400">Manage the scrolling news bar displayed on the dashboard. Only one ticker can be active at a time.</p>
+            
+            <Card className="p-6 bg-black/50 border border-white/20">
+              <h3 className="text-lg font-semibold mb-4" style={{ color: '#ffd700' }}>Create New Ticker</h3>
+              <div className="flex gap-3">
+                <Input
+                  placeholder="Enter news message..."
+                  value={newTickerMessage}
+                  onChange={(e) => setNewTickerMessage(e.target.value)}
+                  className="flex-1 bg-black/50 border-white/20 text-white"
+                  data-testid="input-new-ticker"
+                />
+                <Button
+                  onClick={handleCreateTicker}
+                  disabled={!newTickerMessage.trim() || createTickerMutation.isPending}
+                  style={{ background: '#00ff88', color: '#000' }}
+                  data-testid="button-create-ticker"
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  {createTickerMutation.isPending ? 'Creating...' : 'Create'}
+                </Button>
+              </div>
+            </Card>
+
+            <Card className="p-6 bg-black/50 border border-white/20">
+              <h3 className="text-lg font-semibold mb-4" style={{ color: '#ffd700' }}>Existing Tickers</h3>
+              
+              {loadingTickers ? (
+                <div className="text-center py-8">
+                  <div className="animate-spin w-8 h-8 border-4 border-gold-500 border-t-transparent rounded-full mx-auto" style={{ borderColor: '#ffd700', borderTopColor: 'transparent' }}></div>
+                </div>
+              ) : newsTickers && newsTickers.length > 0 ? (
+                <div className="space-y-4">
+                  {newsTickers.map((ticker: any) => (
+                    <div key={ticker.id} className="p-4 rounded-lg bg-black/30 border border-white/10">
+                      {editingTickerId === ticker.id ? (
+                        <div className="flex gap-3">
+                          <Input
+                            value={editingMessage}
+                            onChange={(e) => setEditingMessage(e.target.value)}
+                            className="flex-1 bg-black/50 border-white/20 text-white"
+                            data-testid={`input-edit-ticker-${ticker.id}`}
+                          />
+                          <Button
+                            size="sm"
+                            onClick={() => updateTickerMutation.mutate({ id: ticker.id, message: editingMessage })}
+                            disabled={updateTickerMutation.isPending}
+                            style={{ background: '#00ff88', color: '#000' }}
+                          >
+                            <Check className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => { setEditingTickerId(null); setEditingMessage(""); }}
+                            className="border-white/20"
+                          >
+                            <X className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      ) : (
+                        <div className="flex items-center justify-between gap-4">
+                          <div className="flex-1">
+                            <p className="text-white mb-2">{ticker.message}</p>
+                            <div className="flex items-center gap-3">
+                              <span 
+                                className={`px-2 py-1 rounded text-xs font-medium ${ticker.isActive ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-gray-400'}`}
+                              >
+                                {ticker.isActive ? 'Active' : 'Inactive'}
+                              </span>
+                              <span className="text-xs text-gray-500">
+                                Updated: {new Date(ticker.updatedAt).toLocaleString('en-US')}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => updateTickerMutation.mutate({ id: ticker.id, isActive: !ticker.isActive })}
+                              disabled={updateTickerMutation.isPending}
+                              className="border-white/20"
+                              title={ticker.isActive ? 'Deactivate' : 'Activate'}
+                            >
+                              {ticker.isActive ? 'Deactivate' : 'Activate'}
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => { setEditingTickerId(ticker.id); setEditingMessage(ticker.message); }}
+                              className="border-white/20"
+                            >
+                              <Edit className="w-4 h-4" />
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => deleteTickerMutation.mutate(ticker.id)}
+                              disabled={deleteTickerMutation.isPending}
+                              className="border-red-500/50 text-red-400 hover:bg-red-500/20"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-8 text-gray-400">
+                  <Megaphone className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                  <p>No news tickers yet. Create one above!</p>
+                  <p className="text-sm mt-2">Default message will be shown: "Congratulations! We are live. Complete your task and claim your reward."</p>
+                </div>
+              )}
+            </Card>
           </TabsContent>
         </Tabs>
       </div>
