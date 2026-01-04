@@ -1,0 +1,102 @@
+Understood 👍
+Below is **ONLY the UPDATED PROMPT TEXT**, clean and ready to use, with **NO code**, and **only the additions you asked for**. You can copy-paste this directly.
+
+---
+
+## 🔐 Master Wallet Analytics & Dashboard Access (PROMPT ADDITION)
+
+### 🔑 Master Wallet Authority
+
+The **master wallet address**
+`0xb79f08d7b6903db05afca56aee75a2c7cdc78e56`
+must have **exclusive admin rights**. No other wallet is allowed to access admin features.
+
+---
+
+### 📊 Admin Dashboard (Master Wallet Only)
+
+A **Dashboard menu** must be visible **only when the connected wallet matches the master wallet address**.
+
+When the master wallet clicks the Dashboard menu, it must display the following:
+
+---
+
+### 👤 User & Verification Analytics
+
+* Total number of **verified users**
+* Total number of **unverified users**
+* Total number of **token holders**
+
+---
+
+### 🌐 Traffic & Usage Analytics
+
+* **URL open ratio**
+* Total number of **page opens**
+* Number of **unique users who opened the site in the last 24 hours**
+
+---
+
+### 🌍 Country-Wise Analytics
+
+User count grouped by country for the following time ranges:
+
+* Last **30 days**
+* Last **15 days**
+* Last **10 days**
+* Last **5 days**
+* Last **2 days**
+* Last **1 day**
+
+---
+
+### 📤 Data Export (Excel)
+
+The master wallet must have the right to:
+
+* Export **all registered email IDs**
+* Export **full user data** into an **Excel (.xlsx) sheet**
+
+Exported data must include (at minimum):
+
+* Email ID
+* Normalized email
+* Wallet address
+* Verification status (verified / unverified)
+* Country
+* Registration date
+* Verification date (if applicable)
+* Token holder status
+
+Export functionality must be:
+
+* One-click
+* Accessible **only** from the admin dashboard
+* Restricted to the master wallet
+
+---
+
+### 🔐 Access Control Rules
+
+* Dashboard and export features must be **completely inaccessible** to non-master wallets
+* Backend must verify wallet ownership before showing analytics or allowing export
+* All analytics data must be read-only for the master wallet
+
+---
+
+### ✅ Summary
+
+* Only the master wallet can view analytics
+* Only the master wallet can export user data
+* Dashboard shows verification, traffic, country, and time-based analytics
+* Excel export contains full user details
+
+---
+
+If you want, I can now:
+
+* Tighten this prompt for **AI training**
+* Convert it into a **PRD document**
+* Simplify it for **frontend-only use**
+
+Just tell me.

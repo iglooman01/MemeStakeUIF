@@ -69,11 +69,18 @@ MemeStake is a full-stack web application for a cryptocurrency staking platform 
     - If `airdropClaimed === true`: Show success message with transaction hash and referral promotion
     - Else if `userClaimableAmount > 0`: Direct claim button (bypasses email verification and tasks)
     - Else: Show complete verification process (email OTP + social media tasks)
-  - **Email Verification**: Maileroo OTP verification for users without claimable amount
-    - Send 6-digit OTP to email with 10-minute expiration
+  - **Dual Verification Modes**: Switchable between OTP (mode 0) and Puzzle (mode 1) by master wallet
+    - **Master Wallet**: `0xb79f08d7b6903db05afca56aee75a2c7cdc78e56`
+    - **OTP Mode (0)**: 6-digit code, 5-minute expiry, SHA256 hashed storage, max 3 sends/hour per email
+    - **Puzzle Mode (1)**: Math puzzle verification (default mode)
+    - Email normalization: Gmail aliases normalized (test+alias@gmail.com → test@gmail.com), dots removed
+    - Switch modes via POST `/api/airdrop/set-verification-mode` with master wallet signature
+  - **Email Verification**: Maileroo OTP/Puzzle verification for users without claimable amount
+    - Send 6-digit OTP to email with 5-minute expiration (OTP mode)
     - Email uniqueness enforced in database (one email per wallet)
-    - Sponsor/referral code captured during OTP send
+    - Sponsor/referral code captured during verification
     - Update email_verified status on successful verification
+    - Spam folder notice and resend button for OTP mode
   - **Balance Verification**: Checks if airdrop contract has sufficient MEMES tokens before claiming
   - **Auto-refresh**: After successful claim, automatically refreshes token balances, staking data, and airdrop status
 - **Airdrop Export Scheduler**: Automated Node.js scheduler that exports verified participants to smart contract
