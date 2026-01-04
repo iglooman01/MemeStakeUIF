@@ -22,6 +22,7 @@ export const airdropParticipants = pgTable("airdrop_participants", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   walletAddress: text("wallet_address").notNull().unique(),
   email: text("email").unique(),
+  normalizedEmail: text("normalized_email"),
   emailVerified: boolean("email_verified").notNull().default(false),
   referralCode: text("referral_code").notNull().unique(),
   referredBy: text("referred_by"), // wallet address of the person who referred them (sponsor)
@@ -32,8 +33,29 @@ export const airdropParticipants = pgTable("airdrop_participants", {
   airdropTokens: integer("airdrop_tokens").notNull().default(0),
   referralTokens: integer("referral_tokens").notNull().default(0),
   exported: boolean("exported").notNull().default(false),
+  country: text("country"),
+  verifiedAt: timestamp("verified_at"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
+
+// Page views tracking table
+export const pageViews = pgTable("page_views", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  ipAddress: text("ip_address").notNull(),
+  userAgent: text("user_agent"),
+  country: text("country"),
+  path: text("path").notNull().default("/"),
+  walletAddress: text("wallet_address"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const insertPageViewSchema = createInsertSchema(pageViews).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertPageView = z.infer<typeof insertPageViewSchema>;
+export type PageView = typeof pageViews.$inferSelect;
 
 export const insertAirdropParticipantSchema = createInsertSchema(airdropParticipants).omit({
   id: true,
