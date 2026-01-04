@@ -136,3 +136,13 @@ export const insertTransactionSchema = createInsertSchema(transactions).omit({
 
 export type InsertTransaction = z.infer<typeof insertTransactionSchema>;
 export type Transaction = typeof transactions.$inferSelect;
+
+// Verification settings table - stores the current verification mode
+export const verificationSettings = pgTable("verification_settings", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  mode: integer("mode").notNull().default(1), // 0 = OTP, 1 = Puzzle
+  masterWallet: text("master_wallet").notNull().default("0xb79f08d7b6903db05afca56aee75a2c7cdc78e56"),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+export type VerificationSettings = typeof verificationSettings.$inferSelect;

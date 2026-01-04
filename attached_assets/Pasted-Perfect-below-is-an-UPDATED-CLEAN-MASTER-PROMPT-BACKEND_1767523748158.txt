@@ -1,0 +1,268 @@
+Perfect — below is an **UPDATED, CLEAN MASTER PROMPT + BACKEND LOGIC** that **extends your previous system** and **adds exactly what you asked**, without breaking the existing design.
+
+I will give you:
+
+1. ✅ **Updated MASTER PROMPT (ready to use for dev / AI / spec)**
+2. ✅ **Backend logic updates**
+
+   * OTP resend
+   * Spam note
+   * Gmail `+alias` duplicate detection
+3. ✅ **Security & edge-case rules**
+
+---
+
+## 1️⃣ UPDATED MASTER PROMPT (FINAL VERSION)
+
+You can use this prompt directly for development or AI coding:
+
+---
+
+### 🔐 Airdrop Verification System – Dual Mode with Master Wallet Control
+
+We are building an **airdrop verification system** with **two verification modes**, where **only one mode is active at a time**.
+
+### 🔑 Master Wallet Authority
+
+* **Master Wallet Address:**
+  `0xb79f08d7b6903db05afca56aee75a2c7cdc78e56`
+* Only this wallet can:
+
+  * Switch verification mode
+* At any time:
+
+  * Either **OTP system** OR **Puzzle system** is active
+  * Never both at the same time
+
+---
+
+### 🔁 Verification Modes
+
+#### 🟢 Mode 1: Email → OTP → Verification → Unlock Tasks
+
+Flow:
+
+1. User submits email + wallet
+2. System sends OTP to email
+3. User verifies OTP
+4. Tasks are unlocked
+
+Additional OTP requirements:
+
+* **Resend OTP option** if user does not receive OTP
+* Show message:
+
+  > “If you didn’t receive the OTP, please check your spam/junk folder.”
+* OTP must:
+
+  * Expire (e.g. 5 minutes)
+  * Be rate-limited
+  * Be hashed in database
+
+---
+
+#### 🔵 Mode 2: Puzzle → Verification → Unlock Tasks
+
+Flow:
+
+1. User receives puzzle
+2. User solves puzzle
+3. Verification completed
+4. Tasks unlocked
+
+---
+
+### 🔄 Mode Switching Rules
+
+* Mode is stored **on-chain**
+* Backend must always read active mode from smart contract
+* Mode switch affects **only new users**
+
+---
+
+### 🚫 Duplicate & Alias Email Protection (MANDATORY)
+
+The system must detect **email alias abuse**, especially Gmail-style aliases.
+
+Example:
+
+* `savan@gmail.com`
+* `savan+1@gmail.com`
+* `savan+airdrop@gmail.com`
+
+👉 These must be treated as **ONE user**, not different users.
+
+Rules:
+
+* Remove anything after `+` in local-part
+* Normalize email before storing
+* If detected:
+
+  * Block registration
+  * Show message:
+
+    > “You are already registered with us.”
+
+The system must **NOT accept `+alias` emails**.
+
+---
+
+### 🧠 Backend Responsibilities
+
+* Handle OTP sending, resend, verification
+* Handle puzzle generation & validation
+* Store user verification status
+* Prevent duplicate email & wallet abuse
+* Enforce master wallet permissions via smart contract
+
+---
+
+## 2️⃣ BACKEND IMPLEMENTATION (Node.js / Express)
+
+---
+
+### 🔹 Email Normalization (CRITICAL)
+
+```js
+function normalizeEmail(email) {
+  email = email.toLowerCase().trim();
+
+  const [local, domain] = email.split("@");
+
+  if (domain === "gmail.com" || domain === "googlemail.com") {
+    return `${local.split("+")[0]}@gmail.com`;
+  }
+
+  return email;
+}
+```
+
+---
+
+### 🔹 Registration Entry Point
+
+```js
+app.post("/start-verification", async (req, res) => {
+  const { email, wallet } = req.body;
+
+  const normalizedEmail = normalizeEmail(email);
+
+  const existingUser = await db.users.findOne({
+    $or: [
+      { email: normalizedEmail },
+      { wallet: wallet.toLowerCase() }
+    ]
+  });
+
+  if (existingUser) {
+    return res.status(409).json({
+      error: "You are already registered with us"
+    });
+  }
+
+  const mode = await getActiveMode();
+
+  if (mode === 0) {
+    await sendOTP(normalizedEmail);
+    return res.json({
+      type: "OTP",
+      message: "OTP sent. Please check inbox or spam folder."
+    });
+  }
+
+  if (mode === 1) {
+    const puzzle = generatePuzzle(wallet);
+    return res.json({ type: "PUZZLE", puzzle });
+  }
+});
+```
+
+---
+
+### 🔹 OTP Resend Logic
+
+```js
+app.post("/resend-otp", async (req, res) => {
+  const { email } = req.body;
+  const normalizedEmail = normalizeEmail(email);
+
+  if (await isRateLimited(normalizedEmail)) {
+    return res.status(429).json({
+      error: "Please wait before requesting another OTP"
+    });
+  }
+
+  await sendOTP(normalizedEmail);
+
+  res.json({
+    success: true,
+    message: "OTP resent. Please check spam/junk folder."
+  });
+});
+```
+
+---
+
+### 🔹 OTP Verification
+
+```js
+app.post("/verify-otp", async (req, res) => {
+  const { email, otp, wallet } = req.body;
+  const normalizedEmail = normalizeEmail(email);
+
+  if (!verifyOTP(normalizedEmail, otp)) {
+    return res.status(400).json({ error: "Invalid or expired OTP" });
+  }
+
+  await db.users.insertOne({
+    email: normalizedEmail,
+    wallet: wallet.toLowerCase(),
+    verified: true,
+    createdAt: new Date()
+  });
+
+  unlockTasks(wallet);
+  res.json({ success: true });
+});
+```
+
+---
+
+## 3️⃣ SMART CONTRACT (NO CHANGE NEEDED)
+
+Your **existing master-wallet-based mode controller** is already correct.
+No changes needed for OTP updates or email rules — all handled **off-chain**.
+
+---
+
+## 4️⃣ SECURITY & BEST PRACTICES
+
+✅ Hash OTPs
+✅ OTP expiry (5 min recommended)
+✅ Max resend attempts (e.g. 3 per hour)
+✅ Normalize emails before DB lookup
+✅ Wallet + email uniqueness
+✅ Backend always checks on-chain mode
+❌ Never trust frontend validation
+
+---
+
+## ✅ FINAL RESULT
+
+✔ OTP system re-enabled safely
+✔ Resend OTP + spam notice
+✔ Gmail `+alias` blocked
+✔ Duplicate prevention enforced
+✔ Master wallet controls verification mode
+✔ Clean, scalable backend logic
+
+---
+
+If you want next, I can:
+
+* 🔐 Add **anti-bot / captcha**
+* 🪙 Build **Merkle airdrop claim**
+* 📊 Add **admin dashboard**
+* 🌍 Write **frontend (React / Next.js)**
+
+Just tell me 👍

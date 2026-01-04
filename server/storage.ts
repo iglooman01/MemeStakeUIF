@@ -61,6 +61,16 @@ export interface IStorage {
   getTransactionByHash(hash: string): Promise<Transaction | undefined>;
   updateTransactionStatus(hash: string, status: string): Promise<Transaction | undefined>;
   getTransactionsByType(walletAddress: string, type: string): Promise<Transaction[]>;
+  
+  // Verification settings methods
+  getVerificationMode(): Promise<number>;
+  setVerificationMode(mode: number, masterWallet: string): Promise<boolean>;
+  getMasterWallet(): Promise<string>;
+  
+  // OTP rate limiting
+  getOtpResendCount(email: string): Promise<number>;
+  incrementOtpResendCount(email: string): Promise<void>;
+  resetOtpResendCount(email: string): Promise<void>;
 }
 
 export class MemStorage implements IStorage {
@@ -71,6 +81,9 @@ export class MemStorage implements IStorage {
   private newsUpdates: Map<string, NewsUpdate>;
   private emailSubscriptions: Map<string, EmailSubscription>;
   private transactions: Map<string, Transaction>;
+  private verificationMode: number = 1; // Default: Puzzle mode
+  private masterWallet: string = "0xb79f08d7b6903db05afca56aee75a2c7cdc78e56";
+  private otpResendCounts: Map<string, { count: number; resetAt: Date }>;
 
   constructor() {
     this.users = new Map();
@@ -80,6 +93,7 @@ export class MemStorage implements IStorage {
     this.newsUpdates = new Map();
     this.emailSubscriptions = new Map();
     this.transactions = new Map();
+    this.otpResendCounts = new Map();
     
     // Create default admin user
     const defaultAdmin: AdminUser = {
@@ -359,6 +373,55 @@ export class MemStorage implements IStorage {
       )
       .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
   }
+
+  // Verification settings methods
+  async getVerificationMode(): Promise<number> {
+    return this.verificationMode;
+  }
+
+  async setVerificationMode(mode: number, masterWallet: string): Promise<boolean> {
+    if (masterWallet.toLowerCase() !== this.masterWallet.toLowerCase()) {
+      return false;
+    }
+    this.verificationMode = mode;
+    return true;
+  }
+
+  async getMasterWallet(): Promise<string> {
+    return this.masterWallet;
+  }
+
+  // OTP rate limiting
+  async getOtpResendCount(email: string): Promise<number> {
+    const normalizedEmail = email.toLowerCase();
+    const entry = this.otpResendCounts.get(normalizedEmail);
+    if (!entry) return 0;
+    
+    // Reset count if hour has passed
+    if (new Date() > entry.resetAt) {
+      this.otpResendCounts.delete(normalizedEmail);
+      return 0;
+    }
+    return entry.count;
+  }
+
+  async incrementOtpResendCount(email: string): Promise<void> {
+    const normalizedEmail = email.toLowerCase();
+    const entry = this.otpResendCounts.get(normalizedEmail);
+    
+    if (!entry || new Date() > entry.resetAt) {
+      this.otpResendCounts.set(normalizedEmail, {
+        count: 1,
+        resetAt: new Date(Date.now() + 60 * 60 * 1000) // 1 hour
+      });
+    } else {
+      entry.count++;
+    }
+  }
+
+  async resetOtpResendCount(email: string): Promise<void> {
+    this.otpResendCounts.delete(email.toLowerCase());
+  }
 }
 
 // Database Storage - Uses PostgreSQL for persistent storage
@@ -366,7 +429,9 @@ import { db } from './db';
 import { 
   transactions as transactionsTable,
   airdropParticipants as airdropParticipantsTable,
-  otpVerifications as otpVerificationsTable
+  otpVerifications as otpVerificationsTable,
+  verificationSettings as verificationSettingsTable,
+  type VerificationSettings
 } from '@shared/schema';
 import { eq, and, desc } from 'drizzle-orm';
 
@@ -519,6 +584,74 @@ export class DbStorage extends MemStorage {
       .orderBy(desc(transactionsTable.createdAt));
     
     return results;
+  }
+
+  // Override verification settings to use database
+  async getVerificationMode(): Promise<number> {
+    try {
+      const results = await db.select()
+        .from(verificationSettingsTable)
+        .limit(1);
+      
+      if (results.length === 0) {
+        // Create default settings
+        await db.insert(verificationSettingsTable).values({
+          mode: 1, // Default: Puzzle mode
+          masterWallet: "0xb79f08d7b6903db05afca56aee75a2c7cdc78e56"
+        });
+        return 1;
+      }
+      return results[0].mode;
+    } catch (error) {
+      console.error('Error getting verification mode:', error);
+      return 1; // Default to puzzle mode
+    }
+  }
+
+  async setVerificationMode(mode: number, masterWallet: string): Promise<boolean> {
+    try {
+      const settings = await db.select()
+        .from(verificationSettingsTable)
+        .limit(1);
+      
+      const storedMasterWallet = settings.length > 0 
+        ? settings[0].masterWallet 
+        : "0xb79f08d7b6903db05afca56aee75a2c7cdc78e56";
+      
+      if (masterWallet.toLowerCase() !== storedMasterWallet.toLowerCase()) {
+        return false;
+      }
+      
+      if (settings.length === 0) {
+        await db.insert(verificationSettingsTable).values({
+          mode,
+          masterWallet: storedMasterWallet
+        });
+      } else {
+        await db.update(verificationSettingsTable)
+          .set({ mode, updatedAt: new Date() })
+          .where(eq(verificationSettingsTable.id, settings[0].id));
+      }
+      return true;
+    } catch (error) {
+      console.error('Error setting verification mode:', error);
+      return false;
+    }
+  }
+
+  async getMasterWallet(): Promise<string> {
+    try {
+      const results = await db.select()
+        .from(verificationSettingsTable)
+        .limit(1);
+      
+      return results.length > 0 
+        ? results[0].masterWallet 
+        : "0xb79f08d7b6903db05afca56aee75a2c7cdc78e56";
+    } catch (error) {
+      console.error('Error getting master wallet:', error);
+      return "0xb79f08d7b6903db05afca56aee75a2c7cdc78e56";
+    }
   }
 }
 

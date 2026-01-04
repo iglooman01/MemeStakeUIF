@@ -1985,7 +1985,7 @@ export default function Dashboard() {
           }) as Promise<bigint>,
         ]);
 
-        console.log("Airdrop claimed status:", claimed);
+        console.log("Airdrop claimed status11:", claimed);
         console.log("User claimable amount:", Number(claimableAmount) / 1e18);
 
         setAirdropClaimed(claimed);
